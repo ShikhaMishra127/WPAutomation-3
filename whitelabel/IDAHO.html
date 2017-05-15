@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0053)http://widgetdemo.instantmarkets.com/idaho/idreg.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><script>(function main() {
+    // Create enabled event
+    function fireEnabledEvent() {
+        // If gli exists, then we are already present and shouldn't do anything
+        if (!window.gli) {
+            setTimeout(function () {
+                var enabledEvent = document.createEvent("Event");
+                enabledEvent.initEvent("WebGLEnabledEvent", true, true);
+                document.dispatchEvent(enabledEvent);
+            }, 0);
+        } else {
+            //console.log("WebGL Inspector already embedded on the page - disabling extension");
+        }
+    };
+
+    // Grab the path root from the extension
+    document.addEventListener("WebGLInspectorReadyEvent", function (e) {
+        var pathElement = document.getElementById("__webglpathroot");
+        if (window["gliloader"]) {
+            gliloader.pathRoot = pathElement.innerText;
+        } else {
+            // TODO: more?
+            window.gliCssUrl = pathElement.innerText + "gli.all.css";
+        }
+    }, false);
+
+    // Rewrite getContext to snoop for webgl
+    var originalGetContext = HTMLCanvasElement.prototype.getContext;
+    if (!HTMLCanvasElement.prototype.getContextRaw) {
+        HTMLCanvasElement.prototype.getContextRaw = originalGetContext;
+    }
+    HTMLCanvasElement.prototype.getContext = function () {
+        var ignoreCanvas = this.internalInspectorSurface;
+        if (ignoreCanvas) {
+            return originalGetContext.apply(this, arguments);
+        }
+
+        var result = originalGetContext.apply(this, arguments);
+        if (result == null) {
+            return null;
+        }
+
+        var contextNames = ["moz-webgl", "webkit-3d", "experimental-webgl", "webgl", "3d"];
+        var requestingWebGL = contextNames.indexOf(arguments[0]) != -1;
+        if (requestingWebGL) {
+            // Page is requesting a WebGL context!
+            fireEnabledEvent(this);
+
+            // If we are injected, inspect this context
+            if (window.gli) {
+                if (gli.host.inspectContext) {
+                    // TODO: pull options from extension
+                    result = gli.host.inspectContext(this, result);
+                    // NOTE: execute in a timeout so that if the dom is not yet
+                    // loaded this won't error out.
+                    window.setTimeout(function() {
+                        var hostUI = new gli.host.HostUI(result);
+                        result.hostUI = hostUI; // just so we can access it later for debugging
+                    }, 0);
+                }
+            }
+        }
+
+        return result;
+    };
+})();</script>
+<title>Purchasing</title>
+<meta name="DC.Title" content="Purchasing">
+<meta name="DC.Description" content="This is the home page for the Idaho Division of Purchasing.">
+<meta name="DC.Subject" content="purchasing, bid opportunities, contracts">
+<meta name="DC.Date.Created" content="2011-05-17">
+<meta name="DC.Date.LastModified" content="2011-05-17">
+<!--META TAGS-->
+
+<meta name="DC.Publisher" content="State of Idaho (USA)">
+<meta name="DC.Creator" content="State of Idaho">
+<meta name="DC.Format" content="text/html">
+<meta name="DC.language" content="en-US">
+
+<!--SCRIPT TAGS-->
+<script src="mockups/Idaho/js_clearInput.js" type="text/javascript"></script>
+<script src="mockups/Idaho/js_equalcolumns.js" type="text/javascript"></script>
+<script src="mockups/Idaho/js_SpryMenuBar.js" type="text/javascript"></script>
+<script src="mockups/Idaho/js_panel.js" type="text/javascript"></script>
+
+<!--STYLESHEET TAGS-->
+<link href="mockups/Idaho/css_panel.css" rel="stylesheet" type="text/css">
+<link href="mockups/Idaho/css_global.css" rel="stylesheet" type="text/css">
+<link href="mockups/Idaho/css_local.css" rel="stylesheet" type="text/css">
+
+<!--unhide the appropriate ** palette ** file for your site-->
+<link href="mockups/Idaho/css_palette_sawtooth.css" rel="stylesheet" type="text/css">
+<!--<link href="/inc/css/css_palette_bluebird.css" rel="stylesheet" type="text/css" />-->
+<!--<link href="/inc/css/css_palette_garnet.css" rel="stylesheet" type="text/css" />-->
+<!--<link href="/inc/css/css_palette_ponderosa.css" rel="stylesheet" type="text/css" />-->
+<!--<link href="/inc/css/css_palette_stanley.css" rel="stylesheet" type="text/css" />-->
+
+
+
+<link href="mockups/Idaho/css_promote.css" rel="stylesheet" type="text/css">
+<link href="mockups/Idaho/css_local.css" rel="stylesheet" type="text/css">
+<!--[if IE]><link href="/inc/css/css_ie.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 6]><link href="/inc/css/css_ie_6.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if IE 7]><link href="/inc/css/css_ie_7.css" rel="stylesheet" type="text/css" /><![endif]-->
+<link href="http://purchasing.idaho.gov/favicon.ico.png" rel="icon" type="image/x-icon">
+<link href="http://purchasing.idaho.gov/favicon.ico.png" rel="shortcut icon" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="chrome-extension://cgndfbhngibokieehnjhbjkkhbfmhojo/css/validation.css"><meta name="chromesniffer" id="chromesniffer_meta" content="{}"><script type="text/javascript" src="chrome-extension://homgcnaoacgigpkkljjjekpignblkeae/detector.js"></script></head>
+<body style="">
+<div id="container">
+<div id="utilities">
+	<p>Contracting with vendors to provide products and services to state agencies</p>
+	<ul>
+		<li class="hide"><a href="http://purchasing.idaho.gov/#content">Skip to Content</a></li>
+		<li><a href="http://widgetdemo.instantmarkets.com/idaho/idreg_files/idreg.html">Home</a></li>
+		<li><a href="http://www.idaho.gov/">Idaho.gov</a></li>
+		<li><a href="http://purchasing.idaho.gov/contact.html">Contact Us</a></li>
+	</ul>
+</div>
+
+<div id="header" style="left: 0px; top: 0px">
+	<div id="headerLogo"><a href="http://widgetdemo.instantmarkets.com/idaho/idreg_files/idreg.html"><span>Idaho</span></a>
+		<!--choose from the three styles below-->
+		<!--Version One Heading--><!--<h1 id="bigH1" class="headingOne">Hug Your Dog</h1>-->
+		<!--Version Two Heading--><!--<h1 class="headingTwo">Hug Your Dog<br /><span class="smaller">Department</span></h1>-->
+		<!--Version Three Heading--><h1 class="headingThree"><span class="smaller">&nbsp;</span><br>Purchasing<br><span class="smaller">Department of Administration</span></h1>
+	</div>
+	<p id="search"><a href="http://purchasing.idaho.gov/search.html">Search</a></p>
+
+</div>
+<div id="leftCol">
+<!--ORIGINAL MENU CODE-->
+<!--<ul id="sidenav"> 
+	<li><a href="/">Home</a></li>
+	<li><a href="/statue.html">Enabling Statue and Membership</a></li>
+	<li><a href="/vision.html">Vision</a></li>
+	<li><a href="/schedule.html">Schedule an Event</a></li>
+	<li><a href="/faqs.html">Frequenly Asked Questions</a></li>
+	<li><a href="/contact.html">Contact Us</a></li> 
+</ul>
+-->
+<!--
+When you have a link to a non-dotGOV (external) site, place this #include code before the closing A tag: 
+[lessthan][exclamation]--#include virtual="/inc/inc_nav_externallink.inc" --[greaterthan]
+-->
+<!--NEW MENU CODE-->
+<ul id="leftNav" class="MenuBarVertical"> 
+	<li id="topNav"><a class="MenuBarItemSubmenu" href="http://widgetdemo.instantmarkets.com/idaho/idreg_files/idreg.html">Services</a></li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/ipro.html">IPRO ePurchasing System</a>
+      <ul class="submenu">
+        <li><a class="first" href="http://ipro.sicomm.net/IPRO/">IPRO Website<img class="externallink" src="mockups/Idaho/clear.png" alt="external link"></a></li>
+        <li><a href="http://purchasing.idaho.gov/ipro.html">IPRO Bid Opportunities</a></li>
+        <li><a href="http://purchasing.idaho.gov/ipro.html">IPRO Help</a></li>
+        <li><a href="http://purchasing.idaho.gov/ipro.html">IPRO FAQs</a></li>
+        <li><a class="last MenuBarItemSubmenu" href="http://purchasing.idaho.gov/ipro.html">Other Bid Opportunities</a>
+			<ul class="submenu">
+				<li><a class="first" href="http://dpw.idaho.gov/"><span class="pdf burgundy">Division of Public Works</span><br>Building Construction Projects</a></li>
+				<li><a href="http://www.itd.idaho.gov/business/business.htm"><span class="pdf burgundy">Idaho Transportation Department</span><br>Highway Construction Projects</a></li>
+				<li><a class="last" href="http://energy.idaho.gov/stimulus/proposals.htm"><span class="pdf burgundy">Office of Energy Resources</span><br>Energy Projects</a></li>
+			</ul>	
+		</li>
+      </ul>	
+	</li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/statewide_contracts.html">Statewide Contracts</a></li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/documents.html">Documents</a>
+      <ul class="submenu">
+        <li><a class="first" href="http://purchasing.idaho.gov/sole_source.html">Sole Source Legal Notice</a></li>
+        <li><a href="http://purchasing.idaho.gov/newsletters.html">Newsletters</a></li>
+		<li><a href="http://purchasing.idaho.gov/DOP%20Workshop%20Information.html">DOP Quarterly Workshop Information</a></li>
+        <li><a href="http://purchasing.idaho.gov/purchasing_guides.html">Purchasing Guides</a></li>
+        <li><a href="http://purchasing.idaho.gov/forms.html">Forms</a></li> 
+        <li><a class="last" href="http://purchasing.idaho.gov/publications.html">Publications</a></li>
+      </ul>	
+	</li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/training.html">Training</a>
+      <ul class="submenu">
+        <li><a class="first" href="http://www.idahoecommerce.com/training.htm">Vendor Training <img class="externallink" src="mockups/Idaho/clear.png" alt="external link"></a></li>
+        <li><a href="http://purchasing.idaho.gov/state_buyer_training.html">State Buyer Training</a></li> 
+        <li><a class="last" href="http://purchasing.idaho.gov/additional_training_sources.html">Additional Training Sources</a></li> 
+      </ul>	
+	</li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/rules_and_policies.html">Rules, Policies,<br>and Statutes</a>
+      <ul class="submenu">
+        <li><a class="first" href="http://purchasing.idaho.gov/idaho_code.html">Idaho Code and Rules</a></li>
+        <li><a href="http://purchasing.idaho.gov/terms_and_conditions.html">Terms and Conditions</a></li>
+        <li><a class="last" href="http://purchasing.idaho.gov/policy_directives.html">Policy Directives</a></li> 
+      </ul>	
+	</li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/useful_links.html">Useful Links</a></li>
+	<li id="listNav"><a class="MenuBarItemSubmenu" href="http://purchasing.idaho.gov/contact.html">Contact Us</a>
+      <ul class="submenu">
+        <li><a class="first" href="http://purchasing.idaho.gov/contact.html#purchasing_contacts">Purchasing Contacts</a></li>
+        <li><a class="last" href="http://purchasing.idaho.gov/contact.html#agency_contacts">Agency Contacts</a></li> 
+      </ul>	
+	</li> 
+</ul>
+<script type="text/javascript">
+<!--
+var leftNav = new Spry.Widget.MenuBar("leftNav", {imgRight:"/inc/img/SpryMenuBarRightHover.gif"});
+//-->
+</script>
+</div>
+<div id="centerCol" style="height: 1900px; left: 0px; top: 0px; width: 820px;">
+   <div id="content">   
+
+<!-- WHITELABEL CODE -->
+<div id="webprocurediv" align="center"></div>
+<script src="whitelabel.js"></script>
+<hr>
+	
+   </div>
+</div>
+
+<!-- The featured image is added as a background in the promote.css file. -->
+<!--If you don't want to use this, hide all content below.-->
+<div id="promote">
+	<h3>Are you looking for?</h3>
+	<p>
+	<a href="http://copycenter.idaho.gov/">Copy Center</a><br>
+	<a href="http://postal.idaho.gov/">Postal Services</a><br>
+	<a href="http://recordscenter.idaho.gov/">Records Center</a><br>
+	<a href="http://fsp.idaho.gov/">Federal Surplus Property</a><br>
+	</p>
+</div>
+
+	<div id="footer">
+	<ul>
+		<li><a href="http://adm.idaho.gov/">Administration</a></li>
+		<li><a href="http://adm.idaho.gov/jobs.html">Jobs</a></li>
+		<li><a href="http://purchasing.idaho.gov/contact.html">Contact Us</a></li>
+		<li><a href="http://idaho.gov/">Idaho.gov</a></li>
+		<li class="externallink"><img class="externallink" src="mockups/Idaho/clear.png" alt="external link"> = external link</li>	
+
+	</ul>
+	<ul class="copyright">
+		<li><a href="http://idaho.gov/accessibility.html">Accessibility</a></li>
+		<li><a href="http://idaho.gov/privacy.html">Privacy &amp; Security</a></li>
+	</ul>
+</div>
+</div>
+
+<div id="html-validator-loading" style="display: none;"><img src="chrome-extension://cgndfbhngibokieehnjhbjkkhbfmhojo/images/loading.gif">Validating...</div><div id="html-validator-message"><span id="html-validation-message-close">X</span><div id="html-validator-message-content"></div></div><div id="window-resizer-tooltip" style="display: block;"><a href="http://purchasing.idaho.gov/#" title="Edit settings" style="background-image: url(chrome-extension://kkelicaakdanhinjdeammmilcgefonfh/images/icon_19.png);"></a><span class="tooltipTitle">Window size: </span><span class="tooltipWidth" id="winWidth">1920</span> x <span class="tooltipHeight" id="winHeight">1018</span><br><span class="tooltipTitle">Viewport size: </span><span class="tooltipWidth" id="vpWidth">1920</span> x <span class="tooltipHeight" id="vpHeight">889</span></div></body></html>

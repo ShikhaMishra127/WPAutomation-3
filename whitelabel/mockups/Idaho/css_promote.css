@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*NOTE: The promotional section is only available in the three and four column layouts*/
+
+/* THESE STYLES ARE IN THE PALETTE.CSS ON LINE 94ISH, ANS SHOULDN'T NEED CHANGED
+#promote{width:303px;position:absolute;right:-1px;top:75px;clear:both;margin-right:15px;z-index:200;}
+#promote h3{color:#273a66;font-size:110%;margin:0;padding:0 0 0 5px;font-weight:bold;}
+/*If you'd like to add an image, add it as a background to #promote p in the promote.css file. Make the image 202px x 65px if you'd like some text to fit beside it. If you want the a:link text to line up with the h3, remove the absolute positioining. 
+#promote a{padding:0 0 0 5px; position:absolute;top:30px;right:0;width:101px;} */
+
+/*IF YOU'D LIKE TO ADD AN IMAGE TO THE "PROMOTE" AREA (UPPER RIGHT CORNER, BELOW THE SEARCH BOX) ADD IT HERE. YOU CAN ADD AN ID TAG TO THE BODY TAG TO ADD DIFFERENT IMAGES TO DIFFERENT PAGES. THE IMAGE SHOULD BE 202PX X 65X. AN EXAMPLE IMAGE IS INCLUDED. */
+
+/*#promote p {
+	background: url(/inc/img/house.gif) no-repeat bottom left;
+	}*/
