@@ -1,0 +1,96 @@
+/* bid board style */
+.mainbbresultsheader{	white-space: normal; background-color: #000000; }
+.mainbbactions{		white-space: normal; background-color: #000000; }
+.mainbbresultsrowodd{	white-space: normal; background-color: #adf5ec; }
+.mainbbresultsroweven{	white-space: normal; background-color: #0ff5d8; }
+.mainbbpaginationtable{	white-space: normal; }
+.mainbbpaginationrow{	white-space: normal; }
+.mainbbsmall {		white-space: normal; }
+.crdataheaderleft{	white-space: normal; }
+.crdataleft{		white-space: normal; }
+.crdata{		white-space: normal; }
+
+.mainbbbutton
+{
+        background-color: #000000;
+        border-color: #FFCB53;
+        font-size: 12pt;
+        height: 2em;
+        width: 6em;
+        -moz-border-radius: 1em 2em 1em 2em;
+        border-radius: 1em 2em 1em 2em;
+}
+
+/* login style */
+
+.wpheader{
+        font-size: 12pt;
+        font-weight: bold;
+        font-family: arial,sans-serif;
+	color: green;
+}
+
+.wplabel {
+        font-size: 12pt;
+	font-weight: bold;
+	font-family: arial,sans-serif;
+color: red;
+
+}
+.wpinputtext {
+	margin-right: 0.1em;
+	margin-bottom: 0.5em;
+        font-size: 12pt;
+	font-family: arial,sans-serif;
+color: red;
+}
+
+.error{
+	margin-bottom: 0.2em;
+	font-weight: bold;
+	font-size: 1em;
+	color: red;
+	display: none;
+        font-size: 12pt;
+	font-family: arial,sans-serif;
+}
+.wpbutton{
+color: red;	
+}
+
+.wpmaindiv {
+  background: #dedee3;
+  margin: 0 auto;
+  width: 400px;
+  padding: 18px;
+  text-align: center;
+  /* border-radius */
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  /* box-shadow */
+  -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+}
+
+.wpsubdiv{
+  background: #fff;
+  margin: 0 auto;
+  width: 350px;
+  padding: 18px;
+  text-align: center;
+  /* border-radius */
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  /* box-shadow */
+  -webkit-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  -moz-box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+  box-shadow: rgba(0,0,0,0.2) 0px 1px 3px;
+}
+.wpseparator{
+	height:3px;
+    background:#717171;
+    border-bottom:1px solid #313030;
+}
