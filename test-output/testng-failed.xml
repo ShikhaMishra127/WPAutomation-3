@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test name="openHomepage(failed)">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="com.PerfectCommerce.TestCases.HomePageTest">
+        <methods>
+          <include name="openHomepage"/>
+          <include name="setup"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.PerfectCommerce.TestCases.HomePageTest -->
+    </classes>
+  </test> <!-- openHomepage(failed) -->
+</suite> <!-- Failed suite [Suite] -->
