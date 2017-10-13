@@ -127,11 +127,7 @@ public class RegistrationTestCases {
 		}
 	}
 	
-	/*@AfterTest
-	public void tearDownAfterTest() {
-		PCDriver.getDriver().quit();
-		
-	}*/
+
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);

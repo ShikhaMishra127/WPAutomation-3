@@ -36,7 +36,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	//@Test(description = "This test case will register using Fein for Missouri")
+	@Test(description = "This test case will register using Fein for Missouri")
 	public void RegistrationWithFeinForMissouri() throws IOException, InterruptedException {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -57,6 +57,7 @@ public class WhiteLabelRegistrationTestCases {
 			whiteLabelregister.clickNext();
 			ExtentReport.logger.log(LogStatus.PASS, "Registration Completed");
 			Assert.assertEquals(whiteLabelregister.checkConfirmMessage(), true, "Registration success");
+			whiteLabelregister.clickWebProcureButtonAndCheckLogin();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -196,14 +197,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 	
-	@Test
-	public void abc() {
-		try {
-			ReadExcelData.getInstance("Registration").getStringValue("CompanyName");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	@AfterClass
 	public void tearDown() {

@@ -6,7 +6,7 @@
       <class name="com.PerfectCommerce.Registration.TestCases.WhiteLabelRegistrationTestCases">
         <methods>
           <include name="setupBeforeTest"/>
-          <include name="abc"/>
+          <include name="RegistrationWithFeinForMissouri"/>
           <include name="setup"/>
           <include name="tearDown"/>
         </methods>

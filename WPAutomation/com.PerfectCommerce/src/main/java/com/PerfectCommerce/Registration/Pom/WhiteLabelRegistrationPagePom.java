@@ -9,12 +9,15 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import com.PerfectCommerce.generic.LoginPage;
 import com.PerfectCommerce.utils.PCDriver;
 import com.PerfectCommerce.utils.ReadConfig;
 import com.PerfectCommerce.utils.ReadExcelData;
 
 public class WhiteLabelRegistrationPagePom {
 	final static String sheetName = "Registration";
+	LoginPage login=new LoginPage();
 
 	public WhiteLabelRegistrationPagePom() {
 
@@ -47,6 +50,18 @@ public class WhiteLabelRegistrationPagePom {
 	
 	@FindBy(xpath="//div[@id='confirmmsg']")
 	public WebElement checkConfirmMessage;
+	
+	@FindBy(xpath="//a[contains(text(),'Take me to WebProcure Now')]")
+	public WebElement btnWebProcureButton;
+	
+	public void clickWebProcureButtonAndCheckLogin() throws IOException {
+		btnWebProcureButton.click();
+		PCDriver.switchToWindow("_new");
+		login.setUsername(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
+		login.setPassword(ReadExcelData.getInstance(sheetName).getStringValue("Password"));
+		login.clickOnLogin();
+
+	}
 	
 	public boolean checkConfirmMessage() {
 		PCDriver.waitForElementToBeClickable(checkConfirmMessage);
@@ -109,7 +124,7 @@ public class WhiteLabelRegistrationPagePom {
 
 	public void setOrgInfoWithFeinForMissouri() throws IOException, InterruptedException {
 		OrganizationInfo org = new OrganizationInfo();
-		org.setFeinNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
+		org.setFeinNumber();
 		org.setConfirmFeinNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
 		org.setLegalName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
 		org.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
@@ -255,19 +270,15 @@ public class WhiteLabelRegistrationPagePom {
 	        String s = midSeed + "";
 	        String subStr = s.substring(0, 9);
 
-	        int finalSeed = Integer.parseInt(subStr);    // integer value
-			txtFienNumber1.sendKeys(String.valueOf(finalSeed));
+	        System.out.println("Value is:"+subStr);
+	        ReadExcelData.getInstance(sheetName).updateCellValue("FEIN",subStr);
+	        txtFienNumber1.sendKeys(subStr.substring(0, 2));
+			txtFienNumber2.sendKeys(subStr.substring(2, subStr.length()));			
 
 		}
 		
 		public void setFeinNumberForMissouri(String str) throws IOException {
 			PCDriver.waitForElementToBeClickable(txtFienNumber1);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			txtFienNumber1.sendKeys(str.substring(0, 2));
 			txtFienNumber2.sendKeys(str.substring(2, str.length()));
 

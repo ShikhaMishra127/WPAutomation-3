@@ -31,6 +31,7 @@ public class LoginPage extends PCDriver {
 	public WebElement lnkLogout;
 
 	public void setUsername(String str) {
+		PCDriver.waitForElementToBeClickable(txtUsername);
 		txtUsername.sendKeys(str);
 	}
 

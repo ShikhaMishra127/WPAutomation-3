@@ -19,12 +19,10 @@ public class ReadExcelData {
 	private static XSSFSheet sheet;
 	private static Cell cell;
 	private static Row row;
-	
-
-	
-
+	private static String sheetName;
 
 	public static synchronized ReadExcelData getInstance(String sheetName) throws IOException {
+		ReadExcelData.sheetName=sheetName;
 		File file = new File(ReadConfig.getInstance().getExcelPath());
 		FileInputStream fileInput = new FileInputStream(file);
 		workbook = new XSSFWorkbook(fileInput);
@@ -52,16 +50,19 @@ public class ReadExcelData {
 				}
 			}
 		}
-		class UpdateCell{
-			public void updateCellValue(String value) throws IOException {
-				UpdateCell cell=new UpdateCell();
-				cell.updateCellValue(value);
-			}
-			}
+	
+		
 		return null;
 	}
 	
-	
+	public void updateCellValue(String strRow,String value) throws IOException {
+		getInstance(sheetName).getStringValue(strRow);
+		cell.setCellValue(value);
+		FileOutputStream outputStream = new FileOutputStream(ReadConfig.getInstance().getExcelPath());
+		workbook.write(outputStream);
+		workbook.close();
+		outputStream.close();//Close in finally if possible
+		}
 
 }
 	

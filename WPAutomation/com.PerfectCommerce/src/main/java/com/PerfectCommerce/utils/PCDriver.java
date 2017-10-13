@@ -131,6 +131,10 @@ public static void executeScript(WebElement ele) {
 	public WebElement findElement(By arg0) {
 		return null;
 	}
+	
+	public static void switchToWindow(String strWindowName) {
+		driver.switchTo().window(strWindowName);
+	}
 
 	public List<WebElement> findElements(By arg0) {
 		// TODO Auto-generated method stub
