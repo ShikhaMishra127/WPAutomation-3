@@ -30,9 +30,7 @@ public class CreateSolicitationPOM {
 	@FindBy(xpath = "//button[text()='Submit']")
 	public WebElement btnSubmit;
 
-	@FindBy(xpath = "//button[text()='Create New Item']")
-	public WebElement btnCreateNewItem;
-
+	
 	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
 	public WebElement btnHome;
 
@@ -52,6 +50,7 @@ public class CreateSolicitationPOM {
 		header.selectNoLineItemCheckBox();
 		header.clickAndSelectCategory("Apparel");
 		header.clickCloseOnCategoryPopUp();
+	
 	}
 
 	public void waitForDivToAppearInReqPage() {
@@ -76,15 +75,15 @@ public class CreateSolicitationPOM {
 	}
 
 	public void createLineItem(int index, String strItem) {
-		itemSpecPage item = new itemSpecPage();
+		ItemSpecPage item = new ItemSpecPage();
 		item.CreateNewItem(index, strItem);
 
 	}
 
-	public boolean AddLineItemsAndVerify() {
-		itemSpecPage item = new itemSpecPage();
+	public boolean AddLineItemsAndVerify(String quant,String strCategory) {
+		ItemSpecPage item = new ItemSpecPage();
 
-		item.enterQuantity("10");
+		item.enterQuantity(quant,strCategory);
 		return item.verifyItemSpec();
 
 	}
@@ -239,165 +238,6 @@ public class CreateSolicitationPOM {
 			PCDriver.switchToWindow("");
 
 		}
-	}
-
-	private class itemSpecPage {
-		/************************* Page Objects Create Item ********************/
-		@FindBy(xpath = "//a[text()='Item Spec Library']")
-		public WebElement itemSpecLink;
-
-		@FindBy(name = "name")
-		public WebElement txtItemSpecName;
-
-		@FindBy(name = "sic")
-		public WebElement txtItemSpecNumber;
-
-		@FindBy(name = "mnftr_name")
-		public WebElement txtManufacturerName;
-
-		@FindBy(name = "qty")
-		public WebElement txtQuantity;
-
-		@FindBy(xpath = "//button[contains(text(),'Save')]")
-		public WebElement btnSave;
-
-		@FindBy(xpath = "//table[@id='topCatTable']")
-		public WebElement lnkCategory;
-
-		@FindBy(xpath = "//table[@id='cattable']")
-		public WebElement lineItemTab;
-
-		@FindBy(xpath = "//button[text()='Add Items']")
-		public WebElement btnAddItems;
-
-		@FindBy(xpath = "//li[((contains(@class,'paginate-button next')))]//child::a[@class='nextButton']")
-		public WebElement btnNextArrow;
-
-		@FindBy(xpath = "//div[contains(@class,'ui-pnotify')]")
-		public WebElement successMessage;
-
-		@FindBy(xpath = "//div[@class='ui-pnotify-closer']")
-		public WebElement successMessageClose;
-
-		@FindBy(xpath = "//li[contains(@class,'paginate-button next pagination-btn-disabled')]")
-		List<WebElement> checkNextButtonDisabled;
-
-		@FindBy(xpath = "//a[text()='Browse Catalog']")
-		public WebElement lnkBrowseCatalog;
-
-		@FindBy(xpath = "//a[text()='Selected Item Specs']")
-		public WebElement lnkSelectedSpecs;
-
-		@FindBy(xpath = "(//tbody/tr/td[@align='center'])[1]/input")
-		public List<WebElement> lstSelectedspes;
-
-		/************************* Page Objects Add Item ************************/
-
-		@FindBy(xpath = "//tbody//td[4]/input[contains(@class,'form-control')]")
-		public List<WebElement> lstLineItems;
-
-		public void enterQuantity(String quant) {
-			clickItemSpecLibrary();
-			newItemCategory("Apparel");
-			PCDriver.waitForElementToBeClickable(lineItemTab);
-
-			while (checkNextButtonDisabled.size() == 0) {
-				for (int i = 0; i < lstLineItems.size(); i++) {
-					try {
-						PCDriver.waitForElementToBeClickable(lstLineItems.get(i));
-
-						lstLineItems.get(i).sendKeys(quant);
-					} catch (Exception e) {
-
-					}
-				}
-				btnAddItems.click();
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				PCDriver.hoverOnElement(successMessage);
-				PCDriver.waitForElementToBeClickable(successMessageClose);
-				successMessageClose.click();
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				try {
-					if (checkNextButtonDisabled.size() == 0) {
-						PCDriver.waitForElementToBeClickable(btnNextArrow);
-						btnNextArrow.click();
-						Thread.sleep(2000);
-					} else {
-						break;
-					}
-				} catch (Exception e) {
-
-				}
-			}
-		}
-
-		public boolean verifyItemSpec() {
-			lnkSelectedSpecs.click();
-			if (lstSelectedspes.size() != 0) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		public itemSpecPage() {
-
-			PageFactory.initElements(PCDriver.getDriver(), this);
-		}
-
-		public void newItemCategory(String strItemName) {
-			PCDriver.waitForElementToBeClickable(
-					lnkCategory.findElement(By.xpath("//a[contains(@data-catname,'" + strItemName + "')]")));
-			lnkCategory.findElement(By.xpath("//a[contains(@data-catname,'" + strItemName + "')]")).click();
-		}
-
-		public void clickCreateNewItem() {
-			PCDriver.waitForElementToBeClickable(btnCreateNewItem);
-			btnCreateNewItem.click();
-		}
-
-		public void clickItemSpecLibrary() {
-			PCDriver.waitForElementToBeClickable(itemSpecLink);
-			PCDriver.waitForPageLoad();
-			itemSpecLink.click();
-			PCDriver.waitForPageLoad();
-		}
-
-		public void CreateNewItem(int index, String strItem) {
-			clickItemSpecLibrary();
-
-			newItemCategory(strItem);
-			for (int i = 0; i < 2; i++) {
-				clickCreateNewItem();
-				PCDriver.switchToWindow("puw_Item_Add");
-				PCDriver.waitForElementToBeClickable(txtItemSpecName);
-				txtItemSpecName.sendKeys("abc" + System.currentTimeMillis());
-				txtItemSpecNumber.sendKeys("100");
-				txtManufacturerName.sendKeys("abcd");
-				txtQuantity.sendKeys("10");
-				btnSave.click();
-				try {
-					PCDriver.dismissAlert();
-				} catch (Exception e) {
-					System.out.println("No Alert Present");
-				}
-				PCDriver.switchToWindow("");
-				PCDriver.waitForPageLoad();
-
-			}
-			lnkBrowseCatalog.click();
-
-		}
-
 	}
 
 	public String verifySuccessMessage() {

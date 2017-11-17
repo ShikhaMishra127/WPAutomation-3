@@ -256,7 +256,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify(), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10","Apparel"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
@@ -279,7 +279,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify(), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10","Apparel"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
