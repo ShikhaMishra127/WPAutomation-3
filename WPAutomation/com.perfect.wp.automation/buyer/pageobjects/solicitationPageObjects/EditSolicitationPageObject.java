@@ -87,6 +87,14 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//td[5]")
 	public List<WebElement> lstsearchResultsForEndDate;
+	
+	@FindBy(xpath="//button[text()='Close']")
+	public WebElement btnClose;
+	
+	public void clickClose() {
+		PCDriver.waitForElementToBeClickable(btnClose);
+		btnClose.click();
+	}
 
 	public void setTitleForSearch(String strTitle) throws IOException {
 		PCDriver.waitForElementToBeClickable(txtTitle);

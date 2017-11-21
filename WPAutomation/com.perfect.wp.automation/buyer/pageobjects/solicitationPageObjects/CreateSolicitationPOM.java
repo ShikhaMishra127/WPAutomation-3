@@ -59,7 +59,12 @@ public class CreateSolicitationPOM {
 	}
 	
 	public boolean verifyPageTitle(String str) {
+		try {
 		PCDriver.acceptAlert();
+		}
+		catch(Exception e) {
+			System.out.println("No alert Present");
+		}
 		PCDriver.waitForElementToBeClickable(verifyPage);
 		if(verifyPage.getText().contains(str)) {
 			return true;
@@ -279,7 +284,6 @@ public class CreateSolicitationPOM {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		btnExit.click();

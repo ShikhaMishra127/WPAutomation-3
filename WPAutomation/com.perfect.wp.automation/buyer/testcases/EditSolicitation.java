@@ -40,7 +40,7 @@ public class EditSolicitation {
 
 	}
 
-	// @Test
+	 @Test
 	public void EditInformalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
@@ -54,7 +54,7 @@ public class EditSolicitation {
 
 	}
 
-	// @Test
+	 @Test
 	public void EditInformalSolicitationUsingSolNumberAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		edit.setSolNumber(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
@@ -68,7 +68,7 @@ public class EditSolicitation {
 
 	}
 
-	// @Test(description = "This test case will create the addendum")
+	 @Test(description = "This test case will create the addendum")
 	public void EditFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		// edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
@@ -85,7 +85,7 @@ public class EditSolicitation {
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
 
-	// @Test
+	 @Test
 	public void VerifySolicitationHistory() {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -94,7 +94,7 @@ public class EditSolicitation {
 		Assert.assertTrue(edit.verifySolHistory());
 	}
 
-	// @Test
+	 @Test
 	public void checkStartDateFilterForUnissuedFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
@@ -112,7 +112,7 @@ public class EditSolicitation {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-	// @Test
+	 @Test
 	public void checkStartDateFilterForActiveFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
@@ -167,6 +167,26 @@ public class EditSolicitation {
 		edit.setToEndDate("11/09/2017");
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyEndDate());
+	}
+	
+	//@Test
+	public void closeTheEditForInformalSol() {
+		home.clickInformalSolicitationEdit();
+		edit.clickOnThreeDots();
+		edit.clickEdit();
+		edit.clickClose();
+		Assert.assertTrue(createSol.verifyPageTitle("Current Informal Solicitation"));
+
+	}
+	
+	//@Test
+	public void closeTheEditForFormalSol() {
+		home.clickFormalSolicitationEdit();
+		edit.clickOnThreeDots();
+		edit.clickEdit();
+		edit.clickClose();
+		Assert.assertTrue(createSol.verifyPageTitle("Current Formal Solicitation"));
+
 	}
 	/*
 	 * @Test public void compareChangesOfAmendment() {
