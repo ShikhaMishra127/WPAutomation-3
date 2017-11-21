@@ -58,12 +58,13 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	 @Test(description="This test case will check if Solicitation title is mandatory or not for Informal Solicitation")
+	//@Test(description = "This test case will check if Solicitation title is mandatory or not for Informal Solicitation")
 	public void verifyTitleIsMandateForInformalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.waitForAddFieldToDisplay();
 		sol.clickOnNextStep();
-		//Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this quote");
+		// Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this
+		// quote");
 	}
 
 	// @Test(description="This test case will check if Solicitation title is
@@ -74,7 +75,8 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this bid");
 	}
 
-	//@Test(description = "This test case will check if past solicitation start date is allowed or not")
+	// @Test(description = "This test case will check if past solicitation start
+	// date is allowed or not")
 	public void verifyPastSolStartDate() {
 		solNav.informalSolicationsMenu("Create");
 		header.setSolStartDate(DatePicker.getPastDate());
@@ -192,7 +194,8 @@ public class CreateSolicitation extends PCDriver {
 		}
 	}
 
-	// @Test(description="This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it")
+	// @Test(description="This test case will create the Solicitation by creating
+	// new line item and searching for an existing supplier and adding it")
 	public void formalSolicitationByCreatingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -205,7 +208,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
-		sol.createLineItem(10, "Apparel"); 
+		sol.createLineItem(10, "Apparel");
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
 		sol.searchSupplier();
@@ -218,7 +221,8 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	// @Test(description="This test case will create the Solicitation by creating new line item and searching for a supplier and adding it")
+	// @Test(description="This test case will create the Solicitation by creating
+	// new line item and searching for a supplier and adding it")
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -244,7 +248,8 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	// @Test(description="This test case will create the Solicitation by adding new line item and creating new supplier")
+	// @Test(description="This test case will create the Solicitation by adding new
+	// line item and creating new supplier")
 	public void formalSolicitationByAddingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -256,7 +261,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10","Apparel"), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
@@ -267,7 +272,8 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
 	}
 
-	//@Test(description="This test case will create the Solicitation by adding new line item and creating new supplier")
+	// @Test(description="This test case will create the Solicitation by adding new
+	// line item and creating new supplier")
 	public void inFormalSolicitationByAddingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -279,7 +285,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10","Apparel"), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
@@ -287,6 +293,20 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
 		sol.clickSubmit();
+	}
+	
+	@Test(description="This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page")
+	public void exitSolicitationBeforeCreationForFormalSolicitation() {
+		solNav.formalSolicationsMenu("Create");
+		sol.clickExit();
+		Assert.assertTrue(sol.verifyPageTitle("Current Formal Solicitation"));
+	}
+	
+	@Test(description="This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page")
+	public void exitSolicitationBeforeCreationForInFormalSolicitation() {
+		solNav.informalSolicationsMenu("Create");
+		sol.clickExit();
+		Assert.assertTrue(sol.verifyPageTitle("Current Informal Solicitation"));
 	}
 
 	@AfterMethod

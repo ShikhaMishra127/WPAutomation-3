@@ -3,6 +3,7 @@ package pageobjects.solicitationPageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -15,6 +16,8 @@ public class CreateSolicitationPOM {
 	SupplierPage supplier = new SupplierPage();
 	AttachmentPage attach = new AttachmentPage();
 	QuestionnairePage ques = new QuestionnairePage();
+	HeaderPage header = new HeaderPage();
+
 
 	public CreateSolicitationPOM() {
 
@@ -36,14 +39,37 @@ public class CreateSolicitationPOM {
 
 	@FindBy(xpath = "//div[@class='alert alert-info']/text()")
 	public WebElement txtSubmitMessage;
+	
+	@FindBy(xpath="//button[text()='Exit']")
+	public WebElement btnExit;
+	
+	@FindBy(xpath="//section[@id='page-title']/h3")
+	public WebElement verifyPage;
+	
+	@FindBy(xpath="(//div[@class='panel-body'])[3]")
+	public WebElement addInfoSection;
 
 	public void clickHomeButton() {
 		PCDriver.waitForElementToBeClickable(btnHome);
 		btnHome.click();
 	}
+	
+	public void waitForAddInfoSection() {
+		PCDriver.waitForElementToBeClickable(addInfoSection);
+	}
+	
+	public boolean verifyPageTitle(String str) {
+		PCDriver.acceptAlert();
+		PCDriver.waitForElementToBeClickable(verifyPage);
+		if(verifyPage.getText().contains(str)) {
+			return true;
+		}else {
+			return false;
+			
+		}
+	}
 
 	public void EnterHeaderDetails() throws Exception {
-		HeaderPage header = new HeaderPage();
 		header.setTitle(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
 		header.setSolType();
 		header.setEstimatedTotalValue(ReadExcelData.getInstance("Solicitation").getStringValue("EstimatedTotalValue"));
@@ -243,6 +269,20 @@ public class CreateSolicitationPOM {
 	public String verifySuccessMessage() {
 		PCDriver.waitForPageLoad();
 		return txtSubmitMessage.getText();
+	}
+	
+	public void clickExit() {
+		waitForAddInfoSection();
+		PCDriver.waitForElementToBeClickable(btnExit);
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+				btnExit);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		btnExit.click();
 	}
 
 }

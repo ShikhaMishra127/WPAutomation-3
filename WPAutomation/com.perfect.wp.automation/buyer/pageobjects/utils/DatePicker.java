@@ -44,10 +44,17 @@ public class DatePicker {
 
 	}
 
-	public static Boolean checkDateRange(String str, String strStartDate, String strEndDate) throws ParseException {
+	public static Boolean checkDateTimeRange(String str, String strStartDate, String strEndDate) throws ParseException {
 		java.util.Date startDate = new SimpleDateFormat("MM/dd/yyyy, hh:mm a").parse(strStartDate);
 		java.util.Date endDate = new SimpleDateFormat("MM/dd/yyyy, hh:mm a").parse(strEndDate);
 		java.util.Date date3 = new SimpleDateFormat("MM/dd/yyyy, hh:mm a").parse(str);
+		return !(date3.before(startDate) || date3.after(endDate));
+	}
+	
+	public static Boolean checkDateRangeOnly(String str, String strStartDate, String strEndDate) throws ParseException {
+		java.util.Date startDate = new SimpleDateFormat("MM/dd/yyyy").parse(strStartDate);
+		java.util.Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(strEndDate);
+		java.util.Date date3 = new SimpleDateFormat("MMMM dd,yyyy").parse(str);
 		return !(date3.before(startDate) || date3.after(endDate));
 	}
 

@@ -3,6 +3,7 @@ package testcases;
 import java.io.IOException;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -52,7 +53,6 @@ public class EditSolicitation {
 		createSol.clickSubmit();
 
 	}
-	
 
 	// @Test
 	public void EditInformalSolicitationUsingSolNumberAndSubmit() throws IOException {
@@ -68,11 +68,11 @@ public class EditSolicitation {
 
 	}
 
-	//@Test(description = "This test case will create the addendum")
+	// @Test(description = "This test case will create the addendum")
 	public void EditFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
-		//edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
-		//edit.clickOnFilter();
+		// edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
+		// edit.clickOnFilter();
 		edit.clickOnActiveSolicitations();
 		edit.clickOnThreeDots();
 		// edit.clickEdit();
@@ -84,9 +84,8 @@ public class EditSolicitation {
 		createSol.clickSubmit();
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
-	
-	
-	//@Test
+
+	// @Test
 	public void VerifySolicitationHistory() {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -94,32 +93,93 @@ public class EditSolicitation {
 		edit.clickSolHistory();
 		Assert.assertTrue(edit.verifySolHistory());
 	}
-	
-	//@Test
-	public void checkStartDateFilter() {
+
+	// @Test
+	public void checkStartDateFilterForUnissuedFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
 		edit.setToStartDate("11/09/2017");
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
-	
+
 	@Test
-	public void checkEndDateFilter() {
+	public void checkEndDateFilterForUnissuedFormalSol() {
 		home.clickFormalSolicitationEdit();
-		edit.setFromEndDate("11/08/2017");
+		edit.setFromEndDate("11/01/2017");
 		edit.setToEndDate("11/09/2017");
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
-	/*@Test
-	public void compareChangesOfAmendment() {
-		home.clickFormalSolicitationEdit();
-		edit.clickOnActiveSolicitations();
-		edit.clickOnThreeDots();
-		edit.clickSolHistory();
-		edit.clickItemsToCompare();
-		Assert.assertTrue(edit.verifyChanges());
 
-	}*/
+	// @Test
+	public void checkStartDateFilterForActiveFormalSol() {
+		home.clickFormalSolicitationEdit();
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+
+	@Test
+	public void checkEndDateFilterForActiveFormalSol() {
+		home.clickFormalSolicitationEdit();
+		edit.setFromEndDate("11/01/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+	}
+
+	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Unissued Informal Solicitations")
+	public void checkStartDateFilterForUnissuedInFormalSol() {
+		home.clickInformalSolicitationEdit();
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+
+	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Unissued Informal Solicitations")
+	public void checkEndDateFilterForUnissuedInFormalSol() {
+		home.clickInformalSolicitationEdit();
+		edit.setFromEndDate("11/01/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+	}
+
+	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Active Informal Solicitations")
+	public void checkStartDateFilterForActiveInFormalSol() {
+		home.clickInformalSolicitationEdit();
+		edit.clickOnActiveSolicitations();
+
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+
+	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Active Informal Solicitations")
+	public void checkEndDateFilterForActiveInFormalSol() {
+		home.clickInformalSolicitationEdit();
+		edit.clickOnActiveSolicitations();
+		edit.setFromEndDate("11/01/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+	}
+	/*
+	 * @Test public void compareChangesOfAmendment() {
+	 * home.clickFormalSolicitationEdit(); edit.clickOnActiveSolicitations();
+	 * edit.clickOnThreeDots(); edit.clickSolHistory(); edit.clickItemsToCompare();
+	 * Assert.assertTrue(edit.verifyChanges());
+	 * 
+	 * }
+	 */
+
+	@AfterMethod
+	public void setupAfterTest() {
+		createSol.clickHomeButton();
+
+	}
 }

@@ -285,7 +285,7 @@ public class ReviewAwardPage {
 
 		}
 
-		return edit.VerifyEndDate(lstEndDate);
+		return edit.VerifyEndDateTime(lstEndDate);
 
 	}
 	

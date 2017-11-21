@@ -1,6 +1,9 @@
 package testcases;
 
+import java.text.ParseException;
+
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -13,6 +16,7 @@ import pageobjects.generic.solicitationNavigation;
 import pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import pageobjects.solicitationPageObjects.EditSolicitationPageObject;
 import pageobjects.solicitationPageObjects.ReviewAwardPage;
+import pageobjects.solicitationPageObjects.ViewArchivedPage;
 import pageobjects.utils.ExtentReport;
 import pageobjects.utils.ReadConfig;
 
@@ -25,6 +29,7 @@ public class ViewArchived {
 	CreateSolicitationPOM createSol = new CreateSolicitationPOM();
 	solicitationNavigation sol = new solicitationNavigation();
 	ReviewAwardPage award = new ReviewAwardPage();
+	ViewArchivedPage view = new ViewArchivedPage();
 
 	@BeforeClass
 	public void setup() {
@@ -41,7 +46,8 @@ public class ViewArchived {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and finalize the award")
+	// @Test(description = "This test case will search the Sol via Sol Number and
+	// reverse the award")
 	public void ReverseAward() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -55,4 +61,102 @@ public class ViewArchived {
 		Assert.assertTrue(edit.verifyReverseBid());
 
 	}
+
+		@Test
+	public void checkEndDateFilterForFinalizedSolInFormalSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		edit.setFromEndDate("05/31/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+
+	}
+
+	@Test
+	public void checkStartDateFilterForFinalizedSolInFormalSol() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+	
+	 @Test
+		public void checkEndDateFilterForRetractedSolInFomalSol() throws ParseException {
+			home.selectTopNavDropDown("Solicitation");
+			sol.formalSolicationsMenu("View Archived");
+			view.clickRetractedOrCancelleSol();
+
+			edit.setFromEndDate("05/31/2017");
+			edit.setToEndDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(edit.VerifyEndDate());
+
+		}
+
+		@Test
+		public void checkStartDateFilterForRetractedSolInFomalSol() {
+			home.selectTopNavDropDown("Solicitation");
+			sol.formalSolicationsMenu("View Archived");
+			view.clickRetractedOrCancelleSol();
+
+			edit.setFromStartDate("11/08/2017");
+			edit.setToStartDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(edit.VerifyStartDate());
+		}
+	
+	
+	 @Test
+	public void checkEndDateFilterOfFinalizedSolInInformalSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("View Archived");
+		view.clickRetractedOrCancelleSol();
+		edit.setFromEndDate("05/31/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+
+	}
+
+	@Test
+	public void checkStartDateFilterOfFinalizedSolInInformalSol() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("View Archived");
+		edit.setFromStartDate("06/27/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+	
+		@Test(description="This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol")
+		public void checkEndDateFilterOfRetractedSolInInformalSol() throws ParseException {
+			home.selectTopNavDropDown("Solicitation");
+			sol.informalSolicationsMenu("View Archived");
+			view.clickRetractedOrCancelleSol();
+			edit.setFromEndDate("05/31/2017");
+			edit.setToEndDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(edit.VerifyEndDate());
+
+		}
+
+		@Test(description="This test case will enter the start dates and check the date range of the filter for Retracted Informal Sol")
+		public void checkStartDateFilterOfRetractedSolInInformalSol() {
+			home.selectTopNavDropDown("Solicitation");
+			sol.informalSolicationsMenu("View Archived");
+			view.clickRetractedOrCancelleSol();
+			edit.setFromStartDate("06/27/2017");
+			edit.setToStartDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(edit.VerifyStartDate());
+		}
+		
+		@AfterMethod
+		public void setupAfterTest() {
+			createSol.clickHomeButton();
+
+		}
 }

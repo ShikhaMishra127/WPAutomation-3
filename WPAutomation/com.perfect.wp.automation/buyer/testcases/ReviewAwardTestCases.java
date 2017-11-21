@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -45,8 +46,8 @@ public class ReviewAwardTestCases {
 
 	}
 
-	// @Test
-	public void checkEndDateFilter() throws ParseException {
+	 @Test(description="This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation")
+	public void checkEndDateFilterForFormalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
 		edit.setFromEndDate("11/07/2017");
@@ -54,6 +55,38 @@ public class ReviewAwardTestCases {
 		edit.clickOnFilter();
 		Assert.assertTrue(award.verifyData());
 	}
+	 
+	 @Test(description="This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation")
+		public void checkEndDateFilterForFormalActiveSol() throws ParseException {
+			home.selectTopNavDropDown("Solicitation");
+			sol.formalSolicationsMenu("Review / Award");
+			edit.clickOnActiveSolicitations();
+			edit.setFromEndDate("11/07/2017");
+			edit.setToEndDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(award.verifyData());
+		}
+	 
+	 @Test(description="This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation")
+		public void checkEndDateFilterForInformalEndedSol() throws ParseException {
+			home.selectTopNavDropDown("Solicitation");
+			sol.informalSolicationsMenu("Review / Award");
+			edit.setFromEndDate("11/07/2017");
+			edit.setToEndDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(award.verifyData());
+		}
+	 
+	 @Test(description="This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation")
+		public void checkEndDateFilterForInformalActiveSol() throws ParseException {
+			home.selectTopNavDropDown("Solicitation");
+			sol.informalSolicationsMenu("Review / Award");
+			edit.clickOnActiveSolicitations();
+			edit.setFromEndDate("11/07/2017");
+			edit.setToEndDate("11/09/2017");
+			edit.clickOnFilter();
+			Assert.assertTrue(award.verifyData());
+		}
 
 	// @Test
 	public void checkVendorResponse() throws ParseException {
@@ -80,7 +113,6 @@ public class ReviewAwardTestCases {
 		edit.clickOnFilter();
 		Assert.assertTrue(award.verifyData());
 		award.ThreeDotsMenu("AwardStyle");
-
 		award.clickOnAwardByItem();
 		award.clickContinue();
 		award.selectLineItemAndEnterQuantity("10");
@@ -296,7 +328,7 @@ public class ReviewAwardTestCases {
 
 	}
 	
-	@Test
+	//@Test
 	public void CopySolicitationForInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -330,5 +362,10 @@ public class ReviewAwardTestCases {
 		createSol.clickOnNextStep();
 		createSol.clickOnNextStep();
 		createSol.clickOnNextStep();
+	}
+	
+	@AfterMethod
+	public void setupAfterTest() {
+		createSol.clickHomeButton();
 	}
 }

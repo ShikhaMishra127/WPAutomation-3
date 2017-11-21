@@ -104,7 +104,9 @@ public class EditSolicitationPageObject {
 	}
 
 	public void setToStartDate(String strDate) {
+		PCDriver.waitForElementToBeClickable(dateStartDateTo);
 		dateStartDateTo.sendKeys(strDate);
+		dateStartDateFrom.click();
 	}
 
 	public void setFromStartDate(String strDate) {
@@ -245,7 +247,7 @@ public class EditSolicitationPageObject {
 			// simple1=simple;
 			// date2=simple1.parse(simple1.format(date2));
 			// if(date1.compareTo(date2)<0) {
-			if (DatePicker.checkDateRange(str[0].trim().toString(), dateStartDateFrom.getAttribute("value"),
+			if (DatePicker.checkDateRangeOnly(str[0].trim().toString(), dateStartDateFrom.getAttribute("value"),
 					dateStartDateTo.getAttribute("value")) == true) {
 				count++;
 			}
@@ -265,7 +267,26 @@ public class EditSolicitationPageObject {
 		for (int i = 0; i < ele.size(); i++) {
 			str = ele.get(i).getText().split("at");
 			System.out.println("Date is:" + str[0].trim());
-			if (DatePicker.checkDateRange(str[0].trim().toString(), dateFromEndDate.getAttribute("value"),
+			if (DatePicker.checkDateRangeOnly(str[0].trim().toString(), dateFromEndDate.getAttribute("value"),
+					dateToEndDate.getAttribute("value")) == true) {
+				count++;
+			}
+
+		}
+		if (count == ele.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean VerifyEndDateTime(List<WebElement> ele) throws ParseException {
+		String[] str = new String[ele.size()];
+		int count = 0;
+		for (int i = 0; i < ele.size(); i++) {
+			str = ele.get(i).getText().split("at");
+			System.out.println("Date is:" + str[0].trim());
+			if (DatePicker.checkDateRangeOnly(str[0].trim().toString(), dateFromEndDate.getAttribute("value"),
 					dateToEndDate.getAttribute("value")) == true) {
 				count++;
 			}
