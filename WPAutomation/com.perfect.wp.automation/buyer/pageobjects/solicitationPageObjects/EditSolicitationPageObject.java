@@ -30,6 +30,9 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//button[contains(text(),'Filter')]")
 	public WebElement btnFilter;
+	
+	@FindBy(xpath="//tr[@class='odd']")
+	public List<WebElement> searchResultRow;
 
 	@FindBy(xpath = "//img[@class='dropdown-toggle dd-action']")
 	public WebElement drpDownThreeDots;
@@ -342,4 +345,14 @@ public class EditSolicitationPageObject {
 			return false;
 		}
 	}
+	
+	public boolean verifySearchResultRow() {
+		PCDriver.waitForPageLoad();
+		if(searchResultRow.size()!=0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 }

@@ -58,26 +58,23 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	//@Test(description = "This test case will check if Solicitation title is mandatory or not for Informal Solicitation")
+	@Test(description = "This test case will check if Solicitation title is mandatory or not for Informal Solicitation")
 	public void verifyTitleIsMandateForInformalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.waitForAddFieldToDisplay();
 		sol.clickOnNextStep();
-		// Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this
-		// quote");
+		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this quote");
 	}
 
-	// @Test(description="This test case will check if Solicitation title is
-	// mandatory or not for Informal Solicitation")
+	@Test(description = "This test case will check if Solicitation title is mandatory or not for Informal Solicitation")
 	public void verifyTitleIsMandateForFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.waitForAddFieldToDisplay();
 		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this bid");
 	}
 
-	// @Test(description = "This test case will check if past solicitation start
-	// date is allowed or not")
-	public void verifyPastSolStartDate() {
+	@Test(description = "This test case will check if past solicitation start date is allowed or not")
+	public void verifyPastSolStartDateForInformalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setSolStartDate(DatePicker.getPastDate());
 		Assert.assertEquals(sol.clickOnNextStep(),
@@ -85,17 +82,32 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	// @Test(description="This test case will check if future solicitation start
-	// date is allowed or not")
-	public void verifyFutureSolStartDate() {
+	@Test(description = "This test case will check if past solicitation start date is allowed or not")
+	public void verifyPastSolStartDateForFormalSol() {
+		solNav.formalSolicationsMenu("Create");
+		header.setSolStartDate(DatePicker.getPastDate());
+		Assert.assertEquals(sol.clickOnNextStep(),
+				"The Informal Solicitation Duration Start Date and Time must be after the current time.");
+
+	}
+
+	@Test(description = "This test case will check if future solicitation start date is allowed or not for Informal Solicitation")
+	public void verifyFutureSolStartDateForInformalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setSolStartDate(DatePicker.getFutureDate());
 		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this quote");
 
 	}
 
-	// @Test(description = "This test case checks that Participation End Date should
-	// be before the InFormal Solicitation Duration Start Date.")
+	@Test(description = "This test case will check if future solicitation start date is allowed or not for Informal Solicitation")
+	public void verifyFutureSolStartDateForFormalSol() {
+		solNav.formalSolicationsMenu("Create");
+		header.setSolStartDate(DatePicker.getFutureDate());
+		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this quote");
+
+	}
+
+	@Test(description = "This test case checks that Participation End Date should be before the InFormal Solicitation Duration Start Date.")
 	public void verifyPartEndDateBeforSolStartDateForFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setPartEndDate(DatePicker.getCustomDate(header.getSolStartDate(), -100));
@@ -103,8 +115,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Participation End Date should be before the InFormal Solicitation Duration Start Date.");
 	}
 
-	// @Test(description = "This test case checks that Participation End Date should
-	// be before the Formal Solicitation Duration Start Date.")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
 	public void verifyPartEndDateBeforSolStartDateForInFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setPartEndDate(DatePicker.getCustomDate(header.getSolStartDate(), -100));
@@ -112,8 +123,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Participation End Date should be before the InFormal Solicitation Duration Start Date.");
 	}
 
-	// @Test(description = "This test case checks that Participation End Date should
-	// be before the Formal Solicitation Duration Start Date.")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
 	public void verifyCollabEndDateAfterCurrentTimeForInFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setCollabEndDate(DatePicker.getCustomDate(header.getSolStartDate(), 2));
@@ -121,8 +131,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration End Date and Time need to be after the current time.");
 	}
 
-	// @Test(description="This test case checks that Participation End Date should
-	// be before the Formal Solicitation Duration Start Date.")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
 	public void verifyCollabEndDateAfterCurrentTimeForFormalSol() {
 		solNav.formalSolicationsMenu("Create");
 		header.setCollabEndDate(DatePicker.getCustomDate(header.getSolStartDate(), 2));
@@ -130,8 +139,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration End Date and Time need to be after the current time.");
 	}
 
-	// @Test(description="This test case checks that Participation End Date should
-	// be before the Formal Solicitation Duration Start Date.")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
 	public void verifyCollabStartDateAfterCurrentTimeForFormalSol() {
 		solNav.formalSolicationsMenu("Create");
 		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 2));
@@ -139,8 +147,15 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date and Time need to be after the current time.");
 	}
 
-	// @Test(description = "This test case checks that Participation End Date should
-	// be before the Formal Solicitation Duration Start Date.")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
+	public void verifyCollabStartDateAfterCurrentTimeForInFormalSol() {
+		solNav.informalSolicationsMenu("Create");
+		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 2));
+		Assert.assertEquals(sol.clickOnNextStep(),
+				"The Collaboration Start Date and Time need to be after the current time.");
+	}
+
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
 	public void verifyCollabStartDateAfterSolStartDateForFormalSol() {
 		solNav.formalSolicationsMenu("Create");
 		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 1));
@@ -148,7 +163,15 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
 	}
 
-	// @Test(description = "This test case will create the NoLineType Solicitation")
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.")
+	public void verifyCollabStartDateAfterSolStartDateForInFormalSol() {
+		solNav.informalSolicationsMenu("Create");
+		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 1));
+		Assert.assertEquals(sol.clickOnNextStep(),
+				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
+	}
+
+	@Test(description = "This test case will create the NoLineType Solicitation")
 	public void informalSolicitationCreationWithNoLineItem() {
 		try {
 			solNav.informalSolicationsMenu("Create");
@@ -165,13 +188,14 @@ public class CreateSolicitation extends PCDriver {
 			sol.CreateSupplier();
 			sol.clickOnNextStep();
 			sol.clickSubmit();
+			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// @Test(description = "This test case will create the NoLineType Solicitation")
+	@Test(description = "This test case will create the NoLineType Solicitation")
 	public void formalSolicitationCreationWithNoLineItem() {
 		try {
 			solNav.formalSolicationsMenu("Create");
@@ -188,14 +212,14 @@ public class CreateSolicitation extends PCDriver {
 			sol.CreateSupplier();
 			sol.clickOnNextStep();
 			sol.clickSubmit();
+			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// @Test(description="This test case will create the Solicitation by creating
-	// new line item and searching for an existing supplier and adding it")
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it")
 	public void formalSolicitationByCreatingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -221,8 +245,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	// @Test(description="This test case will create the Solicitation by creating
-	// new line item and searching for a supplier and adding it")
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it")
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -248,8 +271,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	// @Test(description="This test case will create the Solicitation by adding new
-	// line item and creating new supplier")
+	 @Test(description="This test case will create the Solicitation by adding new line item and creating new supplier")
 	public void formalSolicitationByAddingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -272,8 +294,7 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
 	}
 
-	// @Test(description="This test case will create the Solicitation by adding new
-	// line item and creating new supplier")
+	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier")
 	public void inFormalSolicitationByAddingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -294,15 +315,15 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
 		sol.clickSubmit();
 	}
-	
-	@Test(description="This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page")
+
+	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page")
 	public void exitSolicitationBeforeCreationForFormalSolicitation() {
 		solNav.formalSolicationsMenu("Create");
 		sol.clickExit();
 		Assert.assertTrue(sol.verifyPageTitle("Current Formal Solicitation"));
 	}
-	
-	@Test(description="This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page")
+
+	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page")
 	public void exitSolicitationBeforeCreationForInFormalSolicitation() {
 		solNav.informalSolicationsMenu("Create");
 		sol.clickExit();
@@ -316,7 +337,6 @@ public class CreateSolicitation extends PCDriver {
 
 	@AfterClass
 	public void tearDown() {
-
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();

@@ -37,7 +37,7 @@ public class CreateSolicitationPOM {
 	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
 	public WebElement btnHome;
 
-	@FindBy(xpath = "//div[@class='alert alert-info']/text()")
+	@FindBy(xpath = "//div[@class='alert alert-info']")
 	public WebElement txtSubmitMessage;
 	
 	@FindBy(xpath="//button[text()='Exit']")
@@ -48,6 +48,10 @@ public class CreateSolicitationPOM {
 	
 	@FindBy(xpath="(//div[@class='panel-body'])[3]")
 	public WebElement addInfoSection;
+	
+	@FindBy(xpath="//h4[contains(text(),'Info') and not(contains(text(),'Header'))]")
+	public WebElement pageSubmit;
+
 
 	public void clickHomeButton() {
 		PCDriver.waitForElementToBeClickable(btnHome);
@@ -226,7 +230,8 @@ public class CreateSolicitationPOM {
 
 		@FindBy(xpath = "//button[text()='Upload']")
 		public WebElement btnUpload;
-
+		
+	
 		public AttachmentPage() {
 
 			PageFactory.initElements(PCDriver.getDriver(), this);
@@ -272,7 +277,7 @@ public class CreateSolicitationPOM {
 	}
 
 	public String verifySuccessMessage() {
-		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(pageSubmit);
 		return txtSubmitMessage.getText();
 	}
 	

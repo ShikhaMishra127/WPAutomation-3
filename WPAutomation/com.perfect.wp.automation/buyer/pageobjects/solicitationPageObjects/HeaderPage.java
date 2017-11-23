@@ -66,7 +66,7 @@ public class HeaderPage {
 	@FindBy(id = "collabenddatetime")
 	public WebElement collabEndDate;
 
-	@FindBy(xpath = "//button[text()='Add Field']")
+	@FindBy(xpath = "//button[text()='Add New Section']")
 	public WebElement btnAddField;
 
 	@FindBy(xpath = "//div[contains(@class,'fieldTitleDiv input-group')]")
