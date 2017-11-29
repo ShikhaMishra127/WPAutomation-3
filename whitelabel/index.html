@@ -3,17 +3,15 @@
  font: 15px tahoma, sans-serif;
 }
 
-td {border-top:1px solid black;
-}
-
-th {text-align: left;
- background-color: #FFC000;
-}
+td { width: 110px; text-align: center; vertical-align: middle; border-top:1px solid black; }
+td:first-child { width: 160px; text-align:right; }
+th {text-align: center; background-color: #FFC000; border-right:1px }
 
 table {
  border: 1px solid black;
  font: 15px tahoma, sans-serif;
  padding: 0px;
+ width: 900px
  }
 
 h2 {
@@ -25,92 +23,92 @@ h2 {
 <h2>WhiteLabel Test Harness</h2>
 <div id="version"> </div>
 <form>
-<p><input checked="checked" name="env" type="radio" value="internalwpqa" /> QA <input name="env" type="radio" value="webprocure-stage" /> Stage <input name="env" type="radio" value="webprocure" /> Prod <input name="env" type="radio" value="webprocure-demo" /> Demo</p>
+<p><b>Select Environment:</b> <input checked="checked" name="env" type="radio" value="internalwpqa" /> QA <input name="env" type="radio" value="webprocure-stage" /> Stage <input name="env" type="radio" value="webprocure" /> Prod <input name="env" type="radio" value="webprocure-demo" /> Demo</p>
 
-<table border="0" cellpadding="0" cellspacing="0" style="width: 600px;">
-	<thead>
-		<tr>
-			<th scope="col" style="">&nbsp;</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Supplier Registration</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Whitelabel Login</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Old Sol Bid Board</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Whitelabel Contract Board</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Main Contract Board</th>			
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Whitelabel Sol Bid Board</th>
-			<th scope="col" style="width: 120px; text-align: center; vertical-align: middle;">Main Sol Bid Board</th>
-		</tr>
-	</thead>
+<table border="0" cellpadding="0" cellspacing="0">
+        <thead>
+                <tr>
+                        <th scope="col" style="">&nbsp;</th>
+                        <th scope="col">Supplier Registration</th>
+                        <th scope="col">Whitelabel Login</th>
+                        <th scope="col">Old Sol Bid Board</th>
+                        <th scope="col">Whitelabel Contract Board</th>
+                        <th scope="col">Main Contract Board</th>
+                        <th scope="col">Whitelabel Sol Bid Board</th>
+                        <th scope="col">Main Sol Bid Board</th>
+                </tr>
+        </thead>
 	<tbody>
 		<tr>
 			<td>
 			<h3><strong>&nbsp;Perfect City</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;">&nbsp;</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PERFECT_CITY','whitelabellogin','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PERFECT_CITY','whitelabelbb','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PERFECT_CITY','contractboard','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','33')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PERFECT_CITY','bidboard','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','33')" type="button">&nbsp;</button></td>
+			<td>&nbsp;</td>
+			<td><button onclick="gotoPage('PERFECT_CITY','whitelabellogin','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PERFECT_CITY','whitelabelbb','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PERFECT_CITY','contractboard','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','33')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PERFECT_CITY','bidboard','a282766b-98e6-4442-a2e0-94d4d39b83c5','62798','33')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','33')" type="button">&nbsp;</button></td>
 		</tr>
 		<tr>
 			<td>
 			<h3><strong>&nbsp;Idaho</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('IDAHO','whitelabelreg','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('IDAHO','whitelabellogin','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('IDAHO','whitelabelbb','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('IDAHO','contractboard','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('IDAHO','bidboard','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('IDAHO','whitelabelreg','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('IDAHO','whitelabellogin','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('IDAHO','whitelabelbb','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('IDAHO','contractboard','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('IDAHO','bidboard','97ebd772-2640-40a1-ab25-0614e8b46fdb','74138','35')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','35')" type="button">&nbsp;</button></td>
 		</tr>
 		<tr>
 			<td>
 			<h3><strong>&nbsp;Missouri</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MISSOURI','whitelabelreg','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MISSOURI','whitelabellogin','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MISSOURI','whitelabelbb','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MISSOURI','contractboard','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MISSOURI','bidboard','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MISSOURI','whitelabelreg','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MISSOURI','whitelabellogin','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MISSOURI','whitelabelbb','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MISSOURI','contractboard','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MISSOURI','bidboard','d9272c0f-3e5f-4fde-8fbc-cd3dadbfc81d','86637','38')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','38')" type="button">&nbsp;</button></td>
 		</tr>
 		<tr>
 			<td>
 			<h3><strong>&nbsp;Pittsburg</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PITTSBURG','whitelabelreg','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PITTSBURG','whitelabellogin','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PITTSBURG','whitelabelbb','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PITTSBURG','contractboard','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('PITTSBURG','bidboard','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PITTSBURG','whitelabelreg','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PITTSBURG','whitelabellogin','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PITTSBURG','whitelabelbb','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PITTSBURG','contractboard','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('PITTSBURG','bidboard','441ec6d0-8fe7-4784-9b29-b9ad4b2deb8e','99820','39')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','39')" type="button">&nbsp;</button></td>
 		</tr>
 		<tr>
 			<td>
 			<h3><strong>&nbsp;North Carolina</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;">&nbsp;</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('NORTH_CAROLINA','whitelabellogin','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('NORTH_CAROLINA','whitelabelbb','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('NORTH_CAROLINA','contractboard','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','40')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('NORTH_CAROLINA','bidboard','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','40')" type="button">&nbsp;</button></td>
+			<td>&nbsp;</td>
+			<td><button onclick="gotoPage('NORTH_CAROLINA','whitelabellogin','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('NORTH_CAROLINA','whitelabelbb','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('NORTH_CAROLINA','contractboard','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','40')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('NORTH_CAROLINA','bidboard','b58988a6-4d0f-420b-950d-a5816f08875d','99967','40')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','40')" type="button">&nbsp;</button></td>
 		</tr>		<tr>
 			<td>
 			<h3><strong>&nbsp;Chesterfield</strong></h3>
 			</td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('CHESTERFIELD','whitelabelreg','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('CHESTERFIELD','whitelabellogin','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('CHESTERFIELD','whitelabelbb','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('CHESTERFIELD','contractboard','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','contractboard','','','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('CHESTERFIELD','bidboard','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
-			<td style="text-align: center; vertical-align: middle;"><button onclick="gotoPage('MAIN','bidboard','','','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('CHESTERFIELD','whitelabelreg','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('CHESTERFIELD','whitelabellogin','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('CHESTERFIELD','whitelabelbb','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('CHESTERFIELD','contractboard','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','contractboard','','','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('CHESTERFIELD','bidboard','cd69ccbe-d6db-42d3-8173-3d4d801bebe0','100168','41')" type="button">&nbsp;</button></td>
+			<td><button onclick="gotoPage('MAIN','bidboard','','','41')" type="button">&nbsp;</button></td>
 		</tr>
 	</tbody>
 </table>
