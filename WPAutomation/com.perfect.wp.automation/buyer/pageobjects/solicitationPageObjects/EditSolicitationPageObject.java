@@ -164,11 +164,16 @@ public class EditSolicitationPageObject {
 	}
 
 	public void clickSave() {
+		try {
 		PCDriver.waitForElementToBeClickable(btnSave);
 
 		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnSave);
 
 		btnSave.click();
+		}
+		catch(Exception e) {
+			System.out.println("Save button is not visible on page");
+		}
 	}
 
 	public void clickReturn() {

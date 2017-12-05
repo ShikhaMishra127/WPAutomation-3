@@ -1,18 +1,21 @@
 package pageobjects.solicitationPageObjects;
 
+import java.awt.AWTException;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import pageobjects.utils.PCDriver;
+import pageobjects.utils.ReadConfig;
 
 public class SolicitationImportPage {
 
 	
-	@FindBy(id="fileUploader")
+	@FindBy(id="btn-upload-file")
 	public WebElement uploadFile;
 	
-	@FindBy(xpath="//button[@class='btn btn-wp']")
+	@FindBy(xpath="//input[@class='btn btn-wp']")
 	public WebElement btnUpload;
 	
 	public SolicitationImportPage() {
@@ -20,17 +23,11 @@ public class SolicitationImportPage {
 		PageFactory.initElements(PCDriver.getDriver(), this);
 	}
 	
-	public void uploadFile(String strFile) {
-		PCDriver.waitForElementToBeClickable(uploadFile);
-		uploadFile.click();
-		uploadFile.sendKeys(strFile);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void uploadFile(String strFile) throws AWTException {
+		PCDriver.waitForElementToBeClickable(btnUpload);
 		btnUpload.click();
+		PCDriver.uploadFile(strFile);
+		uploadFile.click();
 	}
 	
 }

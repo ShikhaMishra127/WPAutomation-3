@@ -47,9 +47,12 @@ public class HomePage {
 		}
 		catch(Exception e) {
 			
-		}
+		}try {
 		clickGotIt();
-
+		}
+		catch(Exception e) {
+			
+		}
 	}
 
 	public void selectTopNavDropDown(String navName) {

@@ -1,5 +1,7 @@
 package testcases;
 
+import java.awt.AWTException;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -44,10 +46,17 @@ public class SolicitationImport {
 	}
 
 	@Test
-	public void importSolicitationTemplate() {
+	public void importSolicitationTemplate() throws AWTException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Import");
-		solimport.uploadFile("C:\\Users\\Anshul\\Documents\\WebProcureData.xlsx");
+		solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
+	}
+	
+	@Test
+	public void DownloadSolicitationTemplate() throws AWTException {
+		home.selectTopNavDropDown("Solicitation");
+		//sol.informalSolicationsMenu("Import");
+		//solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
 	
 	@AfterMethod

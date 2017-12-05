@@ -46,9 +46,8 @@ public class ViewArchived {
 
 	}
 
-	// @Test(description = "This test case will search the Sol via Sol Number and
-	// reverse the award")
-	public void ReverseAward() {
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award")
+	public void ReverseAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
 		edit.setSolNumber("IFBC18001123");
@@ -62,8 +61,23 @@ public class ViewArchived {
 
 	}
 
-		@Test
-	public void checkEndDateFilterForFinalizedSolInFormalSol() throws ParseException {
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award")
+	public void ReverseAwardForFormalSolicitation() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		edit.setSolNumber("IFBC18001123");
+		edit.clickOnFilter();
+		edit.clickOnThreeDots();
+		award.ThreeDotsMenu("AwardReversal");
+		award.enterReason();
+		award.setConfirmTextOnFinalizePage("Yes");
+		award.clickSubmit();
+		Assert.assertTrue(edit.verifyReverseBid());
+
+	}
+
+	@Test
+	public void checkEndDateFilterForFinalizedInFormalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
 		edit.setFromEndDate("05/31/2017");
@@ -74,7 +88,18 @@ public class ViewArchived {
 	}
 
 	@Test
-	public void checkStartDateFilterForFinalizedSolInFormalSol() {
+	public void checkEndDateFilterForFinalizedFormalSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		edit.setFromEndDate("05/31/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
+
+	}
+
+	@Test
+	public void checkStartDateFilterForFinalizedInFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
 		edit.setFromStartDate("11/08/2017");
@@ -82,34 +107,41 @@ public class ViewArchived {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
-	
-	 @Test
-		public void checkEndDateFilterForRetractedSolInFomalSol() throws ParseException {
-			home.selectTopNavDropDown("Solicitation");
-			sol.formalSolicationsMenu("View Archived");
-			view.clickRetractedOrCancelleSol();
 
-			edit.setFromEndDate("05/31/2017");
-			edit.setToEndDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(edit.VerifyEndDate());
+	@Test
+	public void checkStartDateFilterForFinalizedFormalSol() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
 
-		}
+	@Test
+	public void checkEndDateFilterForRetractedSolInFomalSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		view.clickRetractedOrCancelleSol();
+		edit.setFromEndDate("05/31/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
 
-		@Test
-		public void checkStartDateFilterForRetractedSolInFomalSol() {
-			home.selectTopNavDropDown("Solicitation");
-			sol.formalSolicationsMenu("View Archived");
-			view.clickRetractedOrCancelleSol();
+	}
 
-			edit.setFromStartDate("11/08/2017");
-			edit.setToStartDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(edit.VerifyStartDate());
-		}
-	
-	
-	 @Test
+	@Test
+	public void checkStartDateFilterForRetractedSolInFomalSol() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("View Archived");
+		view.clickRetractedOrCancelleSol();
+		edit.setFromStartDate("11/08/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+
+	@Test
 	public void checkEndDateFilterOfFinalizedSolInInformalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -130,33 +162,32 @@ public class ViewArchived {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
-	
-		@Test(description="This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol")
-		public void checkEndDateFilterOfRetractedSolInInformalSol() throws ParseException {
-			home.selectTopNavDropDown("Solicitation");
-			sol.informalSolicationsMenu("View Archived");
-			view.clickRetractedOrCancelleSol();
-			edit.setFromEndDate("05/31/2017");
-			edit.setToEndDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(edit.VerifyEndDate());
 
-		}
+	@Test(description = "This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol")
+	public void checkEndDateFilterOfRetractedSolInInformalSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("View Archived");
+		view.clickRetractedOrCancelleSol();
+		edit.setFromEndDate("05/31/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyEndDate());
 
-		@Test(description="This test case will enter the start dates and check the date range of the filter for Retracted Informal Sol")
-		public void checkStartDateFilterOfRetractedSolInInformalSol() {
-			home.selectTopNavDropDown("Solicitation");
-			sol.informalSolicationsMenu("View Archived");
-			view.clickRetractedOrCancelleSol();
-			edit.setFromStartDate("06/27/2017");
-			edit.setToStartDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(edit.VerifyStartDate());
-		}
-		
-		@AfterMethod
-		public void setupAfterTest() {
-			createSol.clickHomeButton();
+	}
 
-		}
+	@Test(description = "This test case will enter the start dates and check the date range of the filter for Retracted Informal Sol")
+	public void checkStartDateFilterOfRetractedSolInInformalSol() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("View Archived");
+		view.clickRetractedOrCancelleSol();
+		edit.setFromStartDate("06/27/2017");
+		edit.setToStartDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(edit.VerifyStartDate());
+	}
+
+	@AfterMethod
+	public void setupAfterTest() {
+		createSol.clickHomeButton();
+	}
 }

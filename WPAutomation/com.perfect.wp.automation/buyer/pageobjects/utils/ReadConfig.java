@@ -33,10 +33,20 @@ public class ReadConfig {
 		return properties.getProperty("username");
 
 	}
+	
+	public String getVendorUserName() {
+		return properties.getProperty("vendor_username");
+
+	}
 
 	public String getPassword() {
 
 		return properties.getProperty("password");
+	}
+	
+	public String getVendorPassword() {
+
+		return properties.getProperty("vendor_password");
 	}
 
 	public String getApplicationUrl() {
