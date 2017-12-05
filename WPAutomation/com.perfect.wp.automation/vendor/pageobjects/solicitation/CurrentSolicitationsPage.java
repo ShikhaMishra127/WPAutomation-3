@@ -32,79 +32,82 @@ public class CurrentSolicitationsPage {
 
 	@FindBy(xpath = "//input[contains(@class,'form-control datepicker')]")
 	public List<WebElement> datePicker;
-	
-	@FindBy(xpath="//div[contains(@id,'grp_deliveryDate')]/input")
+
+	@FindBy(xpath = "//div[contains(@id,'grp_deliveryDate')]/input")
 	public WebElement DeliveryDate;
-	
+
 	@FindBy(xpath = "//td[text()='15']")
 	public WebElement selectDate;
 
 	@FindBy(xpath = "//iframe[@class='cke_wysiwyg_frame cke_reset']")
 	public WebElement richTextIframe;
-	
-	@FindBy(xpath="//body[@class='cke_editable cke_editable_themed cke_contents_ltr cke_show_borders']")
+
+	@FindBy(xpath = "//body[@class='cke_editable cke_editable_themed cke_contents_ltr cke_show_borders']")
 	public WebElement txtRichText;
-	
-	@FindBy(xpath="//div[@id='sections']//input[@class='form-control']")
+
+	@FindBy(xpath = "//div[@id='sections']//input[@class='form-control']")
 	public WebElement txtNormalText;
-	
-	@FindBy(xpath="//select[@class='questdd']")
+
+	@FindBy(xpath = "//select[@class='questdd']")
 	public WebElement questionDropDown;
-	
-	@FindBy(xpath="//textarea[@class='quest_input form-control']")
+
+	@FindBy(xpath = "//textarea[@class='quest_input form-control']")
 	public WebElement txtTextQuestion;
-	
-	@FindBy(xpath="//td//input[@class='quest_input_checkbox'][@value='Y']")
+
+	@FindBy(xpath = "//td//input[@class='quest_input_checkbox'][@value='Y']")
 	public WebElement quesRadioButton;
-	
-	@FindBy(xpath="//a[contains(@href,'checkAll')]")
+
+	@FindBy(xpath = "//a[contains(@href,'checkAll')]")
 	public WebElement lnkCheckAll;
-	
-	@FindBy(xpath="//button[contains(text(),'Accept')]")
+
+	@FindBy(xpath = "//button[contains(text(),'Accept')]")
 	public WebElement btnAccept;
-	
-	@FindBy(xpath="(//ul[@class='pagination'])[1]//a")
+
+	@FindBy(xpath = "(//ul[@class='pagination'])[1]//a")
 	public List<WebElement> lnkNext;
-	
-	@FindBy(xpath="//input[@class='form-control'][not(contains(@type,'hidden'))][not(contains(@title,'Date'))]")
+
+	@FindBy(xpath = "//input[@class='form-control'][not(contains(@type,'hidden'))][not(contains(@title,'Date'))]")
 	public List<WebElement> lstItems;
-	
-	@FindBy(xpath="//input[contains(@name,'customfield')][not(contains(@type,'hidden'))]")
+
+	@FindBy(xpath = "//input[contains(@name,'customfield')][not(contains(@type,'hidden'))]")
 	public List<WebElement> lstCustomQuestions;
-	
-	@FindBy(xpath="(//div[@class='fileupload-buttonbar']/following-sibling::div/a)[1]")
+
+	@FindBy(xpath = "(//div[@class='fileupload-buttonbar']/following-sibling::div/a)[1]")
 	public WebElement verifyImport;
-	
-	@FindBy(xpath="//h3")
+
+	@FindBy(xpath = "//h3")
 	public WebElement lblPageTitle;
-	
-	@FindBy(xpath="//button[contains(text(),'Save')]")
+
+	@FindBy(xpath = "//button[contains(text(),'Save')]")
 	public WebElement btnSaveReview;
 	
-	
+	@FindBy(xpath="//div[contains(@class,'panel-title')]")
+	public WebElement lblVerifySubmission;
+
 	public void clickOtherActiveSolicitations() {
 		PCDriver.waitForElementToBeClickable(lnkActiveSolicitations);
 		lnkActiveSolicitations.click();
 	}
-	
+
 	public void selectQuestionReadioButton(String str) {
 		PCDriver.waitForElementToBeClickable(quesRadioButton);
-		quesRadioButton.findElement(By.xpath("//input[@class='quest_input_checkbox'][@value='"+str+"']")).click();
+		quesRadioButton.findElement(By.xpath("//input[@class='quest_input_checkbox'][@value='" + str + "']")).click();
 	}
-	
+
 	public void setNormalText(String str) {
 		PCDriver.waitForElementToBeClickable(txtNormalText);
 		txtNormalText.sendKeys(str);
 	}
-	
+
 	public void setTextInTextQuestion(String str) {
 		PCDriver.waitForElementToBeClickable(txtTextQuestion);
 		txtTextQuestion.sendKeys(str);
 	}
+
 	public void selectDropDownValue() {
 		PCDriver.waitForElementToBeClickable(questionDropDown);
-		PCDriver.selectFromDropDownByIndex(questionDropDown,1);
-		
+		PCDriver.selectFromDropDownByIndex(questionDropDown, 1);
+
 	}
 
 	public void enterTextInRichText() {
@@ -137,13 +140,10 @@ public class CurrentSolicitationsPage {
 		try {
 			Thread.sleep(4000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PCDriver.waitForElementToBeClickable(lnkTopNav);
 		PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
-
-		//PCDriver.waitForElementToBeClickable(lnkTopNav.findElement(By.xpath("//a[text()='" + strTabName + "']")));
 		lnkTopNav.findElement(By.xpath(".//a[text()='" + strTabName + "']")).click();
 	}
 
@@ -154,112 +154,117 @@ public class CurrentSolicitationsPage {
 		PCDriver.uploadFile(str);
 		PCDriver.waitForElementToBeClickable(verifyImport);
 	}
-	
+
 	public void EnterOverviewDetails() throws AWTException {
 		try {
-		PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
-		
-		try {
-		PCDriver.waitForElementToBeClickable(lnkCheckAll);
-
-		lnkCheckAll.click();
-		btnAccept.click();
-
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			PCDriver.waitForPageLoad();
 			PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
 
-		enterTextInRichText();
-		uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
-		selectDateField();
-		setNormalText("abc");
-		}
-		}
-		catch(Exception e) {
+			try {
+				PCDriver.waitForElementToBeClickable(lnkCheckAll);
+				lnkCheckAll.click();
+				btnAccept.click();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				PCDriver.waitForPageLoad();
+				PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
+
+				enterTextInRichText();
+				uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
+				selectDateField();
+				setNormalText("abc");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 	}
-	
+
 	public void EnterRequirementDetails() throws AWTException {
 		try {
 			clickTopNavItem("Requirements");
-		enterTextInRichText();
-		setNormalText("abc");
+			enterTextInRichText();
+			setNormalText("abc");
 
-		selectDateField();
-		uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
-		}
-		catch(Exception e) {
+			selectDateField();
+			uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
+		} catch (Exception e) {
 			System.out.println("Entered Details in Requirements Tab");
 		}
 	}
-	
+
 	public void EnterQuestionnaireDetails() throws AWTException {
 		try {
 			PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
 
 			clickTopNavItem("Questionnaire");
-		uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
-		selectDropDownValue();
-		setTextInTextQuestion("abc");
-		selectQuestionReadioButton("Y");
-		}
-		catch(Exception e) {
+			uploadFileInRequirementTab(ReadConfig.getInstance().getExcelPath());
+			selectDropDownValue();
+			setTextInTextQuestion("abc");
+			selectQuestionReadioButton("Y");
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Entered Details in Questionnaire Tab");
 		}
 	}
-	
+
 	public void EnterResponseDetails() {
 		try {
-			clickTopNavItem("Respond");		
-		for(int i=0;i<lnkNext.size();i++) {
-			PCDriver.waitForPageLoad();
-			PCDriver.waitForElementToBeClickable(lstItems.get(0));
-			for(int z=0;z<lstItems.size();z++) {
-		try {
-				lstItems.get(z).clear();
-			lstItems.get(z).sendKeys("10");
-		}catch(Exception e) {				
-			}		
-			}
-			DeliveryDate.click();
-			PCDriver.waitForElementToBeClickable(selectDate);
-			selectDate.click();
-			for(int j=0;j<lstCustomQuestions.size();j++) {
-				lstCustomQuestions.get(j).clear();
-				lstCustomQuestions.get(j).sendKeys("abc");
-			}
-			
-			
-			try {
-				PCDriver.waitForElementToBeClickable(btnSaveReview);
-				btnSaveReview.click();
-			lnkNext.get(lnkNext.size()-i-1).click();
+			clickTopNavItem("Respond");
+			for (int i = 0; i < lnkNext.size(); i++) {
+				PCDriver.waitForPageLoad();
+				PCDriver.waitForElementToBeClickable(lstItems.get(0));
+				for (int z = 0; z < lstItems.size(); z++) {
+					try {
+						lstItems.get(z).clear();
+						lstItems.get(z).sendKeys("10");
+					} catch (Exception e) {
+					}
+				}
+				DeliveryDate.click();
+				PCDriver.waitForElementToBeClickable(selectDate);
+				selectDate.click();
+				for (int j = 0; j < lstCustomQuestions.size(); j++) {
+					lstCustomQuestions.get(j).clear();
+					lstCustomQuestions.get(j).sendKeys("abc");
+				}
 
-			PCDriver.acceptAlert();
-			}catch(Exception e) {
-				System.out.println("No Alert Present");
+				try {
+					PCDriver.waitForElementToBeClickable(btnSaveReview);
+					btnSaveReview.click();
+					lnkNext.get(lnkNext.size() - i - 1).click();
+
+					PCDriver.acceptAlert();
+				} catch (Exception e) {
+					System.out.println("No Alert Present");
+				}
+
 			}
-			
-		}
-	}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			}
-	
+	}
+
 	public boolean verifyRetractResponse() {
 		PCDriver.acceptAlert();
 		PCDriver.waitForElementToBeClickable(lblPageTitle);
-		if(lblPageTitle.getText().contains("Current Solicitations")) {
+		if (lblPageTitle.getText().contains("Current Solicitations")) {
 			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
+	public boolean verifySubmission() {
+		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(lblVerifySubmission);
+		if(lblVerifySubmission.getText().contains("Submission confirmation email sent")) {
+			return true;
+		
 		}else {
 			return false;
 		}
-		
 	}
 }
