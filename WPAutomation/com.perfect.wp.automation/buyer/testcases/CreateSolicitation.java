@@ -7,9 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import com.relevantcodes.extentreports.LogStatus;
-
 import pageobjects.generic.HomePage;
 import pageobjects.generic.LoginPage;
 import pageobjects.generic.solicitationNavigation;
@@ -271,7 +269,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	 @Test(description="This test case will create the Solicitation by adding new line item and creating new supplier")
+	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier")
 	public void formalSolicitationByAddingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -314,9 +312,100 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
 		sol.clickSubmit();
+		Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
+
 	}
 
-	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page")
+	@Test(description = "This test case will create a new Informal Solicitation by adding a new group")
+	public void inFormalSolicitationByAddingGroupsWithLineItem() throws Exception {
+		solNav.informalSolicationsMenu("Create");
+		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
+				"QA Automation" + System.currentTimeMillis());
+		header.enterHeaderDetails(true);
+		sol.clickOnNextStep();
+		sol.waitForDivToAppearInReqPage();
+		sol.clickOnNextStep();
+		sol.EnterQuestionnaire();
+		sol.clickOnNextStep();
+		sol.clickOnNextStep();
+		sol.createNewGroup("Testing");
+		sol.waitForItemSpecLibraryLinkToDisappear();
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
+		sol.switchOnAdjustmentHandler();
+		sol.clickOnNextStep();
+		sol.CreateSupplier();
+		// sol.searchSupplier();
+		sol.clickOnNextStep();
+		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
+		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		sol.clickSubmit();
+		Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
+
+	}
+
+	@Test(description = "This test case will create a new Formal Solicitation by adding a new group")
+	public void formalSolicitationByAddingGroupsWithLineItem() throws Exception {
+		solNav.formalSolicationsMenu("Create");
+		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
+				"QA Automation" + System.currentTimeMillis());
+		header.enterHeaderDetails(true);
+		sol.clickOnNextStep();
+		sol.waitForDivToAppearInReqPage();
+		sol.clickOnNextStep();
+		sol.EnterQuestionnaire();
+		sol.clickOnNextStep();
+		sol.clickOnNextStep();
+		sol.createNewGroup("Testing");
+		sol.waitForItemSpecLibraryLinkToDisappear();
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Building and Construction Machinery and Accessories"),
+				true, "lines items are added");
+		sol.switchOnAdjustmentHandler();
+		sol.clickOnNextStep();
+		sol.CreateSupplier();
+		// sol.searchSupplier();
+		sol.clickOnNextStep();
+		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
+		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		sol.clickSubmit();
+
+	}
+
+	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Informal Solicitation")
+	public void checkGroupNameCannotBeEmptyForInformalSolicitation() throws Exception {
+
+		solNav.informalSolicationsMenu("Create");
+		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
+				"QA Automation" + System.currentTimeMillis());
+		header.enterHeaderDetails(true);
+		sol.clickOnNextStep();
+		sol.waitForDivToAppearInReqPage();
+		sol.clickOnNextStep();
+		sol.EnterQuestionnaire();
+		sol.clickOnNextStep();
+		sol.clickOnNextStep();
+		sol.createNewGroup("");
+		Assert.assertTrue(sol.verifyGroupNameNotEmpty());
+	}
+
+	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Formal Solicitation")
+	public void checkGroupNameCannotBeEmptyForFormalSolicitation() throws Exception {
+
+		solNav.formalSolicationsMenu("Create");
+		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
+				"QA Automation" + System.currentTimeMillis());
+		header.enterHeaderDetails(true);
+		sol.clickOnNextStep();
+		sol.waitForDivToAppearInReqPage();
+		sol.clickOnNextStep();
+		sol.EnterQuestionnaire();
+		sol.clickOnNextStep();
+		sol.clickOnNextStep();
+		sol.createNewGroup("");
+		Assert.assertTrue(sol.verifyGroupNameNotEmpty());
+	}
+
+	/// @Test(description = "This test case will check the exiting before Creation
+	/// of Sol should take the user to Current Formal Sol Page")
 	public void exitSolicitationBeforeCreationForFormalSolicitation() {
 		solNav.formalSolicationsMenu("Create");
 		sol.clickExit();

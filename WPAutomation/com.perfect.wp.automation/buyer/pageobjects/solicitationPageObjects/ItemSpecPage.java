@@ -62,6 +62,15 @@ public class ItemSpecPage {
 	
 	@FindBy(xpath = "//button[text()='Create New Item']")
 	public WebElement btnCreateNewItem;
+	
+	@FindBy(xpath="//button[text()='Create Group']")
+	public WebElement btnCreateGroup;
+	
+	@FindBy(id="name")
+	public WebElement txtGroupName;
+	
+	@FindBy(xpath="//span[contains(@class,'bootstrap-switch-handle-off bootstrap-switch-warning')]")
+	public WebElement handlerAdjustment;
 
 
 	/************************* Page Objects Add Item ************************/
@@ -169,6 +178,24 @@ public class ItemSpecPage {
 		}
 		lnkBrowseCatalog.click();
 
+	}
+	
+	public void CreateGroup(String str) {
+		PCDriver.waitForElementToBeClickable(btnCreateGroup);
+		btnCreateGroup.click();
+		PCDriver.switchToWindow("puw_Group");
+		PCDriver.waitForPageLoad();
+		txtGroupName.sendKeys(str);
+		btnSave.click();
+		
+	}
+	
+	
+	
+	
+	public void clickOnAdjustmentHandler() {
+		PCDriver.waitForElementToBeClickable(handlerAdjustment);
+		handlerAdjustment.click();
 	}
 
 

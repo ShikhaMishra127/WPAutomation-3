@@ -158,7 +158,7 @@ public class EditSolicitation {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
-	
+
 	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Unissued Informal Solicitations")
 	public void checkStartDateFilterForUnissuedInFormalSol() {
 		home.clickInformalSolicitationEdit();
@@ -176,7 +176,7 @@ public class EditSolicitation {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
-	
+
 	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Unissued Informal Solicitations")
 	public void checkEndDateFilterForUnissuedInFormalSol() {
 		home.clickInformalSolicitationEdit();
@@ -186,7 +186,6 @@ public class EditSolicitation {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-
 	@Test(description = "")
 	public void checkStartDateFilterForActiveFormalSol() {
 		home.clickFormalSolicitationEdit();
@@ -195,7 +194,7 @@ public class EditSolicitation {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
-	
+
 	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Active Informal Solicitations")
 	public void checkStartDateFilterForActiveInFormalSol() {
 		home.clickInformalSolicitationEdit();
@@ -214,11 +213,6 @@ public class EditSolicitation {
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
-
-	
-
-	
-	
 
 	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Active Informal Solicitations")
 	public void checkEndDateFilterForActiveInFormalSol() {

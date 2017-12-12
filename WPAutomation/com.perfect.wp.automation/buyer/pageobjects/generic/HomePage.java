@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.asserts.SoftAssert;
 
 import pageobjects.utils.PCDriver;
 
@@ -58,6 +59,7 @@ public class HomePage {
 	public void selectTopNavDropDown(String navName) {
 		PCDriver.waitForElementToBeClickable(topNav);
 		topNav.findElement(By.xpath("//a[contains(text(),'" + navName + "')]")).click();
+		
 
 	}
 }

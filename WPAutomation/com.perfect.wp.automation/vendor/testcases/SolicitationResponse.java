@@ -11,15 +11,12 @@ import org.testng.annotations.Test;
 import com.relevantcodes.extentreports.LogStatus;
 import pageobjects.generic.HomePage;
 import pageobjects.generic.LoginPage;
-import pageobjects.generic.solicitationNavigation;
 import pageobjects.solicitation.CurrentSolicitationsPage;
 import pageobjects.solicitation.VendorHomePage;
 import pageobjects.solicitationPageObjects.AttachmentPage;
 import pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import pageobjects.solicitationPageObjects.EditSolicitationPageObject;
-import pageobjects.solicitationPageObjects.HeaderPage;
 import pageobjects.solicitationPageObjects.ReviewAwardPage;
-import pageobjects.solicitationPageObjects.SummaryPage;
 import pageobjects.utils.ExtentReport;
 import pageobjects.utils.PCDriver;
 import pageobjects.utils.ReadConfig;
@@ -32,9 +29,6 @@ public class SolicitationResponse {
 	HomePage home = new HomePage();
 	CreateSolicitationPOM sol = new CreateSolicitationPOM();
 	EditSolicitationPageObject edit = new EditSolicitationPageObject();
-	solicitationNavigation solNav = new solicitationNavigation();
-	HeaderPage header = new HeaderPage();
-	SummaryPage summary = new SummaryPage();
 	VendorHomePage vendorhome = new VendorHomePage();
 	CurrentSolicitationsPage currentSol = new CurrentSolicitationsPage();
 	ReviewAwardPage review = new ReviewAwardPage();
@@ -60,7 +54,7 @@ public class SolicitationResponse {
 		}
 	}
 
-	//@Test(description = "This test case will create the response for No Line Item Formal Solicitation")
+	 @Test(description = "This test case will create the response for No Line Item Formal Solicitation")
 	public void createResponseForFormalSolicitationForNoLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Formal");
 		currentSol.clickOtherActiveSolicitations();
@@ -83,7 +77,7 @@ public class SolicitationResponse {
 
 	}
 
-	//@Test(description = "This test case will create the response for No Line Item InFormal Solicitation")
+	 @Test(description = "This test case will create the response for No Line Item InFormal Solicitation")
 	public void createResponseForInformalSolicitationForNoLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Informal");
 		currentSol.clickOtherActiveSolicitations();
@@ -127,7 +121,7 @@ public class SolicitationResponse {
 
 	}
 
-	//@Test(description = "This test case will create the response for Formal Solicitation")
+	 @Test(description = "This test case will create the response for Formal Solicitation")
 	public void createResponseForFormalSolicitationForLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Formal");
 		currentSol.clickOtherActiveSolicitations();
@@ -147,7 +141,7 @@ public class SolicitationResponse {
 		Assert.assertTrue(currentSol.verifySubmission());
 	}
 
-//	@Test(description = "This test case will cancel or retract the response")
+	 @Test(description = "This test case will cancel or retract the response")
 	public void retractResponseForInformalSolicitation() {
 		vendorhome.clickOnSolicitation("Informal");
 		edit.setSolNumber("RFPC18001216");
@@ -157,7 +151,7 @@ public class SolicitationResponse {
 		Assert.assertTrue(currentSol.verifyRetractResponse());
 	}
 
-	//@Test(description = "This test case will cancel or retract the response")
+	 @Test(description = "This test case will cancel or retract the response")
 	public void retractResponseForFormalSolicitation() {
 		vendorhome.clickOnSolicitation("Formal");
 		edit.setSolNumber("RFPC18001216");
@@ -166,7 +160,7 @@ public class SolicitationResponse {
 		review.ThreeDotsMenu("deleteNLIResp");
 		Assert.assertTrue(currentSol.verifyRetractResponse());
 	}
-	
+
 	@AfterMethod
 	public void tearDownAfterTest() {
 		sol.clickHomeButton();

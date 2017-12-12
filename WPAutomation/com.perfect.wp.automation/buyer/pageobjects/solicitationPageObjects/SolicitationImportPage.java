@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import pageobjects.utils.PCDriver;
-import pageobjects.utils.ReadConfig;
 
 public class SolicitationImportPage {
 

@@ -46,7 +46,8 @@ public class ReviewAwardTestCases {
 
 	}
 
-	// @Test(description="This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation")
+	// @Test(description="This test case will check the end date filter and verify
+	// the search results are correct for Ended Sols in Formal Solicitation")
 	public void checkEndDateFilterForFormalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -55,42 +56,43 @@ public class ReviewAwardTestCases {
 		edit.clickOnFilter();
 		Assert.assertTrue(award.verifyData());
 	}
-	 
-	// @Test(description="This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation")
-		public void checkEndDateFilterForInformalEndedSol() throws ParseException {
-			home.selectTopNavDropDown("Solicitation");
-			sol.informalSolicationsMenu("Review / Award");
-			edit.setFromEndDate("11/07/2017");
-			edit.setToEndDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(award.verifyData());
-		}
-	 
-	// @Test(description="This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation")
-		public void checkEndDateFilterForFormalActiveSol() throws ParseException {
-			home.selectTopNavDropDown("Solicitation");
-			sol.formalSolicationsMenu("Review / Award");
-			edit.clickOnActiveSolicitations();
-			edit.setFromEndDate("11/07/2017");
-			edit.setToEndDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(award.verifyData());
-		}
-	 
-	
-	 
-	// @Test(description="This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation")
-		public void checkEndDateFilterForInformalActiveSol() throws ParseException {
-			home.selectTopNavDropDown("Solicitation");
-			sol.informalSolicationsMenu("Review / Award");
-			edit.clickOnActiveSolicitations();
-			edit.setFromEndDate("11/07/2017");
-			edit.setToEndDate("11/09/2017");
-			edit.clickOnFilter();
-			Assert.assertTrue(award.verifyData());
-		}
 
-	//@Test
+	// @Test(description="This test case will check the end date filter and verify
+	// the search results are correct for Active Sols in InFormal Solicitation")
+	public void checkEndDateFilterForInformalEndedSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("Review / Award");
+		edit.setFromEndDate("11/07/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(award.verifyData());
+	}
+
+	// @Test(description="This test case will check the end date filter and verify
+	// the search results are correct for Ended Sols in Formal Solicitation")
+	public void checkEndDateFilterForFormalActiveSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("Review / Award");
+		edit.clickOnActiveSolicitations();
+		edit.setFromEndDate("11/07/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(award.verifyData());
+	}
+
+	// @Test(description="This test case will check the end date filter and verify
+	// the search results are correct for Active Sols in InFormal Solicitation")
+	public void checkEndDateFilterForInformalActiveSol() throws ParseException {
+		home.selectTopNavDropDown("Solicitation");
+		sol.informalSolicationsMenu("Review / Award");
+		edit.clickOnActiveSolicitations();
+		edit.setFromEndDate("11/07/2017");
+		edit.setToEndDate("11/09/2017");
+		edit.clickOnFilter();
+		Assert.assertTrue(award.verifyData());
+	}
+
+	// @Test
 	public void checkVendorResponse() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -106,7 +108,7 @@ public class ReviewAwardTestCases {
 		award.clickSupplierAndContinue();
 	}
 
-	 @Test
+	@Test
 	public void awardFormalSolicitation() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -276,7 +278,8 @@ public class ReviewAwardTestCases {
 		Assert.assertTrue(edit.verifyEditedSolicitationSubmission());
 	}
 
-	//@Test(description = "This test case will create new round from Award All To One For Bid Page")
+	// @Test(description = "This test case will create new round from Award All To
+	// One For Bid Page")
 	public void createNewRoundFromAwardByGroupPage() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -298,7 +301,8 @@ public class ReviewAwardTestCases {
 		Assert.assertTrue(edit.verifyEditedSolicitationSubmission());
 	}
 
-	//@Test(description = "This test case will search the Sol via Sol Number and finalize the award")
+	// @Test(description = "This test case will search the Sol via Sol Number and
+	// finalize the award")
 	public void FinalizeAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -311,23 +315,24 @@ public class ReviewAwardTestCases {
 		Assert.assertTrue(edit.verifyFinalizeBid());
 
 	}
-	
-	//@Test(description = "This test case will search the Sol via Sol Number and finalize the award")
-		public void FinalizeAwardForFormalSolicitation() {
-			home.selectTopNavDropDown("Solicitation");
-			sol.formalSolicationsMenu("Review / Award");
-			edit.setSolNumber("IFBC18001123");
-			edit.clickOnFilter();
-			edit.clickOnThreeDots();
-			award.ThreeDotsMenu("Finalize");
-			award.setConfirmTextOnFinalizePage("Yes");
-			award.clickSubmit();
-			Assert.assertTrue(edit.verifyFinalizeBid());
 
-		}
+	// @Test(description = "This test case will search the Sol via Sol Number and
+	// finalize the award")
+	public void FinalizeAwardForFormalSolicitation() {
+		home.selectTopNavDropDown("Solicitation");
+		sol.formalSolicationsMenu("Review / Award");
+		edit.setSolNumber("IFBC18001123");
+		edit.clickOnFilter();
+		edit.clickOnThreeDots();
+		award.ThreeDotsMenu("Finalize");
+		award.setConfirmTextOnFinalizePage("Yes");
+		award.clickSubmit();
+		Assert.assertTrue(edit.verifyFinalizeBid());
 
+	}
 
-	//@Test(description = "This test case will search the Sol via Sol Number and finalize the award")
+	// @Test(description = "This test case will search the Sol via Sol Number and
+	// finalize the award")
 	public void ReverseAward() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -340,8 +345,8 @@ public class ReviewAwardTestCases {
 		Assert.assertTrue(edit.verifyFinalizeBid());
 
 	}
-	
-	//@Test(description="This test case will copy the informal Solicitation")
+
+	// @Test(description="This test case will copy the informal Solicitation")
 	public void CopySolicitationForInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -359,11 +364,9 @@ public class ReviewAwardTestCases {
 		createSol.clickSubmit();
 		Assert.assertEquals(createSol.verifySuccessMessage(), "This solicitation has been submitted");
 
-
-
 	}
-	
-	//@Test(description="This test case will copy the formal solicitation")
+
+	// @Test(description="This test case will copy the formal solicitation")
 	public void CopySolicitationForFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -379,9 +382,9 @@ public class ReviewAwardTestCases {
 		Assert.assertEquals(createSol.verifySuccessMessage(), "This solicitation has been submitted");
 
 	}
-	
+
 	@AfterMethod
 	public void setupAfterTest() {
-		//createSol.clickHomeButton();
+		// createSol.clickHomeButton();
 	}
 }

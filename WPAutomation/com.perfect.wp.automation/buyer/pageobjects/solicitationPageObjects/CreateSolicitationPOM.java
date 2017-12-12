@@ -1,5 +1,6 @@
 package pageobjects.solicitationPageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,10 @@ public class CreateSolicitationPOM {
 	AttachmentPage attach = new AttachmentPage();
 	QuestionnairePage ques = new QuestionnairePage();
 	HeaderPage header = new HeaderPage();
+	RequirementsPage req = new RequirementsPage();
+	ItemSpecPage item = new ItemSpecPage();
+
+
 
 
 	public CreateSolicitationPOM() {
@@ -48,6 +53,22 @@ public class CreateSolicitationPOM {
 	
 	@FindBy(xpath="//h4[contains(text(),'Info') and not(contains(text(),'Header'))]")
 	public WebElement pageSubmit;
+	
+	@FindBy(xpath= "//div[@class='alert alert-danger']")
+	public WebElement verifyGroupNameMessage;
+	
+	public boolean  verifyGroupNameNotEmpty() {
+		PCDriver.waitForElementToBeClickable(verifyGroupNameMessage);
+		System.out.println(verifyGroupNameMessage.getText());
+		if(verifyGroupNameMessage.getText().contains("The group name is required.")) {
+			PCDriver.switchToWindow("");
+			return true;
+		}else {
+			PCDriver.switchToWindow("");
+
+			return false;
+		}
+	}
 
 
 	public void clickHomeButton() {
@@ -86,8 +107,13 @@ public class CreateSolicitationPOM {
 	}
 
 	public void waitForDivToAppearInReqPage() {
-		RequirementsPage req = new RequirementsPage();
+		try {
 		req.waitForDivToAppear();
+		Thread.sleep(4000);
+		}
+		catch(Exception e) {
+			
+		}
 	}
 
 	public void EnterQuestionnaire() {
@@ -107,13 +133,11 @@ public class CreateSolicitationPOM {
 	}
 
 	public void createLineItem(int index, String strItem) {
-		ItemSpecPage item = new ItemSpecPage();
 		item.CreateNewItem(index, strItem);
 
 	}
 
 	public boolean AddLineItemsAndVerify(String quant,String strCategory) {
-		ItemSpecPage item = new ItemSpecPage();
 
 		item.enterQuantity(quant,strCategory);
 		return item.verifyItemSpec();
@@ -191,6 +215,7 @@ public class CreateSolicitationPOM {
 			btnSubmit.click();
 			PCDriver.getDriver().switchTo().alert().accept();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -229,4 +254,22 @@ public class CreateSolicitationPOM {
 		btnExit.click();
 	}
 
+	public void createNewGroup(String str) {
+		item.CreateGroup(str);
+		PCDriver.waitForPageLoad();
+	}
+	
+	public void switchOnAdjustmentHandler() {
+		PCDriver.waitForPageLoad();
+		item.clickOnAdjustmentHandler();
+	}
+	public void waitForItemSpecLibraryLinkToDisappear() {
+		PCDriver.switchToWindow("");
+		try {
+		PCDriver.waitForElementToDisappear(By.xpath("//a[text()='Item Spec Library']"));
+		}
+		catch(Exception e) {
+			System.out.println("Item Spec Library did not disapper");
+		}
+	}
 }

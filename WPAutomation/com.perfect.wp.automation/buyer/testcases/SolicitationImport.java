@@ -51,14 +51,14 @@ public class SolicitationImport {
 		sol.informalSolicationsMenu("Import");
 		solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
-	
+
 	@Test
 	public void DownloadSolicitationTemplate() throws AWTException {
 		home.selectTopNavDropDown("Solicitation");
-		//sol.informalSolicationsMenu("Import");
-		//solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
+		// sol.informalSolicationsMenu("Import");
+		// solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
-	
+
 	@AfterMethod
 	public void setupAfterTest() {
 		createSol.clickHomeButton();

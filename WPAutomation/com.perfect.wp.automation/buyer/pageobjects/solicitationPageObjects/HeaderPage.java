@@ -67,10 +67,16 @@ public class HeaderPage {
 	public WebElement collabEndDate;
 
 	@FindBy(xpath = "//button[text()='Add New Section']")
+	public WebElement btnAddNewSection;
+	
+	@FindBy(xpath = "//button[text()='Add Field']")
 	public WebElement btnAddField;
 
 	@FindBy(xpath = "//div[contains(@class,'fieldTitleDiv input-group')]")
 	public WebElement fieldTitle;
+	
+	@FindBy(xpath="//input[contains(@id,'sectionTitle')]")
+	public WebElement txtSectionTitle;
 
 	@FindBy(className = "input-group")
 	public WebElement drpDownfieldType;
@@ -113,7 +119,7 @@ public class HeaderPage {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		PCDriver.waitForElementToBeClickable(btnAddField);
+		PCDriver.waitForElementToBeClickable(btnAddNewSection);
 
 	}
 
@@ -136,7 +142,7 @@ public class HeaderPage {
 	}
 
 	public void setPartEndDate(String strDate) {
-		PCDriver.waitForElementToBeClickable(btnAddField);
+		PCDriver.waitForElementToBeClickable(btnAddNewSection);
 		chkBoxSubOrgInvite.click();
 		partEndDate.clear();
 		PCDriver.waitForElementToBeClickable(datePicker);
@@ -144,7 +150,7 @@ public class HeaderPage {
 	}
 
 	public void setCollabStartDate(String srtDate) {
-		PCDriver.waitForElementToBeClickable(btnAddField);
+		PCDriver.waitForElementToBeClickable(btnAddNewSection);
 		chkBoxColab.click();
 		collabStartDate.clear();
 		PCDriver.waitForElementToBeClickable(datePicker);
@@ -153,7 +159,7 @@ public class HeaderPage {
 	}
 
 	public void setCollabEndDate(String srtDate) {
-		PCDriver.waitForElementToBeClickable(btnAddField);
+		PCDriver.waitForElementToBeClickable(btnAddNewSection);
 		chkBoxColab.click();
 		collabEndDate.clear();
 		PCDriver.waitForElementToBeClickable(datePicker);
@@ -228,15 +234,26 @@ public class HeaderPage {
 	}
 
 	public void addField() {
-		for (int i = 2; i < 6; i++) {
-			PCDriver.waitForElementToBeClickable(btnAddField);
-			btnAddField.click();
+		PCDriver.waitForElementToBeClickable(btnAddNewSection);
+		btnAddNewSection.click();
+
+		PCDriver.waitForElementToBeClickable(txtSectionTitle);
+		txtSectionTitle.clear();
+		txtSectionTitle.sendKeys("testing");
+		for (int i = 1; i < 6; i++) {
+			
+			try {
+				
+				btnAddField.click();
+			}catch(Exception e) {
+				System.out.println("Section not present");
+			}
 			PCDriver.waitForElementToBeClickable(fieldTitle);
 
-			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_24')]")).sendKeys("" + i);
-			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_24')]")))
-					.selectByIndex(i - 1);
-			int x = i - 1;
+			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_1')]")).sendKeys("" + i);
+			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_1')]")))
+					.selectByIndex(i);
+			//int x = i - 1;
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -244,19 +261,22 @@ public class HeaderPage {
 				e.printStackTrace();
 			}
 			if (PCDriver.getDriver()
-					.findElements(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + x + "]"))
+					.findElements(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + i + "]"))
 					.size() != 0) {
 				// WebElement
 				// ele=PCDriver.getDriver().findElement(By.xpath("//iframe[@class='cke_wysiwyg_frame
 				// cke_reset']"));
 				PCDriver.switchToFrame(PCDriver.getDriver()
-						.findElement(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + x + "]")));
+						.findElement(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + i + "]")));
 
 				PCDriver.getDriver()
 						.findElement(By.xpath(
 								"//body[@class='cke_editable cke_editable_themed cke_contents_ltr cke_show_borders']"))
 						.sendKeys("abc");
 				PCDriver.getDriver().switchTo().defaultContent();
+			}
+			if(PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_"+i+"_VendorResponse_1']")).isEnabled()) {
+			PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_"+i+"_VendorResponse_1']")).click();
 			}
 		}
 	}

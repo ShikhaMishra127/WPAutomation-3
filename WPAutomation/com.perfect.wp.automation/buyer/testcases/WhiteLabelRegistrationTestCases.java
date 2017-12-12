@@ -14,6 +14,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import pageobjects.generic.LoginPage;
 import pageobjects.registration.WhiteLabelRegistrationPagePom;
 import pageobjects.utils.ExtentReport;
+import pageobjects.utils.PCDriver;
 
 @Listeners(ExtentReport.class)
 
@@ -65,8 +66,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	//@Test(description = "This test case checks the Duplicate Fein", dependsOnMethods = {
-		//	"RegistrationWithFeinForMissouri" })
+	 @Test(description = "This test case checks the Duplicate Fein", dependsOnMethods = { "RegistrationWithFeinForMissouri" })
 	public void DuplicateFeinCheck() throws IOException, InterruptedException {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -85,7 +85,7 @@ public class WhiteLabelRegistrationTestCases {
 		}
 	}
 
-	//@Test(description = "This test case will register using Ssn for Missouri")
+	 @Test(description = "This test case will register using Ssn for Missouri")
 	public void RegistrationWithSsnForMissouri() throws Exception {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -114,8 +114,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	//@Test(description = "This test case check Duplicate Ssn for Missouri", dependsOnMethods = {
-		//	"RegistrationWithSsnForMissouri" })
+	 @Test(description = "This test case check Duplicate Ssn for Missouri", dependsOnMethods = {"RegistrationWithSsnForMissouri" })
 	public void DuplicateSsnCheck() throws Exception {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -132,7 +131,7 @@ public class WhiteLabelRegistrationTestCases {
 		}
 	}
 
-	//@Test(description = "This test case will register using Fein for Idaho")
+	 @Test(description = "This test case will register using Fein for Idaho")
 	public void RegistrationWithFeinForIdaho() throws Exception {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Idaho");
@@ -160,7 +159,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	//@Test(description = "This test case will register using Ssn for Idaho")
+	 @Test(description = "This test case will register using Ssn for Idaho")
 	public void RegistrationWithSsnForIdaho() throws Exception {
 		try {
 			whiteLabelregister.clickRegistrationCheckBox("Idaho");
@@ -188,7 +187,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	// @Test(dependsOnMethods="RegistrationWithFeinForIdaho")
+	 @Test(dependsOnMethods="RegistrationWithFeinForIdaho")
 	public void DuplicateSSnCheckForIdaho() throws Exception {
 		whiteLabelregister.clickRegistrationCheckBox("Idaho");
 		whiteLabelregister.AcceptTermsAndConditions();
@@ -196,13 +195,12 @@ public class WhiteLabelRegistrationTestCases {
 		whiteLabelregister.clickNext();
 
 	}
-	
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
-		//PCDriver.getDriver().quit();
+		 PCDriver.getDriver().quit();
 	}
 }
