@@ -63,7 +63,7 @@ public class CurrentSolicitationsPage {
 	@FindBy(xpath = "//button[contains(text(),'Accept')]")
 	public WebElement btnAccept;
 
-	@FindBy(xpath = "(//ul[@class='pagination'])[1]//a")
+	@FindBy(xpath = "//li[contains(@class,'paginate_button')][@tabindex='0']//a")
 	public List<WebElement> lnkNext;
 
 	@FindBy(xpath = "//input[@class='form-control'][not(contains(@type,'hidden'))][not(contains(@title,'Date'))]")
@@ -80,6 +80,9 @@ public class CurrentSolicitationsPage {
 
 	@FindBy(xpath = "//button[contains(text(),'Save')]")
 	public WebElement btnSaveReview;
+	
+	@FindBy(xpath="//button[(text()='Save')]")
+	public WebElement btnSave;
 	
 	@FindBy(xpath="//div[contains(@class,'panel-title')]")
 	public WebElement lblVerifySubmission;
@@ -165,7 +168,7 @@ public class CurrentSolicitationsPage {
 				btnAccept.click();
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("Check All link is not present");
 			} finally {
 				PCDriver.waitForPageLoad();
 				PCDriver.waitForElementToDisappear(By.xpath("//div[@class='blockUI blockOverlay']"));
@@ -212,31 +215,46 @@ public class CurrentSolicitationsPage {
 	public void EnterResponseDetails() {
 		try {
 			clickTopNavItem("Respond");
+			System.out.println("Size is:"+lnkNext.size());
 			for (int i = 0; i < lnkNext.size(); i++) {
+				PCDriver.waitForElementToBeClickable(lnkNext.get(i));
+				lnkNext.get(i).click();
+
 				PCDriver.waitForPageLoad();
 				PCDriver.waitForElementToBeClickable(lstItems.get(0));
-				for (int z = 0; z < lstItems.size(); z++) {
+				System.out.println("items size is:"+lstItems.size());
+				for (int z = 0; z < lstItems.size()-1; z++) {
 					try {
 						lstItems.get(z).clear();
 						lstItems.get(z).sendKeys("10");
 					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 				DeliveryDate.click();
 				PCDriver.waitForElementToBeClickable(selectDate);
 				selectDate.click();
+				try {
 				for (int j = 0; j < lstCustomQuestions.size(); j++) {
 					lstCustomQuestions.get(j).clear();
 					lstCustomQuestions.get(j).sendKeys("abc");
 				}
+				}catch(Exception e) {
+					e.printStackTrace();
+
+					System.out.println("Questions are not available on page");
+				}
 
 				try {
 					PCDriver.waitForElementToBeClickable(btnSaveReview);
-					btnSaveReview.click();
-					lnkNext.get(lnkNext.size() - i - 1).click();
+					btnSave.click();
+					//PCDriver.waitForElementToDisappear(By.xpath("//button[(text()='Save')]"));
+					//lnkNext.get(lnkNext.size() - i - 1).click();
 
-					PCDriver.acceptAlert();
+					//PCDriver.acceptAlert();
 				} catch (Exception e) {
+					e.printStackTrace();
+
 					System.out.println("No Alert Present");
 				}
 

@@ -46,7 +46,7 @@ public class SolicitationResponse {
 			ExtentReport.logger.log(LogStatus.PASS, "Password Entered");
 			login.clickOnLogin();
 			ExtentReport.logger.log(LogStatus.PASS, "Login Button Clicked");
-			home.clickIgnoreOnPopUp();
+			//home.clickIgnoreOnPopUp();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,11 +54,11 @@ public class SolicitationResponse {
 		}
 	}
 
-	 @Test(description = "This test case will create the response for No Line Item Formal Solicitation")
+	 @Test(description = "This test case will create the response for No Line Item Formal Solicitation",enabled=false)
 	public void createResponseForFormalSolicitationForNoLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Formal");
 		currentSol.clickOtherActiveSolicitations();
-		edit.setSolNumber("RFPC18001228");
+		edit.setSolNumber("CPPT18001342");
 		sol.clickSubmit();
 		edit.clickOnThreeDots();
 		review.ThreeDotsMenu("editResp");
@@ -72,12 +72,13 @@ public class SolicitationResponse {
 		currentSol.clickAddAttachment();
 		attach.uploadNewDocument();
 		review.clickDone();
-		review.clickSubmit();
+		sol.clickSubmit();
+		sol.clickSubmit();
 		Assert.assertTrue(currentSol.verifySubmission());
 
 	}
 
-	 @Test(description = "This test case will create the response for No Line Item InFormal Solicitation")
+	 @Test(description = "This test case will create the response for No Line Item InFormal Solicitation",enabled=false)
 	public void createResponseForInformalSolicitationForNoLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Informal");
 		currentSol.clickOtherActiveSolicitations();
@@ -96,11 +97,12 @@ public class SolicitationResponse {
 		attach.uploadNewDocument();
 		review.clickDone();
 		review.clickSubmit();
+		sol.clickSubmit();
 		Assert.assertTrue(currentSol.verifySubmission());
 
 	}
 
-	@Test(description = "This test case will create the response for Informal Solicitation")
+	@Test(description = "This test case will create the response for Informal Solicitation",enabled=false)
 	public void createResponseForInformalSolicitationForLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Informal");
 		currentSol.clickOtherActiveSolicitations();
@@ -121,11 +123,11 @@ public class SolicitationResponse {
 
 	}
 
-	 @Test(description = "This test case will create the response for Formal Solicitation")
+	 @Test(description = "This test case will create the response for Formal Solicitation",enabled=false)
 	public void createResponseForFormalSolicitationForLineItem() throws AWTException {
 		vendorhome.clickOnSolicitation("Formal");
 		currentSol.clickOtherActiveSolicitations();
-		edit.setSolNumber("RFP18001209");
+		edit.setSolNumber("CPPC18001350");
 		sol.clickSubmit();
 		edit.clickOnThreeDots();
 		review.ThreeDotsMenu("editResp");
@@ -141,8 +143,8 @@ public class SolicitationResponse {
 		Assert.assertTrue(currentSol.verifySubmission());
 	}
 
-	 @Test(description = "This test case will cancel or retract the response")
-	public void retractResponseForInformalSolicitation() {
+	 @Test(description = "This test case will cancel or retract the response",enabled=false)
+	public void retractResponseForInformalSolicitationForNoLineItem() {
 		vendorhome.clickOnSolicitation("Informal");
 		edit.setSolNumber("RFPC18001216");
 		sol.clickSubmit();
@@ -150,16 +152,36 @@ public class SolicitationResponse {
 		review.ThreeDotsMenu("deleteNLIResp");
 		Assert.assertTrue(currentSol.verifyRetractResponse());
 	}
+	 
+	 @Test(description = "This test case will cancel or retract the response",enabled=false)
+		public void retractResponseForInformalSolicitationForLineItem() {
+			vendorhome.clickOnSolicitation("Informal");
+			edit.setSolNumber("RFPC18001216");
+			sol.clickSubmit();
+			edit.clickOnThreeDots();
+			review.ThreeDotsMenu("deleteResp");
+			Assert.assertTrue(currentSol.verifyRetractResponse());
+		}
 
-	 @Test(description = "This test case will cancel or retract the response")
-	public void retractResponseForFormalSolicitation() {
+	 @Test(description = "This test case will cancel or retract the response",enabled=false)
+	public void retractResponseForFormalSolicitationForNoLineItem() {
 		vendorhome.clickOnSolicitation("Formal");
-		edit.setSolNumber("RFPC18001216");
+		edit.setSolNumber("CPPC18001348");
 		sol.clickSubmit();
 		edit.clickOnThreeDots();
 		review.ThreeDotsMenu("deleteNLIResp");
 		Assert.assertTrue(currentSol.verifyRetractResponse());
 	}
+	 
+	 @Test(description = "This test case will cancel or retract the response",enabled=true)
+		public void retractResponseForFormalSolicitationForLineItem() {
+			vendorhome.clickOnSolicitation("Formal");
+			edit.setSolNumber("CPPC18001350");
+			sol.clickSubmit();
+			edit.clickOnThreeDots();
+			review.ThreeDotsMenu("deleteResp");
+			Assert.assertTrue(currentSol.verifyRetractResponse());
+		}
 
 	@AfterMethod
 	public void tearDownAfterTest() {

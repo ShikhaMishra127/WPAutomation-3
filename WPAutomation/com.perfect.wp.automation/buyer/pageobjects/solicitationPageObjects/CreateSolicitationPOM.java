@@ -35,8 +35,7 @@ public class CreateSolicitationPOM {
 	@FindBy(xpath = "//button[contains(text(),'Submit')]")
 	public WebElement btnSubmit;
 
-	
-	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
+	@FindBy(xpath = "//i[@class='fa fa-home fa-lg']")
 	public WebElement btnHome;
 
 	@FindBy(xpath = "//div[@class='alert alert-info']")
@@ -44,6 +43,8 @@ public class CreateSolicitationPOM {
 	
 	@FindBy(xpath="//button[text()='Exit']")
 	public WebElement btnExit;
+	
+	
 	
 	@FindBy(xpath="//section[@id='page-title']/h3")
 	public WebElement verifyPage;
@@ -156,10 +157,10 @@ public class CreateSolicitationPOM {
 			supplier.setStateIncorporated("Alaska");
 			supplier.setFirstName("qwe");
 			supplier.setLasttName("tyu");
-			supplier.setCompanyPhoneNumber("848392925764");
+			supplier.setCompanyPhoneNumber("8483929257");
 			supplier.setEmailAddress("abc@gmail.com");
 			supplier.setConfirmEmailAddress("abc@gmail.com");
-			supplier.setCompanyFaxNumber("848383948382");
+			supplier.setCompanyFaxNumber("8483839483");
 			supplier.setCountry("United States");
 			supplier.setAddress("abcdlf");
 			supplier.setCity("Alaska");
@@ -215,7 +216,7 @@ public class CreateSolicitationPOM {
 			btnSubmit.click();
 			PCDriver.getDriver().switchTo().alert().accept();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Submit button or alert not present");
 		}
 	}
 

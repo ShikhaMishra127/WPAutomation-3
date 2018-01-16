@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import pageobjects.utils.PCDriver;
@@ -236,8 +237,9 @@ public class SupplierPage {
 
 	public void setEnterpriceType(String strEnterPriceType) {
 		PCDriver.waitForElementToBeClickable(drpDownEnterprise);
-		drpDownEnterprise.click();
-		drpDownEnterprise.findElement(By.xpath(".//option[contains(text(),'" + strEnterPriceType + "')]")).click();
+		//drpDownEnterprise.click();
+		//drpDownEnterprise.findElement(By.xpath(".//option[contains(text(),'" + strEnterPriceType + "')]")).click();
+		new Select(drpDownEnterprise).selectByIndex(2);
 	}
 
 	public void setDoingBusinessAs(String strDoingBusinessAs) {
@@ -264,9 +266,9 @@ public class SupplierPage {
 	}
 
 	public void setCompanyPhoneNumber(String strCompanyNumber) {
-		txtPhoneAreaCode.sendKeys(strCompanyNumber.substring(0, 4));
-		txtPhoneExchange.sendKeys(strCompanyNumber.substring(4, 7));
-		txtPhoneNumber.sendKeys(strCompanyNumber.substring(7, strCompanyNumber.length()));
+		txtPhoneAreaCode.sendKeys(strCompanyNumber);
+		//txtPhoneExchange.sendKeys(strCompanyNumber.substring(4, 7));
+		//txtPhoneNumber.sendKeys(strCompanyNumber.substring(7, strCompanyNumber.length()));
 
 	}
 
@@ -284,15 +286,15 @@ public class SupplierPage {
 	}
 
 	public void setCompanyFaxNumber(String strCompanyFaxNumber) {
-		txtFaxAreaCode.sendKeys(strCompanyFaxNumber.substring(0, 4));
-		txtFaxExchange.sendKeys(strCompanyFaxNumber.substring(4, 7));
-		txtFaxNumber.sendKeys(strCompanyFaxNumber.substring(7, strCompanyFaxNumber.length()));
+		txtFaxAreaCode.sendKeys(strCompanyFaxNumber);
+		//txtFaxExchange.sendKeys(strCompanyFaxNumber.substring(4, 7));
+		//txtFaxNumber.sendKeys(strCompanyFaxNumber.substring(7, strCompanyFaxNumber.length()));
 	}
 
 	public void setCountry(String strCountry) {
-		drpDownCountry.click();
-		drpDownCountry.findElement(By.xpath(".//option[contains(text(),'" + strCountry + "')]")).click();
-
+		//drpDownCountry.click();
+		//drpDownCountry.findElement(By.xpath(".//option[contains(text(),'" + strCountry + "')]")).click();
+		new Select(drpDownCountry).selectByVisibleText("United States");
 	}
 
 	public void setAddress(String strAddress) {
@@ -311,9 +313,9 @@ public class SupplierPage {
 	}
 
 	public void setState(String strState) {
-		drpDownStateSupplier.click();
-		drpDownStateSupplier.findElement(By.xpath(".//option[contains(text(),'" + strState + "')]"));
-
+		//drpDownStateSupplier.click();
+		//drpDownStateSupplier.findElement(By.xpath(".//option[contains(text(),'" + strState + "')]"));
+		new Select(drpDownStateSupplier).selectByVisibleText("Alaska");
 	}
 
 	public void setOtherRegion(String strRegion) {

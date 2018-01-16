@@ -38,10 +38,10 @@ public class ReviewAwardPage {
 	@FindBy(xpath = "//button[text()='Continue']")
 	public WebElement btnContinue;
 
-	@FindBy(id = "sname")
+	@FindBy(xpath = "//input[contains(@id,'sname')]")
 	public WebElement txtSName;
 
-	@FindBy(xpath = "//button[text()='Search']")
+	@FindBy(xpath = "//button[contains(text(),'Search')]")
 	public WebElement btnSearch;
 
 	@FindBy(xpath = "//input[@name='vendorid']")

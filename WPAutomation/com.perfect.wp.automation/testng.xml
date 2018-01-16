@@ -5,6 +5,7 @@
     <classes>
       
       <class name="testcases.CreateSolicitation"/>
+      <class name="testcases.Contract"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

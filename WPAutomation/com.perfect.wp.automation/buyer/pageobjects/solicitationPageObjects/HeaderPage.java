@@ -218,7 +218,12 @@ public class HeaderPage {
 	}
 
 	public void clickAndSelectCategory(String CategoryName) throws InterruptedException {
+		try {
 		btnCat.click();
+		}
+		catch(Exception e) {
+			System.out.println("Category Button not present");
+		}
 		PCDriver.waitForElementToBeClickable(chkBoxCategory);
 		if (chkBoxCategory.isDisplayed()) {
 			PCDriver.waitForElementToBeEnable(By.xpath("//li//span[contains(text(),'" + CategoryName

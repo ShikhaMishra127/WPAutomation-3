@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import pageobjects.utils.PCDriver;
 
 public class AttachmentPage {
-	@FindBy(xpath = "//button[text()='Upload Documents from Library']")
+	@FindBy(xpath = "//button[text()='Upload Documents from Library'] | //button[text()='Upload Documents From Library']")
 	public WebElement btnUploadDocFromLibrary;
 
 	@FindBy(xpath = "//button[text()='Add new document']")
