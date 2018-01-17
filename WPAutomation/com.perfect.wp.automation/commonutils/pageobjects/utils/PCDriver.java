@@ -261,6 +261,11 @@ public static void selectFromDropDownByVisibleText(WebElement ele,String value) 
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
 	}
+	
+	public static void switchToFrameBasedOnFrameName(String frameName){
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
+	}
 
 	public static void waitForElementToBeEnable(By by) {
 
