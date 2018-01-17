@@ -9,6 +9,13 @@ import org.testng.asserts.SoftAssert;
 import pageobjects.utils.PCDriver;
 
 public class HomePage {
+	
+	@FindBy(xpath="//a[@id='orgMenu']")
+	public WebElement borgdropdown;
+	
+	@FindBy(xpath="//*[contains(@href,'/switchorg.do?oid=114428')]")
+	public WebElement selectedsuborg;
+	
 	solicitationNavigation nav=new solicitationNavigation();
 
 	public HomePage() {
@@ -33,6 +40,12 @@ public class HomePage {
 	public void clickGotIt() {
 		PCDriver.waitForElementToBeClickable(btnGotIt);
 		btnGotIt.click();
+	}
+	
+	public void movetoSubOrg(){
+		PCDriver.waitForElementToBeClickable(borgdropdown);
+		borgdropdown.click();
+		selectedsuborg.click();
 	}
 
 	public void clickInformalSolicitationEdit() {
