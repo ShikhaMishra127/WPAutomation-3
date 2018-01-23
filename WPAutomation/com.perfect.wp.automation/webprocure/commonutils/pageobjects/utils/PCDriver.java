@@ -5,6 +5,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 //import org.openqa.selenium.phantomjs.PhantomJSDriver;
 //import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
@@ -53,7 +56,7 @@ public class PCDriver implements WebDriver {
 			DesiredCapabilities cap = new DesiredCapabilities();
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 			System.setProperty("webdriver.gecko.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
 			driver = new FirefoxDriver(cap);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			// log.info("Browser Invoked");
@@ -110,30 +113,28 @@ public class PCDriver implements WebDriver {
 			 * "MicrosoftWebDriver.exe"); driver = new EdgeDriver(options);
 			 */
 
-			/*
-			 * case "phantomjs": DesiredCapabilities capPhantom =
-			 * DesiredCapabilities.phantomjs(); ArrayList<String> cliArgsCap = new
-			 * ArrayList<String>(); cliArgsCap.add("--web-security=false");
-			 * cliArgsCap.add("--ssl-protocol=any");
-			 * cliArgsCap.add("--ignore-ssl-errors=true");
-			 * cliArgsCap.add("--webdriver-loglevel=NONE");
-			 * cliArgsCap.add("--load-images=true"); //
-			 * capPhantom.setBrowserName("PhantomJs");
-			 * capPhantom.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			 * capPhantom.setCapability("trustAllSSLCertificates", true);
-			 * 
-			 * capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
-			 * cliArgsCap);
-			 * 
-			 * capPhantom.setJavascriptEnabled(true);
-			 * capPhantom.setCapability("takesScreenshot", true);
-			 * capPhantom.setCapability(PhantomJSDriverService.
-			 * PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-			 * ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
-			 * driver = new PhantomJSDriver(capPhantom);
-			 * driver.manage().window().maximize();
-			 * driver.get(ReadConfig.getInstance().getApplicationUrl());
-			 */
+			
+			  case "phantomjs": 
+				 DesiredCapabilities capPhantom =DesiredCapabilities.phantomjs(); 
+				 ArrayList<String> cliArgsCap = new ArrayList<String>(); 
+				 cliArgsCap.add("--web-security=false");
+			  cliArgsCap.add("--ssl-protocol=any");
+			  cliArgsCap.add("--ignore-ssl-errors=true");
+			  cliArgsCap.add("--webdriver-loglevel=NONE");
+			  cliArgsCap.add("--load-images=true"); //
+			  capPhantom.setBrowserName("PhantomJs");
+			  capPhantom.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+			  capPhantom.setCapability("trustAllSSLCertificates", true);
+			  
+			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
+			 
+			  capPhantom.setJavascriptEnabled(true);
+			  capPhantom.setCapability("takesScreenshot", true);
+			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
+			  driver = new PhantomJSDriver(capPhantom);
+			  driver.manage().window().maximize();
+			  driver.get(ReadConfig.getInstance().getApplicationUrl());
+			 
 		}
 
 		return driver;

@@ -16,7 +16,7 @@ public class ReadConfig {
 
 	public static synchronized ReadConfig getInstance() {
 		try {
-			File file = new File(System.getProperty("user.dir") + "/Resources/Data/qa.properties");
+			File file = new File(System.getProperty("user.dir") + "//Resources//Data//qa.properties");
 			FileInputStream fileInput = new FileInputStream(file);
 			properties.load(fileInput);
 			fileInput.close();
