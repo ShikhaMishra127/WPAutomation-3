@@ -131,6 +131,7 @@ public class PCDriver implements WebDriver {
 
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
 			 	capPhantom.setPlatform(Platform.LINUX);
+			  capPhantom.setCapability("proxy", "10.5.1.175:1024");
 
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
