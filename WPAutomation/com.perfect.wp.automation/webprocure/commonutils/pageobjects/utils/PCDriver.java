@@ -130,7 +130,7 @@ public class PCDriver implements WebDriver {
 			 
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
-			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
+			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
 			  driver.manage().window().maximize();
 			  driver.get(ReadConfig.getInstance().getApplicationUrl());
