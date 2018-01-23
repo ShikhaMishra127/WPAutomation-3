@@ -124,7 +124,7 @@ public class PCDriver implements WebDriver {
 			  cliArgsCap.add("--load-images=true"); //
 			  capPhantom.setBrowserName("PhantomJs");
 			  capPhantom.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			  capPhantom.setCapability("trustAllSSLCertificates", true);
+			 // capPhantom.setCapability("trustAllSSLCertificates", true);
 			  
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
 			 	capPhantom.setPlatform(Platform.LINUX);
