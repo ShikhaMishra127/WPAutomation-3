@@ -127,11 +127,13 @@ public class PCDriver implements WebDriver {
 			  capPhantom.setCapability("trustAllSSLCertificates", true);
 			  
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
-			 
+			 	capPhantom.setPlatform(Platform.LINUX);
+
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
+			  System.out.println("Driver value is : "+driver);
 			  driver.manage().window().maximize();
 			  driver.get(ReadConfig.getInstance().getApplicationUrl());
 			 
