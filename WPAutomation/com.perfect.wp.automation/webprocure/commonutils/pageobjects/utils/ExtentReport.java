@@ -21,7 +21,7 @@ public class ExtentReport implements ITestListener {
 	public static ExtentTest logger;
 
 	public ExtentReport() {
-		report = new ExtentReports("D://WebProcureAutomation.html", true);
+		report = new ExtentReports(ReadConfig.getInstance().getAutomationReportPath(), true);
 		report.loadConfig(new File(System.getProperty("user.dir") + "//ExtentReport.xml"));
 
 	}

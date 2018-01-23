@@ -76,4 +76,8 @@ public class ReadConfig {
 	public String getWhiteLabelUrl() {
 		return properties.getProperty("whiteLabelUrl");
 	}
+	
+	public String getAutomationReportPath() {
+		return properties.getProperty("report_path");
+	}
 }
