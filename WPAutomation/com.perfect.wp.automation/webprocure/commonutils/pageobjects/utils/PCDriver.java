@@ -115,18 +115,18 @@ public class PCDriver implements WebDriver {
 
 			
 			  case "phantomjs": 
-				 DesiredCapabilities capPhantom =DesiredCapabilities.phantomjs(); 
-				 ArrayList<String> cliArgsCap = new ArrayList<String>(); 
-				 cliArgsCap.add("--web-security=false");
-			  cliArgsCap.add("--ssl-protocol=any");
-			  cliArgsCap.add("--ignore-ssl-errors=true");
-			  cliArgsCap.add("--webdriver-loglevel=NONE");
-			  cliArgsCap.add("--load-images=true"); //
+				 DesiredCapabilities capPhantom =new DesiredCapabilities(); 
+				// ArrayList<String> cliArgsCap = new ArrayList<String>(); 
+				 //cliArgsCap.add("--web-security=false");
+			  //cliArgsCap.add("--ssl-protocol=any");
+			  //cliArgsCap.add("--ignore-ssl-errors=true");
+			  //cliArgsCap.add("--webdriver-loglevel=NONE");
+			  //cliArgsCap.add("--load-images=true"); //
 			  capPhantom.setBrowserName("PhantomJs");
 			  capPhantom.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 			 // capPhantom.setCapability("trustAllSSLCertificates", true);
 			  
-			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
+			  //capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
 			 	capPhantom.setPlatform(Platform.LINUX);
 
 			  capPhantom.setJavascriptEnabled(true);
