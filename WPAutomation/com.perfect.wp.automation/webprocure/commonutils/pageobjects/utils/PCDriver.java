@@ -207,7 +207,7 @@ public class PCDriver implements WebDriver {
 		wait.until(ExpectedConditions.visibilityOfAllElements(ele));
 	}
 
-	public static void WaitTillElementIsPresent(WebElement ele) {
+	public static void WaitTillElementIsPresent(final WebElement ele) {
 
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(30, TimeUnit.SECONDS)
 				.pollingEvery(5, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
