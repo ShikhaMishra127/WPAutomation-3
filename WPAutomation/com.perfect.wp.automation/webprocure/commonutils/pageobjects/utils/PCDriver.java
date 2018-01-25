@@ -58,6 +58,8 @@ public class PCDriver implements WebDriver {
 		switch (browser) {
 
 		case "firefox":
+				System.setProperty("webdriver.gecko.driver",
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
 				System.out.println("User Directory is: "+System.getProperty("user.dir"));
 			File pathBinary = new File("//home//chiefs//firefox//firefox");
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
@@ -67,8 +69,7 @@ public class PCDriver implements WebDriver {
 			FirefoxOptions options = new FirefoxOptions();
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			System.setProperty("webdriver.gecko.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
+			
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			// log.info("Browser Invoked");
