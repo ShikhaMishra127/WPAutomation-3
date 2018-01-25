@@ -130,7 +130,7 @@ public class PCDriver implements WebDriver {
 				 DesiredCapabilities capPhantom =new DesiredCapabilities(); 
 				 ArrayList<String> cliArgsCap = new ArrayList<String>(); 
 				 cliArgsCap.add("--web-security=false");
-				 cliArgsCap.add("--proxy=10.5.1.175:1024");
+				// cliArgsCap.add("--proxy=10.5.1.175:1024");
 
 			  cliArgsCap.add("--ssl-protocol=any");
 			  cliArgsCap.add("--ignore-ssl-errors=true");
@@ -143,15 +143,15 @@ public class PCDriver implements WebDriver {
 
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
 			 	capPhantom.setPlatform(Platform.LINUX);
-			  capPhantom.setCapability("proxy", "10.5.1.175:1024");
+			  //capPhantom.setCapability("proxy", "10.5.1.175:1024");
 
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
 			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
-  driver.manage().timeouts()
-		        .pageLoadTimeout(60, TimeUnit.SECONDS)
-		        .implicitlyWait(60, TimeUnit.SECONDS);
+ 			// driver.manage().timeouts()
+		        //.pageLoadTimeout(60, TimeUnit.SECONDS)
+		        //.implicitlyWait(60, TimeUnit.SECONDS);
 				driver.manage().window().maximize();
 			  driver.get(ReadConfig.getInstance().getApplicationUrl());
 			 
