@@ -58,6 +58,7 @@ public class PCDriver implements WebDriver {
 		switch (browser) {
 
 		case "firefox":
+				System.out.println("User Directory is: "+System.getProperty("user.dir"));
 			File pathBinary = new File("//home//chiefs//firefox//firefox");
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
