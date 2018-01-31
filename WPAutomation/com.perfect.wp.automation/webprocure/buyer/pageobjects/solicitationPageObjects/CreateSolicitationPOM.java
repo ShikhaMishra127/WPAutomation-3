@@ -213,20 +213,23 @@ public class CreateSolicitationPOM {
 		try {
 			//Thread.sleep(10000);
 			PCDriver.waitForPageLoad();
-			WebElement ele=PCDriver.getDriver().findElement(By.cssSelector("button.btn:nth-child(4)"));
+			//WebElement ele=PCDriver.getDriver().findElement(By.cssSelector("button.btn:nth-child(4)"));
 			
 			PCDriver.waitForElementToBeClickable(btnSubmit);
 			/*Actions builder = new Actions(PCDriver.getDriver());
 	        builder.moveToElement(ele).click(ele);
 	        builder.perform();
 	        */
+			((JavascriptExecutor) driver).executeScript("window.confirm = function(msg) { return true; }");
+
 			btnSubmit.click();
 			System.out.println("Submit button is clicked");
 		} catch (Exception e) {
 			System.out.println("Submit button not clicked");
 		}
 		try {
-			PCDriver.getDriver().switchTo().alert().accept();
+			//PCDriver.getDriver().switchTo().alert().accept();
+			
 		//	((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(){return true;}");
 		} catch (Exception e) {
 			System.out.println("Alert not present");
