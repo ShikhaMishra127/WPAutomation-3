@@ -25,7 +25,6 @@
 					<version>2.19.1</version>
 					<configuration>
 					<forkMode>never</forkMode>
-				        <testFailureIgnore>true</testFailureIgnore>
 
 						<useSystemClassLoader>false</useSystemClassLoader>
 
