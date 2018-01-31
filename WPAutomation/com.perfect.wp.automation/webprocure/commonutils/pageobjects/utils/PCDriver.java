@@ -62,7 +62,7 @@ public class PCDriver implements WebDriver {
 				System.setProperty("webdriver.gecko.driver",
 					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
 				System.out.println("User Directory is: "+System.getProperty("user.dir"));
-			File pathBinary = new File("/opt/Automation/firefox1/firefox/firefox");
+			File pathBinary = new File("/opt/Automation/firefox/firefox");
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
