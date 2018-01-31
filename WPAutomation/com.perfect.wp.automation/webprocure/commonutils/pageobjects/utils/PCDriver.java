@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.io.File;
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -27,6 +29,9 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 //import org.openqa.selenium.phantomjs.PhantomJSDriver;
 //import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
@@ -53,11 +58,19 @@ public class PCDriver implements WebDriver {
 		switch (browser) {
 
 		case "firefox":
+				System.setProperty("webdriver.gecko.driver",
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
+				System.out.println("User Directory is: "+System.getProperty("user.dir"));
+			File pathBinary = new File("//home//chiefs//firefox//firefox");
+			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
+			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
+
+			FirefoxOptions options = new FirefoxOptions();
+			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			System.setProperty("webdriver.gecko.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
-			driver = new FirefoxDriver(cap);
+			
+			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			// log.info("Browser Invoked");
 			break;
@@ -115,24 +128,32 @@ public class PCDriver implements WebDriver {
 
 			
 			  case "phantomjs": 
-				 DesiredCapabilities capPhantom =DesiredCapabilities.phantomjs(); 
+				 DesiredCapabilities capPhantom =new DesiredCapabilities(); 
 				 ArrayList<String> cliArgsCap = new ArrayList<String>(); 
 				 cliArgsCap.add("--web-security=false");
+				// cliArgsCap.add("--proxy=10.5.1.175:1024");
+
 			  cliArgsCap.add("--ssl-protocol=any");
 			  cliArgsCap.add("--ignore-ssl-errors=true");
 			  cliArgsCap.add("--webdriver-loglevel=NONE");
 			  cliArgsCap.add("--load-images=true"); //
 			  capPhantom.setBrowserName("PhantomJs");
 			  capPhantom.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			  capPhantom.setCapability("trustAllSSLCertificates", true);
-			  
+			 // capPhantom.setCapability("trustAllSSLCertificates", true);
+			  			  capPhantom.setCapability("screen-resolution", "1280x1024");
+
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
-			 
+			 	capPhantom.setPlatform(Platform.LINUX);
+			  //capPhantom.setCapability("proxy", "10.5.1.175:1024");
+
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
-			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
+			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
-			  driver.manage().window().maximize();
+ 			// driver.manage().timeouts()
+		        //.pageLoadTimeout(60, TimeUnit.SECONDS)
+		        //.implicitlyWait(60, TimeUnit.SECONDS);
+				driver.manage().window().maximize();
 			  driver.get(ReadConfig.getInstance().getApplicationUrl());
 			 
 		}
@@ -188,7 +209,7 @@ public class PCDriver implements WebDriver {
 		wait.until(ExpectedConditions.visibilityOfAllElements(ele));
 	}
 
-	public static void WaitTillElementIsPresent(WebElement ele) {
+	public static void WaitTillElementIsPresent(final WebElement ele) {
 
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(30, TimeUnit.SECONDS)
 				.pollingEvery(5, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
