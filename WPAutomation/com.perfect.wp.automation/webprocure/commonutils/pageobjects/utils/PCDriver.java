@@ -70,7 +70,7 @@ public class PCDriver implements WebDriver {
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 			System.setProperty("webdriver.gecko.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
 
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
