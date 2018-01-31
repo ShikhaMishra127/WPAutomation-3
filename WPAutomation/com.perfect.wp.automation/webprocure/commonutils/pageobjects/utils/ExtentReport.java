@@ -54,8 +54,8 @@ public class ExtentReport implements ITestListener {
 	@Override
 	public void onTestFailure(ITestResult result) {
 		try {
-		//	logger.log(LogStatus.FAIL,
-		//			logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+			logger.log(LogStatus.FAIL,
+					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,8 +65,8 @@ public class ExtentReport implements ITestListener {
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		try {
-		//	logger.log(LogStatus.FAIL,
-		//			logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+			logger.log(LogStatus.FAIL,
+					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
 
 		} catch (Exception e) {
 			e.printStackTrace();
