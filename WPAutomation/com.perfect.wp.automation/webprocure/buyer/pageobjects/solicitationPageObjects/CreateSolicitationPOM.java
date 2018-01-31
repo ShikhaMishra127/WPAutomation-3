@@ -3,6 +3,7 @@ package buyer.pageobjects.solicitationPageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -29,7 +30,7 @@ public class CreateSolicitationPOM {
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnCloseOnCategoryPopUp;
 
-	@FindBy(xpath = "//button[contains(text(),'Submit')]")
+	@FindBy(css = "button.btn:nth-child(4)")
 	public WebElement btnSubmit;
 
 	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
@@ -187,12 +188,18 @@ public class CreateSolicitationPOM {
 		PCDriver.waitForElementToBeClickable(btnNextStep);
 		btnNextStep.click();
 		String msg = null;
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			// msg=(String) ((JavascriptExecutor)PCDriver.getDriver()).executeScript("return
 			// window.alert.getText;");
-			msg = PCDriver.getDriver().switchTo().alert().getText();
-			PCDriver.getDriver().switchTo().alert().accept();
+			//msg = PCDriver.getDriver().switchTo().alert().getText();
+			//PCDriver.getDriver().switchTo().alert().accept();
 			// ((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm =
 			// function(){return true;}");
 
@@ -204,11 +211,25 @@ public class CreateSolicitationPOM {
 
 	public void clickSubmit() {
 		try {
+			//Thread.sleep(10000);
+			PCDriver.waitForPageLoad();
+			WebElement ele=PCDriver.getDriver().findElement(By.cssSelector("button.btn:nth-child(4)"));
+			
 			PCDriver.waitForElementToBeClickable(btnSubmit);
+			/*Actions builder = new Actions(PCDriver.getDriver());
+	        builder.moveToElement(ele).click(ele);
+	        builder.perform();
+	        */
 			btnSubmit.click();
-			PCDriver.getDriver().switchTo().alert().accept();
+			System.out.println("Submit button is clicked");
 		} catch (Exception e) {
-			System.out.println("Submit button or alert not present");
+			System.out.println("Submit button not clicked");
+		}
+		try {
+			PCDriver.getDriver().switchTo().alert().accept();
+		//	((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(){return true;}");
+		} catch (Exception e) {
+			System.out.println("Alert not present");
 		}
 	}
 
@@ -228,7 +249,10 @@ public class CreateSolicitationPOM {
 	}
 
 	public String verifySuccessMessage() {
+		PCDriver.waitForPageLoad();
 		PCDriver.waitForElementToBeClickable(pageSubmit);
+		PCDriver.waitForElementToBeClickable(txtSubmitMessage);
+		System.out.println(txtSubmitMessage.getText());
 		return txtSubmitMessage.getText();
 	}
 

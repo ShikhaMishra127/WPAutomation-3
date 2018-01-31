@@ -1,5 +1,7 @@
 package buyer.testcases.solicitation;
 
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -21,10 +23,12 @@ import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
+import commonutils.pageobjects.utils.log4jClass;
 
 @Listeners(ExtentReport.class)
 
 public class CreateSolicitation extends PCDriver {
+	//log4jClass log=new log4jClass();
 	LoginPage login = new LoginPage();
 	HomePage home = new HomePage();
 	CreateSolicitationPOM sol = new CreateSolicitationPOM();
@@ -35,6 +39,7 @@ public class CreateSolicitation extends PCDriver {
 	@BeforeClass
 	public void setup() {
 		try {
+			//log.info("Before Class entered");
 			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
 			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 			ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
@@ -196,8 +201,8 @@ public class CreateSolicitation extends PCDriver {
 	}
 
 	@Test(description = "This test case will create the NoLineType Solicitation", enabled = true)
-	public void formalSolicitationCreationWithNoLineItem() {
-		try {
+	public void formalSolicitationCreationWithNoLineItem() throws IOException, InterruptedException {
+		
 			solNav.formalSolicationsMenu("Create");
 			ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 					"QA Automation" + System.currentTimeMillis());
@@ -212,12 +217,9 @@ public class CreateSolicitation extends PCDriver {
 			sol.CreateSupplier();
 			sol.clickOnNextStep();
 			sol.clickSubmit();
-			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
+			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted to pre-issue workflow for approval.");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
+		
 	}
 
 	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = false)
@@ -426,7 +428,7 @@ public class CreateSolicitation extends PCDriver {
 
 	@AfterMethod
 	public void tearDownAfterTest() {
-		sol.clickHomeButton();
+		//sol.clickHomeButton();
 	}
 
 	@AfterClass
@@ -434,7 +436,7 @@ public class CreateSolicitation extends PCDriver {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
-		PCDriver.getDriver().quit();
+		//PCDriver.getDriver().quit();
 
 	}
 }
