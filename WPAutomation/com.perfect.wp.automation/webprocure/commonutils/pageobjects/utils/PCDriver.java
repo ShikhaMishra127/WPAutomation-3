@@ -69,6 +69,8 @@ public class PCDriver implements WebDriver {
 			//options.setHeadless(true);
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+				 cap.setCapability("marionette", true);
+
 			System.setProperty("webdriver.gecko.driver",
 					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
 
