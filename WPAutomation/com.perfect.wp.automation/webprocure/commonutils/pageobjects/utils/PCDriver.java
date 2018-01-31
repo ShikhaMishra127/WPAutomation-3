@@ -65,11 +65,13 @@ public class PCDriver implements WebDriver {
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
-
 			FirefoxOptions options = new FirefoxOptions();
+			options.setHeadless(true);
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-			
+			System.setProperty("webdriver.gecko.driver",
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
+
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			// log.info("Browser Invoked");
