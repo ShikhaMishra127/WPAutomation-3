@@ -220,7 +220,7 @@ public class CreateSolicitationPOM {
 	        builder.moveToElement(ele).click(ele);
 	        builder.perform();
 	        */
-			((JavascriptExecutor) driver).executeScript("window.confirm = function(msg) { return true; }");
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg) { return true; }");
 
 			btnSubmit.click();
 			System.out.println("Submit button is clicked");
