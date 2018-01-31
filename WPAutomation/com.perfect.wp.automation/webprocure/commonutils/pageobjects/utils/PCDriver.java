@@ -66,6 +66,8 @@ public class PCDriver implements WebDriver {
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
 			FirefoxOptions options = new FirefoxOptions();
+				options.setLogLevel(FirefoxDriverLogLevel.TRACE);
+
 			//options.setHeadless(true);
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
