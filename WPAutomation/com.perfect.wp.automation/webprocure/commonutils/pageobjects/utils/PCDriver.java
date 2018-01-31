@@ -103,7 +103,7 @@ public class PCDriver implements WebDriver {
 			capChrome.setJavascriptEnabled(true);
 			capChrome.acceptInsecureCerts();
 			System.setProperty("webdriver.chrome.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver.exe");
+					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver");
 			driver = new ChromeDriver(capChrome);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			driver.manage().window().setSize(new Dimension(1440, 900));
