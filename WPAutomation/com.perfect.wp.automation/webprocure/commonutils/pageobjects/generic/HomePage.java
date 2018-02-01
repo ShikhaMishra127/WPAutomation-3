@@ -59,8 +59,8 @@ public class HomePage {
 
 	public void clickIgnoreOnPopUp() {
 		PCDriver.waitForPageLoad();
-		PCDriver.waitForElementToBeClickable(sessionModal);
 		try {
+					PCDriver.waitForElementToBeClickable(sessionModal);
 			PCDriver.waitForElementToBeClickable(btnIgnoreOnPopUp);
 			btnIgnoreOnPopUp.click();
 		} catch (Exception e) {

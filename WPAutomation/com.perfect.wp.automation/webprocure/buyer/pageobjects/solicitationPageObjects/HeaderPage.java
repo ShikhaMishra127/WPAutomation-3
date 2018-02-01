@@ -69,13 +69,13 @@ public class HeaderPage {
 	@FindBy(xpath = "//button[text()='Add New Section']")
 	public WebElement btnAddNewSection;
 
-	@FindBy(xpath = "//button[text()='Add Field']")
+	@FindBy(xpath = "//button[text()='Add Field'][@data-sectionindex='27']")
 	public WebElement btnAddField;
 
 	@FindBy(xpath = "//div[contains(@class,'fieldTitleDiv input-group')]")
 	public WebElement fieldTitle;
 
-	@FindBy(xpath = "//input[contains(@id,'sectionTitle')]")
+	@FindBy(xpath = "//input[contains(@id,'sectionTitle_27')]")
 	public WebElement txtSectionTitle;
 
 	@FindBy(className = "input-group")
@@ -253,8 +253,8 @@ public class HeaderPage {
 			}
 			PCDriver.waitForElementToBeClickable(fieldTitle);
 
-			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_1')]")).sendKeys("" + i);
-			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_1')]")))
+			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_27')]")).sendKeys("" + i);
+			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_27')]")))
 					.selectByIndex(i);
 			// int x = i - 1;
 			try {
@@ -278,9 +278,9 @@ public class HeaderPage {
 						.sendKeys("abc");
 				PCDriver.getDriver().switchTo().defaultContent();
 			}
-			if (PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']"))
+			if (PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_27']"))
 					.isEnabled()) {
-				PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']")).click();
+				PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_27']")).click();
 			}
 		}
 	}

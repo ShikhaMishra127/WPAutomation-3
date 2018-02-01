@@ -32,7 +32,7 @@ public class ExtentReport implements ITestListener {
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src
 		// folder
-		String destination = System.getProperty("user.dir") + "/FailedTestsScreenshots/" + screenshotName + dateName
+		String destination =   "/tmp/FailedTestsScreenshots/" + screenshotName + dateName
 				+ ".png";
 		File finalDestination = new File(destination);
 		Files.copy(source, finalDestination);
@@ -54,8 +54,8 @@ public class ExtentReport implements ITestListener {
 	@Override
 	public void onTestFailure(ITestResult result) {
 		try {
-		//	logger.log(LogStatus.FAIL,
-		//			logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+			logger.log(LogStatus.FAIL,
+					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,8 +65,8 @@ public class ExtentReport implements ITestListener {
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		try {
-		//	logger.log(LogStatus.FAIL,
-		//			logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+			logger.log(LogStatus.FAIL,
+					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
 
 		} catch (Exception e) {
 			e.printStackTrace();

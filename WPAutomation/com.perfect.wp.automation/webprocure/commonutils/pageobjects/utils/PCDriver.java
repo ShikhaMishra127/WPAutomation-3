@@ -42,6 +42,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 
 public class PCDriver implements WebDriver {
 
@@ -58,16 +59,24 @@ public class PCDriver implements WebDriver {
 		switch (browser) {
 
 		case "firefox":
-			File pathBinary = new File("//home//chiefs//firefox//firefox");
+				System.setProperty("webdriver.gecko.driver",
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
+				System.out.println("User Directory is: "+System.getProperty("user.dir"));
+			File pathBinary = new File("/opt/Automation/firefox/firefox");
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
-
 			FirefoxOptions options = new FirefoxOptions();
+				options.setLogLevel(FirefoxDriverLogLevel.TRACE);
+
+			//options.setHeadless(true);
 			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+				 cap.setCapability("marionette", true);
+
 			System.setProperty("webdriver.gecko.driver",
 					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
+
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			// log.info("Browser Invoked");
@@ -94,7 +103,7 @@ public class PCDriver implements WebDriver {
 			capChrome.setJavascriptEnabled(true);
 			capChrome.acceptInsecureCerts();
 			System.setProperty("webdriver.chrome.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver.exe");
+					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver");
 			driver = new ChromeDriver(capChrome);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			driver.manage().window().setSize(new Dimension(1440, 900));
@@ -129,7 +138,7 @@ public class PCDriver implements WebDriver {
 				 DesiredCapabilities capPhantom =new DesiredCapabilities(); 
 				 ArrayList<String> cliArgsCap = new ArrayList<String>(); 
 				 cliArgsCap.add("--web-security=false");
-				 cliArgsCap.add("--proxy=10.5.1.175:1024");
+				// cliArgsCap.add("--proxy=10.5.1.175:1024");
 
 			  cliArgsCap.add("--ssl-protocol=any");
 			  cliArgsCap.add("--ignore-ssl-errors=true");
@@ -142,15 +151,15 @@ public class PCDriver implements WebDriver {
 
 			  capPhantom.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS,cliArgsCap);
 			 	capPhantom.setPlatform(Platform.LINUX);
-			  capPhantom.setCapability("proxy", "10.5.1.175:1024");
+			  //capPhantom.setCapability("proxy", "10.5.1.175:1024");
 
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
 			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
-  driver.manage().timeouts()
-		        .pageLoadTimeout(60, TimeUnit.SECONDS)
-		        .implicitlyWait(60, TimeUnit.SECONDS);
+ 			// driver.manage().timeouts()
+		        //.pageLoadTimeout(60, TimeUnit.SECONDS)
+		        //.implicitlyWait(60, TimeUnit.SECONDS);
 				driver.manage().window().maximize();
 			  driver.get(ReadConfig.getInstance().getApplicationUrl());
 			 
