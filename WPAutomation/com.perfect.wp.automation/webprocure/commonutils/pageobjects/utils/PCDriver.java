@@ -63,7 +63,7 @@ public class PCDriver implements WebDriver {
 
 		case "firefox":
 			System.out.println("User Directory is: "+System.getProperty("user.dir"));
-			File pathBinary = new File("C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe");
+			File pathBinary = new File("C:\\Program Files (x86)\\Mozilla Firefox\\firefox");
 			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
@@ -102,7 +102,7 @@ public class PCDriver implements WebDriver {
 			capChrome.setJavascriptEnabled(true);
 			capChrome.acceptInsecureCerts();
 			System.setProperty("webdriver.chrome.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver.exe");
+					ReadConfig.getInstance().getDriverPath().toString() + "chromedriver");
 			driver = new ChromeDriver(capChrome);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
 			driver.manage().window().setSize(new Dimension(1440, 900));
@@ -155,7 +155,7 @@ public class PCDriver implements WebDriver {
 			 capPhantom.setPlatform(Platform.LINUX);
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
-			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
+			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
 
 			  System.out.println("Driver value is : "+driver);
