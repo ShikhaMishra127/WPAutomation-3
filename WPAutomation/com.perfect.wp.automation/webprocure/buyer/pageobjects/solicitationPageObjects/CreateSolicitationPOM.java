@@ -286,7 +286,7 @@ public class CreateSolicitationPOM {
 		PCDriver.waitForPageLoad();
 		item.clickOnAdjustmentHandler();
 		try {
-			PCDriver.waitForElementToBeClickable(popUpAdjustment, Long.valueOf(String.valueOf(5)));
+			PCDriver.waitForElementToBeClickable(popUpAdjustment, Long.valueOf(String.valueOf(15)));
 			PCDriver.getDriver().findElement(By.xpath("//button[contains(text(),'OK')]")).click();
 		}
 		catch (Exception e) {
