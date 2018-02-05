@@ -123,6 +123,8 @@ public class ItemSpecPage {
 
 	public boolean verifyItemSpec() {
 		lnkSelectedSpecs.click();
+		PCDriver.waitForPageLoad();
+		PCDriver.visibilityOfListLocated(lstSelectedspes);
 		if (lstSelectedspes.size() != 0) {
 			return true;
 		} else {

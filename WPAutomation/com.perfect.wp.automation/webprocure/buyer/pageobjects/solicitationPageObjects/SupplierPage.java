@@ -119,7 +119,7 @@ public class SupplierPage {
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnClose;
 
-	@FindBy(xpath = "//td/input")
+	@FindBy(xpath = "//td/input[@title='select'and not(contains(@type,'hidden'))]|//td/input[@value='Y']")
 	public List<WebElement> lstSearchResults;
 
 	/******************************** New Search **********************************/
@@ -191,12 +191,12 @@ public class SupplierPage {
 	}
 
 	public void searchSupplier(String strSupplierName) {
+		PCDriver.waitForElementToBeClickable(lnkSelectedSupplier);
 		lnkSelectedSupplier.click();
 		PCDriver.waitForElementToBeClickable(btnNewSearch);
 		btnNewSearch.click();
 		PCDriver.waitForElementToBeClickable(txtSName);
 		txtSName.sendKeys(strSupplierName);
-		System.out.println("Hi Anshul this side");
 		btnSearch.click();
 
 	}
@@ -211,8 +211,9 @@ public class SupplierPage {
 		}
 		while (btnNext.size() != 0) {
 			PCDriver.waitForPageLoad();
+			System.out.println("size is : " + lstSearchResults.size());
 			for (int i = 0; i < lstSearchResults.size(); i++) {
-				PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
+				//PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
 				// PCDriver.waitForElementToBeClickable(chkBoxCheck);
 				PCDriver.visibilityOfListLocated(lstSearchResults);
 				lstSearchResults.get(i).click();

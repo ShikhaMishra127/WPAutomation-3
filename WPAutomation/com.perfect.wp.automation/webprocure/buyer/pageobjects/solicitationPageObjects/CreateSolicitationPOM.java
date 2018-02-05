@@ -3,7 +3,6 @@ package buyer.pageobjects.solicitationPageObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -47,6 +46,9 @@ public class CreateSolicitationPOM {
 
 	@FindBy(xpath = "(//div[@class='panel-body'])[3]")
 	public WebElement addInfoSection;
+	
+	@FindBy(xpath="//div[@class='bootbox modal fade bootbox-alert in']")
+	public WebElement popUpAdjustment;
 
 	@FindBy(xpath = "//h4[contains(text(),'Info') and not(contains(text(),'Header'))]")
 	public WebElement pageSubmit;
@@ -177,7 +179,6 @@ public class CreateSolicitationPOM {
 		} catch (Exception e) {
 			System.out.println("Alert not present");
 		}
-		SupplierPage supplier = new SupplierPage();
 		supplier.searchSupplier("apple");
 		supplier.selectSearchedSuppliers();
 
@@ -204,7 +205,7 @@ public class CreateSolicitationPOM {
 			// function(){return true;}");
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return msg;
 	}
@@ -223,14 +224,17 @@ public class CreateSolicitationPOM {
 			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg) { return true; }");
 
 			btnSubmit.click();
+			
 			System.out.println("Submit button is clicked");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Submit button not clicked");
 		}
 		try {
 			//PCDriver.getDriver().switchTo().alert().accept();
-			
-		//	((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(){return true;}");
+
+			System.out.println("Alert is present");
+
 		} catch (Exception e) {
 			System.out.println("Alert not present");
 		}
@@ -263,6 +267,8 @@ public class CreateSolicitationPOM {
 		waitForAddInfoSection();
 		PCDriver.waitForElementToBeClickable(btnExit);
 		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnExit);
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg) { return true; }");
+
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -273,12 +279,19 @@ public class CreateSolicitationPOM {
 
 	public void createNewGroup(String str) {
 		item.CreateGroup(str);
-		PCDriver.waitForPageLoad();
+		//PCDriver.waitForPageLoad();
 	}
 
 	public void switchOnAdjustmentHandler() {
 		PCDriver.waitForPageLoad();
 		item.clickOnAdjustmentHandler();
+		try {
+			PCDriver.waitForElementToBeClickable(popUpAdjustment, Long.valueOf(String.valueOf(5)));
+			PCDriver.getDriver().findElement(By.xpath("//button[contains(text(),'OK')]")).click();
+		}
+		catch (Exception e) {
+			System.out.println("Adjustment Popup is not opened");
+		}
 	}
 
 	public void waitForItemSpecLibraryLinkToDisappear() {
