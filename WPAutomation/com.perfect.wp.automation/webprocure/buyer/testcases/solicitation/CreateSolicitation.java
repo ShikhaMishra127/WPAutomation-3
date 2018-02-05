@@ -192,7 +192,7 @@ public class CreateSolicitation extends PCDriver {
 			sol.CreateSupplier();
 			sol.clickOnNextStep();
 			sol.clickSubmit();
-			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted");
+			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted to pre-issue workflow for approval.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
