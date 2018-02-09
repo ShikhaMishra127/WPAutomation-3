@@ -10,6 +10,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.utils.DatePicker;
@@ -18,6 +19,9 @@ import commonutils.pageobjects.utils.PCDriver;
 public class EditSolicitationPageObject {
 
 	HomePage home = new HomePage();
+	SupplierPage supplier=new SupplierPage();
+	ItemSpecPage item=new ItemSpecPage();
+	CreateSolicitationPOM sol=new CreateSolicitationPOM();
 
 	public EditSolicitationPageObject() {
 		PageFactory.initElements(PCDriver.getDriver(), this);
@@ -38,9 +42,21 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//img[@class='dropdown-toggle dd-action']")
 	public WebElement drpDownThreeDots;
-
+	
+	@FindBy(xpath="//td[contains(text(),'Not Submitted')]/following-sibling::td//img[@class='dropdown-toggle dd-action']")
+	public WebElement drpDownThreeDotsForNotSubmittedStatus;
+	
 	@FindBy(xpath = "//a/i[text()='edit']")
 	public WebElement lnkEdit;
+	
+	@FindBy(xpath="//td[contains(text(),'Not Submitted')]/following-sibling::td//ul//a/i[text()='edit']")
+	public WebElement lnkEditNotSubmitted;
+	
+	@FindBy(xpath="//button[contains(@onclick,'BidVendors')]")
+	public WebElement btnEditVendor;
+	
+	@FindBy(xpath="//button[contains(@onclick,'biditems')]")
+	public WebElement btnEditItem;
 
 	@FindBy(xpath = "//ul[contains(@class,'pagination pull-right')]")
 	public WebElement topNavEdit;
@@ -95,6 +111,65 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnClose;
+	
+	@FindBy(xpath="//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[@class='sorting_1']/a")
+	List<WebElement> lstSolNumber;
+	
+	@FindBy(xpath="//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[4]")
+	List<WebElement> lstSolTitle;
+	
+	@FindBy(xpath="(//div[@class='panel-heading'])[6]/following-sibling::div//span")
+	public List<WebElement> lblVendorHeaderWarning;
+	
+	@FindBy(xpath="(//div[@class='panel-heading'])[5]/following-sibling::div/span")
+	public List<WebElement> lblVendorItemWarning;
+	
+	
+	public String getSolNumber(int i) {
+		PCDriver.visibilityOfListLocated(lstSolNumber);
+		return lstSolNumber.get(i).getText();
+	}
+	
+	
+	public String getSolTitle(int i) {
+		PCDriver.visibilityOfListLocated(lstSolTitle);
+		return lstSolTitle.get(i).getText();
+	}
+	
+	public void checkVendorsAddedWarning() {
+		try {
+		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(lblVendorHeaderWarning.get(0), Long.valueOf(String.valueOf(5)));
+		if(lblVendorHeaderWarning.size()>=1) {
+			PCDriver.waitForElementToBeClickable(btnEditVendor,Long.valueOf(String.valueOf(5)));
+			btnEditVendor.click();
+			supplier.CreateNewSupplier("abc");
+			PCDriver.switchToWindow("");
+			clickSave();
+			clickReturn();
+
+		}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Vendors are available");
+		}
+	}
+	
+	public void checkVendorItemWarning() {
+		try {
+			PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(lblVendorItemWarning.get(0), Long.valueOf(String.valueOf(5)));
+		if(lblVendorItemWarning.size()>=1) {
+			PCDriver.waitForElementToBeClickable(btnEditItem,Long.valueOf(String.valueOf(5)));
+			btnEditItem.click();
+			sol.AddLineItemsAndVerify("10", "Apparel");
+		}
+		}
+		catch(Exception e) {
+			System.out.println("Items are available");
+		}
+	}
 
 	public void clickClose() {
 		PCDriver.waitForElementToBeClickable(btnClose);
@@ -139,21 +214,42 @@ public class EditSolicitationPageObject {
 		PCDriver.waitForElementToBeClickable(drpDownThreeDots);
 		drpDownThreeDots.click();
 	}
+	
+	public void clickOnThreeDotsForNotSubmittedStatus() {
+		PCDriver.waitForElementToBeClickable(drpDownThreeDotsForNotSubmittedStatus);
+		drpDownThreeDotsForNotSubmittedStatus.click();
+	}
+
 
 	public void clickEdit() {
 		try {
 			PCDriver.waitForElementToBeClickable(lnkEdit);
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 			lnkEdit.click();
-			PCDriver.acceptAlert();
+//			PCDriver.acceptAlert();
 		} catch (Exception e) {
-
+			System.out.println("three Dots Edit button is not visible");
+		}
+	}
+	
+	
+	public void clickEditUnderNotSubmittedThreeDots() {
+		try {
+			PCDriver.waitForElementToBeClickable(lnkEditNotSubmitted);
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+			lnkEditNotSubmitted.click();
+			PCDriver.waitForPageLoad();
+//			PCDriver.acceptAlert();
+		} catch (Exception e) {
+			System.out.println("three Dots Edit button is not visible");
 		}
 	}
 
 	public void clickCreateAddendum() {
 		PCDriver.waitForElementToBeClickable(lnkCreateAddendum);
+		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 		lnkCreateAddendum.click();
-		PCDriver.acceptAlert();
+		//PCDriver.acceptAlert();
 	}
 
 	public void clickOnActiveSolicitations() {
@@ -172,18 +268,27 @@ public class EditSolicitationPageObject {
 			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnSave);
 
 			btnSave.click();
+			PCDriver.waitForPageLoad();
 		} catch (Exception e) {
 			System.out.println("Save button is not visible on page");
 		}
 	}
 
 	public void clickReturn() {
+		try {
+			
 		PCDriver.waitForElementToBeClickable(btnReturn);
 		btnReturn.click();
+		PCDriver.waitForPageLoad();
+		}
+		catch(Exception e) {
+			System.out.println("Return button is not visible");
+		}
 	}
 
 	public boolean verifyAddendumSubmission() {
 		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(lblSuccessMessage);
 		if (lblSuccessMessage.getText().contains("This solicitation addendum has been published")) {
 			return true;
 		} else {

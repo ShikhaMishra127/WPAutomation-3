@@ -89,7 +89,7 @@ public class CreateSolicitation extends PCDriver {
 	@Test(description = "This test case will check if past solicitation start date is allowed or not", enabled = false)
 	public void verifyPastSolStartDateForFormalSol() {
 		solNav.formalSolicationsMenu("Create");
-		header.setSolStartDate(DatePicker.getPastDate()); 
+		header.setSolStartDate(DatePicker.getPastDate());
 		Assert.assertEquals(sol.clickOnNextStep(),
 				"The Informal Solicitation Duration Start Date and Time must be after the current time.");
 
@@ -175,7 +175,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
 	}
 
-	@Test(description = "This test case will create the NoLineType Solicitation", enabled = true)
+	@Test(description = "This test case will create the NoLineType Solicitation", enabled = false)
 	public void informalSolicitationCreationWithNoLineItem() {
 		try {
 			solNav.informalSolicationsMenu("Create");
@@ -199,7 +199,7 @@ public class CreateSolicitation extends PCDriver {
 		}
 	}
 
-	@Test(description = "This test case will create the NoLineType Solicitation", enabled = true)
+	@Test(description = "This test case will create the NoLineType Solicitation", enabled = false)
 	public void formalSolicitationCreationWithNoLineItem() throws IOException, InterruptedException {
 
 		solNav.formalSolicationsMenu("Create");
@@ -221,7 +221,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = true)
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = false)
 	public void formalSolicitationByCreatingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -248,7 +248,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = true)
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = false)
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -275,7 +275,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = true)
+	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = false)
 	public void formalSolicitationByAddingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -299,7 +299,7 @@ public class CreateSolicitation extends PCDriver {
 				"This solicitation has been submitted to pre-issue workflow for approval.");
 	}
 
-	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = true)
+	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = false)
 	public void inFormalSolicitationByAddingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -352,7 +352,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create a new Formal Solicitation by adding a new group", enabled = true)
+	@Test(description = "This test case will create a new Formal Solicitation by adding a new group", enabled = false)
 	public void formalSolicitationByAddingGroupsWithLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -379,7 +379,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Informal Solicitation", enabled = true)
+	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Informal Solicitation", enabled = false)
 	public void checkGroupNameCannotBeEmptyForInformalSolicitation() throws Exception {
 
 		solNav.informalSolicationsMenu("Create");
@@ -396,7 +396,7 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertTrue(sol.verifyGroupNameNotEmpty());
 	}
 
-	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Formal Solicitation", enabled = false)
 	public void checkGroupNameCannotBeEmptyForFormalSolicitation() throws Exception {
 		try {
 			solNav.formalSolicationsMenu("Create");
@@ -416,14 +416,14 @@ public class CreateSolicitation extends PCDriver {
 		}
 	}
 
-	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page", enabled = true)
+	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page", enabled = false)
 	public void exitSolicitationBeforeCreationForFormalSolicitation() {
 		solNav.formalSolicationsMenu("Create");
 		sol.clickExit();
 		Assert.assertTrue(sol.verifyPageTitle("Current Formal Solicitation"));
 	}
 
-	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page", enabled = true)
+	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page", enabled = false)
 	public void exitSolicitationBeforeCreationForInFormalSolicitation() {
 		solNav.informalSolicationsMenu("Create");
 		sol.clickExit();

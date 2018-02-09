@@ -29,7 +29,7 @@ public class CreateSolicitationPOM {
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnCloseOnCategoryPopUp;
 
-	@FindBy(css = "button.btn:nth-child(4)")
+	@FindBy(xpath = "//button[contains(text(),'Submit')]")
 	public WebElement btnSubmit;
 
 	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
@@ -197,6 +197,8 @@ public class CreateSolicitationPOM {
 		}
 
 		try {
+			supplier.AcceptSupplierAlert();
+
 			// msg=(String) ((JavascriptExecutor)PCDriver.getDriver()).executeScript("return
 			// window.alert.getText;");
 			//msg = PCDriver.getDriver().switchTo().alert().getText();

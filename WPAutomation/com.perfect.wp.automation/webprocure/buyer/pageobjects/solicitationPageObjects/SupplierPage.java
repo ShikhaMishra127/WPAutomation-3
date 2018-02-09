@@ -3,6 +3,7 @@ package buyer.pageobjects.solicitationPageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -163,9 +164,10 @@ public class SupplierPage {
 		try {
 			new WebDriverWait(PCDriver.getDriver(), 30).ignoring(NoAlertPresentException.class)
 					.until(ExpectedConditions.alertIsPresent());
-			PCDriver.getDriver().switchTo().alert().accept();
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;};");
+			//PCDriver.getDriver().switchTo().alert().accept();
 		} catch (Exception e) {
-			System.out.println("No Supplier Alert Present");
+			System.out.println("No Alert Present");
 		}
 
 	}
@@ -216,7 +218,11 @@ public class SupplierPage {
 				//PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
 				// PCDriver.waitForElementToBeClickable(chkBoxCheck);
 				PCDriver.visibilityOfListLocated(lstSearchResults);
+				if(lstSearchResults.size()!=0) {
+				
 				lstSearchResults.get(i).click();
+				}
+				
 			}
 			try {
 				btnSave.click();
