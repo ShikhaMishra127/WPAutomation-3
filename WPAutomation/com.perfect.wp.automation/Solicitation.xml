@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Solicitation">
-  <test name="Test">
-    <classes> 
-  <class name="buyer.testcases.solicitation.CreateSolicitation"></class>
-    <class name="buyer.testcases.solicitation.EditSolicitation"></class>
-  
-   
-    </classes>
-    
-  </test> <!-- Test -->
+	<test name="Test">
+		<classes>
+			<class name="buyer.testcases.solicitation.CreateSolicitation"></class>
+			<class name="buyer.testcases.solicitation.EditSolicitation"></class>
+			<class name="buyer.testcases.solicitation.ViewArchived"></class>
+			<class name="buyer.testcases.solicitation.ReviewAwardTestCases"></class>
+			
+
+
+		</classes>
+
+	</test> <!-- Test -->
 </suite> <!-- Suite -->

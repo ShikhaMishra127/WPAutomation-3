@@ -19,7 +19,6 @@ import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
-import commonutils.pageobjects.utils.ReadExcelData;
 
 @Listeners(ExtentReport.class)
 public class EditSolicitation extends PCDriver {
@@ -27,7 +26,7 @@ public class EditSolicitation extends PCDriver {
 	HomePage home = new HomePage();
 	EditSolicitationPageObject edit = new EditSolicitationPageObject();
 	CreateSolicitationPOM createSol = new CreateSolicitationPOM();
-	SupplierPage supplier=new SupplierPage();
+	SupplierPage supplier = new SupplierPage();
 
 	@BeforeClass
 	public void setup() {
@@ -44,10 +43,10 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the informal sol by searching title and submit",enabled=true)
+	@Test(description = "This test case will edit the informal sol by searching title and submit", enabled = true)
 	public void EditInformalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
-		//edit.clickOnActiveSolicitations();
+		// edit.clickOnActiveSolicitations();
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		edit.clickOnFilter();
 		Assert.assertTrue(edit.verifySearchResultRow());
@@ -55,7 +54,7 @@ public class EditSolicitation extends PCDriver {
 		edit.clickEdit();
 		edit.checkVendorsAddedWarning();
 		edit.checkVendorItemWarning();
-		//edit.clickTopNavItem("Edit Header");
+		// edit.clickTopNavItem("Edit Header");
 		edit.clickSave();
 		edit.clickReturn();
 		createSol.clickSubmit();
@@ -63,7 +62,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the formal sol by searching title and submit",enabled=true)
+	@Test(description = "This test case will edit the formal sol by searching title and submit", enabled = true)
 	public void EditFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.setTitleForSearch("QA Automation1517306442148");
@@ -73,14 +72,14 @@ public class EditSolicitation extends PCDriver {
 		edit.clickEditUnderNotSubmittedThreeDots();
 		edit.checkVendorsAddedWarning();
 		edit.checkVendorItemWarning();
-		//edit.clickTopNavItem("Edit Header");
+		// edit.clickTopNavItem("Edit Header");
 		edit.clickSave();
 		edit.clickReturn();
 		createSol.clickSubmit();
 		Assert.assertTrue(createSol.verifySuccessMessage().contains("This solicitation has been submitted"));
 	}
 
-	@Test(description = "This test case will create the addendum for Formal Solicitation",enabled=true)
+	@Test(description = "This test case will create the addendum for Formal Solicitation", enabled = true)
 	public void CreateAddendumForFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -94,7 +93,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
 
-	@Test(description = "This test case will create the addendum for Informal Solicitation",enabled=true)
+	@Test(description = "This test case will create the addendum for Informal Solicitation", enabled = true)
 	public void CreateAddendumForInFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		// edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
@@ -111,7 +110,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
 
-	@Test(description = "This test case will edit the Informal Solicitation searching by Sol Number",enabled=true)
+	@Test(description = "This test case will edit the Informal Solicitation searching by Sol Number", enabled = true)
 	public void EditInformalSolicitationUsingSolNumberAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		edit.setSolNumber(edit.getSolNumber(0));
@@ -121,7 +120,7 @@ public class EditSolicitation extends PCDriver {
 		edit.clickEditUnderNotSubmittedThreeDots();
 		edit.checkVendorsAddedWarning();
 		edit.checkVendorItemWarning();
-		//edit.clickTopNavItem("Edit Header");
+		// edit.clickTopNavItem("Edit Header");
 		edit.clickSave();
 		edit.clickReturn();
 		createSol.clickSubmit();
@@ -129,7 +128,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the Formal Solicitation searching by Sol Number",enabled=true)
+	@Test(description = "This test case will edit the Formal Solicitation searching by Sol Number", enabled = true)
 	public void EditFormalSolicitationUsingSolNumberAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.setSolNumber(edit.getSolNumber(0));
@@ -138,14 +137,14 @@ public class EditSolicitation extends PCDriver {
 		edit.clickEditUnderNotSubmittedThreeDots();
 		edit.checkVendorsAddedWarning();
 		edit.checkVendorItemWarning();
-		//edit.clickTopNavItem("Edit Header");
+		// edit.clickTopNavItem("Edit Header");
 		edit.clickSave();
 		edit.clickReturn();
 		createSol.clickSubmit();
 
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation",enabled=true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
 	public void VerifySolicitationHistoryForFormalSolicitation() {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -154,7 +153,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifySolHistory());
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation",enabled=true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
 	public void VerifySolicitationHistoryForInformalSolicitation() {
 		home.clickInformalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -163,7 +162,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifySolHistory());
 	}
 
-	@Test(description = "This test case will check the start date search results are within the selected date range for Unissued Formal Solicitation",enabled=false)
+	@Test(description = "This test case will check the start date search results are within the selected date range for Unissued Formal Solicitation", enabled = false)
 	public void checkStartDateFilterForUnissuedFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
@@ -172,7 +171,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Unissued Informal Solicitations",enabled=false)
+	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Unissued Informal Solicitations", enabled = false)
 	public void checkStartDateFilterForUnissuedInFormalSol() {
 		home.clickInformalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
@@ -181,7 +180,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will check the end date search results are within the selected date range for Unissued Formal Solicitation",enabled=false)
+	@Test(description = "This test case will check the end date search results are within the selected date range for Unissued Formal Solicitation", enabled = false)
 	public void checkEndDateFilterForUnissuedFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromEndDate("11/01/2017");
@@ -190,7 +189,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Unissued Informal Solicitations",enabled=false)
+	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Unissued Informal Solicitations", enabled = false)
 	public void checkEndDateFilterForUnissuedInFormalSol() {
 		home.clickInformalSolicitationEdit();
 		edit.setFromEndDate("11/01/2017");
@@ -199,7 +198,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-	@Test(description = "",enabled=false)
+	@Test(description = "", enabled = false)
 	public void checkStartDateFilterForActiveFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromStartDate("11/08/2017");
@@ -208,7 +207,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Active Informal Solicitations",enabled=false)
+	@Test(description = "This test case will test the start date filter and check if the results lie in the same range for Active Informal Solicitations", enabled = false)
 	public void checkStartDateFilterForActiveInFormalSol() {
 		home.clickInformalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -218,7 +217,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "",enabled=false)
+	@Test(description = "", enabled = false)
 	public void checkEndDateFilterForActiveFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.setFromEndDate("11/01/2017");
@@ -227,7 +226,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Active Informal Solicitations",enabled=false)
+	@Test(description = "This test case will test the end date filter and check if the results lie in the same range for Active Informal Solicitations", enabled = false)
 	public void checkEndDateFilterForActiveInFormalSol() {
 		home.clickInformalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -237,7 +236,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.VerifyEndDate());
 	}
 
-	@Test(description = "This test case will check if we close the edit without submitting then the user should be taken back to the Current InFormal Solicitation Page",enabled=false)
+	@Test(description = "This test case will check if we close the edit without submitting then the user should be taken back to the Current InFormal Solicitation Page", enabled = false)
 	public void closeTheEditForInformalSol() {
 		home.clickInformalSolicitationEdit();
 		edit.clickOnThreeDots();
@@ -247,7 +246,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check if we close the edit without submitting then the user should be taken back to the Current Formal Solicitation Page",enabled=false)
+	@Test(description = "This test case will check if we close the edit without submitting then the user should be taken back to the Current Formal Solicitation Page", enabled = false)
 	public void closeTheEditForFormalSol() {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnThreeDots();
@@ -269,13 +268,13 @@ public class EditSolicitation extends PCDriver {
 		// createSol.clickHomeButton();
 
 	}
-	
+
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
-		//PCDriver.getDriver().quit();
+		// PCDriver.getDriver().quit();
 
 	}
 }
