@@ -52,8 +52,8 @@ public class ViewArchived extends PCDriver {
 	public void ReverseAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
-		edit.setSolNumber("IFBC18001123");
-		edit.clickOnFilter();
+		//edit.setSolNumber("IFBC18001123");
+		//edit.clickOnFilter();
 		edit.clickOnThreeDots();
 		award.ThreeDotsMenu("AwardReversal");
 		award.enterReason();
@@ -67,8 +67,8 @@ public class ViewArchived extends PCDriver {
 	public void ReverseAwardForFormalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
-		edit.setSolNumber("IFBC18001123");
-		edit.clickOnFilter();
+		//edit.setSolNumber("IFBC18001123");
+		//edit.clickOnFilter();
 		edit.clickOnThreeDots();
 		award.ThreeDotsMenu("AwardReversal");
 		award.enterReason();
@@ -110,7 +110,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will check start date filter for Finalized Formal Solicitation")
+	@Test(description = "This test case will check start date filter for Finalized Formal Solicitation",enabled=true)
 	public void checkStartDateFilterForFinalizedFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -196,8 +196,6 @@ public class ViewArchived extends PCDriver {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
 		home.logout();
 
 	}

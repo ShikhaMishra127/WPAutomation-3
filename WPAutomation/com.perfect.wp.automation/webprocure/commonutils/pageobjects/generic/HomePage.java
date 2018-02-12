@@ -1,6 +1,7 @@
 package commonutils.pageobjects.generic;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -89,6 +90,7 @@ public class HomePage {
 		PCDriver.waitForElementToBeClickable(drpDownUserMenu);
 		drpDownUserMenu.click();
 		PCDriver.waitForElementToBeClickable(lnkLogout);
+		 ((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 		lnkLogout.click();
 	}
 }

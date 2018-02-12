@@ -167,7 +167,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
 	}
 
-	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = false)
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = true)
 	public void verifyCollabStartDateAfterSolStartDateForInFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 1));
@@ -438,8 +438,10 @@ public class CreateSolicitation extends PCDriver {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
+
+		/*ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
-		ExtentReport.report.close();
+		ExtentReport.report.close();*/
 		home.logout();
 
 	}

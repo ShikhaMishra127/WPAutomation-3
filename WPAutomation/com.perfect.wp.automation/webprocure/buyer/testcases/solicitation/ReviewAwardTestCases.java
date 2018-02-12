@@ -384,8 +384,6 @@ public class ReviewAwardTestCases extends PCDriver {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
 		home.logout();
 
 	}
