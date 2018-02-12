@@ -274,7 +274,7 @@ public class EditSolicitation extends PCDriver {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
-		// PCDriver.getDriver().quit();
+		home.logout();
 
 	}
 }

@@ -7,10 +7,6 @@
 			<class name="buyer.testcases.solicitation.EditSolicitation"></class>
 			<class name="buyer.testcases.solicitation.ViewArchived"></class>
 			<class name="buyer.testcases.solicitation.ReviewAwardTestCases"></class>
-			
-
-
 		</classes>
-	
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

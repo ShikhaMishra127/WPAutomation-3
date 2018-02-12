@@ -63,5 +63,7 @@ public class SolicitationImport extends PCDriver {
 	@AfterMethod
 	public void setupAfterTest() {
 		createSol.clickHomeButton();
+		home.logout();
+
 	}
 }

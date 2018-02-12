@@ -440,6 +440,7 @@ public class CreateSolicitation extends PCDriver {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
+		home.logout();
 
 	}
 }
