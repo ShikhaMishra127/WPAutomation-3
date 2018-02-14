@@ -89,7 +89,7 @@ public class CreateSolicitation extends PCDriver {
 	@Test(description = "This test case will check if past solicitation start date is allowed or not", enabled = false)
 	public void verifyPastSolStartDateForFormalSol() {
 		solNav.formalSolicationsMenu("Create");
-		header.setSolStartDate(DatePicker.getPastDate()); 
+		header.setSolStartDate(DatePicker.getPastDate());
 		Assert.assertEquals(sol.clickOnNextStep(),
 				"The Informal Solicitation Duration Start Date and Time must be after the current time.");
 
@@ -167,7 +167,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
 	}
 
-	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = false)
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = true)
 	public void verifyCollabStartDateAfterSolStartDateForInFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 1));
@@ -438,9 +438,11 @@ public class CreateSolicitation extends PCDriver {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
+
+		/*ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
-		ExtentReport.report.close();
-		PCDriver.getDriver().quit();
+		ExtentReport.report.close();*/
+		home.logout();
 
 	}
 }

@@ -2,6 +2,7 @@ package buyer.testcases.solicitation;
 
 import java.awt.AWTException;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -63,5 +64,13 @@ public class SolicitationImport extends PCDriver {
 	@AfterMethod
 	public void setupAfterTest() {
 		createSol.clickHomeButton();
+
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		home.logout();
+
 	}
 }

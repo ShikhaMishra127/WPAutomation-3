@@ -3,6 +3,7 @@ package buyer.testcases.solicitation;
 import java.text.ParseException;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -47,12 +48,12 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and reverse the award")
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = true)
 	public void ReverseAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
-		edit.setSolNumber("IFBC18001123");
-		edit.clickOnFilter();
+		//edit.setSolNumber("IFBC18001123");
+		//edit.clickOnFilter();
 		edit.clickOnThreeDots();
 		award.ThreeDotsMenu("AwardReversal");
 		award.enterReason();
@@ -62,12 +63,12 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and reverse the award")
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = true)
 	public void ReverseAwardForFormalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
-		edit.setSolNumber("IFBC18001123");
-		edit.clickOnFilter();
+		//edit.setSolNumber("IFBC18001123");
+		//edit.clickOnFilter();
 		edit.clickOnThreeDots();
 		award.ThreeDotsMenu("AwardReversal");
 		award.enterReason();
@@ -77,7 +78,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test
+	@Test(description = "This test case will check the end date filter for finalized Informal Solicitation", enabled = true)
 	public void checkEndDateFilterForFinalizedInFormalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -88,7 +89,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test
+	@Test(description = "This test case will check the end date filter for finalized Formal Solicitation", enabled = true)
 	public void checkEndDateFilterForFinalizedFormalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -99,7 +100,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test
+	@Test(description = "This test case will check start date filter for Finalized Informal Solicitation", enabled = true)
 	public void checkStartDateFilterForFinalizedInFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -109,7 +110,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test
+	@Test(description = "This test case will check start date filter for Finalized Formal Solicitation",enabled=true)
 	public void checkStartDateFilterForFinalizedFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -119,7 +120,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test
+	@Test(description = "This test case will check the end date filter for retracted Informal Solicitation", enabled = true)
 	public void checkEndDateFilterForRetractedSolInFomalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -131,7 +132,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test
+	@Test(description = "This test case will check start date filter for retracted informal Solicitation", enabled = true)
 	public void checkStartDateFilterForRetractedSolInFomalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -142,7 +143,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test
+	@Test(description = "This test case will check the end date filter of Finalized Informal Solicitation", enabled = true)
 	public void checkEndDateFilterOfFinalizedSolInInformalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -154,7 +155,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test
+	@Test(description = "This test case will check the start dete fiter for Finalized Informal Solicitation", enabled = true)
 	public void checkStartDateFilterOfFinalizedSolInInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -164,7 +165,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol")
+	@Test(description = "This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol", enabled = true)
 	public void checkEndDateFilterOfRetractedSolInInformalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -176,7 +177,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will enter the start dates and check the date range of the filter for Retracted Informal Sol")
+	@Test(description = "This test case will enter the start dates and check the date range of the filter for Retracted Informal Sol", enabled = true)
 	public void checkStartDateFilterOfRetractedSolInInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -190,5 +191,12 @@ public class ViewArchived extends PCDriver {
 	@AfterMethod
 	public void setupAfterTest() {
 		createSol.clickHomeButton();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		home.logout();
+
 	}
 }

@@ -3,6 +3,7 @@ package buyer.pageobjects.solicitationPageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -71,6 +72,9 @@ public class ItemSpecPage {
 
 	@FindBy(xpath = "//span[contains(@class,'bootstrap-switch-handle-off bootstrap-switch-warning')]")
 	public WebElement handlerAdjustment;
+	
+	@FindBy(xpath="//tbody/tr[@align='left']/td[text()='0']")
+	public WebElement lblquantity;
 
 	/************************* Page Objects Add Item ************************/
 
@@ -85,6 +89,7 @@ public class ItemSpecPage {
 		while (checkNextButtonDisabled.size() == 0) {
 			for (int i = 0; i < lstLineItems.size(); i++) {
 				try {
+					PCDriver.WaitTillElementIsPresent(lblquantity);
 					PCDriver.waitForElementToBeClickable(lstLineItems.get(i));
 
 					lstLineItems.get(i).sendKeys(quant);
@@ -122,6 +127,7 @@ public class ItemSpecPage {
 	}
 
 	public boolean verifyItemSpec() {
+		PCDriver.waitForElementToBeClickable(lnkSelectedSpecs);
 		lnkSelectedSpecs.click();
 		PCDriver.waitForPageLoad();
 		PCDriver.visibilityOfListLocated(lstSelectedspes);
@@ -150,7 +156,7 @@ public class ItemSpecPage {
 
 	public void clickItemSpecLibrary() {
 		PCDriver.waitForElementToBeClickable(itemSpecLink);
-		PCDriver.waitForPageLoad();
+		//PCDriver.waitForPageLoad();
 		itemSpecLink.click();
 		PCDriver.waitForPageLoad();
 	}
@@ -167,12 +173,16 @@ public class ItemSpecPage {
 			txtItemSpecNumber.sendKeys("100");
 			txtManufacturerName.sendKeys("abcd");
 			txtQuantity.sendKeys("10");
-			btnSave.click();
 			try {
-				PCDriver.dismissAlert();
+				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;};");
+				System.out.println("Alert is present");
+
+				//PCDriver.dismissAlert();
 			} catch (Exception e) {
 				System.out.println("No Alert Present");
 			}
+			btnSave.click();
+			
 			PCDriver.switchToWindow("");
 			PCDriver.waitForPageLoad();
 

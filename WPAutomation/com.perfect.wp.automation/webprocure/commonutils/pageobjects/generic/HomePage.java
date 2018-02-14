@@ -1,6 +1,7 @@
 package commonutils.pageobjects.generic;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -14,6 +15,12 @@ public class HomePage {
 
 	@FindBy(xpath = "//*[contains(@href,'/switchorg.do?oid=114428')]")
 	public WebElement selectedsuborg;
+	
+	@FindBy(id="userMenu")
+	public WebElement drpDownUserMenu;
+	
+	@FindBy(xpath="//a[text()='Logout']")
+	public WebElement lnkLogout;
 
 	solicitationNavigation nav = new solicitationNavigation();
 
@@ -76,5 +83,14 @@ public class HomePage {
 	public void selectTopNavDropDown(String navName) {
 		PCDriver.waitForElementToBeClickable(topNav);
 		topNav.findElement(By.xpath("//a[contains(text(),'" + navName + "')]")).click();
+	}
+	
+	public void logout() {
+		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(drpDownUserMenu);
+		drpDownUserMenu.click();
+		PCDriver.waitForElementToBeClickable(lnkLogout);
+		 ((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+		lnkLogout.click();
 	}
 }
