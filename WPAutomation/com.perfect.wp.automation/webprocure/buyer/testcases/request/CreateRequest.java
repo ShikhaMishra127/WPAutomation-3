@@ -72,6 +72,7 @@ public class CreateRequest extends PCDriver {
 	 */
 
 	/*
+<<<<<<< Updated upstream:WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/request/CreateRequest.java
 	 * @Test(description = "This test will field is mandaotry or not") public void
 	 * valuefieldismandatory() throws Exception{
 	 * reqnav.requestdropdown("Create new");
@@ -79,6 +80,15 @@ public class CreateRequest extends PCDriver {
 	 * 
 	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(), "Alert");
 	 * offcatreq.acceptalertbox();
+=======
+	 * @Test(description = "This test will field is mandaotry or not") public
+	 * void valuefieldismandatory() throws Exception{ reqnav.requestdropdown(
+	 * "Create new"); reqnav.typesofreqlist("Off-Catalog Request");
+	 * 
+	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(),
+	 * "Alert"); offcatreq.acceptalertbox();
+>>>>>>> Stashed changes:WPAutomation/com.perfect.wp.automation/buyer/testcases/request/CreateRequest.java
+	 * C:\Users\Sunal\Documents\RequestAttachment\VendorReport_Quote_RFQ18000151.txt
 	 * 
 	 * }
 	 */
@@ -88,7 +98,17 @@ public class CreateRequest extends PCDriver {
 		reqnav.typesofreqlist("Off-Catalog Request");
 		offcatreq.additemtooffcatreq();
 		ReadExcelData.getInstance("Request").updateCellValue("RequestName", reqnum.requestname());
-		viewreq.requestsubmission();
+		// viewreq.attachmenttab(ReadExcelData.getInstance("Attachments").getStringValue("filename"));
+		//viewreq.requestsubmission();
+		viewreq.movetoviewreq();
+		viewreq.attachmenttab(ReadExcelData.getInstance("processreqtabs").getStringValue("filename"));
+		viewreq.justificationtab();
+		viewreq.buyercontacttab();
+		viewreq.assignacctcode();
+		viewreq.lineitemattachment(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentname"));
+		viewreq.submitrequest();
+		viewreq.confirmationpage();
+		Assert.assertEquals(viewreq.successfullsubmissionmsg(), "Request successfully submitted.");
 	}
 
 }

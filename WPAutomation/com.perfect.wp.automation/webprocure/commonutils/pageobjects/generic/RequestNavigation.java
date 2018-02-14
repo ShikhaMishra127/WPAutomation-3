@@ -37,6 +37,7 @@ public class RequestNavigation {
 
 		} finally {
 			PCDriver.waitForPageLoad();
+			// PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 			PCDriver.switchToFrame(reqiframe);
 		}
 	}

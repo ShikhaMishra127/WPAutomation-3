@@ -45,7 +45,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class PCDriver implements WebDriver {
 
 	public static WebDriver driver;
-	// static log4jClass log = new log4jClass();
+	//static log4jClass log = new log4jClass();
 
 	static {
 		try {
@@ -63,22 +63,22 @@ public class PCDriver implements WebDriver {
 
 		case "firefox":
 			System.out.println("User Directory is: "+System.getProperty("user.dir"));
-			File pathBinary = new File("C:\\Program Files (x86)\\Mozilla Firefox\\firefox");
-			FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
+			//File pathBinary = new File("C:\\Program Files (x86)\\Mozilla Firefox\\firefox");
+			//FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);   
 			//DesiredCapabilities desired = DesiredCapabilities.firefox();
 			DesiredCapabilities cap = new DesiredCapabilities();
 			FirefoxOptions options = new FirefoxOptions();
 			//options.setHeadless(true);
 			//options.setLogLevel(FirefoxDriverLogLevel.TRACE);
 
-			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
+		//	cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 			System.setProperty("webdriver.gecko.driver",
 					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
 
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
-			// log.info("Browser Invoked");
+			//log.info("Browser Invoked");
 			break;
 
 		case "htmlunit":
@@ -155,7 +155,7 @@ public class PCDriver implements WebDriver {
 			 capPhantom.setPlatform(Platform.LINUX);
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
-			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
+			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
 			  driver = new PhantomJSDriver(capPhantom);
 
 			  System.out.println("Driver value is : "+driver);
