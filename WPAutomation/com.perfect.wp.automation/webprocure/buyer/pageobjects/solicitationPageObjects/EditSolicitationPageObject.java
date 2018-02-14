@@ -193,21 +193,34 @@ public class EditSolicitationPageObject {
 
 	public void setToStartDate(String strDate) {
 		PCDriver.waitForElementToBeClickable(dateStartDateTo);
+		dateFromEndDate.clear();
+		dateToEndDate.clear();
 		dateStartDateTo.sendKeys(strDate);
-		dateStartDateFrom.click();
+		txtTitle.click();
+
 	}
 
 	public void setFromStartDate(String strDate) {
-		PCDriver.waitForElementToBeClickable(dateStartDateTo);
+		PCDriver.waitForElementToBeClickable(dateStartDateFrom);
+		dateStartDateFrom.clear();
 		dateStartDateFrom.sendKeys(strDate + Keys.TAB);
+		txtTitle.click();
+
 	}
 
 	public void setFromEndDate(String strDate) {
+		dateStartDateFrom.clear();
+		dateStartDateTo.clear();
+		dateFromEndDate.clear();
 		dateFromEndDate.sendKeys(strDate + Keys.TAB);
+		txtTitle.click();
 	}
 
 	public void setToEndDate(String strDate) {
+		dateToEndDate.clear();
 		dateToEndDate.sendKeys(strDate + Keys.TAB);
+		txtTitle.click();
+
 	}
 
 	public void clickOnThreeDots() {
