@@ -32,8 +32,8 @@ public class ExtentReport implements ITestListener {
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src
 		// folder
-		  String destination = System.getProperty("user.dir") + "/FailedTestsScreenshots/" + screenshotName + dateName
-	//	String destination =   "/tmp/FailedTestsScreenshots/" + screenshotName + dateName
+		  //String destination = "tmp/FailedTestsScreenshots/" + screenshotName + dateName
+		String destination =   "/tmp/FailedTestsScreenshots/" + screenshotName + dateName
 				+ ".png";
 		File finalDestination = new File(destination);
 		Files.copy(source, finalDestination);
