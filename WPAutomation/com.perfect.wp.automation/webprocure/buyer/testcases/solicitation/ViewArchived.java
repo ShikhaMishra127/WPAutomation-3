@@ -48,7 +48,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = true)
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = false)
 	public void ReverseAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -63,7 +63,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = true)
+	@Test(description = "This test case will search the Sol via Sol Number and reverse the award", enabled = false)
 	public void ReverseAwardForFormalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
