@@ -4,8 +4,6 @@
 	<test name="Test">
 		<classes>
 			<class name="buyer.testcases.solicitation.CreateSolicitation"></class>
-			<class name="buyer.testcases.solicitation.EditSolicitation"></class>
-			<class name="vendor.testcases.SolicitationResponse"></class>
 			<class name="buyer.testcases.solicitation.ViewArchived"></class>
 		</classes>
 
