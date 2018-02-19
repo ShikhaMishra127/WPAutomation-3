@@ -167,7 +167,7 @@ public class CreateSolicitation extends PCDriver {
 				"The Collaboration Start Date should be after the Formal Solicitation Duration Start Date.");
 	}
 
-	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = true)
+	@Test(description = "This test case checks that Participation End Date should be before the Formal Solicitation Duration Start Date.", enabled = false)
 	public void verifyCollabStartDateAfterSolStartDateForInFormalSol() {
 		solNav.informalSolicationsMenu("Create");
 		header.setCollabStartDate(DatePicker.getCustomDate(header.getSolStartDate(), 1));
