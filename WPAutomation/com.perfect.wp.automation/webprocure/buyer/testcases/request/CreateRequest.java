@@ -7,7 +7,8 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import buyer.pageobjects.requestPageObjects.CreateRequestPOM;
 import buyer.pageobjects.requestPageObjects.OffCatalogReqPOM;
 import buyer.pageobjects.requestPageObjects.RequestNumber;
