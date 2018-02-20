@@ -92,7 +92,7 @@ public class CreateRequest extends PCDriver {
 	 * 
 	 * }
 	 */
-	@Test(description = "This test will create Off Catalog Request")
+	@Test(description = "This test will create Off Catalog Request",enabled = true)
 	public void createoffcatreq() throws Exception {
 		reqnav.requestdropdown("Create new");
 		reqnav.typesofreqlist("Off-Catalog Request");
@@ -109,6 +109,18 @@ public class CreateRequest extends PCDriver {
 		viewreq.submitrequest();
 		viewreq.confirmationpage();
 		Assert.assertEquals(viewreq.successfullsubmissionmsg(), "Request successfully submitted.");
+	}
+	
+	@AfterMethod
+	public void tearDownAfterTest() {
+		sol.clickHomeButton();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		home.logout();
+
 	}
 
 }
