@@ -32,6 +32,8 @@ public class CreateRequest extends PCDriver {
 	OffCatalogReqPOM offcatreq = new OffCatalogReqPOM();
 	RequestNumber reqnum = new RequestNumber();
 	ViewRequest viewreq = new ViewRequest();
+	CreateSolicitationPOM sol=new CreateSolicitationPOM();
+
 
 	@BeforeClass
 	public void setup() {
