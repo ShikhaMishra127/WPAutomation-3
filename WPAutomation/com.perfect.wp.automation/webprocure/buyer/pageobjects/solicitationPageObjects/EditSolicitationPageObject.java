@@ -124,6 +124,9 @@ public class EditSolicitationPageObject {
 	@FindBy(xpath="(//div[@class='panel-heading'])[5]/following-sibling::div/span")
 	public List<WebElement> lblVendorItemWarning;
 	
+	@FindBy(xpath="//h4[contains(text(),'Info')]")
+	public WebElement lblSubmitPageTitle;
+	
 	
 	public String getSolNumber(int i) {
 		PCDriver.visibilityOfListLocated(lstSolNumber);
@@ -209,8 +212,14 @@ public class EditSolicitationPageObject {
 	}
 
 	public void setFromEndDate(String strDate) {
+		try {
 		dateStartDateFrom.clear();
 		dateStartDateTo.clear();
+		
+		}
+		catch(Exception e) {
+			
+		}
 		dateFromEndDate.clear();
 		dateFromEndDate.sendKeys(strDate + Keys.TAB);
 		txtTitle.click();
@@ -301,8 +310,10 @@ public class EditSolicitationPageObject {
 
 	public boolean verifyAddendumSubmission() {
 		PCDriver.waitForPageLoad();
+		PCDriver.waitForElementToBeClickable(lblSubmitPageTitle);
 		PCDriver.waitForElementToBeClickable(lblSuccessMessage);
-		if (lblSuccessMessage.getText().contains("This solicitation addendum has been published")) {
+		System.out.println(lblSuccessMessage.getText());
+		if (lblSuccessMessage.getText().contains("This solicitation addendum has been published.")) {
 			return true;
 		} else {
 			return false;

@@ -54,23 +54,24 @@ public class SolicitationImport extends PCDriver {
 		solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
 
-	@Test
+	//@Test
 	public void DownloadSolicitationTemplate() throws AWTException {
 		home.selectTopNavDropDown("Solicitation");
-		// sol.informalSolicationsMenu("Import");
+		 sol.informalSolicationsMenu("Import");
+		 solimport.clickDownloadTemplateButton();
 		// solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
 
 	@AfterMethod
 	public void setupAfterTest() {
-		createSol.clickHomeButton();
+		//createSol.clickHomeButton();
 
 	}
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		home.logout();
+		//home.logout();
 
 	}
 }

@@ -114,11 +114,15 @@ public class CurrentSolicitationsPage {
 	}
 
 	public void enterTextInRichText() {
+		try {
 		PCDriver.waitForElementToBeClickable(richTextIframe);
 		PCDriver.switchToFrame(richTextIframe);
 		txtRichText.sendKeys("abc");
 		PCDriver.switchToDefaultContent();
-
+		}
+		catch(Exception e) {
+			System.out.println("Rich Text is not available");
+		}
 	}
 
 	public void clickAddAttachment() {

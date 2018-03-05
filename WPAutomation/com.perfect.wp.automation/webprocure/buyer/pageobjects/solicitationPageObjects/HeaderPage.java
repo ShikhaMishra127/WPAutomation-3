@@ -69,13 +69,15 @@ public class HeaderPage {
 	@FindBy(xpath = "//button[text()='Add New Section']")
 	public WebElement btnAddNewSection;
 
-	@FindBy(xpath = "//button[text()='Add Field'][@data-sectionindex='30']")
+
+	@FindBy(xpath = "//button[text()='Add Field'][@data-sectionindex='1']")
 	public WebElement btnAddField;
 
 	@FindBy(xpath = "//div[contains(@class,'fieldTitleDiv input-group')]")
 	public WebElement fieldTitle;
 
-	@FindBy(xpath = "//input[contains(@id,'sectionTitle_30')]")
+
+	@FindBy(xpath = "//input[contains(@id,'sectionTitle_1')]")
 	public WebElement txtSectionTitle;
 
 	@FindBy(className = "input-group")
@@ -151,6 +153,12 @@ public class HeaderPage {
 
 	public void setCollabStartDate(String srtDate) {
 		PCDriver.waitForElementToBeClickable(btnAddNewSection);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		chkBoxColab.click();
 		collabStartDate.clear();
 		PCDriver.waitForElementToBeClickable(datePicker);
@@ -253,8 +261,9 @@ public class HeaderPage {
 			}
 			PCDriver.waitForElementToBeClickable(fieldTitle);
 
-			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_30')]")).sendKeys("" + i);
-			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_30')]")))
+
+			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_1')]")).sendKeys("" + i);
+			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_1')]")))
 					.selectByIndex(i);
 			// int x = i - 1;
 			try {
@@ -270,7 +279,7 @@ public class HeaderPage {
 				// ele=PCDriver.getDriver().findElement(By.xpath("//iframe[@class='cke_wysiwyg_frame
 				// cke_reset']"));
 				PCDriver.switchToFrame(PCDriver.getDriver()
-						.findElement(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + i + "]")));
+						.findElement(By.xpath("(//iframe[@title='Rich Text Editor, fieldText_1_1'])")));
 
 				PCDriver.getDriver()
 						.findElement(By.xpath(
@@ -278,9 +287,10 @@ public class HeaderPage {
 						.sendKeys("abc");
 				PCDriver.getDriver().switchTo().defaultContent();
 			}
-			if (PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_30']"))
+
+			if (PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']"))
 					.isEnabled()) {
-				PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_30']")).click();
+				PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']")).click();
 			}
 		}
 	}

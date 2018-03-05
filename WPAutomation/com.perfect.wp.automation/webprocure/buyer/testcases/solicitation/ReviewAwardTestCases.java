@@ -48,7 +48,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = false)
 	public void checkEndDateFilterForFormalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -58,7 +58,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = false)
 	public void checkEndDateFilterForInformalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -68,18 +68,18 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = false)
 	public void checkEndDateFilterForFormalActiveSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
-		edit.clickOnActiveSolicitations();
+		//edit.clickOnActiveSolicitations();
 		edit.setFromEndDate("11/07/2017");
 		edit.setToEndDate("11/09/2017");
 		edit.clickOnFilter();
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = false)
 	public void checkEndDateFilterForInformalActiveSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -90,7 +90,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the vendor response for Formal Solcitation", enabled = true)
+	@Test(description = "This test case will check the vendor response for Formal Solcitation", enabled = false)
 	public void checkVendorResponse() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -148,7 +148,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "", enabled = true)
+	@Test(description = "", enabled = false)
 	public void awardByGroupForInformalSolicitaton() throws IOException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -162,7 +162,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		award.clickGroupsAndAddItems();
 	}
 
-	@Test(description = "", enabled = true)
+	@Test(description = "", enabled = false)
 	public void VerifyCheckBoxForawardAllToOneForInformalSolicitation() {
 
 		home.selectTopNavDropDown("Solicitation");
@@ -179,7 +179,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertEquals(award.verifyCheckBox(), true);
 	}
 
-	@Test(description = "", enabled = true)
+	@Test(description = "", enabled = false)
 	public void VerifyCancelButtonForawardAllToOneForInformalSolicitation() {
 
 		home.selectTopNavDropDown("Solicitation");
@@ -197,7 +197,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "", enabled = true)
+	@Test(description = "", enabled = false)
 	public void awardAllToOneForInformalSolicitation() {
 
 		home.selectTopNavDropDown("Solicitation");
@@ -218,7 +218,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the close button Informal Solicitation when awarding all to One Bid", enabled = true)
+	@Test(description = "This test case will check the close button Informal Solicitation when awarding all to One Bid", enabled = false)
 	public void VerifyCloseForAwardAllToOneForInformalSolicitation() {
 
 		home.selectTopNavDropDown("Solicitation");
@@ -235,7 +235,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertEquals(award.verifyEvaluateAndAwardPage(), true);
 	}
 
-	@Test(description = "This test case will create a new round for Informal Solicitation", enabled = true)
+	@Test(description = "This test case will create a new round for Informal Solicitation", enabled = false)
 	public void CreateNewRound() throws Exception {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -253,7 +253,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(edit.verifyEditedSolicitationSubmission());
 	}
 
-	@Test(description = "This test case will create new round from Award All To One For Bid Page", enabled = true)
+	@Test(description = "This test case will create new round from Award All To One For Bid Page", enabled = false)
 	public void createNewRoundFromAwardAllToOneForBidPage() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -275,7 +275,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(edit.verifyEditedSolicitationSubmission());
 	}
 
-	@Test(description = "This test case will create new round from Award All To One For Bid Page", enabled = true)
+	@Test(description = "This test case will create new round from Award All To One For Bid Page", enabled = false)
 	public void createNewRoundFromAwardByGroupPage() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -297,7 +297,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(edit.verifyEditedSolicitationSubmission());
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = true)
+	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = false)
 	public void FinalizeAwardForInformalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -311,7 +311,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = true)
+	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = false)
 	public void FinalizeAwardForFormalSolicitation() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -325,7 +325,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = true)
+	@Test(description = "This test case will search the Sol via Sol Number and finalize the award", enabled = false)
 	public void ReverseAward() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -336,10 +336,9 @@ public class ReviewAwardTestCases extends PCDriver {
 		award.setConfirmTextOnFinalizePage("Yes");
 		award.clickSubmit();
 		Assert.assertTrue(edit.verifyFinalizeBid());
-
 	}
 
-	@Test(description = "This test case will copy the informal Solicitation", enabled = true)
+	@Test(description = "This test case will copy the informal Solicitation", enabled = false)
 	public void CopySolicitationForInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -359,7 +358,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will copy the formal solicitation", enabled = true)
+	@Test(description = "This test case will copy the formal solicitation", enabled = false)
 	public void CopySolicitationForFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -378,13 +377,13 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	@AfterMethod
 	public void setupAfterTest() {
-		createSol.clickHomeButton();
+		//createSol.clickHomeButton();
 	}
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		home.logout();
+		//home.logout();
 
 	}
 }

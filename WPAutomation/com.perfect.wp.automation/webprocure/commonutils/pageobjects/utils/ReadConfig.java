@@ -80,4 +80,6 @@ public class ReadConfig {
 	public String getAutomationReportPath() {
 		return properties.getProperty("report_path");
 	}
+	
+	
 }

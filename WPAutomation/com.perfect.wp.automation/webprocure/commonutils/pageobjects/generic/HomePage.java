@@ -92,5 +92,6 @@ public class HomePage {
 		PCDriver.waitForElementToBeClickable(lnkLogout);
 		 ((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 		lnkLogout.click();
+		PCDriver.waitForPageLoad();
 	}
 }

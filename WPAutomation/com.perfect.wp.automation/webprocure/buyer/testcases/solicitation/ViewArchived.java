@@ -8,9 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import com.relevantcodes.extentreports.LogStatus;
-
 import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import buyer.pageobjects.solicitationPageObjects.EditSolicitationPageObject;
 import buyer.pageobjects.solicitationPageObjects.ReviewAwardPage;
@@ -78,7 +76,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the end date filter for finalized Informal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter for finalized Informal Solicitation", enabled = false)
 	public void checkEndDateFilterForFinalizedInFormalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -89,7 +87,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the end date filter for finalized Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter for finalized Formal Solicitation", enabled = false)
 	public void checkEndDateFilterForFinalizedFormalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -110,7 +108,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will check start date filter for Finalized Formal Solicitation",enabled=true)
+	@Test(description = "This test case will check start date filter for Finalized Formal Solicitation",enabled=false)
 	public void checkStartDateFilterForFinalizedFormalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -120,7 +118,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will check the end date filter for retracted Informal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter for retracted Informal Solicitation", enabled = false)
 	public void checkEndDateFilterForRetractedSolInFomalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("View Archived");
@@ -143,7 +141,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will check the end date filter of Finalized Informal Solicitation", enabled = true)
+	@Test(description = "This test case will check the end date filter of Finalized Informal Solicitation", enabled = false)
 	public void checkEndDateFilterOfFinalizedSolInInformalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -155,7 +153,7 @@ public class ViewArchived extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the start dete fiter for Finalized Informal Solicitation", enabled = true)
+	@Test(description = "This test case will check the start dete fiter for Finalized Informal Solicitation", enabled = false)
 	public void checkStartDateFilterOfFinalizedSolInInformalSol() {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");
@@ -165,7 +163,7 @@ public class ViewArchived extends PCDriver {
 		Assert.assertTrue(edit.VerifyStartDate());
 	}
 
-	@Test(description = "This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol", enabled = true)
+	@Test(description = "This test case will enter the end dates and check the date range of the filter for Retracted Informal Sol", enabled = false)
 	public void checkEndDateFilterOfRetractedSolInInformalSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("View Archived");

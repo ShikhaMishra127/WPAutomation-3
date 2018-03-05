@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import commonutils.pageobjects.generic.ssnAndFeinGenerator;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadExcelData;
+import commonutils.pageobjects.utils.ssnAndFeinGenerator;
 
 public class CreateSolicitationPOM {
 	SupplierPage supplier = new SupplierPage();
@@ -190,7 +190,7 @@ public class CreateSolicitationPOM {
 		btnNextStep.click();
 		String msg = null;
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -228,6 +228,7 @@ public class CreateSolicitationPOM {
 			btnSubmit.click();
 			
 			System.out.println("Submit button is clicked");
+			//PCDriver.waitForElementToDisappear(By.xpath("//button[contains(text(),'Submit')]"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Submit button not clicked");

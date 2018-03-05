@@ -104,11 +104,12 @@ public class ItemSpecPage {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			PCDriver.waitForElementToBeClickable(successMessage);
 			PCDriver.hoverOnElement(successMessage);
 			PCDriver.waitForElementToBeClickable(successMessageClose);
 			successMessageClose.click();
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -144,6 +145,7 @@ public class ItemSpecPage {
 	}
 
 	public void newItemCategory(String strItemName) {
+		PCDriver.waitForElementToBeClickable(lnkCategory);
 		PCDriver.waitForElementToBeClickable(
 				lnkCategory.findElement(By.xpath("//a[contains(@data-catname,'" + strItemName + "')]")));
 		lnkCategory.findElement(By.xpath("//a[contains(@data-catname,'" + strItemName + "')]")).click();
@@ -174,10 +176,10 @@ public class ItemSpecPage {
 			txtManufacturerName.sendKeys("abcd");
 			txtQuantity.sendKeys("10");
 			try {
-				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;};");
+				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;}");
 				System.out.println("Alert is present");
 
-				//PCDriver.dismissAlert();
+				PCDriver.dismissAlert();
 			} catch (Exception e) {
 				System.out.println("No Alert Present");
 			}

@@ -1,6 +1,7 @@
 package vendor.testcases;
 
 import java.awt.AWTException;
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -18,7 +19,6 @@ import buyer.pageobjects.solicitationPageObjects.ReviewAwardPage;
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.utils.ExtentReport;
-import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
 import vendor.pageobjects.solicitation.CurrentSolicitationsPage;
 import vendor.pageobjects.solicitation.VendorHomePage;
@@ -48,7 +48,7 @@ public class SolicitationResponse {
 			ExtentReport.logger.log(LogStatus.PASS, "Password Entered");
 			login.clickOnLogin();
 			ExtentReport.logger.log(LogStatus.PASS, "Login Button Clicked");
-			// home.clickIgnoreOnPopUp();
+			 home.clickIgnoreOnPopUp();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,12 +80,12 @@ public class SolicitationResponse {
 
 	}
 
-	@Test(description = "This test case will create the response for No Line Item InFormal Solicitation", enabled = false)
-	public void createResponseForInformalSolicitationForNoLineItem() throws AWTException {
+	@Test(description = "This test case will create the response for No Line Item InFormal Solicitation"/*,dependsOnMethods="buyer.testcases.solicitation.CreateSolicitation.informalSolicitationCreationWithNoLineItem"*/, enabled = true)
+	public void createResponseForInformalSolicitationForNoLineItem() throws AWTException, IOException {
 		vendorhome.clickOnSolicitation("Informal");
 		currentSol.clickOtherActiveSolicitations();
-		edit.setSolNumber("RFPC18001228");
-		sol.clickSubmit();
+		//edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
+		//sol.clickSubmit();
 		edit.clickOnThreeDots();
 		review.ThreeDotsMenu("editResp");
 		currentSol.EnterOverviewDetails();
@@ -175,7 +175,7 @@ public class SolicitationResponse {
 		Assert.assertTrue(currentSol.verifyRetractResponse());
 	}
 
-	@Test(description = "This test case will cancel or retract the response", enabled = true)
+	@Test(description = "This test case will cancel or retract the response", enabled = false)
 	public void retractResponseForFormalSolicitationForLineItem() {
 		vendorhome.clickOnSolicitation("Formal");
 		edit.setSolNumber("CPPC18001350");
@@ -193,9 +193,6 @@ public class SolicitationResponse {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
-		PCDriver.getDriver().quit();
-
+		home.logout();
 	}
 }
