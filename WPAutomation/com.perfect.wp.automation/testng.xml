@@ -3,6 +3,5 @@
 <suite name="WebProcure Suite">
 <suite-files>
 <suite-file path="Solicitation.xml"></suite-file>
-<suite-file path="Request.xml"></suite-file>
 </suite-files>
 </suite> <!-- Suite -->
