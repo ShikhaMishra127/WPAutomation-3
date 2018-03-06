@@ -1,6 +1,7 @@
 package buyer.pageobjects.solicitationPageObjects;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -72,6 +73,9 @@ public class HeaderPage {
 
 	@FindBy(xpath = "//button[text()='Add Field'][@data-sectionindex='1']")
 	public WebElement btnAddField;
+	
+	@FindBy(xpath="//div[contains(@id,'sectionRow')]")
+	public List<WebElement> customFieldsSection;
 
 	@FindBy(xpath = "//div[contains(@class,'fieldTitleDiv input-group')]")
 	public WebElement fieldTitle;
@@ -248,22 +252,23 @@ public class HeaderPage {
 		PCDriver.waitForElementToBeClickable(btnAddNewSection);
 		btnAddNewSection.click();
 
-		PCDriver.waitForElementToBeClickable(txtSectionTitle);
-		txtSectionTitle.clear();
-		txtSectionTitle.sendKeys("testing");
+		PCDriver.waitForElementToBeClickable(customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'sectionTitle')]")));
+		customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'sectionTitle')]")).clear();
+		customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'sectionTitle')]")).sendKeys("testing");
 		for (int i = 1; i < 6; i++) {
 
 			try {
-
-				btnAddField.click();
+				
+				customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//button[text()='Add Field']")).click();
 			} catch (Exception e) {
 				System.out.println("Section not present");
 			}
-			PCDriver.waitForElementToBeClickable(fieldTitle);
+			
+			PCDriver.waitForElementToBeClickable(customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'fieldTitle_"+i+"')]")));
 
 
-			fieldTitle.findElement(By.xpath("//input[contains(@id,'fieldTitle_" + i + "_1')]")).sendKeys("" + i);
-			new Select(drpDownfieldType.findElement(By.xpath("//select[contains(@id,'fieldType_" + i + "_1')]")))
+			customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'fieldTitle_"+i+"')]")).sendKeys("" + i);
+			new Select(customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath("//select[contains(@id,'fieldType_" +i+"')]")))
 					.selectByIndex(i);
 			// int x = i - 1;
 			try {
@@ -272,14 +277,14 @@ public class HeaderPage {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (PCDriver.getDriver()
+			if (customFieldsSection.get(customFieldsSection.size()-1)
 					.findElements(By.xpath("(//iframe[@class='cke_wysiwyg_frame cke_reset'])[" + i + "]"))
 					.size() != 0) {
 				// WebElement
 				// ele=PCDriver.getDriver().findElement(By.xpath("//iframe[@class='cke_wysiwyg_frame
 				// cke_reset']"));
-				PCDriver.switchToFrame(PCDriver.getDriver()
-						.findElement(By.xpath("(//iframe[@title='Rich Text Editor, fieldText_1_1'])")));
+				PCDriver.switchToFrame(
+						customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//iframe[contains(@title,'Rich Text Editor, fieldText_1')]")));
 
 				PCDriver.getDriver()
 						.findElement(By.xpath(
@@ -288,9 +293,9 @@ public class HeaderPage {
 				PCDriver.getDriver().switchTo().defaultContent();
 			}
 
-			if (PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']"))
+			if (customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'attrib_" + i + "_VendorResponse')]"))
 					.isEnabled()) {
-				PCDriver.getDriver().findElement(By.xpath("//input[@id='attrib_" + i + "_VendorResponse_1']")).click();
+				customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'attrib_" + i + "_VendorResponse')]")).click();
 			}
 		}
 	}
