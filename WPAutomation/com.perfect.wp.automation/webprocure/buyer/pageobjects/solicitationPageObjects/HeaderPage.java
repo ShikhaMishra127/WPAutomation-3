@@ -284,7 +284,7 @@ public class HeaderPage {
 				// ele=PCDriver.getDriver().findElement(By.xpath("//iframe[@class='cke_wysiwyg_frame
 				// cke_reset']"));
 				PCDriver.switchToFrame(
-						customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//iframe[contains(@title,'Rich Text Editor, fieldText_1')]")));
+						customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//iframe[contains(@title,'Rich Text Editor, fieldText_"+i+"')]")));
 
 				PCDriver.getDriver()
 						.findElement(By.xpath(
