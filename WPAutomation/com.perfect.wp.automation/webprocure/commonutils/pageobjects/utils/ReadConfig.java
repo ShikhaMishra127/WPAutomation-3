@@ -77,6 +77,10 @@ public class ReadConfig {
 		return properties.getProperty("whiteLabelUrl");
 	}
 	
+	public String getAltecRegistrationUrl() {
+  return properties.getProperty("altecRegistrationUrl");
+ }
+	
 	public String getAutomationReportPath() {
 		return properties.getProperty("report_path");
 	}
