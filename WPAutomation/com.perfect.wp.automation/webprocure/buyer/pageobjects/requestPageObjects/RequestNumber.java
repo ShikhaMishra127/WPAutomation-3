@@ -3,6 +3,7 @@ package buyer.pageobjects.requestPageObjects;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import commonutils.pageobjects.utils.PCDriver;
 
@@ -24,10 +25,12 @@ public class RequestNumber {
 
 		PCDriver.getDriver().switchTo().defaultContent();
 		// PCDriver.switchToDefaultWindow();
-		Thread.sleep(10000);
+		Thread.sleep(8000);
 		PCDriver.switchToFrameBasedOnFrameName("reqcart");
 		// System.out.println(reqcartframe.getAttribute("name"));
-		System.out.println(reqname.getAttribute("value"));
+		PCDriver.waitForElementToBeClickable(reqname);
+		System.out.println("Req name is: "+reqname.getAttribute("value"));
+		Assert.assertFalse(reqname.getAttribute("value").isEmpty());
 		return reqname.getAttribute("value");
 	}
 }

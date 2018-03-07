@@ -32,6 +32,7 @@ public class ExtentReport implements ITestListener {
 		File source = ts.getScreenshotAs(OutputType.FILE);
 		// after execution, you could see a folder "FailedTestsScreenshots" under src
 		// folder
+		  //String destination = "tmp/FailedTestsScreenshots/" + screenshotName + dateName
 		String destination =   "/tmp/FailedTestsScreenshots/" + screenshotName + dateName
 				+ ".png";
 		File finalDestination = new File(destination);
@@ -93,7 +94,9 @@ public class ExtentReport implements ITestListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
-		// TODO Auto-generated method stub
+		PCDriver.getDriver().quit();
+		ExtentReport.report.flush();
+		ExtentReport.report.close();
 
 	}
 

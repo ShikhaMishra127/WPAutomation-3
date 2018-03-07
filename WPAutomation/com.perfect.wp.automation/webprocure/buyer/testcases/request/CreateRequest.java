@@ -7,9 +7,11 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
-
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import buyer.pageobjects.requestPageObjects.CreateRequestPOM;
 import buyer.pageobjects.requestPageObjects.OffCatalogReqPOM;
+import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import buyer.pageobjects.requestPageObjects.RequestNumber;
 import buyer.pageobjects.requestPageObjects.ViewRequest;
 import commonutils.pageobjects.generic.HomePage;
@@ -31,6 +33,8 @@ public class CreateRequest extends PCDriver {
 	OffCatalogReqPOM offcatreq = new OffCatalogReqPOM();
 	RequestNumber reqnum = new RequestNumber();
 	ViewRequest viewreq = new ViewRequest();
+	CreateSolicitationPOM sol=new CreateSolicitationPOM();
+
 
 	@BeforeClass
 	public void setup() {
@@ -72,6 +76,7 @@ public class CreateRequest extends PCDriver {
 	 */
 
 	/*
+<<<<<<< Updated upstream:WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/request/CreateRequest.java
 	 * @Test(description = "This test will field is mandaotry or not") public void
 	 * valuefieldismandatory() throws Exception{
 	 * reqnav.requestdropdown("Create new");
@@ -79,16 +84,47 @@ public class CreateRequest extends PCDriver {
 	 * 
 	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(), "Alert");
 	 * offcatreq.acceptalertbox();
+=======
+	 * @Test(description = "This test will field is mandaotry or not") public
+	 * void valuefieldismandatory() throws Exception{ reqnav.requestdropdown(
+	 * "Create new"); reqnav.typesofreqlist("Off-Catalog Request");
+	 * 
+	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(),
+	 * "Alert"); offcatreq.acceptalertbox();
+>>>>>>> Stashed changes:WPAutomation/com.perfect.wp.automation/buyer/testcases/request/CreateRequest.java
+	 * C:\Users\Sunal\Documents\RequestAttachment\VendorReport_Quote_RFQ18000151.txt
 	 * 
 	 * }
 	 */
-	@Test(description = "This test will create Off Catalog Request")
+	@Test(description = "This test will create Off Catalog Request",enabled = true)
 	public void createoffcatreq() throws Exception {
 		reqnav.requestdropdown("Create new");
 		reqnav.typesofreqlist("Off-Catalog Request");
 		offcatreq.additemtooffcatreq();
 		ReadExcelData.getInstance("Request").updateCellValue("RequestName", reqnum.requestname());
-		viewreq.requestsubmission();
+		// viewreq.attachmenttab(ReadExcelData.getInstance("Attachments").getStringValue("filename"));
+		//viewreq.requestsubmission();
+		viewreq.movetoviewreq();
+		viewreq.attachmenttab(ReadExcelData.getInstance("processreqtabs").getStringValue("filename"));
+		viewreq.justificationtab();
+		viewreq.buyercontacttab();
+		viewreq.assignacctcode();
+		viewreq.lineitemattachment(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentname"));
+		viewreq.submitrequest();
+		viewreq.confirmationpage();
+		Assert.assertEquals(viewreq.successfullsubmissionmsg(), "Request successfully submitted.");
+	}
+	
+	@AfterMethod
+	public void tearDownAfterTest() {
+		sol.clickHomeButton();
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		home.logout();
+
 	}
 
 }

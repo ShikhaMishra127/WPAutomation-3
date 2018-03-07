@@ -2,6 +2,7 @@ package buyer.testcases.solicitation;
 
 import java.awt.AWTException;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -53,15 +54,24 @@ public class SolicitationImport extends PCDriver {
 		solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
 
-	@Test
+	//@Test
 	public void DownloadSolicitationTemplate() throws AWTException {
 		home.selectTopNavDropDown("Solicitation");
-		// sol.informalSolicationsMenu("Import");
+		 sol.informalSolicationsMenu("Import");
+		 solimport.clickDownloadTemplateButton();
 		// solimport.uploadFile(ReadConfig.getInstance().getExcelPath());
 	}
 
 	@AfterMethod
 	public void setupAfterTest() {
-		createSol.clickHomeButton();
+		//createSol.clickHomeButton();
+
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		//home.logout();
+
 	}
 }

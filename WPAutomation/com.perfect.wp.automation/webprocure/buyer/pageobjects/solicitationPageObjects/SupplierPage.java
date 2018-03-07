@@ -3,6 +3,7 @@ package buyer.pageobjects.solicitationPageObjects;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -119,7 +120,7 @@ public class SupplierPage {
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnClose;
 
-	@FindBy(xpath = "//td/input")
+	@FindBy(xpath = "//td/input[@title='select'and not(contains(@type,'hidden'))]|//td/input[@value='Y']")
 	public List<WebElement> lstSearchResults;
 
 	/******************************** New Search **********************************/
@@ -163,9 +164,10 @@ public class SupplierPage {
 		try {
 			new WebDriverWait(PCDriver.getDriver(), 30).ignoring(NoAlertPresentException.class)
 					.until(ExpectedConditions.alertIsPresent());
-			PCDriver.getDriver().switchTo().alert().accept();
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;};");
+			//PCDriver.getDriver().switchTo().alert().accept();
 		} catch (Exception e) {
-			System.out.println("No Supplier Alert Present");
+			System.out.println("No Alert Present");
 		}
 
 	}
@@ -191,12 +193,12 @@ public class SupplierPage {
 	}
 
 	public void searchSupplier(String strSupplierName) {
+		PCDriver.waitForElementToBeClickable(lnkSelectedSupplier);
 		lnkSelectedSupplier.click();
 		PCDriver.waitForElementToBeClickable(btnNewSearch);
 		btnNewSearch.click();
 		PCDriver.waitForElementToBeClickable(txtSName);
 		txtSName.sendKeys(strSupplierName);
-		System.out.println("Hi Anshul this side");
 		btnSearch.click();
 
 	}
@@ -211,11 +213,16 @@ public class SupplierPage {
 		}
 		while (btnNext.size() != 0) {
 			PCDriver.waitForPageLoad();
+			System.out.println("size is : " + lstSearchResults.size());
 			for (int i = 0; i < lstSearchResults.size(); i++) {
-				PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
+				//PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
 				// PCDriver.waitForElementToBeClickable(chkBoxCheck);
 				PCDriver.visibilityOfListLocated(lstSearchResults);
+				if(lstSearchResults.size()!=0) {
+				
 				lstSearchResults.get(i).click();
+				}
+				
 			}
 			try {
 				btnSave.click();

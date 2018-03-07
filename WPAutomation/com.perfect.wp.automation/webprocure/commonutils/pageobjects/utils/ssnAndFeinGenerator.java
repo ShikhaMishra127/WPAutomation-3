@@ -1,4 +1,4 @@
-package commonutils.pageobjects.generic;
+package commonutils.pageobjects.utils;
 
 public class ssnAndFeinGenerator {
 
