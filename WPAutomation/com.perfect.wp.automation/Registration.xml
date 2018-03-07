@@ -16,5 +16,17 @@
 			</class>
 		</classes>
 	</test> <!-- Test -->
+	<test name="Test">
+		<classes>
+			<class
+				name="testcases.AltecRegistrationTestCases">
+				
+				<methods>
+					<include name=""></include>
+					<include name=""></include>
+				</methods>
+			</class>
+		</classes>
+	</test> <!-- Test -->
 </suite> <!-- Suite -->
     
