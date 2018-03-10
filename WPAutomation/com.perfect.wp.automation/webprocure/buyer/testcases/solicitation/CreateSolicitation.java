@@ -221,7 +221,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = true)
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = false)
 	public void formalSolicitationByCreatingLineItem() throws Exception {
 		solNav.formalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -234,7 +234,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
-		sol.createLineItem(10, "Apparel");
+		sol.createLineItem(10, "Cleaning");
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
 		sol.searchSupplier();
@@ -248,7 +248,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = true)
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = false)
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -261,7 +261,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
-		sol.createLineItem(10, "Apparel");
+		sol.createLineItem(10, "Cleaning");
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
 		sol.searchSupplier();
@@ -287,7 +287,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
@@ -311,7 +311,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.EnterQuestionnaire();
 		sol.clickOnNextStep();
 		sol.clickOnNextStep();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
 		// sol.searchSupplier();
@@ -338,7 +338,7 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		sol.createNewGroup("Testing");
 		sol.waitForItemSpecLibraryLinkToDisappear();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Apparel"), true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
 		sol.switchOnAdjustmentHandler();
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
