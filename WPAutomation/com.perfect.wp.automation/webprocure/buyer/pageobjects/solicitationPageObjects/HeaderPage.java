@@ -236,6 +236,7 @@ public class HeaderPage {
 		} catch (Exception e) {
 			System.out.println("Category Button not present");
 		}
+		Thread.sleep(4000);
 		PCDriver.waitForElementToBeClickable(chkBoxCategory);
 		if (chkBoxCategory.isDisplayed()) {
 			PCDriver.waitForElementToBeEnable(By.xpath("//li//span[contains(text(),'" + CategoryName
