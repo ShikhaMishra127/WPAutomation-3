@@ -24,6 +24,7 @@ public class solicitationNavigation {
 	 * Informal Solicitation DropDown Menu
 	 ******************************************************/
 	public void informalSolicationsMenu(String menuItem) {
+		PCDriver.waitForPageLoad();
 
 		PCDriver.waitForElementToBeClickable(informalSolMenu);
 
@@ -43,6 +44,7 @@ public class solicitationNavigation {
 	}
 
 	public void formalSolicationsMenu(String menuItem) {
+		PCDriver.waitForPageLoad();
 
 		PCDriver.waitForElementToBeClickable(formalSolMenu);
 
