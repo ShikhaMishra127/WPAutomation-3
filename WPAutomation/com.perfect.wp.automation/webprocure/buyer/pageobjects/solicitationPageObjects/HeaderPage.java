@@ -240,6 +240,8 @@ public class HeaderPage {
 		if (chkBoxCategory.isDisplayed()) {
 			PCDriver.waitForElementToBeEnable(By.xpath("//li//span[contains(text(),'" + CategoryName
 					+ "')]//preceding-sibling::span[contains(@class,'fancytree-checkbox')]"));
+			PCDriver.waitForElementToBeClickable(PCDriver.getDriver().findElement(By.xpath("//li//span[contains(text(),'" + CategoryName
+					+ "')]//preceding-sibling::span[contains(@class,'fancytree-checkbox')]")));
 			chkBoxCategory.findElement(By.xpath("//li//span[contains(text(),'" + CategoryName
 					+ "')]//preceding-sibling::span[contains(@class,'fancytree-checkbox')]")).click();
 		}
