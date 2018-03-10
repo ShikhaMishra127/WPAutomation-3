@@ -14,6 +14,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import buyer.pageobjects.solicitationPageObjects.HeaderPage;
+import buyer.pageobjects.solicitationPageObjects.ItemSpecPage;
 import buyer.pageobjects.solicitationPageObjects.SummaryPage;
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.generic.LoginPage;
@@ -34,6 +35,7 @@ public class CreateSolicitation extends PCDriver {
 	solicitationNavigation solNav = new solicitationNavigation();
 	HeaderPage header = new HeaderPage();
 	SummaryPage summary = new SummaryPage();
+	ItemSpecPage item = new ItemSpecPage();
 
 	@BeforeClass
 	public void setup() {
@@ -192,7 +194,8 @@ public class CreateSolicitation extends PCDriver {
 			sol.CreateSupplier();
 			sol.clickOnNextStep();
 			sol.clickSubmit();
-			Assert.assertEquals(sol.verifySuccessMessage(), "This solicitation has been submitted to pre-issue workflow for approval.");
+			Assert.assertEquals(sol.verifySuccessMessage(),
+					"This solicitation has been submitted to pre-issue workflow for approval.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -234,7 +237,8 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
-		sol.createLineItem(10, "Cleaning");
+		sol.createLineItem(2, "Apparel");
+		Assert.assertTrue(item.verifyItemSpec());
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
 		sol.searchSupplier();
@@ -248,7 +252,7 @@ public class CreateSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = false)
+	@Test(description="This test case will create the Solicitation by creating new line item and searching for a supplier and adding it",enabled=false)	
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
 		solNav.informalSolicationsMenu("Create");
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
@@ -366,8 +370,8 @@ public class CreateSolicitation extends PCDriver {
 		sol.clickOnNextStep();
 		sol.createNewGroup("Testing");
 		sol.waitForItemSpecLibraryLinkToDisappear();
-		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Building and Construction Machinery and Accessories"),
-				true, "lines items are added");
+		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Electronic Components and Supplies"), true,
+				"lines items are added");
 		sol.switchOnAdjustmentHandler();
 		sol.clickOnNextStep();
 		sol.CreateSupplier();
@@ -439,9 +443,10 @@ public class CreateSolicitation extends PCDriver {
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
 
-		/*ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();*/
+		/*
+		 * ExtentReport.report.endTest(ExtentReport.logger);
+		 * ExtentReport.report.flush(); ExtentReport.report.close();
+		 */
 		home.logout();
 
 	}

@@ -46,8 +46,8 @@ public class CreateSolicitationPOM {
 
 	@FindBy(xpath = "(//div[@class='panel-body'])[3]")
 	public WebElement addInfoSection;
-	
-	@FindBy(xpath="//div[@class='bootbox modal fade bootbox-alert in']")
+
+	@FindBy(xpath = "//div[@class='bootbox modal fade bootbox-alert in']")
 	public WebElement popUpAdjustment;
 
 	@FindBy(xpath = "//h4[contains(text(),'Info') and not(contains(text(),'Header'))]")
@@ -129,6 +129,7 @@ public class CreateSolicitationPOM {
 	}
 
 	public void createLineItem(int index, String strItem) {
+		PCDriver.waitForPageLoad();
 		item.CreateNewItem(index, strItem);
 
 	}
@@ -175,7 +176,8 @@ public class CreateSolicitationPOM {
 
 	public void searchSupplier() {
 		try {
-			PCDriver.acceptAlert();
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm =function(){return true;}");
+			// PCDriver.acceptAlert();
 		} catch (Exception e) {
 			System.out.println("Alert not present");
 		}
@@ -201,8 +203,8 @@ public class CreateSolicitationPOM {
 
 			// msg=(String) ((JavascriptExecutor)PCDriver.getDriver()).executeScript("return
 			// window.alert.getText;");
-			//msg = PCDriver.getDriver().switchTo().alert().getText();
-			//PCDriver.getDriver().switchTo().alert().accept();
+			// msg = PCDriver.getDriver().switchTo().alert().getText();
+			// PCDriver.getDriver().switchTo().alert().accept();
 			// ((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm =
 			// function(){return true;}");
 
@@ -214,27 +216,29 @@ public class CreateSolicitationPOM {
 
 	public void clickSubmit() {
 		try {
-			//Thread.sleep(10000);
+			// Thread.sleep(10000);
 			PCDriver.waitForPageLoad();
-			//WebElement ele=PCDriver.getDriver().findElement(By.cssSelector("button.btn:nth-child(4)"));
-			
+			// WebElement
+			// ele=PCDriver.getDriver().findElement(By.cssSelector("button.btn:nth-child(4)"));
+
 			PCDriver.waitForElementToBeClickable(btnSubmit);
-			/*Actions builder = new Actions(PCDriver.getDriver());
-	        builder.moveToElement(ele).click(ele);
-	        builder.perform();
-	        */
-			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg) { return true; }");
+			/*
+			 * Actions builder = new Actions(PCDriver.getDriver());
+			 * builder.moveToElement(ele).click(ele); builder.perform();
+			 */
+			((JavascriptExecutor) PCDriver.getDriver())
+					.executeScript("window.confirm = function(msg) { return true; }");
 
 			btnSubmit.click();
-			
+
 			System.out.println("Submit button is clicked");
-			//PCDriver.waitForElementToDisappear(By.xpath("//button[contains(text(),'Submit')]"));
+			// PCDriver.waitForElementToDisappear(By.xpath("//button[contains(text(),'Submit')]"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Submit button not clicked");
 		}
 		try {
-			//PCDriver.getDriver().switchTo().alert().accept();
+			// PCDriver.getDriver().switchTo().alert().accept();
 
 			System.out.println("Alert is present");
 
@@ -282,7 +286,7 @@ public class CreateSolicitationPOM {
 
 	public void createNewGroup(String str) {
 		item.CreateGroup(str);
-		//PCDriver.waitForPageLoad();
+		// PCDriver.waitForPageLoad();
 	}
 
 	public void switchOnAdjustmentHandler() {
@@ -291,8 +295,7 @@ public class CreateSolicitationPOM {
 		try {
 			PCDriver.waitForElementToBeClickable(popUpAdjustment, Long.valueOf(String.valueOf(15)));
 			PCDriver.getDriver().findElement(By.xpath("//button[contains(text(),'OK')]")).click();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Adjustment Popup is not opened");
 		}
 	}

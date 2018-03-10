@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import commonutils.pageobjects.utils.PCDriver;
 
@@ -72,8 +73,8 @@ public class ItemSpecPage {
 
 	@FindBy(xpath = "//span[contains(@class,'bootstrap-switch-handle-off bootstrap-switch-warning')]")
 	public WebElement handlerAdjustment;
-	
-	@FindBy(xpath="//tbody/tr[@align='left']/td[text()='0']")
+
+	@FindBy(xpath = "//tbody/tr[@align='left']/td[text()='0']")
 	public WebElement lblquantity;
 
 	/************************* Page Objects Add Item ************************/
@@ -131,7 +132,11 @@ public class ItemSpecPage {
 		PCDriver.waitForElementToBeClickable(lnkSelectedSpecs);
 		lnkSelectedSpecs.click();
 		PCDriver.waitForPageLoad();
-		PCDriver.visibilityOfListLocated(lstSelectedspes);
+		try {
+			PCDriver.visibilityOfListLocated(lstSelectedspes);
+		} catch (Exception e) {
+			System.out.println("List is not present on page");
+		}
 		if (lstSelectedspes.size() != 0) {
 			return true;
 		} else {
@@ -145,6 +150,7 @@ public class ItemSpecPage {
 	}
 
 	public void newItemCategory(String strItemName) {
+		System.out.println("Entered new Category");
 		PCDriver.waitForElementToBeClickable(lnkCategory);
 		PCDriver.waitForElementToBeClickable(
 				lnkCategory.findElement(By.xpath("//a[contains(@data-catname,'" + strItemName + "')]")));
@@ -158,33 +164,46 @@ public class ItemSpecPage {
 
 	public void clickItemSpecLibrary() {
 		PCDriver.waitForElementToBeClickable(itemSpecLink);
-		//PCDriver.waitForPageLoad();
+		// PCDriver.waitForPageLoad();
 		itemSpecLink.click();
 		PCDriver.waitForPageLoad();
 	}
 
 	public void CreateNewItem(int index, String strItem) {
+
 		clickItemSpecLibrary();
 
 		newItemCategory(strItem);
 		for (int i = 0; i < index; i++) {
 			clickCreateNewItem();
+			System.out.println("Clicked create new item");
 			PCDriver.switchToWindow("puw_Item_Add");
+			PCDriver.getDriver().manage().window().maximize();
+			PCDriver.waitForPageLoad();
 			PCDriver.waitForElementToBeClickable(txtItemSpecName);
 			txtItemSpecName.sendKeys("abc" + System.currentTimeMillis());
 			txtItemSpecNumber.sendKeys("100");
 			txtManufacturerName.sendKeys("abcd");
 			txtQuantity.sendKeys("10");
-			try {
-				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;}");
-				System.out.println("Alert is present");
+			
+			PCDriver.waitForElementToBeClickable(btnSave);
 
-				PCDriver.dismissAlert();
+			try {
+				
+				// PCDriver.dismissAlert();
+				// PCDriver.getDriver().close();
+				System.out.println("Alert is present");
+				((JavascriptExecutor)PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView();", btnSave);
+				Thread.sleep(4000);
+				btnSave.click();
+				
+				 PCDriver.getDriver().close();
+
+
 			} catch (Exception e) {
 				System.out.println("No Alert Present");
 			}
-			btnSave.click();
-			
+
 			PCDriver.switchToWindow("");
 			PCDriver.waitForPageLoad();
 

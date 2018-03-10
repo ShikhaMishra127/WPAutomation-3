@@ -43,7 +43,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the informal sol by searching title and submit", enabled = true)
+	@Test(description = "This test case will edit the informal sol by searching title and submit", enabled = false)
 	public void EditInformalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		// edit.clickOnActiveSolicitations();
@@ -62,7 +62,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the formal sol by searching title and submit", enabled = true)
+	@Test(description = "This test case will edit the formal sol by searching title and submit", enabled = false)
 	public void EditFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.setTitleForSearch("QA Automation1517306442148");
@@ -93,7 +93,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
 
-	@Test(description = "This test case will create the addendum for Informal Solicitation", enabled = true)
+	@Test(description = "This test case will create the addendum for Informal Solicitation", enabled = false)
 	public void CreateAddendumForInFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		// edit.setTitleForSearch(ReadExcelData.getInstance("Solicitation").getStringValue("Title"));
@@ -110,7 +110,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifyAddendumSubmission());
 	}
 
-	@Test(description = "This test case will edit the Informal Solicitation searching by Sol Number", enabled = true)
+	@Test(description = "This test case will edit the Informal Solicitation searching by Sol Number", enabled = false)
 	public void EditInformalSolicitationUsingSolNumberAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		edit.setSolNumber(edit.getSolNumber(0));
@@ -128,7 +128,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the Formal Solicitation searching by Sol Number", enabled = true)
+	@Test(description = "This test case will edit the Formal Solicitation searching by Sol Number", enabled = false)
 	public void EditFormalSolicitationUsingSolNumberAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.setSolNumber(edit.getSolNumber(0));
@@ -144,7 +144,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = false)
 	public void VerifySolicitationHistoryForFormalSolicitation() {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -153,7 +153,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(edit.verifySolHistory());
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = false)
 	public void VerifySolicitationHistoryForInformalSolicitation() {
 		home.clickInformalSolicitationEdit();
 		edit.clickOnActiveSolicitations();
@@ -265,14 +265,14 @@ public class EditSolicitation extends PCDriver {
 
 	@AfterMethod
 	public void setupAfterTest() {
-		 createSol.clickHomeButton();
+	//	 createSol.clickHomeButton();
 
 	}
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		home.logout();
+		//home.logout();
 
 	}
 }

@@ -162,8 +162,8 @@ public class SupplierPage {
 
 	public void AcceptSupplierAlert() {
 		try {
-			new WebDriverWait(PCDriver.getDriver(), 30).ignoring(NoAlertPresentException.class)
-					.until(ExpectedConditions.alertIsPresent());
+			/*new WebDriverWait(PCDriver.getDriver(), 5).ignoring(NoAlertPresentException.class)
+					.until(ExpectedConditions.alertIsPresent());*/
 			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;};");
 			//PCDriver.getDriver().switchTo().alert().accept();
 		} catch (Exception e) {
@@ -217,6 +217,12 @@ public class SupplierPage {
 			for (int i = 0; i < lstSearchResults.size(); i++) {
 				//PCDriver.waitForElementToDisappear(By.xpath("//td/input[@checked='']"));
 				// PCDriver.waitForElementToBeClickable(chkBoxCheck);
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				PCDriver.visibilityOfListLocated(lstSearchResults);
 				if(lstSearchResults.size()!=0) {
 				
@@ -225,8 +231,10 @@ public class SupplierPage {
 				
 			}
 			try {
+				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;};");
+
 				btnSave.click();
-				PCDriver.acceptAlert();
+				//PCDriver.acceptAlert();
 			} catch (Exception e) {
 
 			} finally {

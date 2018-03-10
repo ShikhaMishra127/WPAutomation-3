@@ -283,7 +283,7 @@ public class HeaderPage {
 				// WebElement
 				// ele=PCDriver.getDriver().findElement(By.xpath("//iframe[@class='cke_wysiwyg_frame
 				// cke_reset']"));
-				try{
+				try {
 				PCDriver.switchToFrame(
 						customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//iframe[contains(@title,'Rich Text Editor, fieldText_"+i+"')]")));
 
@@ -292,10 +292,9 @@ public class HeaderPage {
 								"//body[@class='cke_editable cke_editable_themed cke_contents_ltr cke_show_borders']"))
 						.sendKeys("abc");
 				PCDriver.getDriver().switchTo().defaultContent();
-				}catch (Exception e) {
-				System.out.println("Section not present");
-			}
-				
+				}catch(Exception e) {
+					System.out.println("Iframe is not available");
+				}
 			}
 
 			if (customFieldsSection.get(customFieldsSection.size()-1).findElement(By.xpath(".//input[contains(@id,'attrib_" + i + "_VendorResponse')]"))

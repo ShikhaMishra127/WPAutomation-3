@@ -22,6 +22,7 @@ public class SummaryPage {
 	public List<WebElement> lstItemColumn;
 
 	public boolean verifyListIsPresentInSummaryForSupplier() {
+		PCDriver.waitForPageLoad();
 		if (lstsupplierColumn.size() != 0) {
 			return false;
 
