@@ -225,6 +225,8 @@ public class HeaderPage {
 	}
 
 	public void selectNoLineItemCheckBox() {
+		PCDriver.waitForElementToBeClickable(chkBoxNoLineItem);
+
 		chkBoxNoLineItem.click();
 	}
 
