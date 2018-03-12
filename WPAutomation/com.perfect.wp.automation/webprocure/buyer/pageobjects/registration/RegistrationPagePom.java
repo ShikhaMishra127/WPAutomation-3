@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 import commonutils.pageobjects.utils.PCDriver;
+import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
+import commonutils.pageobjects.utils.ssnAndFeinGenerator;
 
 public class RegistrationPagePom {
 
@@ -39,6 +42,7 @@ public class RegistrationPagePom {
 	/***************************** First Page *************************/
 
 	public void clickBegin() {
+		PCDriver.waitForElementToBeClickable(btnBegin);
 		btnBegin.click();
 
 	}
@@ -59,7 +63,7 @@ public class RegistrationPagePom {
 	 * Common Elements
 	 *************************************/
 
-	@FindBy(xpath = "(//img[@title='Continue'])[1]")
+	@FindBy(xpath = "(//img[@title='Continue'])[2]")
 	public WebElement btnContinue;
 
 	@FindBy(xpath = "(//img[@title='Go Previous'])[1]")
@@ -77,12 +81,18 @@ public class RegistrationPagePom {
 
 	@FindBy(xpath = "//table[@class='errorTable']//span[contains(text(),'SSN')]")
 	public WebElement duplicateSsnCheck;
+	
+	@FindBy(xpath="	//table[@class='errorTable']//span[@style='color: red;']")
+	public WebElement duplicateFienCheck;
 
 	public void clickContinue() {
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnContinue);
+		PCDriver.waitForElementToBeClickable(btnContinue);
 		btnContinue.click();
 	}
 
 	public void clickPrevious() {
+		PCDriver.waitForElementToBeClickable(btnPrevious);
 		btnPrevious.click();
 	}
 
@@ -103,15 +113,28 @@ public class RegistrationPagePom {
 			return false;
 		}
 	}
-
+	
+	public boolean duplicateFeinCheck() {
+		if (duplicateFienCheck.isDisplayed()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public void navigateToHome() {
+		PCDriver.getDriver().navigate().to(ReadConfig.getInstance().getApplicationUrl());
+	}
+	//table[@class='errorTable']//span[@style='color: red;']
 	public void setOrgInfo() throws IOException {
 		try {
 			OrganizationInfo OrgInfo = new OrganizationInfo();
 			clickBegin();
 			clickAccept();
+			PCDriver.waitForPageLoad();
 			OrgInfo.setCompanyName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
-			OrgInfo.setFein(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
-			OrgInfo.setSSN(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));
+			OrgInfo.setFein(ssnAndFeinGenerator.FeinGenerator());
+			OrgInfo.setSSN(ssnAndFeinGenerator.generateSSN());
 			OrgInfo.selectEnterpriseType(ReadExcelData.getInstance(sheetName).getStringValue("EnterpriseType"));
 			OrgInfo.setOfficeType(ReadExcelData.getInstance(sheetName).getStringValue("OfficeType"));
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
@@ -129,13 +152,18 @@ public class RegistrationPagePom {
 		}
 	}
 
-	public void setOrgInfoWithFeinOnly() throws IOException {
+	public void setOrgInfoWithFeinOnly(boolean check) throws IOException {
 		try {
 			OrganizationInfo OrgInfo = new OrganizationInfo();
 			clickBegin();
 			clickAccept();
 			OrgInfo.setCompanyName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
-			OrgInfo.setFein(ReadExcelData.getInstance(sheetName).getStringValue("FEINOnly"));
+			if(check==true) {
+			OrgInfo.setFein(ssnAndFeinGenerator.FeinGenerator());
+			}
+			else {
+				OrgInfo.setFein(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
+			}
 			OrgInfo.selectEnterpriseType(ReadExcelData.getInstance(sheetName).getStringValue("EnterpriseType"));
 			OrgInfo.setOfficeType(ReadExcelData.getInstance(sheetName).getStringValue("OfficeType"));
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
@@ -153,13 +181,19 @@ public class RegistrationPagePom {
 		}
 	}
 
-	public void setOrgInfoWithSsnOnly() throws IOException {
+	public void setOrgInfoWithSsnOnly(boolean check) throws IOException {
 		try {
 			OrganizationInfo OrgInfo = new OrganizationInfo();
 			clickBegin();
 			clickAccept();
+			
 			OrgInfo.setCompanyName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
-			OrgInfo.setSSN(ReadExcelData.getInstance(sheetName).getStringValue("SSNOnly"));
+			if(check==true) {
+			OrgInfo.setSSN(ssnAndFeinGenerator.generateSSN());
+			}
+			else {
+				OrgInfo.setSSN(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));
+			}
 			OrgInfo.selectEnterpriseType(ReadExcelData.getInstance(sheetName).getStringValue("EnterpriseType"));
 			OrgInfo.setOfficeType(ReadExcelData.getInstance(sheetName).getStringValue("OfficeType"));
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
@@ -178,7 +212,7 @@ public class RegistrationPagePom {
 	}
 
 	public void setContactInfo() {
-
+		PCDriver.waitForPageLoad();
 		ContactInfo contact = new ContactInfo();
 		try {
 			contact.setFirstName(ReadExcelData.getInstance(sheetName).getStringValue("FirstName"));
@@ -220,7 +254,7 @@ public class RegistrationPagePom {
 			Random r = new Random();
 			char c = (char) (r.nextInt(26) + 'a');
 
-			select.setUsername(ReadExcelData.getInstance(sheetName).getStringValue("Username") + c);
+			select.setUsername(ReadExcelData.getInstance(sheetName).getStringValue("Username") + System.currentTimeMillis());
 			select.setPassword(ReadExcelData.getInstance(sheetName).getStringValue("Password"));
 			select.setConfirmPassword(ReadExcelData.getInstance(sheetName).getStringValue("Password"));
 		} catch (IOException e) {
@@ -315,17 +349,29 @@ public class RegistrationPagePom {
 		public void setFein(String strFein) {
 			PCDriver.waitForElementToBeClickable(txtFeinId);
 			txtFeinId.sendKeys(strFein);
+			try {
+				ReadExcelData.getInstance(sheetName).updateCellValue("FEIN", strFein);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		public void setSSN(String strSsn) {
 			PCDriver.waitForElementToBeClickable(txtSsn);
 			txtSsn.sendKeys(strSsn);
+			try {
+				ReadExcelData.getInstance(sheetName).updateCellValue("SSN", strSsn);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		public void selectEnterpriseType(String value) {
 			PCDriver.waitForElementToBeClickable(drpDownEnterpriseType);
 			drpDownEnterpriseType.click();
-			drpDownEnterpriseType.findElement(By.xpath("//option[text()='" + value + "']")).click();
+			drpDownEnterpriseType.findElement(By.xpath("//option[contains(text(),'" + value + "')]")).click();
 
 		}
 
@@ -429,10 +475,12 @@ public class RegistrationPagePom {
 			for (int i = 1; i < 3; i++) {
 
 				if (i == 1) {
+					((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", txtPostalCode.findElement(By.xpath("//input[@name='orgInfoCmd.zip" + i + "']")));
+
 					txtPostalCode.findElement(By.xpath("//input[@name='orgInfoCmd.zip" + i + "']"))
-							.sendKeys(strPostalCode.substring(1, 6));
+							.sendKeys(strPostalCode.substring(0, 5));
 				} else if (i == 2 && strPostalCode.length() > 6) {
-					txtFaxNumber.findElement(By.xpath("//input[@name='orgInfoCmd.fax" + i + "']"))
+					txtPostalCode.findElement(By.xpath("//input[@name='orgInfoCmd.zip" + i + "']"))
 							.sendKeys(strPostalCode.substring(7, strPostalCode.length()));
 				}
 			}
@@ -475,10 +523,12 @@ public class RegistrationPagePom {
 		}
 
 		public void setFirstName(String strFirstName) {
+			PCDriver.waitForElementToBeClickable(txtFirstName);
 			txtFirstName.sendKeys(strFirstName);
 		}
 
 		public void setLastName(String strLastName) {
+			PCDriver.waitForElementToBeClickable(txtLastName);
 			txtLastName.sendKeys(strLastName);
 		}
 

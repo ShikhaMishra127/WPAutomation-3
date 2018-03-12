@@ -232,13 +232,16 @@ public class HeaderPage {
 
 	public void clickAndSelectCategory(String CategoryName) throws InterruptedException {
 		try {
+			PCDriver.waitForElementToBeClickable(btnCat);
 			btnCat.click();
 		} catch (Exception e) {
 			System.out.println("Category Button not present");
 		}
-		Thread.sleep(4000);
+
+		Thread.sleep(3000);
 		PCDriver.waitForElementToBeClickable(chkBoxCategory);
 		if (chkBoxCategory.isDisplayed()) {
+			
 			PCDriver.waitForElementToBeEnable(By.xpath("//li//span[contains(text(),'" + CategoryName
 					+ "')]//preceding-sibling::span[contains(@class,'fancytree-checkbox')]"));
 			PCDriver.waitForElementToBeClickable(PCDriver.getDriver().findElement(By.xpath("//li//span[contains(text(),'" + CategoryName

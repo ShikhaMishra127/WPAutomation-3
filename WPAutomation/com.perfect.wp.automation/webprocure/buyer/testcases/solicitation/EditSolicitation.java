@@ -43,7 +43,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will edit the informal sol by searching title and submit", enabled = false)
+	@Test(description = "This test case will edit the informal sol by searching title and submit", enabled = true)
 	public void EditInformalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickInformalSolicitationEdit();
 		// edit.clickOnActiveSolicitations();
@@ -79,7 +79,7 @@ public class EditSolicitation extends PCDriver {
 		Assert.assertTrue(createSol.verifySuccessMessage().contains("This solicitation has been submitted"));
 	}
 
-	@Test(description = "This test case will create the addendum for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will create the addendum for Formal Solicitation", enabled = false)
 	public void CreateAddendumForFormalSolicitationUsingTitleAndSubmit() throws IOException {
 		home.clickFormalSolicitationEdit();
 		edit.clickOnActiveSolicitations();

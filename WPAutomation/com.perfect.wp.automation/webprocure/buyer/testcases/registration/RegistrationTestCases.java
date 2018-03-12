@@ -33,7 +33,7 @@ public class RegistrationTestCases {
 		login.clickOnRegisterLink();
 	}
 
-	@Test(description = "This test case will register using both FEIN and SSN")
+	@Test(description = "This test case will register using both FEIN and SSN",enabled=true)
 	public void registrationWithFeinAndSsn() throws IOException {
 		try {
 			register.setOrgInfo();
@@ -56,10 +56,10 @@ public class RegistrationTestCases {
 		}
 	}
 
-	@Test(description = "This test case will register using SSN only")
+	@Test(description = "This test case will register using SSN only",enabled=true)
 	public void registrationWithSsn() throws IOException {
 		try {
-			register.setOrgInfoWithSsnOnly();
+			register.setOrgInfoWithSsnOnly(true);
 			register.clickContinue();
 			register.setContactInfo();
 			register.clickContinue();
@@ -79,10 +79,10 @@ public class RegistrationTestCases {
 		}
 	}
 
-	@Test(description = "This test case will register using Fein only")
+	@Test(description = "This test case will register using Fein only",enabled=true)
 	public void registrationWithFein() throws IOException {
 		try {
-			register.setOrgInfoWithFeinOnly();
+			register.setOrgInfoWithFeinOnly(true);
 			register.clickContinue();
 			register.setContactInfo();
 			register.clickContinue();
@@ -102,35 +102,53 @@ public class RegistrationTestCases {
 		}
 	}
 
-	@Test(description = "This test case will check the duplicate SSN", dependsOnMethods = { "registrationWithSsn" })
+	@Test(description = "This test case will check the duplicate SSN", dependsOnMethods = { "registrationWithSsn" },enabled=true)
 	public void registrationWithDuplicateSsn() throws IOException {
 		try {
-			register.setOrgInfoWithSsnOnly();
+			register.setOrgInfoWithSsnOnly(false);
 			register.clickContinue();
 			Assert.assertEquals(register.duplicateSsnCheck(), true, "Same SSN is already present in the system");
+			register.navigateToHome();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Duplicate SSN message is not visible");
+			register.navigateToHome();
+
 		}
 	}
-
-	// @Test(description="This test case will check the duplicate
-	// SSN",dependsOnMethods= {"registrationWithSsn"})
+/*
+	 @Test(description="This test case will check the duplicate SSN",enabled=true)
 	public void registrationWithDuplicateDuns() throws IOException {
 		try {
-			register.setOrgInfoWithSsnOnly();
+			register.setOrgInfoWithSsnOnly(false);
 			register.clickContinue();
 			Assert.assertEquals(register.duplicateSsnCheck(), true, "Same SSN is already present in the system");
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail("Duplicate SSN message is not visible");
 		}
-	}
+	}*/
+	 
+	 @Test(description="This test case will check the duplicate FEIN",dependsOnMethods = { "registrationWithFein" },enabled=true)
+		public void registrationWithDuplicateFein() throws IOException {
+			try {
+				register.setOrgInfoWithFeinOnly(false);
+				register.clickContinue();
+				Assert.assertEquals(register.duplicateFeinCheck(), true, "System does not allow to register as a Headquarters with the same FEIN.");
+				register.navigateToHome();
+			} catch (Exception e) {
+				e.printStackTrace();
+				Assert.fail("Duplicate Fein message is not visible");
+				register.navigateToHome();
+
+			}
+		}
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
+		/*ExtentReport.report.flush();
+		ExtentReport.report.close();*/
 	}
 }

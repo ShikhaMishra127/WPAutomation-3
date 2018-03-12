@@ -1,32 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite">
-<!-- <listeners>
-<listener class-name="buyer.testcases.WhiteLabelRegistrationTestCases"></listener>
-</listeners> -->
+	<!-- <listeners> <listener class-name="buyer.testcases.WhiteLabelRegistrationTestCases"></listener> 
+		</listeners> -->
 	<test name="Test">
 		<classes>
-			<class
-				name="testcases.WhiteLabelRegistrationTestCases">
-				
-				<methods>
-					<include name=""></include>
-					<include name=""></include>
-				</methods>
-			</class>
+			<class name="buyer.testcases.registration.RegistrationTestCases"></class>
+			<!-- <class name="testcases.WhiteLabelRegistrationTestCases"></class>
+			<class name="testcases.AltecRegistrationTestCases"></class>
+ -->
+
+
 		</classes>
-	</test> <!-- Test -->
-	<test name="Test">
-		<classes>
-			<class
-				name="testcases.AltecRegistrationTestCases">
-				
-				<methods>
-					<include name=""></include>
-					<include name=""></include>
-				</methods>
-			</class>
-		</classes>
+
 	</test> <!-- Test -->
 </suite> <!-- Suite -->
     

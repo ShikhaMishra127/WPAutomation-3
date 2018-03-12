@@ -1,6 +1,8 @@
 package commonutils.pageobjects.generic;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -52,8 +54,15 @@ public class LoginPage extends PCDriver {
 
 	public void logout() {
 		logoutMenu.click();
-		lnkLogout.click();
+		if(PCDriver.getDriver() instanceof PhantomJSDriver) {
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm =function(){return true;}");
+
+			lnkLogout.click();	
+		}else {
+			lnkLogout.click();			
 		PCDriver.getDriver().switchTo().alert().accept();
+		PCDriver.waitForPageLoad();
 	}
+		}
 
 }

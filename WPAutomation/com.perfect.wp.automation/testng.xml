@@ -2,6 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="WebProcure Suite">
 <suite-files>
-<suite-file path="Solicitation.xml"></suite-file>
+<!-- <suite-file path="Contract.xml"></suite-file>
+ -->
+ <!-- <suite-file path="Solicitation.xml"></suite-file> -->
+ <suite-file path="Registration.xml"></suite-file>
+<!-- <suite-file path="Request.xml"></suite-file> -->
 </suite-files>
 </suite> <!-- Suite -->

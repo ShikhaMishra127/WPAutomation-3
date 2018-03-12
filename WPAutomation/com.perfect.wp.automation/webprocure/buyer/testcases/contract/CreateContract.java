@@ -116,7 +116,7 @@ public class CreateContract {
 		Assert.assertTrue(contr.verifyCurrentContractsPage());
 	}
 
-	@Test(description = "This test case will create a Contract", enabled = true)
+	@Test(description = "This test case will create a Contract", enabled = false)
 	public void CreateContractsByAddingNewCatalog() throws IOException, InterruptedException {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		ExtentReport.logger.log(LogStatus.PASS, "Create Contracts is clicked");
@@ -158,7 +158,7 @@ public class CreateContract {
 		Assert.assertTrue(contr.verifyCurrentContractsPage());
 	}
 
-	@Test(description = "This test case will create a Master Contract", enabled = true)
+	@Test(description = "This test case will create a Master Contract", enabled = false)
 	public void CreateMasterContracts() throws IOException, InterruptedException {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		contr.selectContractType(ReadExcelData.getInstance("Contract").getStringValue("ContractType"));
@@ -257,7 +257,7 @@ public class CreateContract {
 
 	}
 
-	@Test(description = "This test case will check if Effective Date is Mandatory or not", enabled = true)
+	@Test(description = "This test case will check if Effective Date is Mandatory or not", enabled = false)
 	public void verifyEffectiveDateIsMandatory() throws IOException {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		contr.selectContractType(ReadExcelData.getInstance("Contract").getStringValue("ContractType"));
@@ -273,7 +273,7 @@ public class CreateContract {
 
 	}
 
-	@Test(description = "This test case will check if Expiry Date is Mandatory or not", enabled = true)
+	@Test(description = "This test case will check if Expiry Date is Mandatory or not", enabled = false)
 	public void verifyExpiryDateIsMandatory() throws IOException {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		contr.selectContractType(ReadExcelData.getInstance("Contract").getStringValue("ContractType"));
@@ -290,14 +290,14 @@ public class CreateContract {
 
 	}
 
-	@Test(description = "This test case will check the working of exit button", enabled = true)
+	@Test(description = "This test case will check the working of exit button", enabled = false)
 	public void verifyExitContract() {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		contr.clickExit();
 		Assert.assertTrue(contr.verifyCurrentContractsPage());
 	}
 
-	@Test(description = "This test case will close the contract on Contract Summary just before Submitting", enabled = true)
+	@Test(description = "This test case will close the contract on Contract Summary just before Submitting", enabled = false)
 	public void verifyCloseButtonOnContractSubmissionPage() throws IOException, InterruptedException {
 		contNav.clickContractsSubMenu(ContractsSubMenu.CreateNewContract.toString());
 		contr.selectContractType(ReadExcelData.getInstance("Contract").getStringValue("ContractType"));

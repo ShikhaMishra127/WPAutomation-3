@@ -25,7 +25,6 @@ public class solicitationNavigation {
 	 ******************************************************/
 	public void informalSolicationsMenu(String menuItem) {
 		PCDriver.waitForPageLoad();
-
 		PCDriver.waitForElementToBeClickable(informalSolMenu);
 
 		informalSolMenu.findElement(By.xpath(".//following-sibling::li//a[contains(text(),'" + menuItem + "')]"))
@@ -45,7 +44,6 @@ public class solicitationNavigation {
 
 	public void formalSolicationsMenu(String menuItem) {
 		PCDriver.waitForPageLoad();
-
 		PCDriver.waitForElementToBeClickable(formalSolMenu);
 
 		formalSolMenu.findElement(By.xpath(".//following-sibling::li//a[contains(text(),'" + menuItem + "')]")).click();
