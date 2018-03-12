@@ -95,7 +95,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
-		PCDriver.getDriver().quit();
+		//PCDriver.getDriver().quit();
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
 
