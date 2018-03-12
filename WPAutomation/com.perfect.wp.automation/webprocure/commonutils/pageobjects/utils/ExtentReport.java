@@ -10,13 +10,14 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 import com.google.common.io.Files;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ExtentReport implements ITestListener {
+public class ExtentReport implements ITestListener,ISuiteListener {
 	public static ExtentReports report;
 	public static ExtentTest logger;
 
@@ -98,6 +99,18 @@ public class ExtentReport implements ITestListener {
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
 
+	}
+	
+		@Override
+	public void onStart(ISuite suite) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFinish(ISuite suite) {
+		//PCDriver.getDriver().quit();
+				
 	}
 
 }
