@@ -96,8 +96,8 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 	@Override
 	public void onFinish(ITestContext context) {
 		//PCDriver.getDriver().quit();
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
+		//ExtentReport.report.flush();
+		//ExtentReport.report.close();
 
 	}
 	
@@ -109,7 +109,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 
 	@Override
 	public void onFinish(ISuite suite) {
-		//PCDriver.getDriver().quit();
+		PCDriver.getDriver().quit();
 				
 	}
 
