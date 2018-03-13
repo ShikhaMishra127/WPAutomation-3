@@ -11,13 +11,11 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import buyer.pageobjects.registration.IdahowhitelabelPageObjects;
 import commonutils.pageobjects.utils.ExtentReport;
-import commonutils.pageobjects.utils.PCDriver;
-import commonutils.pageobjects.utils.ReadConfig;
 
 @Listeners(ExtentReport.class)
 public class IdahoRegistrationTestCases {
 
-	IdahowhitelabelPageObjects idaho = new IdahowhitelabelPageObjects();
+	IdahowhitelabelPageObjects idaho; 
 	
 	@BeforeClass
 	public void setup() {
@@ -37,7 +35,7 @@ public class IdahoRegistrationTestCases {
 
 	@BeforeMethod
 	public void geturl() {
-		PCDriver.getDriver().navigate().to(ReadConfig.getInstance().getIdahoRegistration());
+		idaho= new IdahowhitelabelPageObjects();
 	}
 
 	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
