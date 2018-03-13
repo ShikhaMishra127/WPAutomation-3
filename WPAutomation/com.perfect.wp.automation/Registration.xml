@@ -6,7 +6,8 @@
 	<test name="Test">
 		<classes>
 			<class name="buyer.testcases.registration.RegistrationTestCases"></class>
-			 <class name="testcases.WhiteLabelRegistrationTestCases"></class>
+			 <class name="buyer.testcases.registration.WhiteLabelRegistrationTestCases"></class>
+			 <class name="buyer.testcases.registration.IdahoRegistrationTestCases"></class>
 		<!--	<class name="testcases.AltecRegistrationTestCases"></class>
  -->
 
