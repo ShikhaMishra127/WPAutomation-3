@@ -1,6 +1,7 @@
 package buyer.testcases.registration;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -54,5 +55,12 @@ public class IdahoRegistrationTestCases {
 	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
 	public void RegisterUsingSsn() {
 		idaho.firstssntestcase();
+	}
+	
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		ExtentReport.report.flush();
+		ExtentReport.report.close();
 	}
 }
