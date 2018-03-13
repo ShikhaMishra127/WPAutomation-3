@@ -102,7 +102,11 @@ public class RegistrationPagePom {
 	}
 
 	public String VerifyRegistration() {
+		try {
 		clickGotIt();
+		}catch(Exception e){
+			System.out.println("Got it popup not displayed");
+		}
 		return headVerify.getText();
 	}
 
@@ -253,8 +257,9 @@ public class RegistrationPagePom {
 		try {
 			Random r = new Random();
 			char c = (char) (r.nextInt(26) + 'a');
-
-			select.setUsername(ReadExcelData.getInstance(sheetName).getStringValue("Username") + System.currentTimeMillis());
+			ReadExcelData.getInstance(sheetName).updateCellValue("Username",ReadExcelData.getInstance(sheetName).getStringValue("Username") + System.currentTimeMillis());
+			select.setUsername(ReadExcelData.getInstance(sheetName).getStringValue("Username"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("Username","webprocure");
 			select.setPassword(ReadExcelData.getInstance(sheetName).getStringValue("Password"));
 			select.setConfirmPassword(ReadExcelData.getInstance(sheetName).getStringValue("Password"));
 		} catch (IOException e) {

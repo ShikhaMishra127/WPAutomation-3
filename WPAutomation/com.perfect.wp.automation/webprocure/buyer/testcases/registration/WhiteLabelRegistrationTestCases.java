@@ -15,6 +15,7 @@ import buyer.pageobjects.registration.WhiteLabelRegistrationPagePom;
 import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.PCDriver;
+import commonutils.pageobjects.utils.ReadConfig;
 
 @Listeners(ExtentReport.class)
 
@@ -37,14 +38,14 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	@Test(description = "This test case will register using Fein for Missouri")
+	@Test(description = "This test case will register using Fein for Missouri",enabled=false)
 	public void RegistrationWithFeinForMissouri() throws IOException, InterruptedException {
 		try {
 			// whiteLabelregister.clickRegistrationCheckBox("Missouri");
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
-			whiteLabelregister.setOrgInfoWithFeinForMissouri();
+			whiteLabelregister.setOrgInfoWithFeinForMissouri(true);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information Entered");
 			whiteLabelregister.clickNext();
 			ExtentReport.logger.log(LogStatus.PASS, "Next Button Clicked");
@@ -67,14 +68,15 @@ public class WhiteLabelRegistrationTestCases {
 	}
 
 	@Test(description = "This test case checks the Duplicate Fein", dependsOnMethods = {
-			"RegistrationWithFeinForMissouri" })
+			"RegistrationWithFeinForMissouri" },enabled=false)
 	public void DuplicateFeinCheck() throws IOException, InterruptedException {
 		try {
-			whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.navigateToWhiteLabel();
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
-			whiteLabelregister.setOrgInfoWithFeinForMissouri();
+			whiteLabelregister.setOrgInfoWithFeinForMissouri(false);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information Entered");
 			whiteLabelregister.clickNext();
 			ExtentReport.logger.log(LogStatus.PASS, "Next Button Clicked");
@@ -86,14 +88,16 @@ public class WhiteLabelRegistrationTestCases {
 		}
 	}
 
-	@Test(description = "This test case will register using Ssn for Missouri")
+	@Test(description = "This test case will register using Ssn for Missouri",enabled=true)
 	public void RegistrationWithSsnForMissouri() throws Exception {
 		try {
-			whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.navigateToWhiteLabel();
+
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
-			whiteLabelregister.setOrgInfoWithSsnForMissouri();
+			whiteLabelregister.setOrgInfoWithSsnForMissouri(true);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information Entered");
 			whiteLabelregister.clickNext();
 			ExtentReport.logger.log(LogStatus.PASS, "Next Button Clicked");
@@ -107,6 +111,8 @@ public class WhiteLabelRegistrationTestCases {
 			whiteLabelregister.clickNext();
 			ExtentReport.logger.log(LogStatus.PASS, "Registration Completed");
 			Assert.assertEquals(whiteLabelregister.checkConfirmMessage(), true, "Registration success");
+			whiteLabelregister.clickWebProcureButtonAndCheckLogin();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -116,14 +122,16 @@ public class WhiteLabelRegistrationTestCases {
 	}
 
 	@Test(description = "This test case check Duplicate Ssn for Missouri", dependsOnMethods = {
-			"RegistrationWithSsnForMissouri" })
+			"RegistrationWithSsnForMissouri" },enabled=false)
 	public void DuplicateSsnCheck() throws Exception {
 		try {
-			whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
+			//whiteLabelregister.navigateToWhiteLabel();
+
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
-			whiteLabelregister.setOrgInfoWithSsnForMissouri();
+			whiteLabelregister.setOrgInfoWithSsnForMissouri(false);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information Entered");
 			Assert.assertEquals(whiteLabelregister.checkSsnMessage(), true, "SSn is already Present");
 		} catch (Exception e) {
@@ -133,10 +141,12 @@ public class WhiteLabelRegistrationTestCases {
 		}
 	}
 
-	@Test(description = "This test case will register using Fein for Idaho")
+	@Test(description = "This test case will register using Fein for Idaho",enabled=false)
 	public void RegistrationWithFeinForIdaho() throws Exception {
 		try {
-			whiteLabelregister.clickRegistrationCheckBox("Idaho");
+			//whiteLabelregister.clickRegistrationCheckBox("Idaho");
+			//whiteLabelregister.navigateToWhiteLabel();
+
 			ExtentReport.logger.log(LogStatus.PASS, "Idaho Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
@@ -161,10 +171,12 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	@Test(description = "This test case will register using Ssn for Idaho")
+	@Test(description = "This test case will register using Ssn for Idaho",enabled=false)
 	public void RegistrationWithSsnForIdaho() throws Exception {
 		try {
-			whiteLabelregister.clickRegistrationCheckBox("Idaho");
+			//whiteLabelregister.clickRegistrationCheckBox("Idaho");
+			//whiteLabelregister.navigateToWhiteLabel();
+
 			ExtentReport.logger.log(LogStatus.PASS, "Idaho Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
 			ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
@@ -189,9 +201,11 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	@Test(dependsOnMethods = "RegistrationWithFeinForIdaho")
+	@Test(dependsOnMethods = "RegistrationWithFeinForIdaho",enabled=false)
 	public void DuplicateSSnCheckForIdaho() throws Exception {
-		whiteLabelregister.clickRegistrationCheckBox("Idaho");
+		//whiteLabelregister.clickRegistrationCheckBox("Idaho");
+		//whiteLabelregister.navigateToWhiteLabel();
+
 		whiteLabelregister.AcceptTermsAndConditions();
 		whiteLabelregister.setCompanyInfoWithSSnForIdaho();
 		whiteLabelregister.clickNext();
@@ -201,8 +215,6 @@ public class WhiteLabelRegistrationTestCases {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		ExtentReport.report.close();
-		PCDriver.getDriver().quit();
+	
 	}
 }

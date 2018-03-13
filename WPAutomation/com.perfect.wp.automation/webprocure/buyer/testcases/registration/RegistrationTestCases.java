@@ -148,7 +148,7 @@ public class RegistrationTestCases {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		/*ExtentReport.report.flush();
-		ExtentReport.report.close();*/
+		ExtentReport.report.flush();
+		ExtentReport.report.close();
 	}
 }

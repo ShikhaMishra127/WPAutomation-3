@@ -14,6 +14,7 @@ import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
+import commonutils.pageobjects.utils.ssnAndFeinGenerator;
 
 public class WhiteLabelRegistrationPagePom {
 	final static String sheetName = "Registration";
@@ -89,6 +90,11 @@ public class WhiteLabelRegistrationPagePom {
 			return false;
 		}
 	}
+	
+	public void navigateToWhiteLabel() {
+		PCDriver.driver.navigate().to(ReadConfig.getInstance().getWhiteLabelUrl());
+
+	}
 
 	public void clickRegistrationCheckBox(String strStateName) {
 
@@ -103,6 +109,12 @@ public class WhiteLabelRegistrationPagePom {
 	}
 
 	public void AcceptTermsAndConditions() {
+		try {
+			Thread.sleep(7000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PCDriver.switchToFrame(termsNConditionsFrame);
 		PCDriver.waitForElementToBeClickable(chkBoxTermsAndConditions);
 		PCDriver.executeScript(chkBoxTermsAndConditions);
@@ -113,18 +125,25 @@ public class WhiteLabelRegistrationPagePom {
 
 	public void clickNext() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 ((JavascriptExecutor)PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnNext);
 		JavascriptExecutor executor = (JavascriptExecutor) PCDriver.getDriver();
 		executor.executeScript("arguments[0].click();", btnNext);
 	}
 
-	public void setOrgInfoWithFeinForMissouri() throws IOException, InterruptedException {
+	public void setOrgInfoWithFeinForMissouri(boolean check) throws IOException, InterruptedException {
+		Thread.sleep(7000);
 		OrganizationInfo org = new OrganizationInfo();
+		if(check==true) {
 		org.setFeinNumber();
+		}
+		else {
+			org.setFeinNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
+		}
 		org.setConfirmFeinNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("FEIN"));
 		org.setLegalName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
 		org.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
@@ -133,9 +152,16 @@ public class WhiteLabelRegistrationPagePom {
 		org.selectBusinessType(ReadExcelData.getInstance(sheetName).getStringValue("EnterpriseType"));
 	}
 
-	public void setOrgInfoWithSsnForMissouri() throws IOException, InterruptedException {
+	public void setOrgInfoWithSsnForMissouri(boolean check) throws IOException, InterruptedException {
 		OrganizationInfo org = new OrganizationInfo();
-		org.setSsnNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));
+		if(check==true) {
+			ReadExcelData.getInstance(sheetName).updateCellValue("SSN",ssnAndFeinGenerator.generateSSN());
+			org.setSsnNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));
+		
+		}
+		else {
+			org.setSsnNumberForMissouri(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));	
+		}
 		org.setConfirmSsnNumber(ReadExcelData.getInstance(sheetName).getStringValue("SSN"));
 		org.setLegalName(ReadExcelData.getInstance(sheetName).getStringValue("CompanyName"));
 		org.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
@@ -152,6 +178,7 @@ public class WhiteLabelRegistrationPagePom {
 		char c = (char) (r.nextInt(26) + 'a');
 		orgContact.setEmailAddress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress") + c);
 		if (stateName.equals("Missouri")) {
+			ReadExcelData.getInstance(stateName).updateCellValue("Username",ReadExcelData.getInstance(sheetName).getStringValue("Username")+System.currentTimeMillis());
 			orgContact.setUserName(ReadExcelData.getInstance(sheetName).getStringValue("Username"));
 			orgContact.setFaxNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyFaxNumber"));
 			orgContact.setPhoneNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyPhoneNumber"));
@@ -274,14 +301,14 @@ public class WhiteLabelRegistrationPagePom {
 
 		}
 
-		/*
-		 * public void setFeinNumberForMissouri(String str) throws IOException {
-		 * PCDriver.waitForElementToBeClickable(txtFienNumber1);
-		 * txtFienNumber1.sendKeys(str.substring(0, 2));
-		 * txtFienNumber2.sendKeys(str.substring(2, str.length()));
-		 * 
-		 * }
-		 */
+		
+		  public void setFeinNumberForMissouri(String str) throws IOException {
+		  PCDriver.waitForElementToBeClickable(txtFienNumber1);
+		  txtFienNumber1.sendKeys(str.substring(0, 2));
+		  txtFienNumber2.sendKeys(str.substring(2, str.length()));
+		  
+		  }
+		 
 
 		public void setConfirmFeinNumber() {
 			PCDriver.waitForElementToBeClickable(txtConfirmFein1);
@@ -336,6 +363,7 @@ public class WhiteLabelRegistrationPagePom {
 		}
 
 		public void setSsnNumberForMissouri(String strSsnNumber) {
+			PCDriver.waitForElementToBeClickable(txtSsn);
 			txtSsn.sendKeys(strSsnNumber);
 		}
 
@@ -362,6 +390,7 @@ public class WhiteLabelRegistrationPagePom {
 		}
 
 		public void setPostalCode(String strPostalCode) throws InterruptedException {
+			PCDriver.waitForElementToBeClickable(txtPostalCode);
 			txtPostalCode.sendKeys(strPostalCode);
 
 		}
@@ -369,9 +398,20 @@ public class WhiteLabelRegistrationPagePom {
 		public void selectBusinessType(String strBussinessName) throws InterruptedException {
 			drpDownBusinessType.click();
 			selectBussinessType.findElement(By.xpath("//option[contains(text(),'" + strBussinessName + "')]")).click();
-			Thread.sleep(2000);
+			/*try {
+				
+			
+			PCDriver.switchToFrame(termsNConditionsFrame);
+			}
+			catch(Exception e) {
+				
+			}*/
+			Thread.sleep(4000);
 			try {
+				disableValidation.click();
+
 				PCDriver.executeScript(disableValidation);
+
 			} catch (Exception e) {
 
 			}
@@ -430,10 +470,10 @@ public class WhiteLabelRegistrationPagePom {
 		}
 
 		public void setUserName(String strUsername) {
-			Random r = new Random();
-			char c = (char) (r.nextInt(26) + 'a');
+			//Random r = new Random();
+			//char c = (char) (r.nextInt(26) + 'a');
 
-			txtUsername.sendKeys(strUsername + c);
+			txtUsername.sendKeys(strUsername);
 		}
 
 		public void setPassword(String strPassword) {
