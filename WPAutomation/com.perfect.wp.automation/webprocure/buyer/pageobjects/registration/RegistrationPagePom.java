@@ -86,8 +86,14 @@ public class RegistrationPagePom {
 	public WebElement duplicateFienCheck;
 
 	public void clickContinue() {
-		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnContinue);
 		PCDriver.waitForElementToBeClickable(btnContinue);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", btnContinue);
 		btnContinue.click();
 	}
 
@@ -129,7 +135,6 @@ public class RegistrationPagePom {
 	public void navigateToHome() {
 		PCDriver.getDriver().navigate().to(ReadConfig.getInstance().getApplicationUrl());
 	}
-	//table[@class='errorTable']//span[@style='color: red;']
 	public void setOrgInfo() throws IOException {
 		try {
 			OrganizationInfo OrgInfo = new OrganizationInfo();
@@ -144,8 +149,10 @@ public class RegistrationPagePom {
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
 			OrgInfo.setContactPhone(ReadExcelData.getInstance(sheetName).getStringValue("CompanyPhoneNumber"));
 			OrgInfo.setFaxNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyFaxNumber"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress",ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress")+System.currentTimeMillis()+"@gmail.com");
 			OrgInfo.setEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
 			OrgInfo.setConfirmEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress","abcdeqas_a");
 			OrgInfo.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
 			OrgInfo.setCity(ReadExcelData.getInstance(sheetName).getStringValue("City"));
 			OrgInfo.setState(ReadExcelData.getInstance(sheetName).getStringValue("State"));
@@ -173,8 +180,12 @@ public class RegistrationPagePom {
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
 			OrgInfo.setContactPhone(ReadExcelData.getInstance(sheetName).getStringValue("CompanyPhoneNumber"));
 			OrgInfo.setFaxNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyFaxNumber"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress",ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress")+System.currentTimeMillis()+"@gmail.com");
+
 			OrgInfo.setEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
 			OrgInfo.setConfirmEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress","abcdeqas_a");
+
 			OrgInfo.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
 			OrgInfo.setCity(ReadExcelData.getInstance(sheetName).getStringValue("City"));
 			OrgInfo.setState(ReadExcelData.getInstance(sheetName).getStringValue("State"));
@@ -203,8 +214,12 @@ public class RegistrationPagePom {
 			OrgInfo.setTimeZone(ReadExcelData.getInstance(sheetName).getStringValue("TimeZone"));
 			OrgInfo.setContactPhone(ReadExcelData.getInstance(sheetName).getStringValue("CompanyPhoneNumber"));
 			OrgInfo.setFaxNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyFaxNumber"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress",ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress")+System.currentTimeMillis()+"@gmail.com");
+
 			OrgInfo.setEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
 			OrgInfo.setConfirmEmailAdress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("EmailAddress","abcdeqas_a");
+
 			OrgInfo.setAddress(ReadExcelData.getInstance(sheetName).getStringValue("Address1"));
 			OrgInfo.setCity(ReadExcelData.getInstance(sheetName).getStringValue("City"));
 			OrgInfo.setState(ReadExcelData.getInstance(sheetName).getStringValue("State"));

@@ -85,5 +85,9 @@ public class ReadConfig {
 		return properties.getProperty("report_path");
 	}
 	
+	public String getIdahoRegistration() {
+		return properties.getProperty("idahoRegistration");
+	}
+	
 	
 }

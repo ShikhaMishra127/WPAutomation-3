@@ -176,10 +176,11 @@ public class WhiteLabelRegistrationPagePom {
 		orgContact.setLastName(ReadExcelData.getInstance(sheetName).getStringValue("LastName"));
 		Random r = new Random();
 		char c = (char) (r.nextInt(26) + 'a');
-		orgContact.setEmailAddress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress") + c);
+		orgContact.setEmailAddress(ReadExcelData.getInstance(sheetName).getStringValue("EmailAddress")+System.currentTimeMillis()+"@gmail.com");
 		if (stateName.equals("Missouri")) {
-			ReadExcelData.getInstance(stateName).updateCellValue("Username",ReadExcelData.getInstance(sheetName).getStringValue("Username")+System.currentTimeMillis());
+			ReadExcelData.getInstance(sheetName).updateCellValue("Username",ReadExcelData.getInstance(sheetName).getStringValue("Username")+System.currentTimeMillis());
 			orgContact.setUserName(ReadExcelData.getInstance(sheetName).getStringValue("Username"));
+			ReadExcelData.getInstance(sheetName).updateCellValue("Username","webprocure");
 			orgContact.setFaxNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyFaxNumber"));
 			orgContact.setPhoneNumber(ReadExcelData.getInstance(sheetName).getStringValue("CompanyPhoneNumber"));
 		} else {
@@ -247,10 +248,22 @@ public class WhiteLabelRegistrationPagePom {
 
 		@FindBy(id = "ssn1")
 		public WebElement txtSsn;
+		
+		@FindBy(id="ssn2")
+		public WebElement txtSsn2;
+		
+		@FindBy(id="ssn3")
+		public WebElement txtSsn3;
 
 		@FindBy(id = "retypessn1")
 		public WebElement txtRetrySsn;
+		
+		@FindBy(id = "retypessn2")
+		public WebElement txtRetrySsn2;
 
+		@FindBy(id = "retypessn3")
+		public WebElement txtRetrySsn3;
+		
 		@FindBy(id = "supname")
 		public WebElement txtLegalName;
 
@@ -363,12 +376,30 @@ public class WhiteLabelRegistrationPagePom {
 		}
 
 		public void setSsnNumberForMissouri(String strSsnNumber) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			PCDriver.waitForElementToBeClickable(txtSsn);
-			txtSsn.sendKeys(strSsnNumber);
+			PCDriver.waitForElementToBeClickable(txtSsn2);
+			PCDriver.waitForElementToBeClickable(txtSsn3);
+
+			
+			txtSsn.sendKeys(strSsnNumber.substring(0, 3));
+			txtSsn2.sendKeys(strSsnNumber.substring(3,6));
+			txtSsn3.sendKeys(strSsnNumber.substring(5));
 		}
 
 		public void setConfirmSsnNumber(String SsnNumber) {
-			txtRetrySsn.sendKeys(SsnNumber);
+			PCDriver.waitForElementToBeClickable(txtRetrySsn);
+			PCDriver.waitForElementToBeClickable(txtRetrySsn2);
+			PCDriver.waitForElementToBeClickable(txtRetrySsn3);
+			txtRetrySsn.sendKeys(SsnNumber.substring(0, 3));
+			txtRetrySsn2.sendKeys(SsnNumber.substring(3,6));
+			txtRetrySsn3.sendKeys(SsnNumber.substring(5));
+
 		}
 
 		public void setLegalName(String txtLegal) {

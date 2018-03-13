@@ -38,7 +38,7 @@ public class WhiteLabelRegistrationTestCases {
 
 	}
 
-	@Test(description = "This test case will register using Fein for Missouri",enabled=false)
+	@Test(description = "This test case will register using Fein for Missouri",enabled=true)
 	public void RegistrationWithFeinForMissouri() throws IOException, InterruptedException {
 		try {
 			// whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -68,7 +68,7 @@ public class WhiteLabelRegistrationTestCases {
 	}
 
 	@Test(description = "This test case checks the Duplicate Fein", dependsOnMethods = {
-			"RegistrationWithFeinForMissouri" },enabled=false)
+			"RegistrationWithFeinForMissouri" },enabled=true)
 	public void DuplicateFeinCheck() throws IOException, InterruptedException {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -122,7 +122,7 @@ public class WhiteLabelRegistrationTestCases {
 	}
 
 	@Test(description = "This test case check Duplicate Ssn for Missouri", dependsOnMethods = {
-			"RegistrationWithSsnForMissouri" },enabled=false)
+			"RegistrationWithSsnForMissouri" },enabled=true)
 	public void DuplicateSsnCheck() throws Exception {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
@@ -215,6 +215,8 @@ public class WhiteLabelRegistrationTestCases {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
+		ExtentReport.report.flush();
+		ExtentReport.report.close();
 	
 	}
 }
