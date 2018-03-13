@@ -17,7 +17,7 @@ import commonutils.pageobjects.utils.ReadExcelData;
 import commonutils.pageobjects.utils.ssnAndFeinGenerator;
 
 public class RegistrationPagePom {
-
+	
 	public RegistrationPagePom() {
 		PageFactory.initElements(PCDriver.getDriver(), this);
 	}

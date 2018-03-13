@@ -26,7 +26,7 @@ public class IdahoRegistrationTestCases {
 	
 	/************Test scripts*****************/
 	
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
+	@Test(description="This test case will register supplier using SSN and FEIN",enabled=false)
 
 	public void registerUsingSsnFein() {
 		idaho.firstfintestcase();
@@ -38,21 +38,35 @@ public class IdahoRegistrationTestCases {
 		idaho= new IdahowhitelabelPageObjects();
 	}
 
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
+	@Test(description="This test case will register supplier using SSN and FEIN",enabled=false)
 	public void CheckDuplicateFein() {
 		idaho.samefintestcase();
 		
 	}
 
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
+	@Test(description="This test case will register supplier using FEIN",enabled=false)
 	public void RegisterWithFein() {
 		idaho.Differentfintestcase();
 		//Assert.assertTrue(idaho.verify());
 
 	}
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
+	@Test(description="This test case will register supplier using Ssn",enabled=true)
 	public void RegisterUsingSsn() {
-		idaho.firstssntestcase();
+		idaho.firstssntestcase(true);
+	}
+	
+	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
+	"RegisterUsingSsn" },enabled=false)
+	public void DuplicateSsnCheck() {
+		idaho.firstssntestcase(false);
+		Assert.assertTrue(idaho.verifyDuplicateSsn());
+	}
+	
+	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
+	"RegisterUsingSsn" },enabled=true)
+	public void DuplicateUsernameCheck() {
+		idaho.DuplicateUsernameCheck();
+		//Assert.assertTrue(idaho.verifyDuplicateSsn());
 	}
 	
 	@AfterClass

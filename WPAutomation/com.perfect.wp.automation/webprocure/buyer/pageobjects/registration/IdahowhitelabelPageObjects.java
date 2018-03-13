@@ -176,6 +176,9 @@ public class IdahowhitelabelPageObjects {
 
 	@FindBy(id = "next")
 	public WebElement nextpage3;
+	
+	@FindBy(xpath="//label[@id='ssnerror']")
+	public WebElement ssnCheck;
 
 	/************ Test case1 *****************/
 	public void companydetails() 
@@ -435,7 +438,7 @@ public class IdahowhitelabelPageObjects {
 	}
 	
 	/************ Test case4 *****************/
-	public void companydetailstestscript4() {
+	public void companydetailstestscript4(boolean check) {
 
 		try {
 			// Thread.sleep(5000);
@@ -464,6 +467,7 @@ public class IdahowhitelabelPageObjects {
 			empid1.sendKeys(ReadExcelData.getInstance("Test4").getStringValue("Employer Id No1"));
 			PCDriver.waitForElementToBeClickable(empid2);
 			empid2.sendKeys(ReadExcelData.getInstance("Test4").getStringValue("Employer Id No2"));
+			if(check==true) {
 			PCDriver.waitForElementToBeClickable(securityno1);
 			ReadExcelData.getInstance("Registration").updateCellValue("SSN", ssnAndFeinGenerator.generateSSN());
 			securityno1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(0,3));
@@ -471,6 +475,14 @@ public class IdahowhitelabelPageObjects {
 			securityno2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(3,5));
 			PCDriver.waitForElementToBeClickable(securityno3);
 			securityno3.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(5));
+			}
+			else {
+				securityno1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(0,3));
+				PCDriver.waitForElementToBeClickable(securityno2);
+				securityno2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(3,5));
+				PCDriver.waitForElementToBeClickable(securityno3);
+				securityno3.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(5));
+			}
 			PCDriver.waitForElementToBeClickable(Busstype);
 			PCDriver.selectFromDropDownByVisibleText(Busstype,
 					(ReadExcelData.getInstance("Test4").getStringValue("TypeofBuss")));
@@ -490,7 +502,7 @@ public class IdahowhitelabelPageObjects {
 		}
 	}
 
-	public void SuppliercontactdetailTestscript4() {
+	public void SuppliercontactdetailTestscript4(boolean check) {
 		try {
 			PCDriver.waitForPageLoad();
 			String expectedTitle = "Test Harness";
@@ -500,7 +512,15 @@ public class IdahowhitelabelPageObjects {
 			PCDriver.waitForElementToBeClickable(firstname);
 			firstname.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("FirstName"));
 			lastname.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("LastName"));
-			email.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("Email")+System.currentTimeMillis()+"@gmail.com");
+			if(check==true) {
+				ReadExcelData.getInstance("Test4.1").updateCellValue("Email", ReadExcelData.getInstance("Test4.1").getStringValue("Email")+System.currentTimeMillis()+"@gmail.com");
+			email.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("Email"));
+			
+			}
+			else {
+				email.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("Email"));
+			}
+			
 			pwd.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("Password"));
 			retypepwd.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("RetypePassword"));
 			phno1.sendKeys(ReadExcelData.getInstance("Test4.1").getStringValue("PhnNo1"));
@@ -639,12 +659,34 @@ public class IdahowhitelabelPageObjects {
 		Assert.assertTrue(verify());
 		
 	}
-	public void firstssntestcase()
+	public void firstssntestcase(boolean check)
 	{
+		if(check==true) {
 		clickidahosupplierregistrationbtn();
-		companydetailstestscript4();
-		SuppliercontactdetailTestscript4();
+		companydetailstestscript4(check);
+		SuppliercontactdetailTestscript4(true);
 		SelectSol();
 		Assert.assertTrue(verify());
+		}
+		else {
+			clickidahosupplierregistrationbtn();
+			companydetailstestscript4(check);
+		}
+	}
+	
+	public void DuplicateUsernameCheck() {
+		clickidahosupplierregistrationbtn();
+		companydetailstestscript4(true);
+		SuppliercontactdetailTestscript4(false);
+		
+	}
+	
+	public boolean verifyDuplicateSsn() {
+		if(ssnCheck.getText().contains("A company has already been registered with this SSN in our system"))
+		{
+			return true;
+		}else {
+		return false;
+		}
 	}
 }
