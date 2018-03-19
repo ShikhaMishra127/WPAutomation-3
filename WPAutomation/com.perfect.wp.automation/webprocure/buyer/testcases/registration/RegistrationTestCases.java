@@ -1,7 +1,9 @@
 package buyer.testcases.registration;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
+import org.springframework.cglib.core.Local;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -37,7 +39,7 @@ public class RegistrationTestCases {
 	@Test(description = "This test case will register using both FEIN and SSN", enabled = true)
 	public void registrationWithFeinAndSsn() throws IOException {
 		try {
-			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
+			//ExtentReport.logger = ExtentReport.report.startTest();
 
 			register.setOrgInfo();
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");
@@ -92,7 +94,7 @@ public class RegistrationTestCases {
 	@Test(description = "This test case will register using SSN only", enabled = true)
 	public void registrationWithSsn() throws IOException {
 		try {
-			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
+			//ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
 
 			register.setOrgInfoWithSsnOnly(true);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");
@@ -147,7 +149,7 @@ public class RegistrationTestCases {
 	@Test(description = "This test case will register using Fein only", enabled = true)
 	public void registrationWithFein() throws IOException {
 		try {
-			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
+			//ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
 
 			register.setOrgInfoWithFeinOnly(true);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");
@@ -199,7 +201,7 @@ public class RegistrationTestCases {
 			"registrationWithSsn" }, enabled = true)
 	public void registrationWithDuplicateSsn() throws IOException {
 		try {
-			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
+			//ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
 
 			register.setOrgInfoWithSsnOnly(false);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");
@@ -236,7 +238,7 @@ public class RegistrationTestCases {
 			"registrationWithFein" }, enabled = true)
 	public void registrationWithDuplicateFein() throws IOException {
 		try {
-			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
+			//ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getEnclosingMethod().getName());
 
 			register.setOrgInfoWithFeinOnly(false);
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");

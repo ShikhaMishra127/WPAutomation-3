@@ -41,6 +41,8 @@ public class IdahoRegistrationTestCases {
 	@Test(description="This test case will register supplier using SSN and FEIN",enabled=false)
 	public void CheckDuplicateFein() {
 		idaho.samefintestcase();
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 		
 	}
 
@@ -48,11 +50,15 @@ public class IdahoRegistrationTestCases {
 	public void RegisterWithFein() {
 		idaho.Differentfintestcase();
 		//Assert.assertTrue(idaho.verify());
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 
 	}
 	@Test(description="This test case will register supplier using Ssn",enabled=true)
 	public void RegisterUsingSsn() {
 		idaho.firstssntestcase(true);
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
@@ -60,6 +66,8 @@ public class IdahoRegistrationTestCases {
 	public void DuplicateSsnCheck() {
 		idaho.firstssntestcase(false);
 		Assert.assertTrue(idaho.verifyDuplicateSsn());
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
@@ -67,11 +75,12 @@ public class IdahoRegistrationTestCases {
 	public void DuplicateUsernameCheck() {
 		idaho.DuplicateUsernameCheck();
 		//Assert.assertTrue(idaho.verifyDuplicateSsn());
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 	}
 	
 	@AfterClass
 	public void tearDown() {
-		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
 	}

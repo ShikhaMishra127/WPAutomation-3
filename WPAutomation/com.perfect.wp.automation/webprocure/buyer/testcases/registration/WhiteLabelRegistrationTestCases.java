@@ -64,6 +64,7 @@ public class WhiteLabelRegistrationTestCases {
 			e.printStackTrace();
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 
@@ -86,6 +87,8 @@ public class WhiteLabelRegistrationTestCases {
 
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 	}
 
 	@Test(description = "This test case will register using Ssn for Missouri",enabled=true)
@@ -118,6 +121,8 @@ public class WhiteLabelRegistrationTestCases {
 
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 
 	}
 
@@ -139,6 +144,8 @@ public class WhiteLabelRegistrationTestCases {
 
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
+
 	}
 
 	@Test(description = "This test case will register using Fein for Idaho",enabled=false)
@@ -168,6 +175,7 @@ public class WhiteLabelRegistrationTestCases {
 
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 
@@ -198,6 +206,7 @@ public class WhiteLabelRegistrationTestCases {
 
 			Assert.fail();
 		}
+		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 
@@ -205,16 +214,20 @@ public class WhiteLabelRegistrationTestCases {
 	public void DuplicateSSnCheckForIdaho() throws Exception {
 		//whiteLabelregister.clickRegistrationCheckBox("Idaho");
 		//whiteLabelregister.navigateToWhiteLabel();
-
+		try {
 		whiteLabelregister.AcceptTermsAndConditions();
 		whiteLabelregister.setCompanyInfoWithSSnForIdaho();
 		whiteLabelregister.clickNext();
+		}
+		catch(Exception e) {
+			Assert.fail();
+		}
+		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 
 	@AfterClass
 	public void tearDown() {
-		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
 		ExtentReport.report.close();
 	
