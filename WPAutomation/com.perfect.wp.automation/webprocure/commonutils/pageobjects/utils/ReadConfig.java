@@ -89,5 +89,12 @@ public class ReadConfig {
 		return properties.getProperty("idahoRegistration");
 	}
 	
+	public String getRequestUsername() {
+		return properties.getProperty("request_create_username");
+	}
+	
+	public String getRequestPassword() {
+		return properties.getProperty("request_create_password");
+	}
 	
 }
