@@ -58,7 +58,6 @@ public class CreateRequest extends PCDriver {
 
 	@BeforeMethod
 	public void setupBeforeTest() {
-		home.movetoSubOrg();
 		home.selectTopNavDropDown("Request");
 	}
 
