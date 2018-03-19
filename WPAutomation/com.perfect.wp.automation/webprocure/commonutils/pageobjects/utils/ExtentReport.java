@@ -43,7 +43,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		// TODO Auto-generated method stub
+		ExtentReport.logger = ExtentReport.report.startTest(result.getName());
 
 	}
 
