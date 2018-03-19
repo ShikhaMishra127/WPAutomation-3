@@ -214,11 +214,21 @@ public class ViewRequest {
 		try{
 			PCDriver.WaitTillElementIsPresent(buyercontacttitle);
 			//PCDriver.waitForElementToBeClickable(buyercontactdropdown);
+			Thread.sleep(2000);
 			buyercontactdropdown.click();
+						Thread.sleep(2000);
+
 			PCDriver.waitForElementToBeClickable(buyercontactdropdown.findElement(By.xpath("./input")));
+						Thread.sleep(2000);
+
 			buyercontactdropdown.sendKeys(Keys.BACK_SPACE);
+						Thread.sleep(2000);
+
 			buyercontactdropdown.findElement(By.xpath("./input")).click();
+						Thread.sleep(2000);
+
 			buyercontactdropdown.findElement(By.xpath("./input")).sendKeys("Manisha Insys");
+			
 			Thread.sleep(4000);
 			buyercontactlist.size();
 			System.out.println(buyercontactlist.size());
