@@ -205,6 +205,8 @@ public class ViewRequest {
 	}
 	
 	public void buyercontacttab() throws InterruptedException{
+				System.out.println("Entered Buyer Contact");
+
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.switchToDefaultContent();
 		Thread.sleep(5000);
@@ -248,10 +250,13 @@ public class ViewRequest {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+		System.out.println("Exit Buyer Contact");
+
 	}
 
 	public void assignacctcode() throws IOException, Exception {
+				System.out.println("Entered Assign Contact");
+
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
 		// System.out.println(reqframe.size());
@@ -286,6 +291,8 @@ public class ViewRequest {
 		distributeevenlybtn.click();
 		PCDriver.waitForPageLoad();
 		itemallocationsavebtn.click();
+				System.out.println("Exit Assign Contact");
+
 	}
 
 	public void setagencycode(String agency) {
@@ -349,6 +356,8 @@ public class ViewRequest {
 	}
 	
 	public void lineitemattachment(String attachmentname){
+				System.out.println("Entered Line Item Attachment");
+
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
 		// System.out.println(reqframe.size());
@@ -382,14 +391,19 @@ public class ViewRequest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+				System.out.println("Exit Line Item Attachment");
+
 	}
 	
 	public void submitrequest() throws Exception {
+		System.out.println("Entered Submit Request");
 
 		// PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
 		PCDriver.waitForElementToBeClickable(submitbutton);
 		submitbutton.click();
+				System.out.println("Exit Submit Request");
+
 	}
 
 	public void confirmationpage() {
