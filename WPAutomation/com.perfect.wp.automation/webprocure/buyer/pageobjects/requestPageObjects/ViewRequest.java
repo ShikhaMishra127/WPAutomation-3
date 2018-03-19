@@ -216,7 +216,7 @@ public class ViewRequest {
 			//PCDriver.waitForElementToBeClickable(buyercontactdropdown);
 			Thread.sleep(2000);
 			buyercontactdropdown.click();
-						Thread.sleep(2000);
+			/*			Thread.sleep(2000);
 
 			PCDriver.waitForElementToBeClickable(buyercontactdropdown.findElement(By.xpath("./input")));
 						Thread.sleep(2000);
@@ -243,6 +243,7 @@ public class ViewRequest {
 					}
 				}
 			}
+			*/
 			savebtn.click();
 		}catch(Exception e){
 			e.printStackTrace();
