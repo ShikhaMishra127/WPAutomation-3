@@ -174,7 +174,7 @@ public class ViewRequest {
 			newattachmentbtn.click();
 			//browsebtn.click();
 			//PCDriver.uploadFile(filename);
-			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("C:\\Users\\Sunal\\Documents\\RequestAttachment\\VendorReport_Quote_RFQ18000151.txt");
+			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("/opt/Automation/VendorReport_Quote_RFQ18000151.txt");
 			attachmentpurpose.sendKeys(ReadExcelData.getInstance("processreqtabs").getStringValue("attachment_purpose"));
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
@@ -359,7 +359,7 @@ public class ViewRequest {
 			newattachmentbtn.click();
 			//browsebtn.click();
 			//PCDriver.uploadFile(attachmentname);
-			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("C:\\Users\\Sunal\\Documents\\RequestAttachment\\lineitemattachments\\WeeklyAchievementReport_20170918.doc");
+			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("/opt/Automation/WeeklyAchievementReport_20170918.doc");
 			attachmentpurpose.sendKeys(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentpurpose"));
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
