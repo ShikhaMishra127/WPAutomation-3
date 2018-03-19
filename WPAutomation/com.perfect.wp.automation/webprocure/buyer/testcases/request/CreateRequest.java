@@ -42,9 +42,9 @@ public class CreateRequest extends PCDriver {
 			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
 			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 			ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
-			login.setUsername(ReadConfig.getInstance().getUserName().toString());
+			login.setUsername(ReadConfig.getInstance().getRequestUsername().toString());
 			ExtentReport.logger.log(LogStatus.PASS, "UserName Entered");
-			login.setPassword(ReadConfig.getInstance().getPassword().toString());
+			login.setPassword(ReadConfig.getInstance().getRequestPassword().toString());
 			ExtentReport.logger.log(LogStatus.PASS, "Password Entered");
 			login.clickOnLogin();
 			ExtentReport.logger.log(LogStatus.PASS, "Login Button Clicked");
