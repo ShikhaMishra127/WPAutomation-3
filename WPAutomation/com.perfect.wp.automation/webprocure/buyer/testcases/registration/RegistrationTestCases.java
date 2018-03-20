@@ -265,6 +265,6 @@ public class RegistrationTestCases {
 	public void tearDown() {
 
 		ExtentReport.report.flush();
-		ExtentReport.report.close();
+		//ExtentReport.report.close();
 	}
 }
