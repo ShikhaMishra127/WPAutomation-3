@@ -354,6 +354,8 @@ public class IdahowhitelabelPageObjects {
 			} else {
 				email.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Email"));
 			}
+			Thread.sleep(2000);
+			PCDriver.waitForElementToBeClickable(pwd);
 			pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
 			retypepwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("RetypePassword"));
 			phno1.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo1"));
