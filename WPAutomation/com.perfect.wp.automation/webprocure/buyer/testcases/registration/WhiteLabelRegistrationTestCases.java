@@ -229,7 +229,7 @@ public class WhiteLabelRegistrationTestCases {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.flush();
-		ExtentReport.report.close();
+		//ExtentReport.report.close();
 	
 	}
 }
