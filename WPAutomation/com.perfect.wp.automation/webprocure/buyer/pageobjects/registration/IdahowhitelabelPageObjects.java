@@ -144,7 +144,7 @@ public class IdahowhitelabelPageObjects {
 	@FindBy(id = "username")
 	public WebElement email;
 
-	@FindBy(id = "password")
+	@FindBy(xpath = "//input[@id='password']")
 	public WebElement pwd;
 
 	@FindBy(id = "retypePassword")
