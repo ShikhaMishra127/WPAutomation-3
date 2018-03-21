@@ -356,8 +356,12 @@ public class IdahowhitelabelPageObjects {
 			}
 
 			PCDriver.waitForElementToBeClickable(pwd);
-			Thread.sleep(8000);
-			pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
+
+			Thread.sleep(4000);
+
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("document.getElementById('password').value = '"+ReadExcelData.getInstance("Test2.1").getStringValue("Password")+"';");
+
+			//pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
 			retypepwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("RetypePassword"));
 			PCDriver.waitForElementToBeClickable(phno1);
 			phno1.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo1"));
