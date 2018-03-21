@@ -21,4 +21,12 @@ public class log4jClass {
 	public void debug(String strDebug) {
 		log.debug(strDebug);
 	}
+	
+	public void enterMethod() {
+	
+	}
+	
+	public void exitMethod() {
+		
+	}
 }

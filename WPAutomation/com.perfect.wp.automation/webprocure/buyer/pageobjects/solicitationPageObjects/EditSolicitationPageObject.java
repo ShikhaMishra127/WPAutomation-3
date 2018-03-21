@@ -196,8 +196,6 @@ public class EditSolicitationPageObject {
 
 	public void setToStartDate(String strDate) {
 		PCDriver.waitForElementToBeClickable(dateStartDateTo);
-		dateFromEndDate.clear();
-		dateToEndDate.clear();
 		dateStartDateTo.sendKeys(strDate);
 		txtTitle.click();
 
@@ -205,7 +203,11 @@ public class EditSolicitationPageObject {
 
 	public void setFromStartDate(String strDate) {
 		PCDriver.waitForElementToBeClickable(dateStartDateFrom);
+		dateFromEndDate.clear();
+		dateToEndDate.clear();
 		dateStartDateFrom.clear();
+		dateStartDateTo.clear();
+
 		dateStartDateFrom.sendKeys(strDate + Keys.TAB);
 		txtTitle.click();
 
@@ -213,20 +215,21 @@ public class EditSolicitationPageObject {
 
 	public void setFromEndDate(String strDate) {
 		try {
-		dateStartDateFrom.clear();
-		dateStartDateTo.clear();
-		
+			dateFromEndDate.clear();
+			dateToEndDate.clear();
+			dateStartDateFrom.clear();
+			dateStartDateTo.clear();
+
+
 		}
 		catch(Exception e) {
 			
 		}
-		dateFromEndDate.clear();
 		dateFromEndDate.sendKeys(strDate + Keys.TAB);
 		txtTitle.click();
 	}
 
 	public void setToEndDate(String strDate) {
-		dateToEndDate.clear();
 		dateToEndDate.sendKeys(strDate + Keys.TAB);
 		txtTitle.click();
 
@@ -323,7 +326,9 @@ public class EditSolicitationPageObject {
 	@SuppressWarnings("finally")
 	public boolean verifyEditedSolicitationSubmission() {
 		try {
-			PCDriver.acceptAlert();
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+
+			//PCDriver.acceptAlert();
 		} catch (Exception e) {
 			System.out.println("Alert not present");
 		} finally {
@@ -374,8 +379,10 @@ public class EditSolicitationPageObject {
 
 		lstSolHistoryRow.get(1).findElement(By.xpath(".//input[@name='addendumIds']")).click();
 		lstSolHistoryRow.get(2).findElement(By.xpath(".//input[@name='addendumIds']")).click();
+		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+
 		btnCompareVersions.click();
-		PCDriver.acceptAlert();
+		//PCDriver.acceptAlert();
 	}
 
 	public boolean VerifyStartDate(List<WebElement> ele) throws ParseException {
