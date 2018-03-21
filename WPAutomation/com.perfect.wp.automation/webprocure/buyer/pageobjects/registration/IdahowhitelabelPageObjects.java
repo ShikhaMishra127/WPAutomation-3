@@ -68,10 +68,10 @@ public class IdahowhitelabelPageObjects {
 	public WebElement branch;
 
 	@FindBy(id = "fein1")
-	public WebElement empid1;
+	public WebElement fein1;
 
 	@FindBy(id = "fein2")
-	public WebElement empid2;
+	public WebElement fein2;
 
 	@FindBy(id = "ssn1")
 	public WebElement securityno1;
@@ -204,10 +204,10 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test1").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(empid1);
-			empid1.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(empid2);
-			empid2.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No2"));
+			PCDriver.waitForElementToBeClickable(fein1);
+			fein1.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No1"));
+			PCDriver.waitForElementToBeClickable(fein2);
+			fein2.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No2"));
 			PCDriver.waitForElementToBeClickable(securityno1);
 			securityno1.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Security No1"));
 			PCDriver.waitForElementToBeClickable(securityno2);
@@ -306,10 +306,10 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test2").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(empid1);
-			empid1.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(empid2);
-			empid2.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No2"));
+			PCDriver.waitForElementToBeClickable(fein1);
+			fein1.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No1"));
+			PCDriver.waitForElementToBeClickable(fein2);
+			fein2.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No2"));
 			PCDriver.waitForElementToBeClickable(securityno1);
 			securityno1.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Security No1"));
 			PCDriver.waitForElementToBeClickable(securityno2);
@@ -354,12 +354,19 @@ public class IdahowhitelabelPageObjects {
 			} else {
 				email.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Email"));
 			}
-			Thread.sleep(2000);
+
 			PCDriver.waitForElementToBeClickable(pwd);
+			Thread.sleep(4000);
 			pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
 			retypepwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("RetypePassword"));
+			PCDriver.waitForElementToBeClickable(phno1);
 			phno1.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo1"));
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView();", phno2);
+			Thread.sleep(4000);
+			PCDriver.waitForElementToBeClickable(phno2);
 			phno2.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo2"));
+			PCDriver.waitForElementToBeClickable(phno3);
+
 			phno3.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo3"));
 			PCDriver.waitForElementToBeClickable(nextpage2, Long.valueOf("10"));
 			nextpage2.click();
@@ -392,10 +399,10 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test3").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(empid1);
-			empid1.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(empid2);
-			empid2.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No2"));
+			PCDriver.waitForElementToBeClickable(fein1);
+			fein1.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No1"));
+			PCDriver.waitForElementToBeClickable(fein2);
+			fein2.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No2"));
 			PCDriver.waitForElementToBeClickable(securityno1);
 			securityno1.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Security No1"));
 			PCDriver.waitForElementToBeClickable(securityno2);
@@ -472,10 +479,12 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test4").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(empid1);
-			empid1.sendKeys(ReadExcelData.getInstance("Test4").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(empid2);
-			empid2.sendKeys(ReadExcelData.getInstance("Test4").getStringValue("Employer Id No2"));
+			ReadExcelData.getInstance("Registration").updateCellValue("FEIN", ssnAndFeinGenerator.FeinGenerator());
+
+			PCDriver.waitForElementToBeClickable(fein1);
+			fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+			PCDriver.waitForElementToBeClickable(fein2);
+			fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
 			if (check == true) {
 				PCDriver.waitForElementToBeClickable(securityno1);
 				ReadExcelData.getInstance("Registration").updateCellValue("SSN", ssnAndFeinGenerator.generateSSN());
@@ -485,6 +494,7 @@ public class IdahowhitelabelPageObjects {
 				PCDriver.waitForElementToBeClickable(securityno3);
 				securityno3.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(5));
 			} else {
+				PCDriver.waitForElementToBeClickable(securityno1);
 				securityno1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(0, 3));
 				PCDriver.waitForElementToBeClickable(securityno2);
 				securityno2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(3, 5));

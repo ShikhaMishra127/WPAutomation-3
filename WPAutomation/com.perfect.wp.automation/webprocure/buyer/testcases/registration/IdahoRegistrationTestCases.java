@@ -24,26 +24,30 @@ public class IdahoRegistrationTestCases {
 		ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
 	}
 	
+
+	
+	@BeforeMethod
+	public void geturl() {
+		idaho= new IdahowhitelabelPageObjects();
+	}
+	
+	
 	/************Test scripts*****************/
+	
 	
 	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
 
 	public void registerUsingSsnFein() {
 		idaho.firstfintestcase();
 		Assert.assertTrue(idaho.verify());
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 
-	@BeforeMethod
-	public void geturl() {
-		idaho= new IdahowhitelabelPageObjects();
-	}
+	
 
 	@Test(description="This test case will register supplier using SSN and FEIN",dependsOnMethods= {"RegisterWithFein"},enabled=true)
 	public void CheckDuplicateFein() {
 		idaho.samefintestcase();
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 		
 	}
@@ -52,14 +56,12 @@ public class IdahoRegistrationTestCases {
 	public void RegisterWithFein() {
 		idaho.Differentfintestcase();
 		//Assert.assertTrue(idaho.verify());
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 
 	}
 	@Test(description="This test case will register supplier using Ssn",enabled=true)
 	public void RegisterUsingSsn() {
 		idaho.firstssntestcase(true);
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 	
@@ -68,7 +70,6 @@ public class IdahoRegistrationTestCases {
 	public void DuplicateSsnCheck() {
 		idaho.firstssntestcase(false);
 		Assert.assertTrue(idaho.verifyDuplicateSsn());
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 	
@@ -77,7 +78,6 @@ public class IdahoRegistrationTestCases {
 	public void DuplicateUsernameCheck() {
 		idaho.DuplicateUsernameCheck();
 		//Assert.assertTrue(idaho.verifyDuplicateSsn());
-		ExtentReport.report.endTest(ExtentReport.logger);
 
 	}
 	
