@@ -42,7 +42,6 @@ public class CreateSolicitation extends PCDriver {
 		try {
 			// log.info("Before Class entered");
 			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 			ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
 			login.setUsername(ReadConfig.getInstance().getUserName().toString());
 			ExtentReport.logger.log(LogStatus.PASS, "UserName Entered");
@@ -61,12 +60,17 @@ public class CreateSolicitation extends PCDriver {
 	@BeforeMethod
 	public void setupBeforeTest() {
 		home.selectTopNavDropDown("Solicitations");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Solicitations Tab");
 
 	}
 
 	@Test(description = "This test case will check if Solicitation title is mandatory or not for Informal Solicitation", enabled = false)
 	public void verifyTitleIsMandateForInformalSol() {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Solicitation");
+
 		header.waitForAddFieldToDisplay();
 		sol.clickOnNextStep();
 		Assert.assertEquals(sol.clickOnNextStep(), "Please enter a title for this quote");
@@ -180,241 +184,505 @@ public class CreateSolicitation extends PCDriver {
 	@Test(description = "This test case will create the NoLineType Solicitation", enabled = true)
 	public void informalSolicitationCreationWithNoLineItem() {
 		try {
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 			solNav.informalSolicationsMenu("Create");
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 			ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 					"QA Automation" + System.currentTimeMillis());
 			header.enterHeaderDetails(false);
+			ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.waitForDivToAppearInReqPage();
+			ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.EnterQuestionnaire();
+			ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.CreateSupplier();
+			ExtentReport.logger.log(LogStatus.PASS, "New Supplier Created");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.clickSubmit();
+			ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 			Assert.assertEquals(sol.verifySuccessMessage(),
 					"This solicitation has been submitted to pre-issue workflow for approval.");
 
+			ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			ExtentReport.logger.log(LogStatus.FAIL, "Test Case Failed");
+
 		}
 	}
 
 	@Test(description = "This test case will create the NoLineType Solicitation", enabled = true)
 	public void formalSolicitationCreationWithNoLineItem() throws IOException, InterruptedException {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 		solNav.formalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(false);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.CreateSupplier();
+		ExtentReport.logger.log(LogStatus.PASS, "New Supplier Created");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 
 	@Test(description = "This test case will create the Solicitation by creating new line item and searching for an existing supplier and adding it", enabled = false)
 	public void formalSolicitationByCreatingLineItem() throws Exception {
+
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 		solNav.formalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.createLineItem(2, "Apparel");
 		Assert.assertTrue(item.verifyItemSpec());
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.searchSupplier();
 		// sol.CreateSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		ExtentReport.logger.log(LogStatus.PASS, "Verified Supplier and Items are there in the summary page");
+
 		sol.clickSubmit();
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 
-	@Test(description="This test case will create the Solicitation by creating new line item and searching for a supplier and adding it",enabled=false)	
+	@Test(description = "This test case will create the Solicitation by creating new line item and searching for a supplier and adding it", enabled = false)
 	public void inFormalSolicitationByCreatingLineItem() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		// sol.uploadNewDocument();
 		sol.clickOnNextStep();
 		sol.createLineItem(10, "Cleaning");
 		// sol.createLineItem(10,"Cleaning");
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.searchSupplier();
+		ExtentReport.logger.log(LogStatus.PASS, "Supplier Searched and Selected");
+
 		// sol.CreateSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		ExtentReport.logger.log(LogStatus.PASS, "Verified Supplier and Items are there in the summary page");
+
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 
 	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = true)
 	public void formalSolicitationByAddingLineItem() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 		solNav.formalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
+		ExtentReport.logger.log(LogStatus.PASS, "Line Items Added");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.CreateSupplier();
 		// sol.searchSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		ExtentReport.logger.log(LogStatus.PASS, "Verified Supplier and Items are there in the summary page");
+
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
+
 	}
 
 	@Test(description = "This test case will create the Solicitation by adding new line item and creating new supplier", enabled = true)
 	public void inFormalSolicitationByAddingLineItem() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
+		ExtentReport.logger.log(LogStatus.PASS, "Line Items Added");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.CreateSupplier();
 		// sol.searchSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		ExtentReport.logger.log(LogStatus.PASS, "Verified Supplier and Items are there in the summary page");
+
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 
 	@Test(description = "This test case will create a new Informal Solicitation by adding a new group", enabled = true)
 	public void inFormalSolicitationByAddingGroupsWithLineItem() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.createNewGroup("Testing");
 		sol.waitForItemSpecLibraryLinkToDisappear();
 		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Cleaning"), true, "lines items are added");
+		ExtentReport.logger.log(LogStatus.PASS, "Line Items Added");
+
 		sol.switchOnAdjustmentHandler();
+		ExtentReport.logger.log(LogStatus.PASS, "Adjustment Handler Switched On");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.CreateSupplier();
 		// sol.searchSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
+		ExtentReport.logger.log(LogStatus.PASS, "Verified Supplier and Items are there in the summary page");
+
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+
 		Assert.assertEquals(sol.verifySuccessMessage(),
 				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 
 	@Test(description = "This test case will create a new Formal Solicitation by adding a new group", enabled = true)
 	public void formalSolicitationByAddingGroupsWithLineItem() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.formalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.createNewGroup("Testing");
 		sol.waitForItemSpecLibraryLinkToDisappear();
 		Assert.assertEquals(sol.AddLineItemsAndVerify("10", "Electronic Components and Supplies"), true,
 				"lines items are added");
 		sol.switchOnAdjustmentHandler();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.CreateSupplier();
 		// sol.searchSupplier();
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForSupplier(), true);
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
 		sol.clickSubmit();
+		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
 
 	}
 
 	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Informal Solicitation", enabled = true)
 	public void checkGroupNameCannotBeEmptyForInformalSolicitation() throws Exception {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 		ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 				"QA Automation" + System.currentTimeMillis());
 		header.enterHeaderDetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.waitForDivToAppearInReqPage();
+		ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.EnterQuestionnaire();
+		ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.clickOnNextStep();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 		sol.createNewGroup("");
+		ExtentReport.logger.log(LogStatus.PASS, "New Group PopUp Window Opened");
+
 		Assert.assertTrue(sol.verifyGroupNameNotEmpty());
+		ExtentReport.logger.log(LogStatus.PASS, "Empty Group Name Message displayed :" + sol.verifyGroupNameNotEmpty());
+
 	}
 
 	@Test(description = "This test case will check when creating a new group the group name cannot be empty for Formal Solicitation", enabled = true)
 	public void checkGroupNameCannotBeEmptyForFormalSolicitation() throws Exception {
 		try {
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 			solNav.formalSolicationsMenu("Create");
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 			ReadExcelData.getInstance("Solicitation").updateCellValue("Title",
 					"QA Automation" + System.currentTimeMillis());
 			header.enterHeaderDetails(true);
+			ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.waitForDivToAppearInReqPage();
+			ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.EnterQuestionnaire();
+			ExtentReport.logger.log(LogStatus.PASS, "Questionnaire Entered");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.clickOnNextStep();
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
+
 			sol.createNewGroup("");
+			ExtentReport.logger.log(LogStatus.PASS, "New Group PopUp Window Opened");
+
 			Assert.assertTrue(sol.verifyGroupNameNotEmpty());
+			ExtentReport.logger.log(LogStatus.PASS,
+					"Empty Group Name Message displayed :" + sol.verifyGroupNameNotEmpty());
+
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -422,21 +690,39 @@ public class CreateSolicitation extends PCDriver {
 
 	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current Formal Sol Page", enabled = true)
 	public void exitSolicitationBeforeCreationForFormalSolicitation() {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.formalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Formal Solicitation");
+
 		sol.clickExit();
+		ExtentReport.logger.log(LogStatus.PASS, "Exit Button Clicked");
+
 		Assert.assertTrue(sol.verifyPageTitle("Current Formal Solicitation"));
+		ExtentReport.logger.log(LogStatus.PASS, "Current Formal Solicitation Page Displayed");
+
 	}
 
 	@Test(description = "This test case will check the exiting before Creation of Sol should take the user to Current InFormal Sol Page", enabled = true)
 	public void exitSolicitationBeforeCreationForInFormalSolicitation() {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		solNav.informalSolicationsMenu("Create");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create Informal Solicitation");
+
 		sol.clickExit();
+		ExtentReport.logger.log(LogStatus.PASS, "Exit Button Clicked");
+
 		Assert.assertTrue(sol.verifyPageTitle("Current Informal Solicitation"));
+		ExtentReport.logger.log(LogStatus.PASS, "Current Informal Solicitation Page Displayed");
+
 	}
 
 	@AfterMethod
 	public void tearDownAfterTest() {
 		sol.clickHomeButton();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
+
 	}
 
 	@AfterClass

@@ -67,6 +67,7 @@ public class CreateRequest extends PCDriver {
 	public void verifycreatereqpage() {
 		reqnav.requestdropdown("Create new");
 		Assert.assertTrue(getTitle().contains("WebProcure: Request And Workflow"));
+
 	}
 
 	/*

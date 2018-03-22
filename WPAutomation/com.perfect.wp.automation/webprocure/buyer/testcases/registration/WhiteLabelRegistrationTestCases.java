@@ -27,7 +27,6 @@ public class WhiteLabelRegistrationTestCases {
 	@BeforeClass
 	public void setup() {
 		ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 		ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
 
 	}
@@ -41,6 +40,8 @@ public class WhiteLabelRegistrationTestCases {
 	@Test(description = "This test case will register using Fein for Missouri",enabled=true)
 	public void RegistrationWithFeinForMissouri() throws IOException, InterruptedException {
 		try {
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 			// whiteLabelregister.clickRegistrationCheckBox("Missouri");
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
@@ -72,6 +73,8 @@ public class WhiteLabelRegistrationTestCases {
 			"RegistrationWithFeinForMissouri" },enabled=true)
 	public void DuplicateFeinCheck() throws IOException, InterruptedException {
 		try {
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
 			//whiteLabelregister.navigateToWhiteLabel();
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
@@ -96,6 +99,7 @@ public class WhiteLabelRegistrationTestCases {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
 			//whiteLabelregister.navigateToWhiteLabel();
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
@@ -132,6 +136,7 @@ public class WhiteLabelRegistrationTestCases {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Missouri");
 			//whiteLabelregister.navigateToWhiteLabel();
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 			ExtentReport.logger.log(LogStatus.PASS, "Missouri Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
@@ -153,6 +158,7 @@ public class WhiteLabelRegistrationTestCases {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Idaho");
 			//whiteLabelregister.navigateToWhiteLabel();
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 			ExtentReport.logger.log(LogStatus.PASS, "Idaho Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
@@ -184,6 +190,7 @@ public class WhiteLabelRegistrationTestCases {
 		try {
 			//whiteLabelregister.clickRegistrationCheckBox("Idaho");
 			//whiteLabelregister.navigateToWhiteLabel();
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
 			ExtentReport.logger.log(LogStatus.PASS, "Idaho Check Box Clicked");
 			whiteLabelregister.AcceptTermsAndConditions();
@@ -215,9 +222,17 @@ public class WhiteLabelRegistrationTestCases {
 		//whiteLabelregister.clickRegistrationCheckBox("Idaho");
 		//whiteLabelregister.navigateToWhiteLabel();
 		try {
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		whiteLabelregister.AcceptTermsAndConditions();
+		ExtentReport.logger.log(LogStatus.PASS, "Terms and Conditions Accepted");
+
 		whiteLabelregister.setCompanyInfoWithSSnForIdaho();
+		ExtentReport.logger.log(LogStatus.PASS, "Company Name Info Set");
+
 		whiteLabelregister.clickNext();
+		ExtentReport.logger.log(LogStatus.PASS, "Next is Clicked");
+
 		}
 		catch(Exception e) {
 			Assert.fail();
@@ -229,7 +244,7 @@ public class WhiteLabelRegistrationTestCases {
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.flush();
-		//ExtentReport.report.close();
+
 	
 	}
 }

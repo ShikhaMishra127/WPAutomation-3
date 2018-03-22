@@ -265,14 +265,14 @@ public class EditSolicitation extends PCDriver {
 
 	@AfterMethod
 	public void setupAfterTest() {
-	//	 createSol.clickHomeButton();
+		// createSol.clickHomeButton();
 
 	}
 
 	@AfterClass
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
-		//home.logout();
+		// home.logout();
 
 	}
 }

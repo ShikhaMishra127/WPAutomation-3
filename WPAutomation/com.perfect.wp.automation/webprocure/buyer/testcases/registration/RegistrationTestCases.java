@@ -26,7 +26,6 @@ public class RegistrationTestCases {
 	@BeforeClass
 	public void setup() {
 		ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 		ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
 		ExtentReport.report.endTest(ExtentReport.logger);
 	}
@@ -40,6 +39,7 @@ public class RegistrationTestCases {
 	public void registrationWithFeinAndSsn() throws IOException {
 		try {
 			//ExtentReport.logger = ExtentReport.report.startTest();
+			ExtentReport.logger.log(LogStatus.PASS, "Test Case Started");
 
 			register.setOrgInfo();
 			ExtentReport.logger.log(LogStatus.PASS, "Organization Information entered");
@@ -265,6 +265,6 @@ public class RegistrationTestCases {
 	public void tearDown() {
 
 		ExtentReport.report.flush();
-		//ExtentReport.report.close();
+
 	}
 }

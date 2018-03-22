@@ -35,38 +35,44 @@ public class IdahoRegistrationTestCases {
 	/************Test scripts*****************/
 	
 	
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
+	@Test(description="This test case will register supplier using SSN and FEIN",enabled=false)
 
 	public void registerUsingSsnFein() {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		idaho.firstfintestcase();
 		Assert.assertTrue(idaho.verify());
+		ExtentReport.logger.log(LogStatus.PASS, "Register Using Ssn Done");
 
 	}
 
 	
 
-	@Test(description="This test case will register supplier using SSN and FEIN",dependsOnMethods= {"RegisterWithFein"},enabled=true)
+	@Test(description="This test case will register supplier using SSN and FEIN",/*dependsOnMethods= {"RegisterWithFein"},*/enabled=true)
 	public void CheckDuplicateFein() {
+		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
+
 		idaho.samefintestcase();
 
-		
+		ExtentReport.logger.log(LogStatus.PASS, "Not able to proceed with Duplicate Fein");
+
 	}
 
-	@Test(description="This test case will register supplier using FEIN",enabled=true)
+	@Test(description="This test case will register supplier using FEIN",enabled=false)
 	public void RegisterWithFein() {
 		idaho.Differentfintestcase();
 		//Assert.assertTrue(idaho.verify());
 
 
 	}
-	@Test(description="This test case will register supplier using Ssn",enabled=true)
+	@Test(description="This test case will register supplier using Ssn",enabled=false)
 	public void RegisterUsingSsn() {
 		idaho.firstssntestcase(true);
 
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
-	"RegisterUsingSsn" },enabled=true)
+	"RegisterUsingSsn" },enabled=false)
 	public void DuplicateSsnCheck() {
 		idaho.firstssntestcase(false);
 		Assert.assertTrue(idaho.verifyDuplicateSsn());
@@ -74,7 +80,7 @@ public class IdahoRegistrationTestCases {
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
-	"RegisterUsingSsn" },enabled=true)
+	"RegisterUsingSsn" },enabled=false)
 	public void DuplicateUsernameCheck() {
 		idaho.DuplicateUsernameCheck();
 		//Assert.assertTrue(idaho.verifyDuplicateSsn());
