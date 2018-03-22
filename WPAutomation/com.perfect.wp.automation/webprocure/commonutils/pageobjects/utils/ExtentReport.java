@@ -27,7 +27,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 
 	}
 
-	public static String getScreenhot(WebDriver driver, String screenshotName) throws Exception {
+	public static String getScreenshot(WebDriver driver, String screenshotName) throws Exception {
 		String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
@@ -57,7 +57,8 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 	public void onTestFailure(ITestResult result) {
 		try {
 			logger.log(LogStatus.FAIL,
-					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+					logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(PCDriver.getDriver(), result.getName()))));
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +69,8 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 	public void onTestSkipped(ITestResult result) {
 		try {
 			logger.log(LogStatus.FAIL,
-					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+					logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(PCDriver.getDriver(), result.getName()))));
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,7 +82,8 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
 		try {
 			logger.log(LogStatus.FAIL,
-					logger.addScreenCapture(ExtentReport.getScreenhot(PCDriver.getDriver(), result.getName())));
+					logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(PCDriver.getDriver(), result.getName()))));
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
