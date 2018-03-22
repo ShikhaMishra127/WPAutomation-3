@@ -11,7 +11,6 @@ import com.relevantcodes.extentreports.LogStatus;
 import buyer.pageobjects.requestPageObjects.CreateRequestPOM;
 import buyer.pageobjects.requestPageObjects.OffCatalogReqPOM;
 import buyer.pageobjects.requestPageObjects.RequestNumber;
-import buyer.pageobjects.requestPageObjects.RoundTripPOM;
 import buyer.pageobjects.requestPageObjects.ViewRequest;
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.generic.LoginPage;
@@ -30,7 +29,6 @@ public class CreateRequest extends PCDriver {
 	RequestNavigation reqnav = new RequestNavigation();
 	CreateRequestPOM req = new CreateRequestPOM();
 	OffCatalogReqPOM offcatreq = new OffCatalogReqPOM();
-	RoundTripPOM roundtrip = new RoundTripPOM();
 	RequestNumber reqnum = new RequestNumber();
 	ViewRequest viewreq = new ViewRequest();
 
