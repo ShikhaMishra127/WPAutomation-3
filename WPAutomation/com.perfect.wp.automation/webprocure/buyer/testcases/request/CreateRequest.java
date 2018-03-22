@@ -7,12 +7,11 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
+
 import buyer.pageobjects.requestPageObjects.CreateRequestPOM;
 import buyer.pageobjects.requestPageObjects.OffCatalogReqPOM;
-import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import buyer.pageobjects.requestPageObjects.RequestNumber;
+import buyer.pageobjects.requestPageObjects.RoundTripPOM;
 import buyer.pageobjects.requestPageObjects.ViewRequest;
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.generic.LoginPage;
@@ -31,10 +30,9 @@ public class CreateRequest extends PCDriver {
 	RequestNavigation reqnav = new RequestNavigation();
 	CreateRequestPOM req = new CreateRequestPOM();
 	OffCatalogReqPOM offcatreq = new OffCatalogReqPOM();
+	RoundTripPOM roundtrip = new RoundTripPOM();
 	RequestNumber reqnum = new RequestNumber();
 	ViewRequest viewreq = new ViewRequest();
-	CreateSolicitationPOM sol=new CreateSolicitationPOM();
-
 
 	@BeforeClass
 	public void setup() {
@@ -58,7 +56,11 @@ public class CreateRequest extends PCDriver {
 
 	@BeforeMethod
 	public void setupBeforeTest() {
+
+		//home.movetoSubOrg();
 		home.selectTopNavDropDown("Request");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Request");
+
 	}
 
 	// @Test(description="User is on create request page or not")
@@ -95,35 +97,41 @@ public class CreateRequest extends PCDriver {
 	 * 
 	 * }
 	 */
-	@Test(description = "This test will create Off Catalog Request",enabled = true)
+	@Test(description = "This test will create a Request")
 	public void createoffcatreq() throws Exception {
 		reqnav.requestdropdown("Create new");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
+
+		//reqnav.typesofreqlist("RoundTrip");
+		//roundtrip.selecttargetsupplier();
+		
+		//roundtrip.addroundtripitemtocart();	
 		reqnav.typesofreqlist("Off-Catalog Request");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Off Catalog Request Tab");
 		offcatreq.additemtooffcatreq();
+		ExtentReport.logger.log(LogStatus.INFO, "Clicked on Add button");
+		ExtentReport.logger.log(LogStatus.PASS, "Item Added to request cart");
 		ReadExcelData.getInstance("Request").updateCellValue("RequestName", reqnum.requestname());
-		// viewreq.attachmenttab(ReadExcelData.getInstance("Attachments").getStringValue("filename"));
-		//viewreq.requestsubmission();
+		ExtentReport.logger.log(LogStatus.PASS, "Request Number and name generated");
 		viewreq.movetoviewreq();
+		ExtentReport.logger.log(LogStatus.INFO, "Move to Request Checkout page");
 		viewreq.attachmenttab(ReadExcelData.getInstance("processreqtabs").getStringValue("filename"));
+		ExtentReport.logger.log(LogStatus.INFO, "Attachment added at Requisition level");
 		viewreq.justificationtab();
+		ExtentReport.logger.log(LogStatus.INFO, "Request Justification entered");
 		viewreq.buyercontacttab();
+		ExtentReport.logger.log(LogStatus.INFO, "Buyer Contact Selected");
 		viewreq.assignacctcode();
+		ExtentReport.logger.log(LogStatus.INFO, "Account Code Assigned");
 		viewreq.lineitemattachment(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentname"));
+		ExtentReport.logger.log(LogStatus.INFO, "Line item attachment attached");
 		viewreq.submitrequest();
+		ExtentReport.logger.log(LogStatus.INFO, "Clicked on Submit button");
 		viewreq.confirmationpage();
+		ExtentReport.logger.log(LogStatus.INFO, "Clicked on confirmation page submit button");
 		Assert.assertEquals(viewreq.successfullsubmissionmsg(), "Request successfully submitted.");
-	}
-	
-	@AfterMethod
-	public void tearDownAfterTest() {
-		sol.clickHomeButton();
-	}
-
-	@AfterClass
-	public void tearDown() {
-		ExtentReport.report.endTest(ExtentReport.logger);
-		home.logout();
-
+		ExtentReport.logger.log(LogStatus.PASS, "Request Successfully Submitted");
+		
 	}
 
 }
