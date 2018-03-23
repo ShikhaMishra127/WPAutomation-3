@@ -11,7 +11,6 @@ import commonutils.pageobjects.utils.log4jClass;
 
 public class ViewArchivedPage {
 
-	log4jClass logger=new log4jClass();
 	@FindBy(xpath = "//a[contains(text(),'Retracted')]")
 	public WebElement lnkRetracted;
 	
@@ -24,7 +23,6 @@ public class ViewArchivedPage {
 	}
 
 	public void clickRetractedOrCancelleSol() {
-		logger.info("Entered Retracted Or Cancelled Sol Method");
 		PCDriver.waitForElementToBeClickable(lnkRetracted);
 		lnkRetracted.click();
 	
