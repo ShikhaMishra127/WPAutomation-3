@@ -604,6 +604,9 @@ public class CreateSolicitation extends PCDriver {
 		Assert.assertEquals(summary.verifyListIsPresentInSummaryForItem(), true);
 		sol.clickSubmit();
 		ExtentReport.logger.log(LogStatus.PASS, "Submit Button Clicked");
+		Assert.assertEquals(sol.verifySuccessMessage(),
+				"This solicitation has been submitted to pre-issue workflow for approval.");
+		ExtentReport.logger.log(LogStatus.PASS, "Solicitiaton Submitted Message: " + sol.verifySuccessMessage());
 
 	}
 

@@ -1,6 +1,8 @@
 package buyer.testcases.request;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
@@ -12,6 +14,7 @@ import buyer.pageobjects.requestPageObjects.CreateRequestPOM;
 import buyer.pageobjects.requestPageObjects.OffCatalogReqPOM;
 import buyer.pageobjects.requestPageObjects.RequestNumber;
 import buyer.pageobjects.requestPageObjects.ViewRequest;
+import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import commonutils.pageobjects.generic.HomePage;
 import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.generic.RequestNavigation;
@@ -31,6 +34,7 @@ public class CreateRequest extends PCDriver {
 	OffCatalogReqPOM offcatreq = new OffCatalogReqPOM();
 	RequestNumber reqnum = new RequestNumber();
 	ViewRequest viewreq = new ViewRequest();
+	CreateSolicitationPOM sol = new CreateSolicitationPOM();
 
 	@BeforeClass
 	public void setup() {
@@ -55,7 +59,7 @@ public class CreateRequest extends PCDriver {
 	@BeforeMethod
 	public void setupBeforeTest() {
 
-		//home.movetoSubOrg();
+		// home.movetoSubOrg();
 		home.selectTopNavDropDown("Request");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Request");
 
@@ -76,22 +80,26 @@ public class CreateRequest extends PCDriver {
 	 */
 
 	/*
-<<<<<<< Updated upstream:WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/request/CreateRequest.java
+	 * <<<<<<< Updated
+	 * upstream:WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/
+	 * request/CreateRequest.java
+	 * 
 	 * @Test(description = "This test will field is mandaotry or not") public void
 	 * valuefieldismandatory() throws Exception{
 	 * reqnav.requestdropdown("Create new");
 	 * reqnav.typesofreqlist("Off-Catalog Request");
 	 * 
 	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(), "Alert");
-	 * offcatreq.acceptalertbox();
-=======
-	 * @Test(description = "This test will field is mandaotry or not") public
-	 * void valuefieldismandatory() throws Exception{ reqnav.requestdropdown(
+	 * offcatreq.acceptalertbox(); =======
+	 * 
+	 * @Test(description = "This test will field is mandaotry or not") public void
+	 * valuefieldismandatory() throws Exception{ reqnav.requestdropdown(
 	 * "Create new"); reqnav.typesofreqlist("Off-Catalog Request");
 	 * 
-	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(),
-	 * "Alert"); offcatreq.acceptalertbox();
->>>>>>> Stashed changes:WPAutomation/com.perfect.wp.automation/buyer/testcases/request/CreateRequest.java
+	 * offcatreq.clickAdd(); Assert.assertEquals(offcatreq.bootAlertbox(), "Alert");
+	 * offcatreq.acceptalertbox(); >>>>>>> Stashed
+	 * changes:WPAutomation/com.perfect.wp.automation/buyer/testcases/request/
+	 * CreateRequest.java
 	 * C:\Users\Sunal\Documents\RequestAttachment\VendorReport_Quote_RFQ18000151.txt
 	 * 
 	 * }
@@ -101,10 +109,10 @@ public class CreateRequest extends PCDriver {
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
 
-		//reqnav.typesofreqlist("RoundTrip");
-		//roundtrip.selecttargetsupplier();
-		
-		//roundtrip.addroundtripitemtocart();	
+		// reqnav.typesofreqlist("RoundTrip");
+		// roundtrip.selecttargetsupplier();
+
+		// roundtrip.addroundtripitemtocart();
 		reqnav.typesofreqlist("Off-Catalog Request");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Off Catalog Request Tab");
 		offcatreq.additemtooffcatreq();
@@ -130,7 +138,21 @@ public class CreateRequest extends PCDriver {
 		ExtentReport.logger.log(LogStatus.INFO, "Clicked on confirmation page submit button");
 		Assert.assertEquals(viewreq.successfullsubmissionmsg(), "Request successfully submitted.");
 		ExtentReport.logger.log(LogStatus.PASS, "Request Successfully Submitted");
-		
+
+	}
+
+	@AfterMethod
+	public void tearDownAfterTest() {
+		sol.clickHomeButton();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
+
+	}
+
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+		home.logout();
+
 	}
 
 }
