@@ -644,7 +644,7 @@ public class CreateSolicitation extends PCDriver {
 		ExtentReport.logger.log(LogStatus.PASS, "New Group PopUp Window Opened");
 
 		Assert.assertTrue(sol.verifyGroupNameNotEmpty());
-		ExtentReport.logger.log(LogStatus.PASS, "Empty Group Name Message displayed :" + sol.verifyGroupNameNotEmpty());
+		ExtentReport.logger.log(LogStatus.PASS, "Empty Group Name Message displayed");
 
 	}
 
@@ -666,7 +666,7 @@ public class CreateSolicitation extends PCDriver {
 
 			sol.waitForDivToAppearInReqPage();
 			ExtentReport.logger.log(LogStatus.PASS, "Requirements Page Loaded");
-
+			header.addField();
 			sol.clickOnNextStep();
 			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Next Step");
 
@@ -684,7 +684,7 @@ public class CreateSolicitation extends PCDriver {
 
 			Assert.assertTrue(sol.verifyGroupNameNotEmpty());
 			ExtentReport.logger.log(LogStatus.PASS,
-					"Empty Group Name Message displayed :" + sol.verifyGroupNameNotEmpty());
+					"Empty Group Name Message displayed");
 
 		} catch (Exception e) {
 			Assert.fail();
@@ -700,7 +700,7 @@ public class CreateSolicitation extends PCDriver {
 
 		sol.clickExit();
 		ExtentReport.logger.log(LogStatus.PASS, "Exit Button Clicked");
-
+		
 		Assert.assertTrue(sol.verifyPageTitle("Current Formal Solicitation"));
 		ExtentReport.logger.log(LogStatus.PASS, "Current Formal Solicitation Page Displayed");
 
