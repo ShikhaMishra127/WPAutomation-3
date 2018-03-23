@@ -14,8 +14,6 @@ import com.relevantcodes.extentreports.LogStatus;
 import buyer.pageobjects.registration.WhiteLabelRegistrationPagePom;
 import commonutils.pageobjects.generic.LoginPage;
 import commonutils.pageobjects.utils.ExtentReport;
-import commonutils.pageobjects.utils.PCDriver;
-import commonutils.pageobjects.utils.ReadConfig;
 
 @Listeners(ExtentReport.class)
 
@@ -34,6 +32,8 @@ public class WhiteLabelRegistrationTestCases {
 	@BeforeMethod()
 	public void setupBeforeTest() {
 		whiteLabelregister = new WhiteLabelRegistrationPagePom();
+		ExtentReport.logger.log(LogStatus.PASS, "Moved to White Label Missouri Page");
+
 
 	}
 

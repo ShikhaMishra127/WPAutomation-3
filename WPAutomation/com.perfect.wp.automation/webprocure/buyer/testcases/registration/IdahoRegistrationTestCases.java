@@ -35,7 +35,7 @@ public class IdahoRegistrationTestCases {
 	/************Test scripts*****************/
 	
 	
-	@Test(description="This test case will register supplier using SSN and FEIN",enabled=false)
+	@Test(description="This test case will register supplier using SSN and FEIN",enabled=true)
 
 	public void registerUsingSsnFein() {
 		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
@@ -48,7 +48,7 @@ public class IdahoRegistrationTestCases {
 
 	
 
-	@Test(description="This test case will register supplier using SSN and FEIN",/*dependsOnMethods= {"RegisterWithFein"},*/enabled=true)
+	@Test(description="This test case will register supplier using SSN and FEIN",dependsOnMethods= {"RegisterWithFein"},enabled=true)
 	public void CheckDuplicateFein() {
 		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
@@ -58,21 +58,21 @@ public class IdahoRegistrationTestCases {
 
 	}
 
-	@Test(description="This test case will register supplier using FEIN",enabled=false)
+	@Test(description="This test case will register supplier using FEIN",enabled=true)
 	public void RegisterWithFein() {
 		idaho.Differentfintestcase();
 		//Assert.assertTrue(idaho.verify());
 
 
 	}
-	@Test(description="This test case will register supplier using Ssn",enabled=false)
+	@Test(description="This test case will register supplier using Ssn",enabled=true)
 	public void RegisterUsingSsn() {
 		idaho.firstssntestcase(true);
 
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
-	"RegisterUsingSsn" },enabled=false)
+	"RegisterUsingSsn" },enabled=true)
 	public void DuplicateSsnCheck() {
 		idaho.firstssntestcase(false);
 		Assert.assertTrue(idaho.verifyDuplicateSsn());
@@ -80,7 +80,7 @@ public class IdahoRegistrationTestCases {
 	}
 	
 	@Test(description="This test case will check Duplicate Ssn",dependsOnMethods = {
-	"RegisterUsingSsn" },enabled=false)
+	"RegisterUsingSsn" },enabled=true)
 	public void DuplicateUsernameCheck() {
 		idaho.DuplicateUsernameCheck();
 		//Assert.assertTrue(idaho.verifyDuplicateSsn());
