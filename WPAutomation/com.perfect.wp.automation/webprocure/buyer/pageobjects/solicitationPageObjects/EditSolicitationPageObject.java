@@ -69,6 +69,9 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//a[text()='Active Solicitations']")
 	public WebElement lnkActiveSolicitations;
+	
+	@FindBy(xpath="//a[text()='Un-issued Solicitations']")
+	public WebElement lnkUnissuedSolicitations;
 
 	@FindBy(xpath = "//a[contains(@href,'javascript:startAddendum')]")
 	public WebElement lnkCreateAddendum;
@@ -293,6 +296,10 @@ public class EditSolicitationPageObject {
 
 	public void clickOnActiveSolicitations() {
 		lnkActiveSolicitations.click();
+	}
+	
+	public void clickOnUnissuedSolicitations() {
+		lnkUnissuedSolicitations.click();
 	}
 
 	public void clickTopNavItem(String strTabName) {

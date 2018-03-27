@@ -48,6 +48,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickInformalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Informal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		// edit.clickOnActiveSolicitations();
 		edit.setTitleForSearch(edit.getSolTitle(0));
@@ -93,6 +96,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -212,6 +218,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickInformalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Informal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setSolNumber(edit.getSolNumber(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -256,6 +265,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setSolNumber(edit.getSolNumber(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -290,7 +302,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = false)
 	public void VerifySolicitationHistoryForFormalSolicitation() {
 		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
@@ -311,7 +323,7 @@ public class EditSolicitation extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will check the solicitation history for Formal Solicitation", enabled = false)
 	public void VerifySolicitationHistoryForInformalSolicitation() {
 		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
@@ -338,6 +350,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setFromStartDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From Start Date");
@@ -359,6 +374,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickInformalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Informal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setFromStartDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From Start Date");
@@ -380,6 +398,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setFromEndDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From End Date");
@@ -401,6 +422,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickInformalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Informal Solicitation");
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 
 		edit.setFromEndDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From End Date");
@@ -422,6 +446,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnActiveSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Active Solicitations");
 
 		edit.setFromStartDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From Start Date");
@@ -468,6 +495,9 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
+		
+		edit.clickOnActiveSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Active Solicitations");
 
 		edit.setFromEndDate("03/01/2018");
 		ExtentReport.logger.log(LogStatus.PASS, "Entered the From End Date");
@@ -514,6 +544,9 @@ public class EditSolicitation extends PCDriver {
 		home.clickInformalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Informal Solicitation");
 
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
 
@@ -545,7 +578,10 @@ public class EditSolicitation extends PCDriver {
 
 		home.clickFormalSolicitationEdit();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Formal Solicitation");
-
+		
+		edit.clickOnUnissuedSolicitations();
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
 
