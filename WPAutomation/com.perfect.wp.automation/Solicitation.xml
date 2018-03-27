@@ -5,6 +5,8 @@
 		<classes>
 			<class name="buyer.testcases.solicitation.CreateSolicitation"></class>
 			<class name="buyer.testcases.solicitation.ViewArchived"></class>
+			<class name="buyer.testcases.solicitation.EditSolicitation"></class>
+
 		</classes>
 
 	</test> <!-- Test -->

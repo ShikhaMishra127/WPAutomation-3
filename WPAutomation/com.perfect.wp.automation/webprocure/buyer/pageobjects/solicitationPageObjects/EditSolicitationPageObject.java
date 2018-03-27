@@ -135,7 +135,16 @@ public class EditSolicitationPageObject {
 	
 	
 	public String getSolTitle(int i) {
+		try {
 		PCDriver.visibilityOfListLocated(lstSolTitle);
+		}
+		catch(Exception e) {
+			System.out.println("List is Empty");
+		}
+		if(lstSolTitle.size()==0) {
+			PCDriver.getDriver().findElement(By.xpath("//a[@alt='Next Page']")).click();
+			getSolNumber(i);
+		}
 		return lstSolTitle.get(i).getText();
 	}
 	
@@ -146,15 +155,15 @@ public class EditSolicitationPageObject {
 		if(lblVendorHeaderWarning.size()>=1) {
 			PCDriver.waitForElementToBeClickable(btnEditVendor,Long.valueOf(String.valueOf(5)));
 			btnEditVendor.click();
-			supplier.CreateNewSupplier("abc");
+			supplier.CreateNewSupplier("abv");
 			PCDriver.switchToWindow("");
+			PCDriver.waitForPageLoad();
 			clickSave();
 			clickReturn();
 
 		}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
 			System.out.println("Vendors are available");
 		}
 	}
@@ -166,7 +175,7 @@ public class EditSolicitationPageObject {
 		if(lblVendorItemWarning.size()>=1) {
 			PCDriver.waitForElementToBeClickable(btnEditItem,Long.valueOf(String.valueOf(5)));
 			btnEditItem.click();
-			sol.AddLineItemsAndVerify("10", "Apparel");
+			sol.AddLineItemsAndVerify("10", "Electronic Components and Supplies");
 		}
 		}
 		catch(Exception e) {
@@ -180,8 +189,13 @@ public class EditSolicitationPageObject {
 	}
 
 	public void setTitleForSearch(String strTitle) throws IOException {
+		dateStartDateFrom.clear();
+		dateStartDateTo.clear();
+		dateFromEndDate.clear();
+		dateToEndDate.clear();
 		PCDriver.waitForElementToBeClickable(txtTitle);
 		txtTitle.sendKeys(strTitle);
+		
 	}
 
 	public void setSolNumber(String strNumber) {

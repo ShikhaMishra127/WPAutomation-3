@@ -87,7 +87,7 @@ public class ItemSpecPage {
 		newItemCategory(strCategory);
 		PCDriver.waitForElementToBeClickable(lineItemTab);
 
-		while (checkNextButtonDisabled.size() == 0) {
+		do {
 			for (int i = 0; i < lstLineItems.size(); i++) {
 				try {
 					PCDriver.WaitTillElementIsPresent(lblquantity);
@@ -125,7 +125,7 @@ public class ItemSpecPage {
 			} catch (Exception e) {
 
 			}
-		}
+		}while (checkNextButtonDisabled.size() == 0);
 	}
 
 	public boolean verifyItemSpec() {

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -189,6 +190,7 @@ public class SupplierPage {
 		txtSName.sendKeys(strSupplierName);
 		btnSubmit.click();
 		selectSearchedSuppliers();
+		
 
 	}
 
@@ -204,6 +206,7 @@ public class SupplierPage {
 	}
 
 	public void selectSearchedSuppliers() {
+		try {
 
 		PCDriver.waitForPageLoad();
 		try {
@@ -211,7 +214,7 @@ public class SupplierPage {
 		} catch (Exception e) {
 			System.out.println("Supplier Search Results text is not present");
 		}
-		while (btnNext.size() != 0) {
+		do {
 			PCDriver.waitForPageLoad();
 			System.out.println("size is : " + lstSearchResults.size());
 			for (int i = 0; i < lstSearchResults.size(); i++) {
@@ -231,16 +234,31 @@ public class SupplierPage {
 				
 			}
 			try {
+				if(PCDriver.getDriver() instanceof PhantomJSDriver) {
 				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;};");
-
+				}
 				btnSave.click();
-				//PCDriver.acceptAlert();
+				Thread.sleep(2000);
+				PCDriver.waitForPageLoad();
+				if(PCDriver.getDriver() instanceof PhantomJSDriver==false) {
+				PCDriver.acceptAlert();
+				}
 			} catch (Exception e) {
 
 			} finally {
+				try {
 				PCDriver.waitForElementToBeClickable(btnNext.get(0));
 				btnNext.get(0).click();
+				}
+				catch(Exception e) {
+					System.out.println("Next Button is not available");
+				}
 			}
+		}
+		while (btnNext.size() != 0);
+		}
+		catch(Exception e) {
+			System.out.println("Next Button is not available");
 		}
 	}
 
