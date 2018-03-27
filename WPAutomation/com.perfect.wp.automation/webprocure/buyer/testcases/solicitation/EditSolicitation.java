@@ -51,6 +51,9 @@ public class EditSolicitation extends PCDriver {
 		
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
 
 		// edit.clickOnActiveSolicitations();
 		edit.setTitleForSearch(edit.getSolTitle(0));
@@ -99,6 +102,10 @@ public class EditSolicitation extends PCDriver {
 		
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
+
 
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -221,6 +228,10 @@ public class EditSolicitation extends PCDriver {
 		
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
+
 
 		edit.setSolNumber(edit.getSolNumber(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -268,6 +279,10 @@ public class EditSolicitation extends PCDriver {
 		
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
+		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
+
 
 		edit.setSolNumber(edit.getSolNumber(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
@@ -547,6 +562,10 @@ public class EditSolicitation extends PCDriver {
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
+
+		
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
 
@@ -582,6 +601,9 @@ public class EditSolicitation extends PCDriver {
 		edit.clickOnUnissuedSolicitations();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Unissued Solicitation");
 		
+		edit.clearSearchedData();
+		ExtentReport.logger.log(LogStatus.PASS, "Cleared any old searched data");
+
 		edit.setTitleForSearch(edit.getSolTitle(0));
 		ExtentReport.logger.log(LogStatus.PASS, "Entered Solicitation that needs to be edited");
 

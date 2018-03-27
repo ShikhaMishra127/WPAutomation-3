@@ -19,9 +19,9 @@ import commonutils.pageobjects.utils.PCDriver;
 public class EditSolicitationPageObject {
 
 	HomePage home = new HomePage();
-	SupplierPage supplier=new SupplierPage();
-	ItemSpecPage item=new ItemSpecPage();
-	CreateSolicitationPOM sol=new CreateSolicitationPOM();
+	SupplierPage supplier = new SupplierPage();
+	ItemSpecPage item = new ItemSpecPage();
+	CreateSolicitationPOM sol = new CreateSolicitationPOM();
 
 	public EditSolicitationPageObject() {
 		PageFactory.initElements(PCDriver.getDriver(), this);
@@ -42,20 +42,20 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//img[@class='dropdown-toggle dd-action']")
 	public WebElement drpDownThreeDots;
-	
-	@FindBy(xpath="//td[contains(text(),'Not Submitted')]/following-sibling::td//img[@class='dropdown-toggle dd-action']")
+
+	@FindBy(xpath = "//td[contains(text(),'Not Submitted')]/following-sibling::td//img[@class='dropdown-toggle dd-action']")
 	public WebElement drpDownThreeDotsForNotSubmittedStatus;
-	
+
 	@FindBy(xpath = "//a/i[text()='edit']")
 	public WebElement lnkEdit;
-	
-	@FindBy(xpath="//td[contains(text(),'Not Submitted')]/following-sibling::td//ul//a/i[text()='edit']")
+
+	@FindBy(xpath = "//td[contains(text(),'Not Submitted')]/following-sibling::td//ul//a/i[text()='edit']")
 	public WebElement lnkEditNotSubmitted;
-	
-	@FindBy(xpath="//button[contains(@onclick,'BidVendors')]")
+
+	@FindBy(xpath = "//button[contains(@onclick,'BidVendors')]")
 	public WebElement btnEditVendor;
-	
-	@FindBy(xpath="//button[contains(@onclick,'biditems')]")
+
+	@FindBy(xpath = "//button[contains(@onclick,'biditems')]")
 	public WebElement btnEditItem;
 
 	@FindBy(xpath = "//ul[contains(@class,'pagination pull-right')]")
@@ -69,8 +69,8 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//a[text()='Active Solicitations']")
 	public WebElement lnkActiveSolicitations;
-	
-	@FindBy(xpath="//a[text()='Un-issued Solicitations']")
+
+	@FindBy(xpath = "//a[text()='Un-issued Solicitations']")
 	public WebElement lnkUnissuedSolicitations;
 
 	@FindBy(xpath = "//a[contains(@href,'javascript:startAddendum')]")
@@ -114,74 +114,90 @@ public class EditSolicitationPageObject {
 
 	@FindBy(xpath = "//button[text()='Close']")
 	public WebElement btnClose;
-	
-	@FindBy(xpath="//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[@class='sorting_1']/a")
+
+	@FindBy(xpath = "//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[@class='sorting_1']/a")
 	List<WebElement> lstSolNumber;
-	
-	@FindBy(xpath="//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[4]")
+
+	@FindBy(xpath = "//tr/td[contains(text(),'Not Submitted')]/preceding-sibling::td[4]")
 	List<WebElement> lstSolTitle;
-	
-	@FindBy(xpath="(//div[@class='panel-heading'])[6]/following-sibling::div//span")
+
+	@FindBy(xpath = "(//div[@class='panel-heading'])[6]/following-sibling::div//span")
 	public List<WebElement> lblVendorHeaderWarning;
-	
-	@FindBy(xpath="(//div[@class='panel-heading'])[5]/following-sibling::div/span")
+
+	@FindBy(xpath = "(//div[@class='panel-heading'])[5]/following-sibling::div/span")
 	public List<WebElement> lblVendorItemWarning;
-	
-	@FindBy(xpath="//h4[contains(text(),'Info')]")
+
+	@FindBy(xpath = "//h4[contains(text(),'Info')]")
 	public WebElement lblSubmitPageTitle;
-	
-	
+
 	public String getSolNumber(int i) {
 		PCDriver.visibilityOfListLocated(lstSolNumber);
 		return lstSolNumber.get(i).getText();
 	}
-	
-	
+
 	public String getSolTitle(int i) {
 		try {
-		PCDriver.visibilityOfListLocated(lstSolTitle);
-		}
-		catch(Exception e) {
+			PCDriver.visibilityOfListLocated(lstSolTitle);
+		} catch (Exception e) {
 			System.out.println("List is Empty");
 		}
-		if(lstSolTitle.size()==0) {
+		if (lstSolTitle.size() == 0) {
 			PCDriver.getDriver().findElement(By.xpath("//a[@alt='Next Page']")).click();
 			getSolNumber(i);
 		}
 		return lstSolTitle.get(i).getText();
 	}
-	
+
+	public void clearSearchedData() {
+		PCDriver.waitForElementToBeClickable(dateFromEndDate);
+		dateFromEndDate.clear();
+		PCDriver.waitForElementToBeClickable(dateToEndDate);
+
+		dateToEndDate.clear();
+		PCDriver.waitForElementToBeClickable(dateStartDateFrom);
+
+		dateStartDateFrom.clear();
+		PCDriver.waitForElementToBeClickable(dateStartDateTo);
+
+		dateStartDateTo.clear();
+		PCDriver.waitForElementToBeClickable(txtSolNumber);
+
+		txtSolNumber.clear();
+		PCDriver.waitForElementToBeClickable(btnFilter);
+
+		btnFilter.click();
+		PCDriver.waitForPageLoad();
+	}
+
 	public void checkVendorsAddedWarning() {
 		try {
-		PCDriver.waitForPageLoad();
-		PCDriver.waitForElementToBeClickable(lblVendorHeaderWarning.get(0), Long.valueOf(String.valueOf(5)));
-		if(lblVendorHeaderWarning.size()>=1) {
-			PCDriver.waitForElementToBeClickable(btnEditVendor,Long.valueOf(String.valueOf(5)));
-			btnEditVendor.click();
-			supplier.CreateNewSupplier("abv");
-			PCDriver.switchToWindow("");
 			PCDriver.waitForPageLoad();
-			clickSave();
-			clickReturn();
+			PCDriver.waitForElementToBeClickable(lblVendorHeaderWarning.get(0), Long.valueOf(String.valueOf(5)));
+			if (lblVendorHeaderWarning.size() >= 1) {
+				PCDriver.waitForElementToBeClickable(btnEditVendor, Long.valueOf(String.valueOf(5)));
+				btnEditVendor.click();
+				supplier.CreateNewSupplier("abv");
+				PCDriver.switchToWindow("");
+				PCDriver.waitForPageLoad();
+				clickSave();
+				clickReturn();
 
-		}
-		}
-		catch(Exception e) {
+			}
+		} catch (Exception e) {
 			System.out.println("Vendors are available");
 		}
 	}
-	
+
 	public void checkVendorItemWarning() {
 		try {
 			PCDriver.waitForPageLoad();
-		PCDriver.waitForElementToBeClickable(lblVendorItemWarning.get(0), Long.valueOf(String.valueOf(5)));
-		if(lblVendorItemWarning.size()>=1) {
-			PCDriver.waitForElementToBeClickable(btnEditItem,Long.valueOf(String.valueOf(5)));
-			btnEditItem.click();
-			sol.AddLineItemsAndVerify("10", "Electronic Components and Supplies");
-		}
-		}
-		catch(Exception e) {
+			PCDriver.waitForElementToBeClickable(lblVendorItemWarning.get(0), Long.valueOf(String.valueOf(5)));
+			if (lblVendorItemWarning.size() >= 1) {
+				PCDriver.waitForElementToBeClickable(btnEditItem, Long.valueOf(String.valueOf(5)));
+				btnEditItem.click();
+				sol.AddLineItemsAndVerify("10", "Electronic Components and Supplies");
+			}
+		} catch (Exception e) {
 			System.out.println("Items are available");
 		}
 	}
@@ -192,13 +208,11 @@ public class EditSolicitationPageObject {
 	}
 
 	public void setTitleForSearch(String strTitle) throws IOException {
-		dateStartDateFrom.clear();
-		dateStartDateTo.clear();
-		dateFromEndDate.clear();
-		dateToEndDate.clear();
+		PCDriver.waitForPageLoad();
+
 		PCDriver.waitForElementToBeClickable(txtTitle);
 		txtTitle.sendKeys(strTitle);
-		
+
 	}
 
 	public void setSolNumber(String strNumber) {
@@ -237,10 +251,8 @@ public class EditSolicitationPageObject {
 			dateStartDateFrom.clear();
 			dateStartDateTo.clear();
 
+		} catch (Exception e) {
 
-		}
-		catch(Exception e) {
-			
 		}
 		dateFromEndDate.sendKeys(strDate + Keys.TAB);
 		txtTitle.click();
@@ -256,32 +268,30 @@ public class EditSolicitationPageObject {
 		PCDriver.waitForElementToBeClickable(drpDownThreeDots);
 		drpDownThreeDots.click();
 	}
-	
+
 	public void clickOnThreeDotsForNotSubmittedStatus() {
 		PCDriver.waitForElementToBeClickable(drpDownThreeDotsForNotSubmittedStatus);
 		drpDownThreeDotsForNotSubmittedStatus.click();
 	}
 
-
 	public void clickEdit() {
 		try {
 			PCDriver.waitForElementToBeClickable(lnkEdit);
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 			lnkEdit.click();
-//			PCDriver.acceptAlert();
+			// PCDriver.acceptAlert();
 		} catch (Exception e) {
 			System.out.println("three Dots Edit button is not visible");
 		}
 	}
-	
-	
+
 	public void clickEditUnderNotSubmittedThreeDots() {
 		try {
 			PCDriver.waitForElementToBeClickable(lnkEditNotSubmitted);
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 			lnkEditNotSubmitted.click();
 			PCDriver.waitForPageLoad();
-//			PCDriver.acceptAlert();
+			// PCDriver.acceptAlert();
 		} catch (Exception e) {
 			System.out.println("three Dots Edit button is not visible");
 		}
@@ -289,15 +299,15 @@ public class EditSolicitationPageObject {
 
 	public void clickCreateAddendum() {
 		PCDriver.waitForElementToBeClickable(lnkCreateAddendum);
-		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 		lnkCreateAddendum.click();
-		//PCDriver.acceptAlert();
+		// PCDriver.acceptAlert();
 	}
 
 	public void clickOnActiveSolicitations() {
 		lnkActiveSolicitations.click();
 	}
-	
+
 	public void clickOnUnissuedSolicitations() {
 		lnkUnissuedSolicitations.click();
 	}
@@ -322,12 +332,11 @@ public class EditSolicitationPageObject {
 
 	public void clickReturn() {
 		try {
-			
-		PCDriver.waitForElementToBeClickable(btnReturn);
-		btnReturn.click();
-		PCDriver.waitForPageLoad();
-		}
-		catch(Exception e) {
+
+			PCDriver.waitForElementToBeClickable(btnReturn);
+			btnReturn.click();
+			PCDriver.waitForPageLoad();
+		} catch (Exception e) {
 			System.out.println("Return button is not visible");
 		}
 	}
@@ -347,9 +356,9 @@ public class EditSolicitationPageObject {
 	@SuppressWarnings("finally")
 	public boolean verifyEditedSolicitationSubmission() {
 		try {
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 
-			//PCDriver.acceptAlert();
+			// PCDriver.acceptAlert();
 		} catch (Exception e) {
 			System.out.println("Alert not present");
 		} finally {
@@ -400,10 +409,10 @@ public class EditSolicitationPageObject {
 
 		lstSolHistoryRow.get(1).findElement(By.xpath(".//input[@name='addendumIds']")).click();
 		lstSolHistoryRow.get(2).findElement(By.xpath(".//input[@name='addendumIds']")).click();
-		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 
 		btnCompareVersions.click();
-		//PCDriver.acceptAlert();
+		// PCDriver.acceptAlert();
 	}
 
 	public boolean VerifyStartDate(List<WebElement> ele) throws ParseException {
