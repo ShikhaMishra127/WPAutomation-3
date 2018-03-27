@@ -48,7 +48,7 @@ public class ReviewAwardTestCases extends PCDriver {
 
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = false)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = true)
 	public void checkEndDateFilterForFormalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -58,7 +58,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = false)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = true)
 	public void checkEndDateFilterForInformalEndedSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -68,7 +68,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = false)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Ended Sols in Formal Solicitation", enabled = true)
 	public void checkEndDateFilterForFormalActiveSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
@@ -79,7 +79,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		Assert.assertTrue(award.verifyData());
 	}
 
-	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = false)
+	@Test(description = "This test case will check the end date filter and verify the search results are correct for Active Sols in InFormal Solicitation", enabled = true)
 	public void checkEndDateFilterForInformalActiveSol() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.informalSolicationsMenu("Review / Award");
@@ -106,7 +106,7 @@ public class ReviewAwardTestCases extends PCDriver {
 		award.clickSupplierAndContinue();
 	}
 
-	@Test(description = "This test case will award for Formal Solicitation", enabled = true)
+	@Test(description = "This test case will award for Formal Solicitation", enabled = false)
 	public void awardFormalSolicitation() throws ParseException {
 		home.selectTopNavDropDown("Solicitation");
 		sol.formalSolicationsMenu("Review / Award");
