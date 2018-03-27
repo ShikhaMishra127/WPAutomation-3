@@ -151,20 +151,23 @@ public class EditSolicitationPageObject {
 	public void clearSearchedData() {
 		PCDriver.waitForElementToBeClickable(dateFromEndDate);
 		dateFromEndDate.clear();
+		
 		PCDriver.waitForElementToBeClickable(dateToEndDate);
-
 		dateToEndDate.clear();
+		
 		PCDriver.waitForElementToBeClickable(dateStartDateFrom);
-
 		dateStartDateFrom.clear();
+		
 		PCDriver.waitForElementToBeClickable(dateStartDateTo);
-
 		dateStartDateTo.clear();
+		
 		PCDriver.waitForElementToBeClickable(txtSolNumber);
-
 		txtSolNumber.clear();
-		PCDriver.waitForElementToBeClickable(btnFilter);
 
+		PCDriver.waitForElementToBeClickable(txtTitle);
+		txtTitle.clear();
+		
+		PCDriver.waitForElementToBeClickable(btnFilter);
 		btnFilter.click();
 		PCDriver.waitForPageLoad();
 	}
