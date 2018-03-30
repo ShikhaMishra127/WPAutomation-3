@@ -77,7 +77,12 @@ public class CreateSolicitationPOM {
 	}
 
 	public void waitForAddInfoSection() {
+		try {
 		PCDriver.waitForElementToBeClickable(addInfoSection);
+		}
+		catch(Exception e) {
+			System.out.println("AddInfo Section is not displayed");
+		}
 	}
 
 	public boolean verifyPageTitle(String str) {
