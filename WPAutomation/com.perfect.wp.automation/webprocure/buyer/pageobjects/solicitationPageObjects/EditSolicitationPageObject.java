@@ -153,12 +153,15 @@ public class EditSolicitationPageObject {
 		dateFromEndDate.clear();
 		
 		PCDriver.waitForElementToBeClickable(dateToEndDate);
+		dateToEndDate.click();
 		dateToEndDate.clear();
 		
 		PCDriver.waitForElementToBeClickable(dateStartDateFrom);
+		dateStartDateFrom.click();
 		dateStartDateFrom.clear();
 		
 		PCDriver.waitForElementToBeClickable(dateStartDateTo);
+		dateStartDateTo.click();
 		dateStartDateTo.clear();
 		
 		PCDriver.waitForElementToBeClickable(txtSolNumber);
@@ -167,6 +170,14 @@ public class EditSolicitationPageObject {
 		PCDriver.waitForElementToBeClickable(txtTitle);
 		txtTitle.clear();
 		
+		dateFromEndDate.click();
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PCDriver.waitForElementToBeClickable(btnFilter);
 		btnFilter.click();
 		PCDriver.waitForPageLoad();
