@@ -93,6 +93,7 @@ public class CreateInvoice extends PCDriver {
 	public void tearDown() {
 		ExtentReport.report.endTest(ExtentReport.logger);
 		ExtentReport.report.flush();
+		home.logout();
 
 	}
 }
