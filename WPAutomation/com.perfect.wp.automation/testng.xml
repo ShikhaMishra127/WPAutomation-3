@@ -4,6 +4,7 @@
 <suite-files>
 <!-- <suite-file path="Contract.xml"></suite-file>
  -->
+   <suite-file path="Login.xml"></suite-file>
   <suite-file path="Request.xml"></suite-file>
   <suite-file path="Solicitation.xml"></suite-file>
   <suite-file path="Invoice.xml"></suite-file>
