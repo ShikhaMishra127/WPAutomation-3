@@ -1,19 +1,14 @@
 package buyer.pageobjects.registration;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.IFactoryAnnotation;
-import org.testng.annotations.Test;
+import com.relevantcodes.extentreports.LogStatus;
 
-import buyer.testcases.registration.IdahoRegistrationTestCases;
+import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
@@ -64,7 +59,7 @@ public class IdahowhitelabelPageObjects {
 	@FindBy(id = "hq1")
 	public WebElement parentcmp;
 
-	@FindBy(id = "hq2")
+	@FindBy(id = "hq1")
 	public WebElement branch;
 
 	@FindBy(id = "fein1")
@@ -179,8 +174,14 @@ public class IdahowhitelabelPageObjects {
 	@FindBy(xpath = "//label[@id='ssnerror']")
 	public WebElement ssnCheck;
 
+	@FindBy(xpath = "(//div[@id='errormmsg']/p)[1]")
+	public WebElement lblUsernameErrorMessage;
+
+	@FindBy(xpath = "(//div[@id='vendorselectionerror']/p)[1]")
+	public WebElement lblFeinError;
+
 	/************ Test case1 *****************/
-	public void companydetails() {
+	public void companydetails(boolean check) {
 		try {
 			// Thread.sleep(5000);
 			PCDriver.waitForElementToBeClickable(companyname);
@@ -204,16 +205,35 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test1").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(fein1);
-			fein1.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(fein2);
-			fein2.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Employer Id No2"));
-			PCDriver.waitForElementToBeClickable(securityno1);
-			securityno1.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Security No1"));
-			PCDriver.waitForElementToBeClickable(securityno2);
-			securityno2.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Security No2"));
-			PCDriver.waitForElementToBeClickable(securityno3);
-			securityno3.sendKeys(ReadExcelData.getInstance("Test1").getStringValue("Security No3"));
+			if (check == true) {
+
+				PCDriver.waitForElementToBeClickable(fein1);
+				ReadExcelData.getInstance("Registration").updateCellValue("FEIN", ssnAndFeinGenerator.FeinGenerator());
+
+				fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
+
+				PCDriver.waitForElementToBeClickable(securityno1);
+				ReadExcelData.getInstance("Registration").updateCellValue("SSN", ssnAndFeinGenerator.generateSSN());
+				securityno1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(0, 3));
+				PCDriver.waitForElementToBeClickable(securityno2);
+				securityno2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(3, 5));
+				PCDriver.waitForElementToBeClickable(securityno3);
+				securityno3.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(5));
+
+			} else {
+				fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
+				PCDriver.waitForElementToBeClickable(securityno1);
+				securityno1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(0, 3));
+				PCDriver.waitForElementToBeClickable(securityno2);
+				securityno2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(3, 5));
+				PCDriver.waitForElementToBeClickable(securityno3);
+				securityno3.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("SSN").substring(5));
+
+			}
 			PCDriver.waitForElementToBeClickable(Busstype);
 			PCDriver.selectFromDropDownByVisibleText(Busstype,
 					(ReadExcelData.getInstance("Test1").getStringValue("TypeofBuss")));
@@ -271,6 +291,14 @@ public class IdahowhitelabelPageObjects {
 	}
 
 	public boolean verify() {
+		PCDriver.waitForPageLoad();		
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PCDriver.waitForElementToBeClickable(msg);
 		if (msg.getText().contains("Registration Confirmation")) {
 			return true;
@@ -281,7 +309,7 @@ public class IdahowhitelabelPageObjects {
 
 	/************ Test case2 *****************/
 
-	public void companydetailstestscript2() {
+	public void companydetailstestscript2(boolean check) {
 
 		try {
 			// Thread.sleep(5000);
@@ -306,16 +334,18 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test2").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(fein1);
-			fein1.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(fein2);
-			fein2.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Employer Id No2"));
-			PCDriver.waitForElementToBeClickable(securityno1);
-			securityno1.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Security No1"));
-			PCDriver.waitForElementToBeClickable(securityno2);
-			securityno2.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Security No2"));
-			PCDriver.waitForElementToBeClickable(securityno3);
-			securityno3.sendKeys(ReadExcelData.getInstance("Test2").getStringValue("Security No3"));
+			if (check == true) {
+				PCDriver.waitForElementToBeClickable(fein1);
+				ReadExcelData.getInstance("Registration").updateCellValue("FEIN", ssnAndFeinGenerator.FeinGenerator());
+				fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
+			} else {
+				PCDriver.waitForElementToBeClickable(fein1);
+				fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
+			}
 			PCDriver.waitForElementToBeClickable(Busstype);
 			PCDriver.selectFromDropDownByVisibleText(Busstype,
 					(ReadExcelData.getInstance("Test2").getStringValue("TypeofBuss")));
@@ -359,17 +389,20 @@ public class IdahowhitelabelPageObjects {
 
 			Thread.sleep(4000);
 
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("document.getElementById('password').value = '"+ReadExcelData.getInstance("Test2.1").getStringValue("Password")+"';");
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("document.getElementById('password').value = '"
+					+ ReadExcelData.getInstance("Test2.1").getStringValue("Password") + "';");
 			PCDriver.waitForElementToBeClickable(retypepwd);
 
-			//pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("document.getElementById('retypePassword').value = '"+ReadExcelData.getInstance("Test2.1").getStringValue("Password")+"';");
+			// pwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("Password"));
+			((JavascriptExecutor) PCDriver.getDriver())
+					.executeScript("document.getElementById('retypePassword').value = '"
+							+ ReadExcelData.getInstance("Test2.1").getStringValue("Password") + "';");
 
-			//retypepwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("RetypePassword"));
+			// retypepwd.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("RetypePassword"));
 			Thread.sleep(2000);
 			PCDriver.waitForElementToBeClickable(phno1);
 			phno1.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo1"));
-			((JavascriptExecutor)PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView();", phno2);
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView();", phno2);
 			Thread.sleep(4000);
 			PCDriver.waitForElementToBeClickable(phno2);
 			phno2.sendKeys(ReadExcelData.getInstance("Test2.1").getStringValue("PhnNo2"));
@@ -384,7 +417,7 @@ public class IdahowhitelabelPageObjects {
 	}
 
 	/************ Test case3 *****************/
-	public void companydetailstestscript3() {
+	public void companydetailstestscript3(boolean check) {
 		try {
 			PCDriver.waitForElementToBeClickable(companyname);
 			companyname.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Company Name"));
@@ -407,16 +440,18 @@ public class IdahowhitelabelPageObjects {
 					(ReadExcelData.getInstance("Test3").getStringValue("Country")));
 			PCDriver.waitForElementToBeClickable(branch);
 			branch.click();
-			PCDriver.waitForElementToBeClickable(fein1);
-			fein1.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No1"));
-			PCDriver.waitForElementToBeClickable(fein2);
-			fein2.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Employer Id No2"));
-			PCDriver.waitForElementToBeClickable(securityno1);
-			securityno1.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Security No1"));
-			PCDriver.waitForElementToBeClickable(securityno2);
-			securityno2.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Security No2"));
-			PCDriver.waitForElementToBeClickable(securityno3);
-			securityno3.sendKeys(ReadExcelData.getInstance("Test3").getStringValue("Security No3"));
+			if (check == true) {
+				PCDriver.waitForElementToBeClickable(fein1);
+				ReadExcelData.getInstance("Registration").updateCellValue("FEIN", ssnAndFeinGenerator.FeinGenerator());
+				fein1.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(0, 2));
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys(ReadExcelData.getInstance("Registration").getStringValue("FEIN").substring(2));
+			} else {
+				fein1.sendKeys("12");
+				PCDriver.waitForElementToBeClickable(fein2);
+				fein2.sendKeys("3456789");
+
+			}
 			PCDriver.waitForElementToBeClickable(Busstype);
 			PCDriver.selectFromDropDownByVisibleText(Busstype,
 					(ReadExcelData.getInstance("Test3").getStringValue("TypeofBuss")));
@@ -662,9 +697,17 @@ public class IdahowhitelabelPageObjects {
 
 	public void firstfintestcase() {
 		clickidahosupplierregistrationbtn();
-		companydetails();
+		ExtentReport.logger.log(LogStatus.PASS, "Terms And Conditions Accepted");
+
+		companydetails(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Company Details Entered");
+
 		Suppliercontactdetail(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Supplier Contact Details Entered");
+
 		SelectSol();
+		ExtentReport.logger.log(LogStatus.PASS, "Commodities Selected");
+
 		PCDriver.waitForPageLoad();
 
 	}
@@ -672,30 +715,57 @@ public class IdahowhitelabelPageObjects {
 	public void samefintestcase() {
 		// PCDriver.waitForPageLoad();
 		clickidahosupplierregistrationbtn();
-		companydetailstestscript2();
+		ExtentReport.logger.log(LogStatus.PASS, "Terms And Conditions Accepted");
+
+		companydetailstestscript2(false);
+		ExtentReport.logger.log(LogStatus.PASS, "Company Details Entered");
+
 		SuppliercontactdetailTestscript2(false);
+		ExtentReport.logger.log(LogStatus.PASS, "Supplier Contact Details Entered");
+
 		SelectSol();
+		ExtentReport.logger.log(LogStatus.PASS, "Commodities Selected");
+
 
 	}
 
-	public void Differentfintestcase() {
+	public void Differentfintestcase(boolean check) {
 
 		// PCDriver.waitForPageLoad();
 		clickidahosupplierregistrationbtn();
-		companydetailstestscript3();
-		SuppliercontactdetailTestscript3();
-		SelectSol();
-		Assert.assertTrue(verify());
+		ExtentReport.logger.log(LogStatus.PASS, "Terms And Conditions Accepted");
 
+		companydetailstestscript3(check);
+		ExtentReport.logger.log(LogStatus.PASS, "Company Details Entered");
+
+		if (check == true) {
+			SuppliercontactdetailTestscript3();
+			ExtentReport.logger.log(LogStatus.PASS, "Supplier Contact Details Entered");
+
+			SelectSol();
+			ExtentReport.logger.log(LogStatus.PASS, "Commodities Selected");
+
+			Assert.assertTrue(verify());
+			ExtentReport.logger.log(LogStatus.PASS, "Registration Completed");
+
+		}
 	}
 
 	public void firstssntestcase(boolean check) {
 		if (check == true) {
 			clickidahosupplierregistrationbtn();
 			companydetailstestscript4(check);
+			ExtentReport.logger.log(LogStatus.PASS, "Company Details Entered");
+
 			SuppliercontactdetailTestscript4(true);
+			ExtentReport.logger.log(LogStatus.PASS, "Supplier Contact Details Entered");
+
 			SelectSol();
+			ExtentReport.logger.log(LogStatus.PASS, "Commodities Selected");
+
 			Assert.assertTrue(verify());
+			ExtentReport.logger.log(LogStatus.PASS, "Registration Completed");
+
 		} else {
 			clickidahosupplierregistrationbtn();
 			companydetailstestscript4(check);
@@ -705,12 +775,49 @@ public class IdahowhitelabelPageObjects {
 	public void DuplicateUsernameCheck() {
 		clickidahosupplierregistrationbtn();
 		companydetailstestscript4(true);
+		ExtentReport.logger.log(LogStatus.PASS, "Company Details Entered");
+
 		SuppliercontactdetailTestscript4(false);
+		ExtentReport.logger.log(LogStatus.PASS, "Supplier Contact Details Entered");
+
 
 	}
 
 	public boolean verifyDuplicateSsn() {
 		if (ssnCheck.getText().contains("A company has already been registered with this SSN in our system")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean verifyDuplicateUsername() throws IOException {
+		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (lblUsernameErrorMessage.getText().contains(
+				"Username " + ReadExcelData.getInstance("Test2.1").getStringValue("Email") + " already exists")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean verifyDuplicateFein() throws IOException {
+		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PCDriver.waitForElementToBeClickable(lblFeinError);
+		if (lblFeinError.getText().contains("Our records indicate that Federal Tax Id")) {
 			return true;
 		} else {
 			return false;

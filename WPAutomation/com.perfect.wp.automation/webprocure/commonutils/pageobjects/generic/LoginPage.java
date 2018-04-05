@@ -32,6 +32,10 @@ public class LoginPage extends PCDriver {
 
 	@FindBy(xpath = "//a[text()='Logout']")
 	public WebElement lnkLogout;
+	
+	@FindBy(xpath = "//div[contains(@class,'error alert alert-danger')]")
+	public WebElement alert;
+
 
 	public void setUsername(String str) {
 		PCDriver.waitForElementToBeClickable(txtUsername);
@@ -64,5 +68,12 @@ public class LoginPage extends PCDriver {
 		PCDriver.waitForPageLoad();
 	}
 		}
+	
+	public String passwordIncorrect()
+	{
+		System.out.println(alert.getText());
+		return alert.getText();
+	}
+
 
 }
