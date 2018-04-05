@@ -58,7 +58,7 @@ public class CreateInvoice extends PCDriver {
 		home.selectTopNavDropDown("Invoice");
 	}
 
-	@Test(description = "This test case will create the Invoice", enabled = true)
+	@Test(description = "This test case will create the Invoice", enabled = true,priority=1)
 	public void createInvoice() {
 		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 
@@ -81,6 +81,60 @@ public class CreateInvoice extends PCDriver {
 		ExtentReport.logger.log(LogStatus.PASS, "Invoice Submission Verified");
 
 	}
+	
+	 @Test(priority=2)
+  	 public void receiveDateAlert()
+  	 {  
+  		 
+  		 voice.receiveDate();
+  		 Assert.assertEquals(voice.getAlert(),"Receive Date must be on or after the Invoice Issue Date");
+  		 voice.okbtn.click();
+  	 }
+  	 @Test(priority=3)
+  	 public void eftIndicatorAlert()
+  	 {   
+  		 
+  		 voice.mandatoryEFT();
+  		 Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
+  		 voice.okbtn.click();
+  	 }
+  	 @Test(priority=4)
+  	 public void sameInvoiceNo()
+  	 {   
+  		 voice.updateValue();
+  		 Assert.assertTrue(voice.getAlert().contains("The invoice number entered is already in use. Please enter different invoice number"));
+ 		 voice.okbtn.click();
+  	 }
+  	@Test(priority=5)
+  	public void attachementAlert()
+  	 {
+  		 voice.invoiceHeader();
+  		 voice.additem();
+  		 voice.attachementalert();
+  		 Assert.assertTrue(voice.attachMatchAlert().contains("Please select a file"));
+  	 }
+  	 @Test(priority=6)
+  	 public void matchinvoice()
+  	 {
+  		 voice.invoiceHeader();
+  		 voice.additem();
+  		 voice.attachment();
+  		 voice.match.click();
+  		 try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
+  		 Assert.assertTrue(voice.getAlert().contains("There are no receivers available for matching"));
+  	 }
+  	 @Test(priority=7)
+  	 public void invoiceNoMissing()
+  	 {
+  		 voice.invoiceNo();
+  		 Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
+ 		 voice.okbtn.click();
+  		 
+  	 }
+
 
 	@AfterMethod
 	public void tearDownAfterTest() {
