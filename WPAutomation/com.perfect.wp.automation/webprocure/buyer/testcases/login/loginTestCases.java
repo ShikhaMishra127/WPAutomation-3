@@ -44,8 +44,8 @@ public class loginTestCases {
 
 	@AfterMethod
 	public void tearDownAfterTest() {
-		sol.clickHomeButton();
-		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
+		//sol.clickHomeButton();
+		//ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
 
 	}
 
