@@ -18,14 +18,13 @@ import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.ReadExcelData;
 
 @Listeners(ExtentReport.class)
-public class loginTestCases {
+public class LoginTestCases {
 	LoginPage page = new LoginPage();
 	CreateSolicitationPOM sol = new CreateSolicitationPOM();
 
 	@Test
 	public void wrongPassword() {
 		try {
-			String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
 			page.setUsername(
 					ReadExcelData.getInstance("WrongPass").getStringValue("Username") + System.currentTimeMillis());
 			page.setPassword(ReadExcelData.getInstance("WrongPass").getStringValue("Password"));
@@ -33,8 +32,6 @@ public class loginTestCases {
 			try {
 				Thread.sleep(10000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			Assert.assertTrue(page.passwordIncorrect().contains("Your login attempt was not successful"));
 		} catch (IOException e) {
@@ -46,8 +43,8 @@ public class loginTestCases {
 	public void tearDownAfterTest() {
 		//sol.clickHomeButton();
 		//ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
-
 	}
+
 
 	@AfterClass
 	public void tearDown() {
