@@ -230,8 +230,6 @@ public class OffCatalogReqPOM {
 				//PCDriver.waitForElementToBeClickable(commodity);
 				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;};");
 				commodity.click();
-			//System.out.println("choosen commodity: " +commoditybox.getAttribute("value"));
-			//Assert.assertEquals(commodity.getText(), commoditybox.getAttribute("value"));
 				try {
 					//PCDriver.dismissAlert();
 				
@@ -246,6 +244,7 @@ public class OffCatalogReqPOM {
 	public void clickAdd() throws Exception {
 		PCDriver.waitForElementToBeClickable(additem);
 		additem.click();
+		Thread.sleep(4000);
 		System.out.println("Clicked on Add");
 	}
 

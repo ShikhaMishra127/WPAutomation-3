@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,10 +35,7 @@ public class RoundTripPOM {
 	
 	@FindBy(xpath = "//img[@class = 'size75' and @title = 'Copy & Printer Paper']")
 	WebElement papersubcat;
-
-	@FindBy(xpath = "//span[@class = 'parent_category' and contains(text(),'Copy & Printer Paper')]")
-	WebElement copyandprinterpprlink;
-	
+		
 	@FindBy(xpath = "//a[contains(@class,'refV2 black med_txt js-refinement-link')]")
 	List<WebElement> list_refinement_category;
 
@@ -68,7 +66,6 @@ public class RoundTripPOM {
 			PCDriver.getDriver().switchTo().frame("C1ReqMain");
 			System.out.println(supplierlist.size());
 			for (WebElement targetsupplier : supplierlist) {
-				//System.out.println(targetsupplier.getText());
 				if (targetsupplier.getText().contains("Office Depot Inc")) {
 					System.out.println(targetsupplier.getText());
 					targetsupplier.click();
@@ -91,43 +88,36 @@ public class RoundTripPOM {
 		for (String focusonwindow : PCDriver.driver.getWindowHandles()) {
 			System.out.println(focusonwindow);
 			PCDriver.switchToWindow(focusonwindow);
-			// vendorsitedriver.switchTo().window(focusonwindow);
 			PCDriver.driver.manage().window().maximize();
-			// vendorsitedriver.manage().window().maximize();
 		}
-		// vendorsitedriver.wait(30);
 		PCDriver.waitForPageLoad();
 		try {
 			Thread.sleep(8000);
-			papercatogaries.click();
-			System.out.println(papercatogaries.getText());
-			Thread.sleep(5000);
-			//PCDriver.visibilityOfListLocated(list_refinement_category);
-			//System.out.println(copyandprinterpprlink.getText());
-			//copyandprinterpprlink.click();
-			for(WebElement category : list_refinement_category){
-				System.out.println(category.getText());
-				if(category.getText().contains("Copy & Printer Paper ")){
-					System.out.println(category.getText());
-					Assert.assertEquals(category.getText(), "Copy & Printer Paper ");
-					category.click();
-				}
-				
-			}
+			PCDriver.hoverOnElement(papercatogaries);
+			Thread.sleep(3000);
+			By byXpathppr = By.xpath("//img[@class='size75']//following-sibling::span[contains(text(),'Copy & Printer Paper')]");
+			WebElement selectedcategories = papercatogaries.findElement(byXpathppr);
+			selectedcategories.click();
+			System.out.println("selectedcat clicked");
 			Thread.sleep(5000);
 			for (WebElement subcategory : subcatageorieslist) {
 				
 				if (subcategory.getText().contains(selectedsubcategory)) {
-					System.out.println(subcategory.getText());
+					System.out.println("subcategory list " +subcategory.getText());
 					subcategory.click();
 					PCDriver.waitForElementToBeEnable(By.id("skuListFormID_INDEX_0"));
 					selecteditemqty.sendKeys("2");
 					addtocartbtn.click();
 					PCDriver.WaitTillElementIsPresent(checkoutbtn);
-					
+					if(PCDriver.getDriver() instanceof PhantomJSDriver)
+					{	
+					PCDriver.waitForElementToBeClickable(checkoutbtn);
+					checkoutbtn.click();
+					}
+					else{
 					JavascriptExecutor executor1 = (JavascriptExecutor)PCDriver.getDriver();
 					executor1.executeScript("arguments[0].click();", checkoutbtn);
-					
+					}
 					System.out.println("old value:" + webprocurewindow.toString());
 					
 
@@ -138,11 +128,10 @@ public class RoundTripPOM {
 					
 				}
 			}
-			System.out.println("back to webprocure");
-		} catch (InterruptedException e) {
+			
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }

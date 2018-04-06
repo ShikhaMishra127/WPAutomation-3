@@ -24,8 +24,8 @@ public class ViewRequest {
 	public WebElement viewreqtab;
 
 	@FindBy(xpath = "//div[@class='btn-group']")
-	public WebElement  tabgroups;
-	
+	public WebElement tabgroups;
+
 	@FindBy(xpath = "//button[text()='attachments']")
 	public WebElement attachmenttab;
 
@@ -34,7 +34,7 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//button[@name='btnNew']")
 	public WebElement newattachmentbtn;
-	
+
 	@FindBy(xpath = "//span[@class='input-group-btn']")
 	public WebElement browsebtn;
 
@@ -43,41 +43,42 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//button[@name='btnSave']")
 	public WebElement savebtn;
-	
+
 	@FindBy(xpath = "//button[@name='btnCancel']")
 	public WebElement cancelbtn;
-	
+
 	@FindBy(xpath = "//button[@name='btnClose']")
 	public WebElement attachmentclosebtn;
 
 	@FindBy(xpath = "//button[@name='btnDeleteAll']")
 	public WebElement deleteallbtn;
-	
+
 	@FindBy(xpath = "//button[text()='justification']")
 	public WebElement justificationtab;
-	
+
 	@FindBy(xpath = "//h3[text()='Justification']")
 	public WebElement justificationtitle;
 
 	@FindBy(xpath = "//textarea[@name='Justification']")
 	public WebElement justificationtextarea;
-	
+
 	@FindBy(xpath = "//button[text()='approval preview']")
 	public WebElement approvalpreviewtab;
-	
+
 	@FindBy(xpath = "//button[text()='buyer contact']")
 	public WebElement buyercontacttab;
-	
+
 	@FindBy(xpath = "//h3[text()='Buyer Contact']")
 	public WebElement buyercontacttitle;
-	
+
 	@FindBy(xpath = "//div[contains(@class,'selectize-input')]")
 	public WebElement buyercontactdropdown;
-	//(//div[contains(@class,'selectize-input') and contains(@class,'has_items') and contains(@class,'input-active')])
-	
+	// (//div[contains(@class,'selectize-input') and
+	// contains(@class,'has_items') and contains(@class,'input-active')])
+
 	@FindBy(xpath = "//div[@class='selectize-input items full has-options has-items focus dropdown-active input-active']/input")
 	public WebElement defaultbuyercontact;
-	
+
 	@FindBy(xpath = "//div[contains(@class,'option')]")
 	public List<WebElement> buyercontactlist;
 
@@ -119,7 +120,7 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//button[text()='Save']")
 	public WebElement itemallocationsavebtn;
-	
+
 	@FindBy(xpath = "//img[@title='Line Item Attachment']")
 	public WebElement lineitemattachmenticon;
 
@@ -158,8 +159,6 @@ public class ViewRequest {
 		viewreqtab.click();
 	}
 
-
-
 	public void attachmenttab(String filename) throws Exception {
 
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
@@ -172,10 +171,12 @@ public class ViewRequest {
 			PCDriver.WaitTillElementIsPresent(attachmenttabtitle);
 			PCDriver.waitForElementToBeClickable(newattachmentbtn);
 			newattachmentbtn.click();
-			//browsebtn.click();
-			//PCDriver.uploadFile(filename);
-			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("/opt/Automation/VendorReport_Quote_RFQ18000151.txt");
-			attachmentpurpose.sendKeys(ReadExcelData.getInstance("processreqtabs").getStringValue("attachment_purpose"));
+			// browsebtn.click();
+			// PCDriver.uploadFile(filename);
+			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']"))
+					.sendKeys(ReadExcelData.getInstance("processreqtabs").getStringValue("filename"));
+			attachmentpurpose
+					.sendKeys(ReadExcelData.getInstance("processreqtabs").getStringValue("attachment_purpose"));
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
 			Thread.sleep(6000);
@@ -187,25 +188,25 @@ public class ViewRequest {
 			e.printStackTrace();
 		}
 	}
-	
-	public void justificationtab() throws Exception{
+
+	public void justificationtab() throws Exception {
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.switchToDefaultContent();
 		Thread.sleep(5000);
 		PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
 		PCDriver.waitForElementToBeClickable(justificationtab);
 		justificationtab.click();
-		try{
+		try {
 			PCDriver.WaitTillElementIsPresent(justificationtitle);
 			justificationtextarea.sendKeys(ReadExcelData.getInstance("processreqtabs").getStringValue("justification"));
 			savebtn.click();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void buyercontacttab() throws InterruptedException{
-				System.out.println("Entered Buyer Contact");
+
+	public void buyercontacttab() throws InterruptedException {
+		System.out.println("Entered Buyer Contact");
 
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.switchToDefaultContent();
@@ -213,89 +214,86 @@ public class ViewRequest {
 		PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
 		PCDriver.waitForElementToBeClickable(buyercontacttab);
 		buyercontacttab.click();
-		try{
+		try {
 			PCDriver.WaitTillElementIsPresent(buyercontacttitle);
-			//PCDriver.waitForElementToBeClickable(buyercontactdropdown);
+			// PCDriver.waitForElementToBeClickable(buyercontactdropdown);
 			Thread.sleep(2000);
 			buyercontactdropdown.click();
-			/*			Thread.sleep(2000);
-
-			PCDriver.waitForElementToBeClickable(buyercontactdropdown.findElement(By.xpath("./input")));
-						Thread.sleep(2000);
-
-			buyercontactdropdown.sendKeys(Keys.BACK_SPACE);
-						Thread.sleep(2000);
-
-			buyercontactdropdown.findElement(By.xpath("./input")).click();
-						Thread.sleep(2000);
-
-			buyercontactdropdown.findElement(By.xpath("./input")).sendKeys("Manisha Insys");
-			
-			Thread.sleep(4000);
-			buyercontactlist.size();
-			System.out.println(buyercontactlist.size());
-			if(buyercontactlist.size()>0){
-				for(WebElement buyercontact: buyercontactlist){
-					//System.out.println(buyercontact.getText());
-					String selectedcontact = "Manisha Insys";
-					if(buyercontact.getText().contains(selectedcontact)){
-						System.out.println(buyercontact.getText());
-						Assert.assertEquals(selectedcontact, buyercontact.getText());
-						buyercontact.click();
-					}
-				}
-			}
-			*/
+			/*
+			 * Thread.sleep(2000);
+			 * 
+			 * PCDriver.waitForElementToBeClickable(buyercontactdropdown.
+			 * findElement(By.xpath("./input"))); Thread.sleep(2000);
+			 * 
+			 * buyercontactdropdown.sendKeys(Keys.BACK_SPACE);
+			 * Thread.sleep(2000);
+			 * 
+			 * buyercontactdropdown.findElement(By.xpath("./input")).click();
+			 * Thread.sleep(2000);
+			 * 
+			 * buyercontactdropdown.findElement(By.xpath("./input")).sendKeys(
+			 * "Manisha Insys");
+			 * 
+			 * Thread.sleep(4000); buyercontactlist.size();
+			 * System.out.println(buyercontactlist.size());
+			 * if(buyercontactlist.size()>0){ for(WebElement buyercontact:
+			 * buyercontactlist){ //System.out.println(buyercontact.getText());
+			 * String selectedcontact = "Manisha Insys";
+			 * if(buyercontact.getText().contains(selectedcontact)){
+			 * System.out.println(buyercontact.getText());
+			 * Assert.assertEquals(selectedcontact, buyercontact.getText());
+			 * buyercontact.click(); } } }
+			 */
 			savebtn.click();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Exit Buyer Contact");
 
 	}
 
 	public void assignacctcode() throws IOException, Exception {
-				System.out.println("Entered Assign Contact");
 
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
-		// System.out.println(reqframe.size());
 		PCDriver.getDriver().switchTo().defaultContent();
 		PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PCDriver.waitForElementToBeClickable(acctcodeicon);
-		acctcodeicon.click();
-		PCDriver.waitForPageLoad();
-		PCDriver.waitForElementToBeClickable(addacctcodebtn);
-		addacctcodebtn.click();
-		PCDriver.waitForPageLoad();
-		setagencycode(ReadExcelData.getInstance("AccountCode").getStringValue("Agency"));
-		setorgcode(ReadExcelData.getInstance("AccountCode").getStringValue("Org"));
-		setsuborgcode(ReadExcelData.getInstance("AccountCode").getStringValue("SubOrg"));
-		setfundcode(ReadExcelData.getInstance("AccountCode").getStringValue("Fund"));
-		setappropcode(ReadExcelData.getInstance("AccountCode").getStringValue("Approp"));
-		setobjectcode(ReadExcelData.getInstance("AccountCode").getStringValue("Object"));
-		PCDriver.waitForElementToBeClickable(acctcodesavebtn);
-		acctcodesavebtn.click();
-						System.out.println("Hey Submit Button Clicked");
-
-		PCDriver.waitForPageLoad();
-		// PCDriver.getDriver().switchTo().alert();
-		Thread.sleep(5000);
-		confirmokbtn.click();
-		PCDriver.waitForPageLoad();
-		distributeevenlybtn.click();
-		PCDriver.waitForPageLoad();
-		itemallocationsavebtn.click();
-				System.out.println("Exit Assign Contact");
-
-	}
+		//PCDriver.visibilityOfListLocated(acctcodeicon);
+		//System.out.println(acctcodeicon.size());
+		//for(WebElement acctcodeitemwise : acctcodeicon){
+			//Thread.sleep(10000);
+			//System.out.println("This is: " +acctcodeitemwise);
+			//PCDriver.WaitTillElementIsPresent(acctcodeitemwise);
+			//PCDriver.waitForElementToBeClickable(acctcodeitemwise);
+			acctcodeicon.click();
+			PCDriver.waitForPageLoad();
+			PCDriver.waitForElementToBeClickable(addacctcodebtn);
+			addacctcodebtn.click();
+			PCDriver.waitForPageLoad();
+			setagencycode(ReadExcelData.getInstance("AccountCode").getStringValue("Agency"));
+			setorgcode(ReadExcelData.getInstance("AccountCode").getStringValue("Org"));
+			setsuborgcode(ReadExcelData.getInstance("AccountCode").getStringValue("SubOrg"));
+			setfundcode(ReadExcelData.getInstance("AccountCode").getStringValue("Fund"));
+			setappropcode(ReadExcelData.getInstance("AccountCode").getStringValue("Approp"));
+			setobjectcode(ReadExcelData.getInstance("AccountCode").getStringValue("Object"));
+			PCDriver.waitForElementToBeClickable(acctcodesavebtn);
+			acctcodesavebtn.click();
+			PCDriver.waitForPageLoad(); 
+			//PCDriver.getDriver().switchTo().alert();
+			Thread.sleep(5000);
+			confirmokbtn.click();
+			PCDriver.waitForPageLoad();
+			distributeevenlybtn.click();
+			PCDriver.waitForPageLoad();
+			itemallocationsavebtn.click();
+			
+		}	
 
 	public void setagencycode(String agency) {
 		PCDriver.waitForElementToBeClickable(agencycode);
@@ -347,7 +345,7 @@ public class ViewRequest {
 	}
 
 	public void setobjectcode(String object) {
-		 try {
+		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -356,9 +354,8 @@ public class ViewRequest {
 		PCDriver.waitForElementToBeClickable(objectcode);
 		objectcode.sendKeys(object);
 	}
-	
-	public void lineitemattachment(String attachmentname){
-				System.out.println("Entered Line Item Attachment");
+
+	public void lineitemattachment(String attachmentname) {
 
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
@@ -379,10 +376,12 @@ public class ViewRequest {
 			PCDriver.WaitTillElementIsPresent(attachmenttabtitle);
 			PCDriver.waitForElementToBeClickable(newattachmentbtn);
 			newattachmentbtn.click();
-			//browsebtn.click();
-			//PCDriver.uploadFile(attachmentname);
-			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']")).sendKeys("/opt/Automation/WeeklyAchievementReport_20170918.doc");
-			attachmentpurpose.sendKeys(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentpurpose"));
+			// browsebtn.click();
+			// PCDriver.uploadFile(attachmentname);
+			browsebtn.findElement(By.xpath("//input[@name='FileNamewithPath']"))
+					.sendKeys(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentname"));
+			attachmentpurpose
+					.sendKeys(ReadExcelData.getInstance("LineItemAttachment").getStringValue("attachmentpurpose"));
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
 			Thread.sleep(5000);
@@ -393,10 +392,8 @@ public class ViewRequest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-				System.out.println("Exit Line Item Attachment");
-
 	}
-	
+
 	public void submitrequest() throws Exception {
 		System.out.println("Entered Submit Request");
 
@@ -404,7 +401,6 @@ public class ViewRequest {
 		PCDriver.waitForPageLoad();
 		PCDriver.waitForElementToBeClickable(submitbutton);
 		submitbutton.click();
-				System.out.println("Exit Submit Request");
 
 	}
 
@@ -420,7 +416,6 @@ public class ViewRequest {
 		PCDriver.waitForElementToBeClickable(submissionconfirmationbtn);
 		submissionconfirmationbtn.click();
 	}
-
 
 	public String successfullsubmissionmsg() {
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
