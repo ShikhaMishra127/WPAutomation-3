@@ -34,7 +34,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 		// after execution, you could see a folder "FailedTestsScreenshots" under src
 		// folder
 		  //String destination = "tmp/FailedTestsScreenshots/" + screenshotName + dateName
-		String destination =   "/tmp/FailedTestsScreenshots/" + screenshotName + dateName
+		String destination =   "//tmp//FailedTestsScreenshots//" + screenshotName + dateName
 				+ ".png";
 		File finalDestination = new File(destination);
 		Files.copy(source, finalDestination);
