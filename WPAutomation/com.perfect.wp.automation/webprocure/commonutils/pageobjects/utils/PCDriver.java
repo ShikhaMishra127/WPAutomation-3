@@ -74,7 +74,7 @@ public class PCDriver implements WebDriver {
 		//	cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, options.setBinary(firefoxBinary));
 			cap.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 			System.setProperty("webdriver.gecko.driver",
-					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver.exe");
+					ReadConfig.getInstance().getDriverPath().toString() + "geckodriver");
 
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
@@ -155,7 +155,7 @@ public class PCDriver implements WebDriver {
 			 capPhantom.setPlatform(Platform.LINUX);
 			  capPhantom.setJavascriptEnabled(true);
 			  capPhantom.setCapability("takesScreenshot", true);
-			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs.exe");
+			  capPhantom.setCapability("phantomjs.binary.path",ReadConfig.getInstance().getDriverPath().toString() + "phantomjs");
 			  driver = new PhantomJSDriver(capPhantom);
 
 			  System.out.println("Driver value is : "+driver);
