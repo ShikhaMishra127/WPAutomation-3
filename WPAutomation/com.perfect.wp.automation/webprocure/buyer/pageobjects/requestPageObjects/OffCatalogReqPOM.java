@@ -1,5 +1,6 @@
 package buyer.pageobjects.requestPageObjects;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -9,7 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-
 import commonutils.pageobjects.utils.ExtentReport;
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadExcelData;
@@ -90,6 +90,9 @@ public class OffCatalogReqPOM {
 
 	@FindBy(xpath = "//*[@class='modal-title']")
 	public WebElement alertboxtitle;
+	
+	@FindBy(xpath = "//div[@class='bootbox-body']")
+	public WebElement alterboxmessage;
 
 	@FindBy(xpath = "//button[text()='OK']")
 	public WebElement okalertbtn;
@@ -127,7 +130,42 @@ public class OffCatalogReqPOM {
 		// selectcontractnum();
 		clickAdd();
 	}
+	
+	public void donotenterquantity() throws Exception{
+			checkRetainKeyInfo();
+			selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
+			setEstimatedUnitPrice(ReadExcelData.getInstance("Request").getStringValue("EstimatedUnitPrice"));
+			selectcurrencycode();
+			setsupplierpartno(ReadExcelData.getInstance("Request").getStringValue("SupplierPartNumer"));
+			selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
+			selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
+			selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
+			clickAdd();
+	}
 
+	public void donotenterunitprice() throws Exception{
+		checkRetainKeyInfo();
+		setQuantity(ReadExcelData.getInstance("Request").getStringValue("Quantity"));
+		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
+		selectcurrencycode();
+		setsupplierpartno(ReadExcelData.getInstance("Request").getStringValue("SupplierPartNumer"));
+		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
+		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
+		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
+		clickAdd();
+	}
+	
+	public void donotentercommoditycode() throws InterruptedException, Exception{
+		checkRetainKeyInfo();
+		setQuantity(ReadExcelData.getInstance("Request").getStringValue("Quantity"));
+		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
+		setEstimatedUnitPrice(ReadExcelData.getInstance("Request").getStringValue("EstimatedUnitPrice"));
+		selectcurrencycode();
+		setsupplierpartno(ReadExcelData.getInstance("Request").getStringValue("SupplierPartNumer"));
+		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
+		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
+		clickAdd();
+	}
 	public void checkRetainKeyInfo() {
 		PCDriver.waitForElementToBeClickable(retainkeyinfo);
 		if (retainkeyinfo.isSelected()) {
@@ -255,6 +293,14 @@ public class OffCatalogReqPOM {
 		System.out.println(alerttitle);
 
 		return alerttitle;
+	}
+	
+	public String bootalertmessage() throws Exception{
+		Thread.sleep(2000);
+		String alertmessage = alterboxmessage.getText();
+		System.out.println(alertmessage);
+
+		return alertmessage;
 	}
 
 	public void acceptalertbox() {

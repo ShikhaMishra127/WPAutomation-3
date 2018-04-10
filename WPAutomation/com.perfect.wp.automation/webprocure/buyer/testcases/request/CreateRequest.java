@@ -1,5 +1,8 @@
 package buyer.testcases.request;
 
+import org.apache.bcel.generic.INSTANCEOF;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -58,7 +61,6 @@ public class CreateRequest extends PCDriver {
 
 	@BeforeMethod
 	public void setupBeforeTest() {
-
 		//home.movetoSubOrg();
 		home.selectTopNavDropDown("Request");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Request");
@@ -70,8 +72,50 @@ public class CreateRequest extends PCDriver {
 		reqnav.requestdropdown("Create new");
 		Assert.assertTrue(getTitle().contains("WebProcure: Request And Workflow"));
 	}
+	
+	@Test(priority = 1, enabled = true, description = "This test will check quantity field is mandatory")
+	public void quantityismandatory() throws Exception{
+		reqnav.requestdropdown("Create new");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
+		reqnav.typesofreqlist("Off-Catalog Request");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Off Catalog Request Tab");
+		offcatreq.donotenterquantity();
+		Assert.assertEquals(offcatreq.bootalertmessage(),"The value in the Quantity field is an invalid input. Please enter a number that is of 15 or fewer digits.");
+		ExtentReport.logger.log(LogStatus.PASS, "Quantity Alert successfully generated");
+		offcatreq.acceptalertbox();
+	
+	}
+	
+	@Test(priority = 2, enabled = true, description = "This test will check unit price field is mandatory")
+	public void unitpriceismandatory() throws Exception{
+			reqnav.requestdropdown("Create new");
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
+			reqnav.typesofreqlist("Off-Catalog Request");
+			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Off Catalog Request Tab");
+			offcatreq.donotenterunitprice();
+			Assert.assertEquals(offcatreq.bootalertmessage(),"Estimated Unit Price is a required field");
+			ExtentReport.logger.log(LogStatus.PASS, "Unit price Alert successfully generated");
+			offcatreq.acceptalertbox();	
+			
+	}
+	
+	@Test(priority = 3, enabled = true, description = "This test will commodity code field is mandatory")
+	public void commodityismandatory() throws Exception{
+		reqnav.requestdropdown("Create new");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
+		reqnav.typesofreqlist("Off-Catalog Request");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Off Catalog Request Tab");
+		offcatreq.donotentercommoditycode();
+		if(PCDriver.getDriver() instanceof PhantomJSDriver){
+			((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+		}else{
+		System.out.println(PCDriver.driver.switchTo().alert().getText());
+		Assert.assertEquals(PCDriver.getDriver().switchTo().alert().getText(),"You have not assigned a commodity code for this item.You can not continue without assigning a commodity code.");
+		PCDriver.acceptAlert();
+		}
+	}
 
-	@Test(priority = 1, enabled = true, description = "This test will create a Off Catalog Request")
+	@Test(priority = 4, enabled = true, description = "This test will create a Off Catalog Request")
 	public void createoffcatreq() throws Exception {
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
@@ -103,7 +147,7 @@ public class CreateRequest extends PCDriver {
 	}
 
 	
-	@Test(priority = 2, enabled=true, description = "This test will create a roundtrip Request")
+	@Test(priority = 5, enabled=true, description = "This test will create a roundtrip Request")
 	public void roundtripreq() throws Exception {
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
@@ -137,7 +181,7 @@ public class CreateRequest extends PCDriver {
 	}
 	
 	
-	@Test(priority = 3,enabled=true, description = "This test will create multityperreq")
+	@Test(priority = 6, enabled=true, description = "This test will create multityperreq")
 	public void multitypereq() throws Exception {
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
@@ -180,6 +224,7 @@ public class CreateRequest extends PCDriver {
 
 	@AfterMethod
 	public void tearDownAfterTest() {
+		PCDriver.switchToDefaultContent();
 		sol.clickHomeButton();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
 
