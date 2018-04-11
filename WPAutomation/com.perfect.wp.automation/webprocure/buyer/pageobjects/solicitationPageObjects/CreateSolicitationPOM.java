@@ -70,6 +70,7 @@ public class CreateSolicitationPOM {
 	}
 
 	public void clickHomeButton() {
+		PCDriver.switchToDefaultContent();
 		PCDriver.waitForElementToBeClickable(btnHome);
 		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 
