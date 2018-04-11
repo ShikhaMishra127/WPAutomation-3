@@ -224,7 +224,7 @@ public class CreateRequest extends PCDriver {
 
 	@AfterMethod
 	public void tearDownAfterTest() {
-		PCDriver.switchToDefaultContent();
+		//PCDriver.switchToDefaultContent();
 		sol.clickHomeButton();
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
 
