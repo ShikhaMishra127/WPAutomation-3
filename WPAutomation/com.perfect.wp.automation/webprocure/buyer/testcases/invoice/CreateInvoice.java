@@ -1,7 +1,6 @@
 package buyer.testcases.invoice;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -38,6 +37,7 @@ public class CreateInvoice extends PCDriver {
 		try {
 			// log.info("Before Class entered");
 			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 			ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
 			login.setUsername(ReadConfig.getInstance().getUserName().toString());
 			ExtentReport.logger.log(LogStatus.PASS, "UserName Entered");
@@ -52,102 +52,114 @@ public class CreateInvoice extends PCDriver {
 			Assert.fail();
 		}
 	}
-
+	
 	@BeforeMethod
 	public void setupBeforeTest() {
 		home.selectTopNavDropDown("Invoice");
+
 	}
+	 @AfterMethod
+	 public void setupAfterTest() {
+	  sol.clickHomeButton();
+	 }
 
-	@Test(description = "This test case will create the Invoice", enabled = true,priority=1)
-	public void createInvoice() {
-		ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
-
+	@Test(priority = 1)
+	public void invoiceCreation() {
+        
 		voice.invoiceHeader();
-		ExtentReport.logger.log(LogStatus.PASS, "Header Details Entered");
-
 		voice.additem();
-		ExtentReport.logger.log(LogStatus.PASS, "Items are added");
-
 		voice.attachment();
-		ExtentReport.logger.log(LogStatus.PASS, "Attachment Added");
-
 		voice.match();
-		ExtentReport.logger.log(LogStatus.PASS, "Item Matched");
-
 		voice.invoiceSummary();
-		ExtentReport.logger.log(LogStatus.PASS, "Invoice Summary Displayed");
-
-		voice.verifyPageAfterInvoiceSubmission();
-		ExtentReport.logger.log(LogStatus.PASS, "Invoice Submission Verified");
-
 	}
-	
-	 @Test(priority=2)
-  	 public void receiveDateAlert()
-  	 {  
-  		 
-  		 voice.receiveDate();
-  		 Assert.assertEquals(voice.getAlert(),"Receive Date must be on or after the Invoice Issue Date");
-  		 voice.okbtn.click();
-  	 }
-  	 @Test(priority=3)
-  	 public void eftIndicatorAlert()
-  	 {   
-  		 
-  		 voice.mandatoryEFT();
-  		 Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
-  		 voice.okbtn.click();
-  	 }
-  	 @Test(priority=4)
-  	 public void sameInvoiceNo()
-  	 {   
-  		 voice.updateValue();
-  		 Assert.assertTrue(voice.getAlert().contains("The invoice number entered is already in use. Please enter different invoice number"));
- 		 voice.okbtn.click();
-  	 }
-  	@Test(priority=5)
-  	public void attachementAlert()
-  	 {
-  		 voice.invoiceHeader();
-  		 voice.additem();
-  		 voice.attachementalert();
-  		 Assert.assertTrue(voice.attachMatchAlert().contains("Please select a file"));
-  	 }
-  	 @Test(priority=6)
-  	 public void matchinvoice()
-  	 {
-  		 voice.invoiceHeader();
-  		 voice.additem();
-  		 voice.attachment();
-  		 voice.match.click();
-  		 try {
+
+	@Test(priority = 2)
+	public void receiveDateAlert() {
+
+		voice.receiveDate();
+		Assert.assertEquals(voice.getAlert(), "Receive Date must be on or after the Invoice Issue Date");
+		voice.okbtn.click();
+	}
+
+	@Test(priority = 3)
+	public void eftIndicatorAlert() {
+		voice.mandatoryEFT();
+		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
+		voice.okbtn.click();
+	}
+
+	@Test(priority = 4)
+	public void sameInvoiceNo() {
+		voice.updateValue();
+		Assert.assertTrue(voice.getAlert()
+				.contains("The invoice number entered is already in use. Please enter different invoice number"));
+		voice.okbtn.click();
+	}
+
+	@Test(priority = 5)
+	public void attachementAlert() {
+		voice.invoiceHeader();
+		voice.additem();
+		voice.attachementalert();
+		Assert.assertTrue(voice.attachAlert().contains("Please select a file"));
+	}
+
+	@Test(priority = 6)
+	public void matchinvoice() {
+		voice.invoiceHeader();
+		voice.additem();
+		voice.attachment();
+		voice.match.click();
+		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 		}
-  		 Assert.assertTrue(voice.getAlert().contains("There are no receivers available for matching"));
-  	 }
-  	 @Test(priority=7)
-  	 public void invoiceNoMissing()
-  	 {
-  		 voice.invoiceNo();
-  		 Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
- 		 voice.okbtn.click();
-  		 
-  	 }
-
-
-	@AfterMethod
-	public void tearDownAfterTest() {
-		sol.clickHomeButton();
-		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Home Button");
-
+		Assert.assertTrue(voice.getAlert().contains("There are no receivers available for matching"));
 	}
 
-	@AfterClass
-	public void tearDown() {
-		ExtentReport.report.endTest(ExtentReport.logger);
-		ExtentReport.report.flush();
-		home.logout();
-
+	@Test(priority = 7)
+	public void invoiceNoMissing() {
+		voice.invoiceNo();
+		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
+		voice.okbtn.click();
 	}
+
+	@Test(priority = 8)
+	public void diffSupplier() {
+		voice.posearch();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		}
+		Assert.assertTrue(
+				voice.getAlert().contains("We found a PO with that number associated to a different supplier"));
+	}
+
+	@Test(priority = 9)
+	public void changeSupplier() {
+		voice.posearch();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		}
+		Assert.assertTrue(
+				voice.getAlert().contains("We found a PO with that number associated to a different supplier"));
+		voice.yesbtn.click();
+		PCDriver.getDriver().switchTo().defaultContent();
+		voice.closebtn.click();
+		PCDriver.getDriver().switchTo().defaultContent();
+		Assert.assertTrue(voice.suppname().contains("Pawn Shop"));
+		}
+	@Test(priority=10)
+	public void enterquantity()
+	{
+		voice.invoiceHeader();
+		voice.zeroquantity();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			}
+		Assert.assertTrue(voice.getAlert().contains("Please enter positive numeric value for Invoice Quantity"));
+	}
+	
 }

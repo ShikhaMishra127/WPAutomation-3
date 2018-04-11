@@ -1,6 +1,5 @@
 package buyer.pageobjects.invoice;
 
-import java.awt.AWTException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +14,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import commonutils.pageobjects.utils.PCDriver;
-import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
 
 public class GenerateInvoice {
@@ -80,6 +78,12 @@ public class GenerateInvoice {
 	public WebElement nxtbtn;
 
 	/********* InvoiceItem ***********/
+	@FindBy(xpath = "//input[contains(@id,'ponum_filter')]")
+	public WebElement search;
+
+	@FindBy(xpath = "//button[contains(@onclick,'submitSearch')]")
+	public WebElement searchbtn;
+
 	@FindBy(xpath = "(//button[@class='btn btn-wp'])[1]")
 	public WebElement Findpo;
 
@@ -91,6 +95,9 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "(//input[contains(@name,'polines')])[2]")
 	public WebElement item2;
+	
+	@FindBy(xpath = "//input[contains(@class,'checkall')]")
+	public WebElement checkall;
 
 	@FindBy(xpath = "//button[@class='btn btn-wp savebutton']")
 	public WebElement savebtn;
@@ -122,9 +129,6 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "(//button[@class='btn btn-wp'])[3]")
 	public WebElement nxtclick;
-	
-	@FindBy(xpath="//h3[text()='Invoice List']")
-	public WebElement lblInvoiceListPage;
 
 	/********* Invoice Matching ***********/
 	@FindBy(xpath = "//button[contains(@onclick,'matchAll()')]")
@@ -132,7 +136,7 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "//button[contains(@onclick,'showSummaryPage')]")
 	public WebElement nxtclick2;
-	
+
 	@FindBy(xpath = "(//button[contains(@onclick,'matchInvoice')])[1]")
 	public WebElement match;
 
@@ -152,14 +156,25 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "//div[contains(@class,'bootbox-body')]")
 	public WebElement Alertmsg;
-
-	/********* Attachment Alert ***********/
+	
+	@FindBy(xpath = "//button[contains(@data-bb-handler,'confirm')]")
+	public WebElement yesbtn;
+	
+	@FindBy(xpath = "//button[contains(@class,'button close')]")
+	public WebElement closebtn;
+	
+	@FindBy(xpath = "//span[contains(@id,'invsuppname')]")
+	public WebElement invsuppname;
+	
+    /********* Attachment Alert ***********/
 	@FindBy(xpath = "(//label[contains(@class,'error')])[1]")
 	public WebElement attach;
+    
+	/********* Invoice Creation ***********/
 	
 	public void invoiceHeader() {
 		try {
-			String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+			PCDriver.waitForPageLoad();
 			createnew.click();
 			supplier.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Supplier"));
 			supplier.clear();
@@ -174,11 +189,11 @@ public class GenerateInvoice {
 			PCDriver.visibilityOfListLocated(select);
 			for (WebElement selectsupplier : select) {
 				PCDriver.waitForElementToBeClickable(selectsupplier);
-				System.out.println("Supplier Name"+selectsupplier.getText());
+				System.out.println("Supplier Name" + selectsupplier.getText());
 				Assert.assertTrue(selectsupplier.getText()
 						.contains(ReadExcelData.getInstance("Headerinfo").getStringValue("Supplier")));
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 				}
 				selectsupplier.click();
@@ -228,21 +243,21 @@ public class GenerateInvoice {
 			Assert.assertTrue(actualtitle.contains(expectedtitle));
 			Findpo.click();
 			PCDriver.switchToFrame(frame);
+			PCDriver.waitForElementToBeClickable(search);
+			search.clear();
+			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO"));
+			searchbtn.click();
 			PCDriver.visibilityOfListLocated(drop);
 			drop.get(0).click();
 			PCDriver.waitForElementToBeClickable(item1);
 			try {
-				Thread.sleep(8000);
+				Thread.sleep(4000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			PCDriver.waitForElementToBeClickable(item1);
 			item1.click();
-			PCDriver.waitForElementToBeClickable(item2);
-
 			item2.click();
-			
 			savebtn.click();
 			//PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
 			PCDriver.switchToDefaultContent();
@@ -305,8 +320,8 @@ public class GenerateInvoice {
 		String expectedtitle = "WebProcure: Invoice Item Matching";
 		String actualtitle = PCDriver.getDriver().getTitle();
 		Assert.assertTrue(actualtitle.contains(expectedtitle));
-		PCDriver.waitForElementToBeClickable(matchall);
-		matchall.click();
+		//PCDriver.waitForElementToBeClickable(matchall);
+		//matchall.click();
 		nxtclick2.click();
 
 	}
@@ -318,6 +333,8 @@ public class GenerateInvoice {
 		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", submit);
 		submit.click();
 	}
+	
+	/********* Receive Date Alert Message ***********/
 
 	public void receiveDate() {
 		try {
@@ -345,7 +362,7 @@ public class GenerateInvoice {
 				}
 				selectsupplier.click();
 			}
-			
+
 			PCDriver.waitForElementToBeClickable(invoiceno);
 			invoiceno.sendKeys(
 					ReadExcelData.getInstance("DateAlert").getStringValue("Invoice No") + System.currentTimeMillis());
@@ -363,11 +380,13 @@ public class GenerateInvoice {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-	     		}
+			}
 		} catch (IOException e) {
-			
+
 		}
 	}
+	
+	/********* EFT Mandatory Alert ***********/
 
 	public void mandatoryEFT() {
 		try {
@@ -409,12 +428,13 @@ public class GenerateInvoice {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-	     		}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	/********* Invoice No. Already Registered ***********/
 
 	public void updateValue() {
 		try {
@@ -453,13 +473,14 @@ public class GenerateInvoice {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-	     		}
+			}
 		} catch (IOException e) {
-			
+
 		}
 
 	}
-	
+	/********* Invoice NO. Missing ***********/
+
 	public void invoiceNo() {
 		try {
 			createnew.click();
@@ -495,45 +516,124 @@ public class GenerateInvoice {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-	     		}
+			}
 		} catch (IOException e) {
-			
+
 		}
+
 	}
 	
+	/********* PO Search Error Message ***********/
+	public void posearch() {
+		try {
+			String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+			PCDriver.waitForPageLoad();
+			createnew.click();
+			supplier.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Supplier"));
+			supplier.clear();
+			try {
+				PCDriver.waitForElementToBeClickable(pendu);
+				pendu.click();
+			} catch (Exception e) {
+				System.out.println("Popup not present");
+			}
+			supplier.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Supplier"));
 
+			PCDriver.visibilityOfListLocated(select);
+			for (WebElement selectsupplier : select) {
+				PCDriver.waitForElementToBeClickable(selectsupplier);
+				System.out.println("Supplier Name" + selectsupplier.getText());
+				Assert.assertTrue(selectsupplier.getText()
+						.contains(ReadExcelData.getInstance("DiffSupplier").getStringValue("Supplier")));
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+				selectsupplier.click();
+			}
+			PCDriver.waitForElementToBeClickable(invoiceno);
+			invoiceno.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Invoice No")
+					+ System.currentTimeMillis());
+			receivedate.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Receive Date"));
+			postdate.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Post Date"));
+			issuedate.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Issue Date"));
+			duedate.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("Due Date"));
+
+			PCDriver.waitForElementToBeClickable(eft);
+			PCDriver.selectFromDropDownByVisibleText(eft,
+					(ReadExcelData.getInstance("DiffSupplier").getStringValue("EFT")));
+			nxtbtn.click();
+			Findpo.click();
+			PCDriver.switchToFrame(frame);
+			PCDriver.waitForElementToBeClickable(search);
+			search.clear();
+			search.sendKeys(ReadExcelData.getInstance("DiffSupplier").getStringValue("PO"));
+			searchbtn.click();
+		} catch (IOException e) {
+
+		}
+     }
+	public void zeroquantity()
+	{
+		try {
+		Findpo.click();
+		PCDriver.switchToFrame(frame);
+		PCDriver.waitForElementToBeClickable(search);
+		search.clear();
+		search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO1"));
+		searchbtn.click();
+		PCDriver.visibilityOfListLocated(drop);
+		drop.get(0).click();
+		PCDriver.waitForElementToBeClickable(item1);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		checkall.click();
+		savebtn.click();
+		PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
+		PCDriver.switchToDefaultContent();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		nxt.click();
+
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}	
+	}
+	/********* Alert Message Box ***********/
+	   
 	public String getAlert() {
 		System.out.println(Alertmsg.getText());
 		return Alertmsg.getText();
 	}
-
+	/********* Attachment Error Message***********/
+	
 	public void attachementalert() {
 		adddoc.click();
 		nxtclick.click();
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-     		}
+		}
 	}
 
-	public String attachMatchAlert() {
+	public String attachAlert() {
 		System.out.println(attach.getText());
 		return attach.getText();
 	}
-
 	
-
-
-	
-	public boolean verifyPageAfterInvoiceSubmission() {
-		PCDriver.waitForElementToBeClickable(lblInvoiceListPage);
+	public String suppname() 
+	{   
 		
-		if(lblInvoiceListPage.getText().contains("Invoice List")) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return invsuppname.getText();
 	}
 
 }
