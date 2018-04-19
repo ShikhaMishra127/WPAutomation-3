@@ -1,6 +1,5 @@
 package buyer.testcases.request;
 
-import org.apache.bcel.generic.INSTANCEOF;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.testng.Assert;
@@ -179,7 +178,6 @@ public class CreateRequest extends PCDriver {
 		ExtentReport.logger.log(LogStatus.PASS, "Request Successfully Submitted");
 
 	}
-	
 	
 	@Test(priority = 6, enabled=true, description = "This test will create multityperreq")
 	public void multitypereq() throws Exception {
