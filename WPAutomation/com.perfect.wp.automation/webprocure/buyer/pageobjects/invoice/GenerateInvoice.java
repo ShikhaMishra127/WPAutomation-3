@@ -593,7 +593,7 @@ public class GenerateInvoice {
 		}
 		checkall.click();
 		savebtn.click();
-		PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
+		//PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
 		PCDriver.switchToDefaultContent();
 		try {
 			Thread.sleep(3000);
