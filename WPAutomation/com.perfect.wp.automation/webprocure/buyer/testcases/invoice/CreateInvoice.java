@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import com.relevantcodes.extentreports.LogStatus;
 
 import buyer.pageobjects.invoice.GenerateInvoice;
+import buyer.pageobjects.invoice.Viewinvoice;
 import buyer.pageobjects.solicitationPageObjects.CreateSolicitationPOM;
 import buyer.pageobjects.solicitationPageObjects.HeaderPage;
 import buyer.pageobjects.solicitationPageObjects.SummaryPage;
@@ -25,6 +26,7 @@ public class CreateInvoice extends PCDriver {
 	GenerateInvoice voice = new GenerateInvoice();
 
 	// log4jClass log=new log4jClass();
+	Viewinvoice viewall = new Viewinvoice();
 	LoginPage login = new LoginPage();
 	HomePage home = new HomePage();
 	CreateSolicitationPOM sol = new CreateSolicitationPOM();
@@ -52,24 +54,29 @@ public class CreateInvoice extends PCDriver {
 			Assert.fail();
 		}
 	}
-	
+
 	@BeforeMethod
 	public void setupBeforeTest() {
 		home.selectTopNavDropDown("Invoice");
 
 	}
-	 @AfterMethod
-	 public void setupAfterTest() {
-	  sol.clickHomeButton();
-	 }
 
-	@Test(priority = 1)
+	@AfterMethod
+	public void setupAfterTest() {
+		sol.clickHomeButton();
+	}
+
+    @Test(priority = 1)
 	public void invoiceCreation() {
-        
+
 		voice.invoiceHeader();
+		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
 		voice.additem();
+		Assert.assertTrue(voice.poSelect().contains("Invoice Documents"));
 		voice.attachment();
+		Assert.assertTrue(voice.poSelect().contains("Invoice Matching"));
 		voice.match();
+		Assert.assertTrue(voice.poSelect().contains("Invoice Summary"));
 		voice.invoiceSummary();
 	}
 
@@ -99,15 +106,19 @@ public class CreateInvoice extends PCDriver {
 	@Test(priority = 5)
 	public void attachementAlert() {
 		voice.invoiceHeader();
+		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
 		voice.additem();
+		Assert.assertTrue(voice.poSelect().contains("Invoice Documents"));
 		voice.attachementalert();
 		Assert.assertTrue(voice.attachAlert().contains("Please select a file"));
-	}
+	} 
 
 	@Test(priority = 6)
 	public void matchinvoice() {
 		voice.invoiceHeader();
+		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
 		voice.additem();
+		Assert.assertTrue(voice.poSelect().contains("Invoice Documents"));
 		voice.attachment();
 		voice.match.click();
 		try {
@@ -121,6 +132,7 @@ public class CreateInvoice extends PCDriver {
 	public void invoiceNoMissing() {
 		voice.invoiceNo();
 		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
+		PCDriver.waitForElementToBeClickable(voice.okbtn);
 		voice.okbtn.click();
 	}
 
@@ -133,6 +145,12 @@ public class CreateInvoice extends PCDriver {
 		}
 		Assert.assertTrue(
 				voice.getAlert().contains("We found a PO with that number associated to a different supplier"));
+		voice.nobtn.click();
+		PCDriver.getDriver().switchTo().defaultContent();
+		voice.closebtn.click();
+		PCDriver.getDriver().switchTo().defaultContent();
+		
+		
 	}
 
 	@Test(priority = 9)
@@ -144,22 +162,76 @@ public class CreateInvoice extends PCDriver {
 		}
 		Assert.assertTrue(
 				voice.getAlert().contains("We found a PO with that number associated to a different supplier"));
+		PCDriver.waitForElementToBeClickable(voice.yesbtn);
+		try {
+			Thread.sleep(8000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		voice.yesbtn.click();
 		PCDriver.getDriver().switchTo().defaultContent();
 		voice.closebtn.click();
 		PCDriver.getDriver().switchTo().defaultContent();
 		Assert.assertTrue(voice.suppname().contains("Pawn Shop"));
-		}
-	@Test(priority=10)
-	public void enterquantity()
-	{
+	}
+
+	@Test(priority = 10)
+	public void enterquantity() {
 		voice.invoiceHeader();
+		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
 		voice.zeroquantity();
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
-			}
+		}
 		Assert.assertTrue(voice.getAlert().contains("Please enter positive numeric value for Invoice Quantity"));
 	}
-	
+
+	@Test(priority = 11)
+	public void fixSearch() {
+		voice.invoiceHeader();
+		voice.searchfa();
+		Assert.assertTrue(voice.fixCodeSearch().contains("Select Item Category"));
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
+		voice.closebtn.click();
+	}
+
+	@Test(priority = 12)
+	public void supsearch() {
+		viewall.supinv();
+		Assert.assertTrue(viewall.supassert1().contains("Air Planning"));
+	}
+
+	@Test(priority = 13)
+	public void buyerInv() {
+		viewall.buyInv();
+		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
+	}
+
+	@Test(priority = 14)
+	public void invoiceSearch() {
+		viewall.invNo();
+		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
+	}
+
+	@Test(priority = 15)
+	public void requesterName() {
+		viewall.requester();
+		Assert.assertTrue(viewall.supassert1().contains("Division of Purchasing"));
+	}
+
+	@Test(priority = 16)
+	public void dateSearch() {
+		viewall.date();
+		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
+	}
+
+	@Test(priority = 17)
+	public void invStatus() {
+		viewall.selectStatus();
+		Assert.assertTrue(viewall.supassert2().contains("Andrew's Photography Studio2"));
+	}
 }

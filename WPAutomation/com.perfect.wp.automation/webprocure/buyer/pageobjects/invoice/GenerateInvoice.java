@@ -1,5 +1,6 @@
 package buyer.pageobjects.invoice;
 
+import java.awt.AWTException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import commonutils.pageobjects.utils.PCDriver;
+import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
 
 public class GenerateInvoice {
@@ -95,7 +97,7 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "(//input[contains(@name,'polines')])[2]")
 	public WebElement item2;
-	
+
 	@FindBy(xpath = "//input[contains(@class,'checkall')]")
 	public WebElement checkall;
 
@@ -110,6 +112,15 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "(//button[contains(@onclick,'submitPage')])[2]")
 	public WebElement nxt;
+
+	@FindBy(xpath = "(//input[contains(@onkeypress,'searchItem')])[1]")
+	public WebElement fa;
+
+	@FindBy(xpath = "(//span[contains(@class,'hand-pointer')])[1]")
+	public WebElement faSearch;
+
+	@FindBy(xpath = "/html/body/div[5]/div[2]/div/div[1]/div/div/section[1]/h3")
+	public WebElement title;
 
 	/********* Attachment ***********/
 	@FindBy(xpath = "//button[@id='adddocid']")
@@ -156,25 +167,32 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "//div[contains(@class,'bootbox-body')]")
 	public WebElement Alertmsg;
-	
+
 	@FindBy(xpath = "//button[contains(@data-bb-handler,'confirm')]")
 	public WebElement yesbtn;
 	
+	@FindBy(xpath = "//button[contains(@class,'adddoc')]")
+	public WebElement nobtn;
+
 	@FindBy(xpath = "//button[contains(@class,'button close')]")
 	public WebElement closebtn;
-	
+
 	@FindBy(xpath = "//span[contains(@id,'invsuppname')]")
 	public WebElement invsuppname;
-	
-    /********* Attachment Alert ***********/
+
+	/********* Attachment Alert ***********/
 	@FindBy(xpath = "(//label[contains(@class,'error')])[1]")
 	public WebElement attach;
-    
+
+	/********* Assert pages ***********/
+	@FindBy(xpath = "//*[@id=\"page-title\"]/h3")
+	public WebElement POdata;
+
 	/********* Invoice Creation ***********/
-	
+
 	public void invoiceHeader() {
 		try {
-			PCDriver.waitForPageLoad();
+			System.out.println("Entered in Invoice Header");
 			createnew.click();
 			supplier.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Supplier"));
 			supplier.clear();
@@ -185,8 +203,11 @@ public class GenerateInvoice {
 				System.out.println("Popup not present");
 			}
 			supplier.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Supplier"));
+			System.out.println("Supplier");
 
 			PCDriver.visibilityOfListLocated(select);
+			System.out.println("Select list visible");
+
 			for (WebElement selectsupplier : select) {
 				PCDriver.waitForElementToBeClickable(selectsupplier);
 				System.out.println("Supplier Name" + selectsupplier.getText());
@@ -203,8 +224,7 @@ public class GenerateInvoice {
 					ReadExcelData.getInstance("Headerinfo").getStringValue("Invoice No") + System.currentTimeMillis());
 			ReadExcelData.getInstance("Headerinfo").updateCellValue("supplier Invoice no",
 					invoiceno.getAttribute("value"));
-			PCDriver.selectFromDropDownByVisibleText(payindicator,
-					(ReadExcelData.getInstance("Headerinfo").getStringValue("Pay Indicator")));
+			PCDriver.waitForElementToBeClickable(receivedate);
 			receivedate.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Receive Date"));
 			postdate.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Post Date"));
 			issuedate.sendKeys(ReadExcelData.getInstance("Headerinfo").getStringValue("Issue Date"));
@@ -234,6 +254,7 @@ public class GenerateInvoice {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Exit Invoice Header");
 	}
 
 	public void additem() {
@@ -245,19 +266,26 @@ public class GenerateInvoice {
 			PCDriver.switchToFrame(frame);
 			PCDriver.waitForElementToBeClickable(search);
 			search.clear();
-			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO"));
+			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("Item"));
 			searchbtn.click();
 			PCDriver.visibilityOfListLocated(drop);
 			drop.get(0).click();
 			PCDriver.waitForElementToBeClickable(item1);
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			item1.click();
 			item2.click();
+			PCDriver.waitForElementToBeClickable(savebtn);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			savebtn.click();
 			//PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
 			PCDriver.switchToDefaultContent();
@@ -277,6 +305,7 @@ public class GenerateInvoice {
 			quantity.get(1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
 			quantity.get(1).sendKeys(Keys.BACK_SPACE);
 			quantity.get(1).sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("Quantityofitem1"));
+			PCDriver.waitForElementToBeClickable(nxt);
 			nxt.click();
 
 		} catch (IOException e) {
@@ -320,8 +349,8 @@ public class GenerateInvoice {
 		String expectedtitle = "WebProcure: Invoice Item Matching";
 		String actualtitle = PCDriver.getDriver().getTitle();
 		Assert.assertTrue(actualtitle.contains(expectedtitle));
-		//PCDriver.waitForElementToBeClickable(matchall);
-		//matchall.click();
+		PCDriver.waitForElementToBeClickable(matchall);
+		matchall.click();
 		nxtclick2.click();
 
 	}
@@ -333,7 +362,7 @@ public class GenerateInvoice {
 		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", submit);
 		submit.click();
 	}
-	
+
 	/********* Receive Date Alert Message ***********/
 
 	public void receiveDate() {
@@ -385,7 +414,7 @@ public class GenerateInvoice {
 
 		}
 	}
-	
+
 	/********* EFT Mandatory Alert ***********/
 
 	public void mandatoryEFT() {
@@ -434,6 +463,7 @@ public class GenerateInvoice {
 			e.printStackTrace();
 		}
 	}
+
 	/********* Invoice No. Already Registered ***********/
 
 	public void updateValue() {
@@ -479,6 +509,7 @@ public class GenerateInvoice {
 		}
 
 	}
+
 	/********* Invoice NO. Missing ***********/
 
 	public void invoiceNo() {
@@ -522,7 +553,7 @@ public class GenerateInvoice {
 		}
 
 	}
-	
+
 	/********* PO Search Error Message ***********/
 	public void posearch() {
 		try {
@@ -572,50 +603,89 @@ public class GenerateInvoice {
 		} catch (IOException e) {
 
 		}
-     }
-	public void zeroquantity()
-	{
+	}
+
+	public void zeroquantity() {
 		try {
-		Findpo.click();
-		PCDriver.switchToFrame(frame);
-		PCDriver.waitForElementToBeClickable(search);
-		search.clear();
-		search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO1"));
-		searchbtn.click();
-		PCDriver.visibilityOfListLocated(drop);
-		drop.get(0).click();
-		PCDriver.waitForElementToBeClickable(item1);
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		checkall.click();
-		savebtn.click();
-		//PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
-		PCDriver.switchToDefaultContent();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
+			Findpo.click();
+			PCDriver.switchToFrame(frame);
+			PCDriver.waitForElementToBeClickable(search);
+			search.clear();
+			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO1"));
+			searchbtn.click();
+			PCDriver.visibilityOfListLocated(drop);
+			drop.get(0).click();
+			PCDriver.waitForElementToBeClickable(item1);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			checkall.click();
+			savebtn.click();
+			//PCDriver.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
+			PCDriver.switchToDefaultContent();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			nxt.click();
+
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		nxt.click();
 
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}	
 	}
+
+	public void searchfa() {
+		try {
+			Findpo.click();
+			PCDriver.switchToFrame(frame);
+			PCDriver.waitForElementToBeClickable(search);
+			search.clear();
+			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("PO"));
+			searchbtn.click();
+			PCDriver.visibilityOfListLocated(drop);
+			drop.get(0).click();
+			PCDriver.waitForElementToBeClickable(item1);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			item1.click();
+			item2.click();
+			savebtn.click();
+			PCDriver.switchToDefaultContent();
+			fa.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("fainput"));
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			faSearch.click();
+			System.out.println();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/********* Alert Message Box ***********/
-	   
+
 	public String getAlert() {
 		System.out.println(Alertmsg.getText());
 		return Alertmsg.getText();
 	}
-	/********* Attachment Error Message***********/
-	
+
+	/********* Attachment Error Message ***********/
+
 	public void attachementalert() {
 		adddoc.click();
 		nxtclick.click();
@@ -629,11 +699,18 @@ public class GenerateInvoice {
 		System.out.println(attach.getText());
 		return attach.getText();
 	}
-	
-	public String suppname() 
-	{   
-		
+
+	public String suppname() {
 		return invsuppname.getText();
+	}
+
+	public String fixCodeSearch() {
+		System.out.println(title.getText());
+		return title.getText();
+	}
+
+	public String poSelect() {
+		return POdata.getText();
 	}
 
 }
