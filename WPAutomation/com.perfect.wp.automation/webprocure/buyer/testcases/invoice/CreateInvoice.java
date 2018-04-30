@@ -242,8 +242,7 @@ public class CreateInvoice extends PCDriver {
 	public void approval()
 	{
 		viewall.approvalMap();
-		PCDriver.switchToWindow("winnis1");
-		Assert.assertTrue(viewall.workflow.equals("Workflow Map"));
+		
 	}
 	@Test(priority = 20)
 	public void Invhistory() 

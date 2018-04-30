@@ -1,5 +1,6 @@
 package buyer.pageobjects.invoice;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
@@ -70,6 +71,9 @@ public class Viewinvoice {
 	
 	@FindBy(xpath="//b/u[contains(text(),'Workflow Map')]")
 	public WebElement workflow;
+	
+	@FindBy(xpath="/html/body/table/tbody/tr/td[2]/table[3]/tbody/tr[2]/td[2]/button")
+	public WebElement close;
 
 	public void supinv() {
 		try {
@@ -181,12 +185,21 @@ public class Viewinvoice {
 		reset.click();
 		clickaction("Submitted For Payment");
 		chooseaction("Approval Map");
+		nxtwindow();
 	}
 	public void nxtwindow()
 	{   
 		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
 		PCDriver.switchToWindow("winnis1");
-		Assert.assertTrue(workflow.equals("Workflow Map"));
+		System.out.println("BC MC BMC"+PCDriver.getDriver().getTitle());
+		Assert.assertTrue(workflow.getText().equals("Workflow Map"));
+		close.click();
+		PCDriver.switchToWindow("");
+
 	}
 	public void history()
 	{
@@ -194,6 +207,7 @@ public class Viewinvoice {
 		reset.click();
 		clickaction("Not Matched");
 		chooseaction("View Invoice History");
+		
 	}
 
 	public String supassert1() {
