@@ -3,9 +3,11 @@ package buyer.pageobjects.invoice;
 import java.io.IOException;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadExcelData;
@@ -59,6 +61,15 @@ public class Viewinvoice {
 
 	@FindBy(xpath = "//*[@id=\"invTable\"]/tbody/tr[1]/td[7]")
 	public WebElement pawn;
+	
+	@FindBy(xpath="//td")
+	public WebElement actions;
+	
+	@FindBy(xpath="//tr")
+	public WebElement selectaction;
+	
+	@FindBy(xpath="//b/u[contains(text(),'Workflow Map')]")
+	public WebElement workflow;
 
 	public void supinv() {
 		try {
@@ -73,6 +84,16 @@ public class Viewinvoice {
 		}
 
 	}
+	public void chooseaction(String str)
+	{
+		actions.findElement(By.xpath("//span[contains(@class,'open')]/child::ul/li/a[contains(text(),'"+str+"')]")).click();
+		
+	}
+    public void clickaction(String str)
+    {
+    	selectaction.findElement(By.xpath(""
+    			+ "(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[1]")).click();
+    }
 
 	public void buyInv() {
 		try {
@@ -83,6 +104,7 @@ public class Viewinvoice {
 			reset.click();
 			binvnum.sendKeys(ReadExcelData.getInstance("ViewInv").getStringValue("BuyerInvoice"));
 			filter.click();
+			
 		} catch (IOException e) {
 
 		}
@@ -141,6 +163,38 @@ public class Viewinvoice {
 		}
 		filter.click();
 	}
+	
+	public void viewInv()
+	{
+		viewall.click();
+		reset.click();
+		clickaction("Not Matched");
+		chooseaction("View Invoice");
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+		}
+	}
+	public void approvalMap()
+	{
+		viewall.click();
+		reset.click();
+		clickaction("Submitted For Payment");
+		chooseaction("Approval Map");
+	}
+	public void nxtwindow()
+	{   
+		PCDriver.waitForPageLoad();
+		PCDriver.switchToWindow("winnis1");
+		Assert.assertTrue(workflow.equals("Workflow Map"));
+	}
+	public void history()
+	{
+		viewall.click();
+		reset.click();
+		clickaction("Not Matched");
+		chooseaction("View Invoice History");
+	}
 
 	public String supassert1() {
 		System.out.println(Airplan.getText());
@@ -155,5 +209,6 @@ public class Viewinvoice {
 	public String supassert3() {
 		return pawn.getText();
 	}
+	
 
 }

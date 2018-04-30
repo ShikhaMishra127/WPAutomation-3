@@ -121,6 +121,9 @@ public class GenerateInvoice {
 
 	@FindBy(xpath = "/html/body/div[5]/div[2]/div/div[1]/div/div/section[1]/h3")
 	public WebElement title;
+	
+	@FindBy(xpath = "//section/h3[contains(text(),'Select Item Category')]")
+	public WebElement titlefa;
 
 	/********* Attachment ***********/
 	@FindBy(xpath = "//button[@id='adddocid']")
@@ -164,6 +167,9 @@ public class GenerateInvoice {
 	/********* Receive Date Alert ***********/
 	@FindBy(xpath = "//button[contains(@data-bb-handler,'ok')]")
 	public WebElement okbtn;
+	
+	@FindBy(xpath = "//button[text()='OK']")
+	public WebElement ok;
 
 	@FindBy(xpath = "//div[contains(@class,'bootbox-body')]")
 	public WebElement Alertmsg;
@@ -662,18 +668,29 @@ public class GenerateInvoice {
 			item2.click();
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
+			PCDriver.waitForElementToBeClickable(fa);
 			fa.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("fainput"));
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			PCDriver.waitForElementToBeClickable(faSearch);
 			faSearch.click();
-			System.out.println();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+			}
+			Assert.assertTrue(fixCodeSearch().contains("Select Item Category"));
+			PCDriver.waitForElementToBeClickable(closebtn);
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+			}
+			closebtn.click();
+			} catch (IOException e) {
+			
 		}
 	}
 
@@ -705,8 +722,8 @@ public class GenerateInvoice {
 	}
 
 	public String fixCodeSearch() {
-		System.out.println(title.getText());
-		return title.getText();
+		System.out.println(titlefa.getText());
+		return titlefa.getText();
 	}
 
 	public String poSelect() {
