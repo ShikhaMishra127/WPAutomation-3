@@ -66,7 +66,7 @@ public class CreateInvoice extends PCDriver {
 		sol.clickHomeButton();
 	}
 
-	//@Test(priority = 1)
+	@Test(priority = 1)
 	public void invoiceCreation() {
 
 		voice.invoiceHeader();
@@ -80,7 +80,7 @@ public class CreateInvoice extends PCDriver {
 		voice.invoiceSummary();
 	}
 
-    //@Test(priority = 2)
+    @Test(priority = 2)
 	public void receiveDateAlert() {
 
 		voice.receiveDate();
@@ -88,14 +88,14 @@ public class CreateInvoice extends PCDriver {
 		voice.okbtn.click();
 	}
 
-	//@Test(priority = 3)
+	@Test(priority = 3)
 	public void eftIndicatorAlert() {
 		voice.mandatoryEFT();
 		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
 		voice.okbtn.click();
 	}
 
-	//@Test(priority = 4)
+	@Test(priority = 4)
 	public void sameInvoiceNo() {
 		voice.updateValue();
 		Assert.assertTrue(voice.getAlert()
@@ -103,7 +103,7 @@ public class CreateInvoice extends PCDriver {
 		voice.okbtn.click();
 	}
 
-	//@Test(priority = 5)
+	@Test(priority = 5)
 	public void attachementAlert() {
 		voice.invoiceHeader();
 		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
@@ -113,7 +113,7 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.attachAlert().contains("Please select a file"));
 	} 
 
-	//@Test(priority = 6)
+	@Test(priority = 6)
 	public void matchinvoice() {
 		voice.invoiceHeader();
 		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
@@ -128,7 +128,7 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.getAlert().contains("There are no receivers available for matching"));
 	}
 
-	//@Test(priority = 7)
+	@Test(priority = 7)
 	public void invoiceNoMissing() {
 		voice.invoiceNo();
 		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
@@ -136,7 +136,7 @@ public class CreateInvoice extends PCDriver {
 		voice.okbtn.click();
 	}
 
-	//@Test(priority = 8)
+	@Test(priority = 8)
 	public void diffSupplier() {
 		voice.posearch();
 		try {
@@ -153,7 +153,7 @@ public class CreateInvoice extends PCDriver {
 		
 	}
 
-	//@Test(priority = 9)
+	@Test(priority = 9)
 	public void changeSupplier() {
 		voice.posearch();
 		try {
@@ -175,7 +175,7 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.suppname().contains("Pawn Shop"));
 	}
 
-	//@Test(priority = 10)
+	@Test(priority = 10)
 	public void enterquantity() {
 		voice.invoiceHeader();
 		Assert.assertTrue(voice.poSelect().contains("PO/Line Data"));
@@ -189,43 +189,43 @@ public class CreateInvoice extends PCDriver {
 		voice.ok.click();
 	}
 
-	//@Test(priority = 11)
+	@Test(priority = 11)
 	public void fixSearch() {
 		voice.invoiceHeader();
 		voice.searchfa();
 	}
 
-	//@Test(priority = 12)
+	@Test(priority = 12)
 	public void supsearch() {
 		viewall.supinv();
 		Assert.assertTrue(viewall.supassert1().contains("Air Planning"));
 	}
 
-	//@Test(priority = 13)
+	@Test(priority = 13)
 	public void buyerInv() {
 		viewall.buyInv();
 		Assert.assertTrue(viewall.supassert1().contains("Air Planning"));
 	}
 
-	//@Test(priority = 14)
+	@Test(priority = 14)
 	public void invoiceSearch() {
 		viewall.invNo();
 		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
 	}
 
-	//@Test(priority = 15)
+	@Test(priority = 15)
 	public void requesterName() {
 		viewall.requester();
 		Assert.assertTrue(voice.poSelect().contains("Invoice List"));
 	}
 
-	//@Test(priority = 16)
+	@Test(priority = 16)
 	public void dateSearch() {
 		viewall.date();
 		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
 	}
 
-	//@Test(priority = 17)
+	@Test(priority = 17)
 	public void invStatus() {
 		viewall.selectStatus();
 		Assert.assertTrue(viewall.supassert2().contains("Andrew's Photography Studio2"));
