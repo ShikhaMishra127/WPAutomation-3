@@ -195,7 +195,6 @@ public class Viewinvoice {
 		} catch (InterruptedException e) {
 		}
 		PCDriver.switchToWindow("winnis1");
-		System.out.println("BC MC BMC"+PCDriver.getDriver().getTitle());
 		Assert.assertTrue(workflow.getText().equals("Workflow Map"));
 		close.click();
 		PCDriver.switchToWindow("");
