@@ -65,6 +65,18 @@ public class CreateInvoice extends PCDriver {
 	public void setupAfterTest() {
 		sol.clickHomeButton();
 	}
+	
+	@AfterClass
+	public void tearDown() {
+		ExtentReport.report.endTest(ExtentReport.logger);
+
+		/*
+		 * ExtentReport.report.endTest(ExtentReport.logger);
+		 * ExtentReport.report.flush(); ExtentReport.report.close();
+		 */
+		home.logout();
+
+	}
 
 	@Test(priority = 1)
 	public void invoiceCreation() {
