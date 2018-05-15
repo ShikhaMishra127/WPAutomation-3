@@ -60,8 +60,8 @@ _wprocure.push(['_vid', _param1]);
 	var s = document.getElementsByTagName('script')[0];
 	
 	if ((inFNC == "contractboard")||(inFNC == "bidboard")) {
-		im.src = _baseURL + "/assets/WhiteLabel.js";
-		fm.src = _baseURL + "/assets/FrameManager.js";
+		im.src = _baseURL + "/en/assets/WhiteLabel.js";
+		fm.src = _baseURL + "/en/assets/FrameManager.js";
 		
 	} else if (inFNC == "whitelabelreg") {
 		im.src = _baseURL + "/js/supplierreg/loader.js";		
