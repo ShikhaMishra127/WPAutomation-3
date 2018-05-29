@@ -34,6 +34,9 @@ public class CreateSolicitationPOM {
 
 	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
 	public WebElement btnHome;
+	
+	@FindBy(xpath = "//i[@class='fa fa-home fa-lg']")
+	public WebElement vbtnHome;
 
 	@FindBy(xpath = "//div[@class='alert alert-info']")
 	public WebElement txtSubmitMessage;
@@ -75,6 +78,13 @@ public class CreateSolicitationPOM {
 		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 
 		btnHome.click();
+	}
+	public void clickvendorHomeButton() {
+		PCDriver.switchToDefaultContent();
+		PCDriver.waitForElementToBeClickable(vbtnHome);
+		((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+
+		vbtnHome.click();
 	}
 
 	public void waitForAddInfoSection() {
