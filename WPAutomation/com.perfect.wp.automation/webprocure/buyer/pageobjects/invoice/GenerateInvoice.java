@@ -19,6 +19,7 @@ import commonutils.pageobjects.utils.ReadConfig;
 import commonutils.pageobjects.utils.ReadExcelData;
 
 public class GenerateInvoice {
+	VendorInv vinvoice =new VendorInv();
 	public GenerateInvoice() {
 
 		PageFactory.initElements(PCDriver.getDriver(), this);
@@ -274,20 +275,21 @@ public class GenerateInvoice {
 			search.clear();
 			search.sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("Item"));
 			searchbtn.click();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e2) {
+			}
 			PCDriver.visibilityOfListLocated(drop);
 			drop.get(0).click();
-			PCDriver.waitForElementToBeClickable(item1);
+			PCDriver.waitForElementToBeClickable(checkall);
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			item1.click();
-			item2.click();
+			checkall.click();
 			PCDriver.waitForElementToBeClickable(savebtn);
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -341,7 +343,7 @@ public class GenerateInvoice {
 			uploadfile.click();
 			PCDriver.waitForElementToBeClickable(nxtclick);
 			try {
-				Thread.sleep(15000);
+				Thread.sleep(7000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -621,7 +623,6 @@ public class GenerateInvoice {
 			searchbtn.click();
 			PCDriver.visibilityOfListLocated(drop);
 			drop.get(0).click();
-			PCDriver.waitForElementToBeClickable(item1);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e1) {
@@ -638,7 +639,19 @@ public class GenerateInvoice {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			nxt.click();
+			try {
+				PCDriver.waitForElementToBeClickable(nxt);
+				nxt.click();
+			}catch (Exception e) {
+
+			}
+			try {
+				PCDriver.waitForElementToBeClickable(vinvoice.nxt);
+				vinvoice.nxt.click();
+			} catch (Exception e) {
+
+			}
+			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -657,15 +670,11 @@ public class GenerateInvoice {
 			searchbtn.click();
 			PCDriver.visibilityOfListLocated(drop);
 			drop.get(0).click();
-			PCDriver.waitForElementToBeClickable(item1);
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			item1.click();
-			item2.click();
+			checkall.click();
 			savebtn.click();
 			PCDriver.switchToDefaultContent();
 			PCDriver.waitForElementToBeClickable(fa);

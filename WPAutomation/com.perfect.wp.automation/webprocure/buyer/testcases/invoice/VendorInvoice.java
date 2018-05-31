@@ -50,7 +50,6 @@ public class VendorInvoice {
 			ExtentReport.logger.log(LogStatus.PASS, "Password Entered");
 			login.clickOnLogin();
 			ExtentReport.logger.log(LogStatus.PASS, "Login Button Clicked");
-			Thread.sleep(3000);
 			home.clickIgnoreOnPopUp();
 
 		} catch (Exception e) {
@@ -78,7 +77,7 @@ public class VendorInvoice {
 		vinvoice.attach();
 		vinvoice.summary();
 	}
-	@Test(priority = 2)
+	//@Test(priority = 2)
 	public void finalInvoice()
 	{
 		vinvoice.venInvHead();
@@ -88,12 +87,21 @@ public class VendorInvoice {
 		Assert.assertTrue(vinvoice.position().contains("Yes"));
 		
 	}
-	@Test(priority = 3)
+	//@Test(priority = 3)
 	public void poRequired()
 	{
 		vinvoice.ponumber();
 		System.out.println(voice.getAlert());
 		Assert.assertTrue(voice.getAlert().contains("No PO Item selected"));
+	}
+	@Test(priority=4)
+	public void enterquantity() {
+		vinvoice.venInvHead();
+		voice.zeroquantity();
+		PCDriver.waitForPageLoad();
+		Assert.assertTrue(voice.getAlert().contains("Please enter positive numeric value for Invoice Quantity"));
+		PCDriver.waitForElementToBeClickable(voice.ok);
+		voice.ok.click();
 	}
 
 }

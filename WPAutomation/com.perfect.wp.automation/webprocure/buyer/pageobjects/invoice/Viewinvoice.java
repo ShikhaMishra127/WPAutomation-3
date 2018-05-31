@@ -77,9 +77,11 @@ public class Viewinvoice {
 
 	public void supinv() {
 		try {
-
+            
 			viewall.click();
+			PCDriver.waitForPageLoad();
 			supsrch.sendKeys(ReadExcelData.getInstance("ViewInv").getStringValue("Supplier"));
+			PCDriver.waitForElementToBeClickable(filter);
 			filter.click();
 
 		} catch (IOException e) {
@@ -195,18 +197,27 @@ public class Viewinvoice {
 		} catch (InterruptedException e) {
 		}
 		PCDriver.switchToWindow("winnis1");
+		PCDriver.waitForPageLoad();
 		Assert.assertTrue(workflow.getText().equals("Workflow Map"));
+		PCDriver.waitForElementToBeClickable(close);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
 		close.click();
 		PCDriver.switchToWindow("");
-
-	}
+    }
 	public void history()
 	{
 		viewall.click();
 		reset.click();
+		PCDriver.waitForPageLoad();
 		clickaction("Not Matched");
 		chooseaction("View Invoice History");
-		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}	
 	}
 
 	public String supassert1() {
