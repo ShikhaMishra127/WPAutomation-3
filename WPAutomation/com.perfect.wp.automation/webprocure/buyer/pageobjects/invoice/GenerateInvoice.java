@@ -368,7 +368,7 @@ public class GenerateInvoice {
 		String actualtitle = PCDriver.getDriver().getTitle();
 		Assert.assertTrue(actualtitle.contains(expectedtitle));
 		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", submit);
-		submit.click();
+		submit.click(); 
 	}
 
 	/********* Receive Date Alert Message ***********/

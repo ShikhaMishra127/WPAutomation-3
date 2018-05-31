@@ -98,7 +98,7 @@ public class CreateInvoice extends PCDriver {
 		voice.invoiceSummary();
 	}
 
-    @Test(priority = 2)
+	@Test(priority = 2)
 	public void receiveDateAlert() {
 
 		voice.receiveDate();
