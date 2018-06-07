@@ -58,9 +58,9 @@ public class OffCatalogReqPOM {
 	@FindBy(xpath = "//*[@id='input_SupplierName']")
 	public WebElement vendortextbox;
 
-	//@FindBy(xpath = ".//*[@id='ui-id-1']")
-	//public List<WebElement> vendorlist;
-	
+	// @FindBy(xpath = ".//*[@id='ui-id-1']")
+	// public List<WebElement> vendorlist;
+
 	@FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
 	public List<WebElement> vendorlist;
 
@@ -90,7 +90,7 @@ public class OffCatalogReqPOM {
 
 	@FindBy(xpath = "//*[@class='modal-title']")
 	public WebElement alertboxtitle;
-	
+
 	@FindBy(xpath = "//div[@class='bootbox-body']")
 	public WebElement alterboxmessage;
 
@@ -130,20 +130,45 @@ public class OffCatalogReqPOM {
 		// selectcontractnum();
 		clickAdd();
 	}
-	
-	public void donotenterquantity() throws Exception{
-			checkRetainKeyInfo();
-			selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
-			setEstimatedUnitPrice(ReadExcelData.getInstance("Request").getStringValue("EstimatedUnitPrice"));
-			selectcurrencycode();
-			setsupplierpartno(ReadExcelData.getInstance("Request").getStringValue("SupplierPartNumer"));
-			selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
-			selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
-			selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
-			clickAdd();
+
+	public void donotenterquantity() throws Exception {
+		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
+		PCDriver.waitForPageLoad();
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PCDriver.getDriver().switchTo().defaultContent();
+		PCDriver.getDriver().switchTo().frame("C1ReqMain");
+
+		checkRetainKeyInfo();
+		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
+		setEstimatedUnitPrice(ReadExcelData.getInstance("Request").getStringValue("EstimatedUnitPrice"));
+		selectcurrencycode();
+		setsupplierpartno(ReadExcelData.getInstance("Request").getStringValue("SupplierPartNumer"));
+		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
+		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
+		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
+		clickAdd();
 	}
 
-	public void donotenterunitprice() throws Exception{
+	public void donotenterunitprice() throws Exception {
+		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
+		PCDriver.waitForPageLoad();
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PCDriver.getDriver().switchTo().defaultContent();
+		PCDriver.getDriver().switchTo().frame("C1ReqMain");
 		checkRetainKeyInfo();
 		setQuantity(ReadExcelData.getInstance("Request").getStringValue("Quantity"));
 		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
@@ -154,8 +179,20 @@ public class OffCatalogReqPOM {
 		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
 		clickAdd();
 	}
-	
-	public void donotentercommoditycode() throws InterruptedException, Exception{
+
+	public void donotentercommoditycode() throws InterruptedException, Exception {
+		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
+		PCDriver.waitForPageLoad();
+
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PCDriver.getDriver().switchTo().defaultContent();
+		PCDriver.getDriver().switchTo().frame("C1ReqMain");
 		checkRetainKeyInfo();
 		setQuantity(ReadExcelData.getInstance("Request").getStringValue("Quantity"));
 		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
@@ -166,8 +203,9 @@ public class OffCatalogReqPOM {
 		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
 		clickAdd();
 	}
+
 	public void checkRetainKeyInfo() {
-		PCDriver.waitForElementToBeClickable(retainkeyinfo);
+		PCDriver.WaitTillElementIsPresent(retainkeyinfo);
 		if (retainkeyinfo.isSelected()) {
 			System.out.println("Checkox is now checked");
 		} else {
@@ -218,13 +256,13 @@ public class OffCatalogReqPOM {
 		System.out.println(vendorlist.size());
 		for (WebElement vendor : vendorlist) {
 			if (vendor.getText().contains(ReadExcelData.getInstance("Request").getStringValue("supplierselected"))) {
-				//System.out.println(vendor.getText());
+				// System.out.println(vendor.getText());
 				Assert.assertEquals(vendor.getText(),
 						ReadExcelData.getInstance("Request").getStringValue("supplierselected"));
 
 				PCDriver.waitForElementToBeClickable(vendor);
 				vendor.click();
-				//System.out.println(vendortextbox.getAttribute("value"));
+				// System.out.println(vendortextbox.getAttribute("value"));
 			}
 		}
 	}
@@ -235,7 +273,7 @@ public class OffCatalogReqPOM {
 		mfrname.sendKeys(manufacturername);
 		PCDriver.visibilityOfListLocated(mfrlist);
 		Thread.sleep(5000);
-		//System.out.println(mfrlist.size());
+		// System.out.println(mfrlist.size());
 		for (WebElement manufacturer : mfrlist) {
 			if (manufacturer.getText()
 					.contains(ReadExcelData.getInstance("Request").getStringValue("manufacturerselected"))) {
@@ -245,32 +283,33 @@ public class OffCatalogReqPOM {
 
 				PCDriver.waitForElementToBeClickable(manufacturer);
 				manufacturer.click();
-				//System.out.println(mfrname.getAttribute("value"));
+				// System.out.println(mfrname.getAttribute("value"));
 			}
 		}
 	}
 
 	public void selectcommoditycode(String commoditycode) throws Exception {
-		System.out.println("commodity code:"+commoditycode);
+		System.out.println("commodity code:" + commoditycode);
 		PCDriver.waitForElementToBeClickable(commoditybox);
 		commoditybox.clear();
 		commoditybox.sendKeys(commoditycode);
 		PCDriver.visibilityOfListLocated(commoditylist);
 		Thread.sleep(5000);
-		//System.out.println("Size of list:" +commoditylist.size());
+		// System.out.println("Size of list:" +commoditylist.size());
 		for (WebElement commodity : commoditylist) {
-			//System.out.println(commodity.getText());
+			// System.out.println(commodity.getText());
 			if (commodity.getText().contains("15101611")) {
 				// System.out.println(commodity.getText());
 				Assert.assertEquals(commodity.getText(),
 						ReadExcelData.getInstance("Request").getStringValue("selectedcommodity"));
-				
-				//PCDriver.waitForElementToBeClickable(commodity);
-				((JavascriptExecutor)PCDriver.getDriver()).executeScript("window.confirm = function(msg){return false;};");
+
+				// PCDriver.waitForElementToBeClickable(commodity);
+				((JavascriptExecutor) PCDriver.getDriver())
+						.executeScript("window.confirm = function(msg){return false;};");
 				commodity.click();
 				try {
-					//PCDriver.dismissAlert();
-				
+					// PCDriver.dismissAlert();
+
 				} catch (Exception e) {
 					System.out.println("No Alert Present");
 
@@ -287,15 +326,15 @@ public class OffCatalogReqPOM {
 	}
 
 	public String bootAlertbox() throws Exception {
-		
+
 		Thread.sleep(2000);
 		String alerttitle = alertboxtitle.getText();
 		System.out.println(alerttitle);
 
 		return alerttitle;
 	}
-	
-	public String bootalertmessage() throws Exception{
+
+	public String bootalertmessage() throws Exception {
 		Thread.sleep(2000);
 		String alertmessage = alterboxmessage.getText();
 		System.out.println(alertmessage);

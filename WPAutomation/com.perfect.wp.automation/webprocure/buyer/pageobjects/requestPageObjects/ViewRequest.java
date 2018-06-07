@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,10 +19,13 @@ import commonutils.pageobjects.utils.ReadExcelData;
 public class ViewRequest {
 
 	@FindBy(xpath = "//iframe[@name='C1ReqMain']")
-	public List<WebElement> reqframe;
+	public WebElement reqframe;
 
 	@FindBy(xpath = "//a[@id='idView Request']")
 	public WebElement viewreqtab;
+	
+	@FindBy(xpath="//div[@class='row alert alert-warning']")
+	public WebElement blankreqcartmsg;
 
 	@FindBy(xpath = "//div[@class='btn-group']")
 	public WebElement tabgroups;
@@ -81,12 +85,15 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//div[contains(@class,'option')]")
 	public List<WebElement> buyercontactlist;
-
+	
+	@FindBy(xpath = "//table[@class='table table-bordered table-striped dataTable no-footer']")
+	public List<WebElement> reqcheckoutpagetables;
+	
 	@FindBy(xpath = "//img[@title='Line Item Details']")
 	public List<WebElement> lineitemdetailsicon;
 
 	@FindBy(xpath = "//img[@title='Assign Account Distribution']")
-	public WebElement acctcodeicon;
+	public List<WebElement> acctcodeicon;
 
 	@FindBy(xpath = "//button[@name='AccountAssignment']")
 	public WebElement addacctcodebtn;
@@ -126,6 +133,9 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//button[text()='Submit Request']")
 	public WebElement submitbutton;
+	
+	@FindBy(xpath = "//div[@class='bootbox modal fade bootbox-confirm in']")
+	public WebElement itemtypemsgalert;
 
 	@FindBy(xpath = "//button[text()='Submit']")
 	public WebElement submissionconfirmationbtn;
@@ -135,6 +145,9 @@ public class ViewRequest {
 
 	@FindBy(xpath = "//div[contains(@class,'ui-pnotify-text')]")
 	public WebElement reqsuccessMessage;
+	
+	@FindBy(xpath="//tbody")
+	public WebElement actionItem;
 
 	public ViewRequest() {
 
@@ -157,6 +170,16 @@ public class ViewRequest {
 		PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
 		// PCDriver.getDriver().switchTo().frame(reqframe);
 		viewreqtab.click();
+	}
+	
+	public String blankreqcart() throws Exception{
+		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
+		PCDriver.switchToDefaultContent();
+		Thread.sleep(5000);
+		PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
+		String blankcartmsg = blankreqcartmsg.getText();
+		System.out.println(blankcartmsg);
+		return blankcartmsg;
 	}
 
 	public void attachmenttab(String filename) throws Exception {
@@ -251,6 +274,8 @@ public class ViewRequest {
 
 	}
 
+	
+	
 	public void assignacctcode() throws IOException, Exception {
 
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
@@ -263,15 +288,22 @@ public class ViewRequest {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		PCDriver.waitForElementToBeClickable(acctcodeicon);
-		//PCDriver.visibilityOfListLocated(acctcodeicon);
-		//System.out.println(acctcodeicon.size());
-		//for(WebElement acctcodeitemwise : acctcodeicon){
-			//Thread.sleep(10000);
-			//System.out.println("This is: " +acctcodeitemwise);
-			//PCDriver.WaitTillElementIsPresent(acctcodeitemwise);
-			//PCDriver.waitForElementToBeClickable(acctcodeitemwise);
-			acctcodeicon.click();
+		
+		System.out.println(acctcodeicon.size());
+		for(int i=0;i<acctcodeicon.size();i++){
+			
+			WebElement itemacctcodeicon=acctcodeicon.get(i);
+			//Thread.sleep(15000);
+			if(i==0)
+			{
+				
+			}else{
+				Thread.sleep(20000);
+			PCDriver.switchToDefaultContent();
+			PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
+			}
+			PCDriver.waitForElementToBeClickable(itemacctcodeicon);
+			itemacctcodeicon.click();
 			PCDriver.waitForPageLoad();
 			PCDriver.waitForElementToBeClickable(addacctcodebtn);
 			addacctcodebtn.click();
@@ -293,6 +325,7 @@ public class ViewRequest {
 			PCDriver.waitForPageLoad();
 			itemallocationsavebtn.click();
 			
+		}
 		}	
 
 	public void setagencycode(String agency) {
@@ -396,23 +429,28 @@ public class ViewRequest {
 
 	public void submitrequest() throws Exception {
 		System.out.println("Entered Submit Request");
-
 		// PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
 		PCDriver.waitForElementToBeClickable(submitbutton);
 		submitbutton.click();
-
+		Thread.sleep(10000);
+		//PCDriver.getDriver().switchTo().frame("C1ReqMain");
+		//if(itemtypemsgalert.isDisplayed()){
+		PCDriver.WaitTillElementIsPresent(itemtypemsgalert);
+		//if(itemtypemsgalert.isEnabled()){
+			confirmokbtn.click();
+		//}
 	}
 
 	public void confirmationpage() {
 		PCDriver.getDriver().switchTo().defaultContent();
 		try {
 			Thread.sleep(5000);
+			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// PCDriver.switchToFrameBasedOnFrameName("C1ReqMain");
+	
 		PCDriver.waitForElementToBeClickable(submissionconfirmationbtn);
 		submissionconfirmationbtn.click();
 	}
