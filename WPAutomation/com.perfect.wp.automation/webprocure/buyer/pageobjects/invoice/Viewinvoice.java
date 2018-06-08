@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.ClickAction;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+
+import com.gargoylesoftware.htmlunit.javascript.host.Window;
 
 import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadExcelData;
@@ -69,12 +73,30 @@ public class Viewinvoice {
 	@FindBy(xpath="//tr")
 	public WebElement selectaction;
 	
+	@FindBy(xpath="//tr")
+	public WebElement no;
+	
+	@FindBy(xpath="//*[@id=\"invTable\"]/tbody/tr[1]")
+	public WebElement wholeinv;
+
+	@FindBy(xpath= "//*[@id=\"invTable\"]/tbody/tr[1]")
+	public WebElement fetchInv;
+	
 	@FindBy(xpath="//b/u[contains(text(),'Workflow Map')]")
 	public WebElement workflow;
 	
 	@FindBy(xpath="/html/body/table/tbody/tr/td[2]/table[3]/tbody/tr[2]/td[2]/button")
 	public WebElement close;
 
+	@FindBy(xpath="(//img[contains(@title,'Expand')])[1]")
+	public WebElement expandinv;
+	
+	@FindBy(xpath="(//font[contains(@class,'ReportSubHeader')])[1]")
+	public WebElement posumm;
+	
+	@FindBy(xpath="//a[contains(text(),'Group by Orders')]")
+	public WebElement groupbyorder;
+	
 	public void supinv() {
 		try {
             
@@ -100,7 +122,11 @@ public class Viewinvoice {
     	selectaction.findElement(By.xpath(""
     			+ "(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[1]")).click();
     }
-
+    public void searchInv(String str)
+    {
+    	no.findElement(By.xpath("(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[2]")).click();
+    }
+    
 	public void buyInv() {
 		try {
 			PCDriver.waitForPageLoad();
@@ -220,6 +246,62 @@ public class Viewinvoice {
 		}	
 	}
 
+	public void expandInv()
+	{
+		viewall.click();
+		reset.click();
+		PCDriver.waitForPageLoad();
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+				expandinv);
+		expandinv.click();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		}
+		clickaction("Complete");
+		PCDriver.waitForPageLoad();
+		chooseaction("View Order Details");
+		poDetail();
+	}
+	public void poDetail()
+	{
+		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
+		PCDriver.switchToWindow("PopUp");
+		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
+		System.out.println(posumm.getText());
+		Assert.assertTrue(posumm.getText().equals("Purchase Order Summary"));
+		PCDriver.getDriver().close();
+		PCDriver.switchToWindow("");
+	}
+	
+	public void groupby()
+	{
+		clickaction("Complete");
+		PCDriver.waitForPageLoad();
+		chooseaction("View Order Details");
+		poDetail();
+	}
+	public void cancel()
+	{
+		System.out.println(wholeinv.getText());
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		}
+		clickaction("Rejected");
+		chooseaction("Invoice Cancel");
+		System.out.println(fetchInv.getText());
+		PCDriver.waitForPageLoad();
+		
+	}
 	public String supassert1() {
 		System.out.println(Airplan.getText());
 		return Airplan.getText();

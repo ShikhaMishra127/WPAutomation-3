@@ -50,11 +50,13 @@ public class CreateInvoice extends PCDriver {
 			login.clickOnLogin();
 			ExtentReport.logger.log(LogStatus.PASS, "Login Button Clicked");
 			PCDriver.waitForPageLoad();
-			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", home.btnIgnoreOnPopUp);
-			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", home.btnIgnoreOnPopUp);
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+					home.btnIgnoreOnPopUp);
+			((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);",
+					home.btnIgnoreOnPopUp);
 			Thread.sleep(3000);
 			home.clickIgnoreOnPopUp();
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -63,17 +65,19 @@ public class CreateInvoice extends PCDriver {
 
 	@BeforeMethod
 	public void setupBeforeTest() {
-		home.selectTopNavDropDown("Invoice");
-
+		
+		home.selectTopNavDropDown("Invoice");	
 	}
 
 	@AfterMethod
 	public void setupAfterTest() {
+		
 		sol.clickHomeButton();
 	}
-	
+
 	@AfterClass
 	public void tearDown() {
+		
 		ExtentReport.report.endTest(ExtentReport.logger);
 
 		/*
@@ -81,9 +85,9 @@ public class CreateInvoice extends PCDriver {
 		 * ExtentReport.report.flush(); ExtentReport.report.close();
 		 */
 		home.logout();
-
+		
 	}
-
+	/********* Invoice Creation happy flow ***********/
 	@Test(priority = 1)
 	public void invoiceCreation() {
 
@@ -97,7 +101,7 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.poSelect().contains("Invoice Summary"));
 		voice.invoiceSummary();
 	}
-
+	/********* Receive Date must be on or after Issue Date Validation ***********/
 	@Test(priority = 2)
 	public void receiveDateAlert() {
 
@@ -105,14 +109,14 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertEquals(voice.getAlert(), "Receive Date must be on or after the Invoice Issue Date");
 		voice.okbtn.click();
 	}
-
+	/********* Date is Mandatory ***********/
 	@Test(priority = 3)
 	public void eftIndicatorAlert() {
 		voice.mandatoryEFT();
 		Assert.assertTrue(voice.getAlert().contains("Please enter/select data for following required fields:"));
 		voice.okbtn.click();
 	}
-
+	/********* Same invoice number validation ***********/
 	@Test(priority = 4)
 	public void sameInvoiceNo() {
 		voice.updateValue();
@@ -127,7 +131,7 @@ public class CreateInvoice extends PCDriver {
 		}
 		voice.okbtn.click();
 	}
-
+	/********* Attachment Alert ***********/
 	@Test(priority = 5)
 	public void attachementAlert() {
 		voice.invoiceHeader();
@@ -136,8 +140,8 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.poSelect().contains("Invoice Documents"));
 		voice.attachementalert();
 		Assert.assertTrue(voice.attachAlert().contains("Please select a file"));
-	} 
-
+	}
+	/********* Match Invoice Alert ***********/
 	@Test(priority = 6)
 	public void matchinvoice() {
 		voice.invoiceHeader();
@@ -153,7 +157,7 @@ public class CreateInvoice extends PCDriver {
 		Assert.assertTrue(voice.getAlert().contains("There are no receivers available for matching"));
 		voice.ok.click();
 	}
-
+	/********* Data Alert ***********/
 	@Test(priority = 7)
 	public void invoiceNoMissing() {
 		voice.invoiceNo();
@@ -161,7 +165,7 @@ public class CreateInvoice extends PCDriver {
 		PCDriver.waitForElementToBeClickable(voice.okbtn);
 		voice.okbtn.click();
 	}
-
+	/********* PO associated with different supplier Alert message ***********/
 	@Test(priority = 8)
 	public void diffSupplier() {
 		voice.posearch();
@@ -176,7 +180,8 @@ public class CreateInvoice extends PCDriver {
 		voice.closebtn.click();
 		PCDriver.getDriver().switchTo().defaultContent();
 	}
-    @Test(priority = 9)
+	/********* PO associated with different supplier (Change Supplier according to Po) ***********/
+	@Test(priority = 9)
 	public void changeSupplier() {
 		voice.posearch();
 		try {
@@ -197,7 +202,7 @@ public class CreateInvoice extends PCDriver {
 		PCDriver.getDriver().switchTo().defaultContent();
 		Assert.assertTrue(voice.suppname().contains("Pawn Shop"));
 	}
-
+	/********* Invoice quantity should be positive Alert message ***********/
 	@Test(priority = 10)
 	public void enterquantity() {
 		voice.invoiceHeader();
@@ -211,65 +216,65 @@ public class CreateInvoice extends PCDriver {
 		PCDriver.waitForElementToBeClickable(voice.ok);
 		voice.ok.click();
 	}
-
+	/********* Fixed Asset code search ***********/
 	@Test(priority = 11)
 	public void fixSearch() {
 		voice.invoiceHeader();
 		voice.searchfa();
 	}
-
+	/********* Supplier search filter ***********/
 	@Test(priority = 12)
 	public void supsearch() {
 		viewall.supinv();
 		Assert.assertTrue(viewall.supassert1().contains("Air Planning"));
 	}
-
+	/********* Buyer Invoice no. search filter ***********/
 	@Test(priority = 13)
 	public void buyerInv() {
 		viewall.buyInv();
 		Assert.assertTrue(viewall.supassert1().contains("Air Planning"));
 	}
-
+	/********* Invoice no. search filter ***********/
 	@Test(priority = 14)
 	public void invoiceSearch() {
 		viewall.invNo();
 		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
 	}
-
+	/********* Requester search filter ***********/
 	@Test(priority = 15)
 	public void requesterName() {
 		viewall.requester();
 		Assert.assertTrue(voice.poSelect().contains("Invoice List"));
 	}
-
-	@Test(priority = 16)
+	/********* Date search ***********/
+	//@Test(priority = 16)
 	public void dateSearch() {
 		viewall.date();
 		Assert.assertTrue(viewall.supassert2().contains("Pawn Shop"));
 	}
-
+	
 	@Test(priority = 17)
 	public void invStatus() {
 		viewall.selectStatus();
-		//Assert.assertTrue(viewall.supassert2().contains("Andrew's Photography Studio2"));
+		// Assert.assertTrue(viewall.supassert2().contains("Andrew's Photography
+		// Studio2"));
 	}
-	
+	/********* Invoice summary page  ***********/
 	@Test(priority = 18)
-	public void view()
-	{
+	public void view() {
 		viewall.viewInv();
-	    Assert.assertTrue(voice.poSelect().contains("Invoice Summary"));
-		
+		Assert.assertTrue(voice.poSelect().contains("Invoice Summary"));
+
 	}
+	/********* Approval map page ***********/
 	@Test(priority = 19)
-	public void approval()
-	{
+	public void approval() {
 		viewall.approvalMap();
-		
+
 	}
+	/********* Invoice history page ***********/
 	@Test(priority = 20)
-	public void Invhistory() 
-	{
+	public void Invhistory() {
 		viewall.history();
 		PCDriver.waitForPageLoad();
 		try {
@@ -277,7 +282,22 @@ public class CreateInvoice extends PCDriver {
 		} catch (InterruptedException e) {
 		}
 		Assert.assertTrue(voice.poSelect().contains("Invoice History"));
-		
+	}
+	@Test(priority = 21)
+	public void orderdetails()
+	{
+		viewall.expandInv();
 	}
 	
+	@Test(priority=22)
+	public void cancelInv()
+	{
+		viewall.selectStatus();
+		viewall.cancel();
+	}
+	@Test(priority=23)
+	public void poOrderdetails()
+	{
+		viewall.groupby();
+	}
 }
