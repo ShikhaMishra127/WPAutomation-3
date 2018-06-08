@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="7" passed="7">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="1802727" started-at="2018-06-07T12:03:58Z" finished-at="2018-06-07T12:34:01Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="1802727" started-at="2018-06-07T12:03:58Z" finished-at="2018-06-07T12:34:01Z">
+      <class name="buyer.testcases.request.CreateRequest">
+        <test-method status="PASS" signature="setup()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setup" is-config="true" duration-ms="24501" started-at="2018-06-07T17:33:58Z" finished-at="2018-06-07T17:34:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="205" started-at="2018-06-07T17:34:23Z" finished-at="2018-06-07T17:34:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="emptyreqchecoutpage()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="emptyreqchecoutpage" duration-ms="50401" started-at="2018-06-07T17:34:23Z" description="This test will check empty req checkout page" finished-at="2018-06-07T17:35:13Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- emptyreqchecoutpage -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="8042" started-at="2018-06-07T17:35:13Z" finished-at="2018-06-07T17:35:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="221" started-at="2018-06-07T17:35:21Z" finished-at="2018-06-07T17:35:22Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="quantityismandatory()[pri:1, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="quantityismandatory" duration-ms="85110" started-at="2018-06-07T17:35:22Z" description="This test will check quantity field is mandatory" finished-at="2018-06-07T17:36:47Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- quantityismandatory -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="6173" started-at="2018-06-07T17:36:47Z" finished-at="2018-06-07T17:36:53Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="209" started-at="2018-06-07T17:36:53Z" finished-at="2018-06-07T17:36:53Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="unitpriceismandatory()[pri:2, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="unitpriceismandatory" duration-ms="82383" started-at="2018-06-07T17:36:53Z" description="This test will check unit price field is mandatory" finished-at="2018-06-07T17:38:16Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- unitpriceismandatory -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="7238" started-at="2018-06-07T17:38:16Z" finished-at="2018-06-07T17:38:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="229" started-at="2018-06-07T17:38:23Z" finished-at="2018-06-07T17:38:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="commodityismandatory()[pri:3, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="commodityismandatory" duration-ms="71843" started-at="2018-06-07T17:38:23Z" description="This test will commodity code field is mandatory" finished-at="2018-06-07T17:39:35Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- commodityismandatory -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="8896" started-at="2018-06-07T17:39:35Z" finished-at="2018-06-07T17:39:44Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="203" started-at="2018-06-07T17:39:44Z" finished-at="2018-06-07T17:39:44Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="createoffcatreq()[pri:4, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="createoffcatreq" duration-ms="427932" started-at="2018-06-07T17:39:44Z" description="This test will create a Off Catalog Request" finished-at="2018-06-07T17:46:52Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createoffcatreq -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="9964" started-at="2018-06-07T17:46:52Z" finished-at="2018-06-07T17:47:02Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="226" started-at="2018-06-07T17:47:02Z" finished-at="2018-06-07T17:47:02Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="roundtripreq()[pri:5, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="roundtripreq" duration-ms="408147" started-at="2018-06-07T17:47:02Z" description="This test will create a roundtrip Request" finished-at="2018-06-07T17:53:50Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- roundtripreq -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="8972" started-at="2018-06-07T17:53:50Z" finished-at="2018-06-07T17:53:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="setupBeforeTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="setupBeforeTest" is-config="true" duration-ms="193" started-at="2018-06-07T17:53:59Z" finished-at="2018-06-07T17:53:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupBeforeTest -->
+        <test-method status="PASS" signature="multitypereq()[pri:6, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="multitypereq" duration-ms="586890" started-at="2018-06-07T17:53:59Z" description="This test will create multityperreq" finished-at="2018-06-07T18:03:46Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- multitypereq -->
+        <test-method status="PASS" signature="tearDownAfterTest()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDownAfterTest" is-config="true" duration-ms="6857" started-at="2018-06-07T18:03:46Z" finished-at="2018-06-07T18:03:53Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownAfterTest -->
+        <test-method status="PASS" signature="tearDown()[pri:0, instance:buyer.testcases.request.CreateRequest@6f36c2f0]" name="tearDown" is-config="true" duration-ms="7855" started-at="2018-06-07T18:03:53Z" finished-at="2018-06-07T18:04:01Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- buyer.testcases.request.CreateRequest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

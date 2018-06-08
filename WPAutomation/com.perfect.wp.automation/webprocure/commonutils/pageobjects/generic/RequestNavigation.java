@@ -68,7 +68,7 @@ public class RequestNavigation {
 			PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 			// Thread.sleep(5000);
 			// System.out.println(cartFrame.getSize());
-			PCDriver.getDriver().switchTo().frame("C1ReqMain");
+			//PCDriver.getDriver().switchTo().frame("C1ReqMain");
 			// System.out.println(cartFrame.getAttribute("name"));
 		}
 	}

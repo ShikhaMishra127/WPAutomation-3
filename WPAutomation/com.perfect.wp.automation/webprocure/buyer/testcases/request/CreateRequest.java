@@ -72,8 +72,9 @@ public class CreateRequest extends PCDriver {
 		Assert.assertTrue(getTitle().contains("WebProcure: Request And Workflow"));
 	}
 	
-	@Test(priority = 1, enabled = true, description = "This test will check quantity field is mandatory")
+	@Test(priority=1, enabled = true, description = "This test will check quantity field is mandatory")
 	public void quantityismandatory() throws Exception{
+		
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
 		reqnav.typesofreqlist("Off-Catalog Request");
@@ -85,8 +86,9 @@ public class CreateRequest extends PCDriver {
 	
 	}
 	
-	@Test(priority = 2, enabled = true, description = "This test will check unit price field is mandatory")
+	@Test(priority=2, enabled = true, description = "This test will check unit price field is mandatory")
 	public void unitpriceismandatory() throws Exception{
+		
 			reqnav.requestdropdown("Create new");
 			ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
 			reqnav.typesofreqlist("Off-Catalog Request");
@@ -98,8 +100,9 @@ public class CreateRequest extends PCDriver {
 			
 	}
 	
-	@Test(priority = 3, enabled = true, description = "This test will commodity code field is mandatory")
+	@Test(priority=3, enabled = true, description = "This test will commodity code field is mandatory")
 	public void commodityismandatory() throws Exception{
+		
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
 		reqnav.typesofreqlist("Off-Catalog Request");
@@ -114,8 +117,9 @@ public class CreateRequest extends PCDriver {
 		}
 	}
 
-	@Test(priority = 4, enabled = true, description = "This test will create a Off Catalog Request")
+	@Test(priority=4, enabled = true, description = "This test will create a Off Catalog Request")
 	public void createoffcatreq() throws Exception {
+		
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");	
 		reqnav.typesofreqlist("Off-Catalog Request");
@@ -146,8 +150,9 @@ public class CreateRequest extends PCDriver {
 	}
 
 	
-	@Test(priority = 5, enabled=true, description = "This test will create a roundtrip Request")
+	@Test(priority=5, enabled=true, description = "This test will create a roundtrip Request")
 	public void roundtripreq() throws Exception {
+		
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
 		reqnav.typesofreqlist("RoundTrip");
@@ -179,8 +184,9 @@ public class CreateRequest extends PCDriver {
 
 	}
 	
-	@Test(priority = 6, enabled=true, description = "This test will create multityperreq")
+	@Test(priority=6, enabled=true, description = "This test will create multityperreq")
 	public void multitypereq() throws Exception {
+		
 		reqnav.requestdropdown("Create new");
 		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
 		reqnav.typesofreqlist("Off-Catalog Request");
@@ -218,7 +224,15 @@ public class CreateRequest extends PCDriver {
 		ExtentReport.logger.log(LogStatus.PASS, "Request Successfully Submitted");
 
 	}
-
+	@Test(enabled=true, description = "This test will check empty req checkout page")
+	public void emptyreqchecoutpage() throws Exception{
+		reqnav.requestdropdown("Create new");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on Create New");
+		reqnav.typesofreqlist("View Request");
+		ExtentReport.logger.log(LogStatus.PASS, "Clicked on View Request Tab");
+		Assert.assertEquals(viewreq.blankreqcart(), "Request contains no line items.");
+		
+	}
 
 	@AfterMethod
 	public void tearDownAfterTest() {
