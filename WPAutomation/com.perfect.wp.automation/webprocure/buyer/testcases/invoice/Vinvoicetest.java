@@ -24,7 +24,7 @@ import commonutils.pageobjects.utils.PCDriver;
 import commonutils.pageobjects.utils.ReadConfig;
 
 @Listeners(ExtentReport.class)
-public class VendorInvoice {
+public class Vinvoicetest {
 	GenerateInvoice voice = new GenerateInvoice();
 
 	// log4jClass log=new log4jClass();
@@ -44,6 +44,7 @@ public class VendorInvoice {
 			ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
 			ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
 			ExtentReport.logger.log(LogStatus.PASS, "Browser Invoked");
+			login.handleCookie();
 			login.setUsername(ReadConfig.getInstance().getVendorUserName().toString());
 			ExtentReport.logger.log(LogStatus.PASS, "UserName Entered");
 			login.setPassword(ReadConfig.getInstance().getVendorPassword().toString());
@@ -68,16 +69,33 @@ public class VendorInvoice {
 	public void setupAfterTest() {
 		sol.clickvendorHomeButton();
 	}
-	//@Test(priority = 1)
+	@Test(priority = 1, enabled=false)
 	public void invoiceFlow()
 	{
 		PCDriver.waitForPageLoad();
 		vinvoice.venInvHead();
 		vinvoice.findPO();
+		vinvoice.invDetails();
 		vinvoice.attach();
 		vinvoice.summary();
 	}
-	//@Test(priority = 2)
+	@Test(priority = 2, enabled=true)
+	public void invcreation()
+	{
+		PCDriver.waitForPageLoad();
+		vinvoice.venInvHead();
+		vinvoice.findPO();
+		vinvoice.invDetails();
+		vinvoice.attach();
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		}
+		PCDriver.waitForPageLoad();
+		((JavascriptExecutor) PCDriver.getDriver()).executeScript("arguments[0].scrollIntoView(true);",vinvoice.closebtn);
+		vinvoice.closebtn.click();
+	}
+	//@Test(priority = 2, enabled=false)
 	public void finalInvoice()
 	{
 		vinvoice.venInvHead();
@@ -87,21 +105,68 @@ public class VendorInvoice {
 		Assert.assertTrue(vinvoice.position().contains("Yes"));
 		
 	}
-	//@Test(priority = 3)
+	@Test(priority = 3, enabled=true)
 	public void poRequired()
 	{
-		vinvoice.ponumber();
+		vinvoice.venInvHead();
+		vinvoice.nxt.click();
+		PCDriver.waitForPageLoad();
 		System.out.println(voice.getAlert());
-		Assert.assertTrue(voice.getAlert().contains("No PO Item selected"));
+		PCDriver.waitForPageLoad();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
+		Assert.assertTrue(voice.getAlert().contains("No PO Item selected")); 
+		vinvoice.ok.click();
 	}
-	@Test(priority=4)
+	@Test(priority=4, enabled=true)
 	public void enterquantity() {
 		vinvoice.venInvHead();
-		voice.zeroquantity();
+		vinvoice.findPO();
+		//voice.zeroquantity();
+		PCDriver.waitForElementToBeClickable(vinvoice.nxt);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+		}
+		vinvoice.nxt.click();
 		PCDriver.waitForPageLoad();
+		System.out.println(voice.getAlert());
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		}
 		Assert.assertTrue(voice.getAlert().contains("Please enter positive numeric value for Invoice Quantity"));
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
 		PCDriver.waitForElementToBeClickable(voice.ok);
 		voice.ok.click();
+		
+	}
+	@Test(priority=5, enabled=true)
+	public void poAssert()
+	{
+		vinvoice.venInvHead();
+		vinvoice.noitemPO();
+		PCDriver.waitForPageLoad();
+		vinvoice.emptyPO();
+		
+	}
+	@Test(priority=6, enabled=true)
+	public void poSummary()
+	{
+	    vinvoice.invViewHead();
+		vinvoice.activeinv();
+	}
+	
+	@Test(priority=7, enabled=true)
+	public void invEdit()
+	{
+	    vinvoice.invViewHead();
+		vinvoice.editinvoice();
 	}
 
 }
