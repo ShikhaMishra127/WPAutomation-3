@@ -69,7 +69,7 @@ public class Vinvoicetest {
 	public void setupAfterTest() {
 		sol.clickvendorHomeButton();
 	}
-	@Test(priority = 1, enabled=false)
+	@Test(priority = 1, enabled=true)
 	public void invoiceFlow()
 	{
 		PCDriver.waitForPageLoad();
