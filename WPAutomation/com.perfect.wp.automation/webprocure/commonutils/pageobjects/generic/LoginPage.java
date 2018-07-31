@@ -13,7 +13,10 @@ public class LoginPage extends PCDriver {
 	public LoginPage() {
 		PageFactory.initElements(PCDriver.getDriver(), this);
 	}
-
+ 
+	@FindBy(xpath = "//button[contains(@id,'saveCookieSettings')]")
+	public WebElement okcookie;
+	
 	@FindBy(xpath = "//input[contains(@placeholder,'Username')]")
 	// @FindBy(id="visibleUname")
 	public WebElement txtUsername;
@@ -42,6 +45,16 @@ public class LoginPage extends PCDriver {
 		txtUsername.sendKeys(str);
 	}
 
+	public void handleCookie()
+	{
+	try {
+		  PCDriver.waitForElementToBeClickable(okcookie);
+		  okcookie.click();   
+	} catch (Exception e) {
+		System.out.println("Popup not present");
+	}
+	}
+	
 	public void setPassword(String str) {
 		txtPassword.sendKeys(str);
 	}
