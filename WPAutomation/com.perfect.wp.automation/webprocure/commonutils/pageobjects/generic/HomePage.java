@@ -42,7 +42,13 @@ public class HomePage {
 
 	@FindBy(xpath = "//button[contains(text(),'Got It')]")
 	public WebElement btnGotIt;
-
+	
+	@FindBy(xpath = "//button[@id = 'saveCookieSettings']")
+	public WebElement cookiessavesetting;
+	
+	@FindBy(xpath = "(//button[contains(text(),'×')])[1]")
+	public WebElement enhancementsalert;
+			
 	public void clickGotIt() {
 		PCDriver.waitForElementToBeClickable(btnGotIt);
 		btnGotIt.click();
@@ -77,6 +83,18 @@ public class HomePage {
 			clickGotIt();
 		} catch (Exception e) {
 
+		}
+	}
+	
+	public void cookiesalert(){
+		PCDriver.waitForPageLoad();
+		try{
+			PCDriver.waitForPageLoad();
+			//Thread.sleep(10000);
+			PCDriver.waitForElementToBeClickable(cookiessavesetting);
+			cookiessavesetting.click();
+		}catch(Exception e){
+			
 		}
 	}
 

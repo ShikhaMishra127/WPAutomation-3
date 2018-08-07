@@ -93,6 +93,16 @@ public class OffCatalogReqPOM {
 
 	@FindBy(xpath = "//div[@class='bootbox-body']")
 	public WebElement alterboxmessage;
+	
+	@FindBy(xpath = "//div[contains(text(),'One or more contracts are available for the selected commodity. Would you like to select a contract as well?')]")
+	public WebElement contractalert;
+	
+	@FindBy(xpath = "//button[@type='button' and contains(text(),'No')]")
+	public WebElement btnNO;
+	
+	@FindBy(xpath = "//button[@type='button' and contains(text(),'Yes')]")
+	public WebElement btnYES;
+
 
 	@FindBy(xpath = "//button[text()='OK']")
 	public WebElement okalertbtn;
@@ -127,24 +137,25 @@ public class OffCatalogReqPOM {
 		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
 		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
 		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
-		// selectcontractnum();
+		Thread.sleep(3000);
+		if(contractalert.isDisplayed()){
+			btnNO.click();
+		}
+		Thread.sleep(5000);
 		clickAdd();
 	}
 
 	public void donotenterquantity() throws Exception {
 		PCDriver.waitForElementToDisappear(By.id("loadingDiv"));
 		PCDriver.waitForPageLoad();
-
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-
 		PCDriver.getDriver().switchTo().defaultContent();
 		PCDriver.getDriver().switchTo().frame("C1ReqMain");
-
 		checkRetainKeyInfo();
 		selectUnit(ReadExcelData.getInstance("Request").getStringValue("unit"));
 		setEstimatedUnitPrice(ReadExcelData.getInstance("Request").getStringValue("EstimatedUnitPrice"));
@@ -153,6 +164,11 @@ public class OffCatalogReqPOM {
 		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
 		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
 		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
+		Thread.sleep(3000);
+		if(contractalert.isDisplayed()){
+			btnNO.click();
+		}
+		Thread.sleep(5000);
 		clickAdd();
 	}
 
@@ -177,6 +193,11 @@ public class OffCatalogReqPOM {
 		selectsupplier(ReadExcelData.getInstance("Request").getStringValue("suppliername"));
 		selectmanufacturer(ReadExcelData.getInstance("Request").getStringValue("manufacturername"));
 		selectcommoditycode(ReadExcelData.getInstance("Request").getStringValue("commoditycode"));
+		Thread.sleep(3000);
+		if(contractalert.isDisplayed()){
+			btnNO.click();
+		}
+		Thread.sleep(5000);
 		clickAdd();
 	}
 
@@ -321,7 +342,7 @@ public class OffCatalogReqPOM {
 	public void clickAdd() throws Exception {
 		PCDriver.waitForElementToBeClickable(additem);
 		additem.click();
-		Thread.sleep(4000);
+		//Thread.sleep(4000);
 		System.out.println("Clicked on Add");
 	}
 
