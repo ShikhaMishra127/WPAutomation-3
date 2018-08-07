@@ -15,6 +15,7 @@ import java.util.function.Function;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -78,6 +79,7 @@ public class PCDriver implements WebDriver {
 
 			driver = new FirefoxDriver(options);
 			driver.get(ReadConfig.getInstance().getApplicationUrl());
+			//driver.manage().window().setSize(new Dimension(1440, 900));
 			//log.info("Browser Invoked");
 			break;
 
@@ -372,5 +374,18 @@ public class PCDriver implements WebDriver {
 
 		return null;
 	}
-
+	
+	public boolean isAlertPresent() 
+	{ 
+	    try 
+	    { 
+	        driver.switchTo().alert(); 
+	        return true; 
+	    }   // try 
+	    catch (NoAlertPresentException Ex) 
+	    { 
+	        return false; 
+	    }   // catch 
+	} 
+	
 }
