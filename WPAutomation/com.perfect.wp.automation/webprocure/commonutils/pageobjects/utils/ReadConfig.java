@@ -96,5 +96,17 @@ public class ReadConfig {
 	public String getRequestPassword() {
 		return properties.getProperty("request_create_password");
 	}
+
+	public String getOracleConnection() {
+		return properties.getProperty("oracle_connection");
+	}
+
+	public String getOracleUsername() {
+		return properties.getProperty("oracle_username");
+	}
+
+	public String getOraclePassword() {
+		return properties.getProperty("oracle_password");
+	}
 	
 }
