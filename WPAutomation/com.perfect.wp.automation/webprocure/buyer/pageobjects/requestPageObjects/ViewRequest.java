@@ -463,4 +463,8 @@ public class ViewRequest {
 		System.out.println(reqsubmsg);
 		return reqsubmsg;
 	}
+
+	public void clickclosebtn() {
+		// TODO Auto-generated method stub
+	}
 }
