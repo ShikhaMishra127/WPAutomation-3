@@ -21,7 +21,7 @@ http://chromedriver.chromium.org/downloads
 
 Please adhere to the standard directory structure when adding test cases
 
-* Test Cases go in [/src/test/java/testcases](/src/test/java/testcases)
-* Page Objects go in [/src/test/java/pageobjects](/src/test/java/pageobjects)
-* Utilities and helpers go in  [/src/test/java/utilities](/src/test/java/utilities)
-* Data (Usernames, passwords, browser names, etc.) go in [/src/test/resources](/src/test/resources)
+* Test Cases go in [src/test/java/testcases](src/test/java/testcases)
+* Page Objects go in [src/test/java/pageobjects](src/test/java/pageobjects)
+* Utilities and helpers go in  [src/test/java/utilities](src/test/java/utilities)
+* Data (Usernames, passwords, browser names, etc.) go in [src/test/resources](src/test/resources)

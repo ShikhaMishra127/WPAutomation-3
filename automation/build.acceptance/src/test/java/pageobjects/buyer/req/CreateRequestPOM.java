@@ -1,17 +1,20 @@
 package pageobjects.buyer.req;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-//import commonutils.pageobjects.utils.PCDriver;
-// re-implement once PCDriver is revamped
-
-public class CreateRequestPOM {
+import utilities.common.Browser;
 
 
-	public CreateRequestPOM() {
-//		PageFactory.initElements(PCDriver.getDriver(), this);
+public class CreateRequestPOM extends Browser {
+
+
+	public CreateRequestPOM() throws IOException {
+		super();
+		PageFactory.initElements(Browser.getDriver(), this);
 	}
 
 	@FindBy(xpath = "//[@id='idCatalog']")
@@ -33,7 +36,7 @@ public class CreateRequestPOM {
 	public WebElement viewrequest;
 
 	public void clickoffcatlogtab() {
-//		PCDriver.waitForElementToBeClickable(offcatalogreq);
+		Browser.waitForElementToBeClickable(offcatalogreq);
 		offcatalogreq.click();
 	}
 }
