@@ -22,17 +22,20 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class Browser implements WebDriver {
 
 	public static WebDriver driver;
+	
+	public static ResourceLoader environment = new ResourceLoader("env");
 
-	public static String browser = Environment.getValue("browser");
-	public static String baseUrl = Environment.getValue("baseURL");
-	public static String language = Environment.getValue("Language");
-	public static Long defaultWait = Long.valueOf(Environment.getValue("defaultWait"));
-	public static String buyerUsername = Environment.getValue("buyerUsername");
-	public static String buyerPassword = Environment.getValue("buyerPassword");
+	public static String browser = environment.getValue("browser");
+	public static String baseUrl = environment.getValue("baseURL");
+	public static String language = environment.getValue("Language");
+	public static Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
+	public static String buyerUsername = environment.getValue("buyerUsername");
+	public static String buyerPassword = environment.getValue("buyerPassword");
 
 	public Browser() throws IOException {
 
@@ -179,5 +182,38 @@ public class Browser implements WebDriver {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public static void visibilityOfListLocated(List<WebElement> ele) {
+
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfAllElements(ele));
+	}
+	
+	public static void selectInDropDown(WebElement ele, String itemToSet) {
+		waitForElementToBeClickable(ele);
+		ele.clear();
+		ele.sendKeys(itemToSet);		
+	}
+	/*
+	 * 	public void selectsupplier(String suppliername) throws Exception {
+		PCDriver.waitForElementToBeClickable(vendortextbox);
+		vendortextbox.clear();
+		vendortextbox.sendKeys(suppliername);
+		PCDriver.visibilityOfListLocated(vendorlist);
+		Thread.sleep(5000);
+		System.out.println(vendorlist.size());
+		for (WebElement vendor : vendorlist) {
+			if (vendor.getText().contains(ReadExcelData.getInstance("Request").getStringValue("supplierselected"))) {
+				// System.out.println(vendor.getText());
+				Assert.assertEquals(vendor.getText(),
+						ReadExcelData.getInstance("Request").getStringValue("supplierselected"));
+
+				PCDriver.waitForElementToBeClickable(vendor);
+				vendor.click();
+				// System.out.println(vendortextbox.getAttribute("value"));
+			}
+		}
+	}
+	 */
 
 }

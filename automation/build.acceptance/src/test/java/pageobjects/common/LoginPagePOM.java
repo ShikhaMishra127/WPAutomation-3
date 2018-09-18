@@ -1,15 +1,19 @@
 package pageobjects.common;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 
 public class LoginPagePOM extends Browser {
 
+	public ResourceLoader loginpage = new ResourceLoader("pageobjects", Locale.forLanguageTag(this.language)); 
+	
 	public LoginPagePOM() throws IOException {
 		super();
 		PageFactory.initElements(Browser.getDriver(), this);
@@ -18,11 +22,10 @@ public class LoginPagePOM extends Browser {
 	@FindBy(xpath = "//button[contains(@id,'saveCookieSettings')]")
 	public WebElement okcookie;
 
-	//@FindBy(xpath = "//input[contains(@placeholder,'Username or Email')]")
 	@FindBy(id="visibleUname")
 	public WebElement txtUsername;
 
-	@FindBy(xpath = "//input[@placeholder='Password']")
+	@FindBy(id="visiblePass")
 	public WebElement txtPassword;
 
 	@FindBy(id = "login-submit")

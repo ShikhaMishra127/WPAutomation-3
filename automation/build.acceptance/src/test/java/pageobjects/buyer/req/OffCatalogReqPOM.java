@@ -1,6 +1,7 @@
 package pageobjects.buyer.req;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,8 +12,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 
 public class OffCatalogReqPOM {
+	
 	@FindBy(xpath = "//*[@id='page-title']/h3")
 	public WebElement offcatreqpagetitle;
 
@@ -97,19 +100,41 @@ public class OffCatalogReqPOM {
 	@FindBy(xpath = "//button[@type='button' and contains(text(),'Yes')]")
 	public WebElement btnYES;
 
-
 	@FindBy(xpath = "//button[text()='OK']")
 	public WebElement okalertbtn;
+
+	public ResourceLoader reqdata = new ResourceLoader("data/requisition"); 
 
 	public OffCatalogReqPOM() {
 		PageFactory.initElements(Browser.getDriver(), this);
 	}
 
-	public void additemtooffcatreq() throws Exception {
+	public void addItemToOffCatReq() {
 
-		Browser.waitForElementToDisappear(By.id("loadingDiv"));
-		Browser.waitForPageLoad();
+		try {
+			// Navigate to correct portion of new req screen
+			Browser.waitForElementToDisappear(By.id("loadingDiv"));
+			Browser.waitForPageLoad();
+			Browser.getDriver().switchTo().defaultContent();
+			Browser.getDriver().switchTo().frame("C1ReqMain");
 
+			// enter new req data
+			setQuantity(reqdata.getValue("Quantity"));
+			setEstimatedUnitPrice(reqdata.getValue("UnitPrice"));
+			setSupplierPartNo(reqdata.getValue("SupplierPartNo"));
+			setSupplierName(reqdata.getValue("SupplierName"));
+			setManufacturer(reqdata.getValue("Manufacturer"));
+			setCommodityCode(reqdata.getValue("CommodityCode"));
+
+			clickAdd();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+/*
+		checkRetainKeyInfo();
+ */
 	}
 	
 
@@ -135,7 +160,6 @@ public class OffCatalogReqPOM {
 		
 		Browser.WaitTillElementIsPresent(retainkeyinfo);
 		if (retainkeyinfo.isSelected()) {
-			System.out.println("Checkox is now checked");
 		} else {
 			retainkeyinfo.click();
 		}
@@ -147,16 +171,21 @@ public class OffCatalogReqPOM {
 		Assert.assertFalse(orderquantity.getAttribute("value").isEmpty());
 	}
 
-	public void selectUnit(String selectedunit) throws InterruptedException {
+	public void setUnitPrice(String selectedunit) {
 		// new Select(dropdownunit).selectByValue("EA");
-		Browser.waitForElementToBeClickable(dropdownunit);
-		dropdownunit.click();
-		Browser.waitForElementToBeClickable(unittextbox);
-		unittextbox.sendKeys(selectedunit);
-		for (WebElement unit : unitlist) {
-			if (unit.getText().contentEquals(selectedunit)) {
-				unit.click();
+	
+		try {
+			Browser.waitForElementToBeClickable(dropdownunit);
+			dropdownunit.click();
+			Browser.waitForElementToBeClickable(unittextbox);
+			unittextbox.sendKeys(selectedunit);
+			for (WebElement unit : unitlist) {
+				if (unit.getText().contentEquals(selectedunit)) {
+					unit.click();
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -170,35 +199,47 @@ public class OffCatalogReqPOM {
 		new Select(dropdowncurrency).selectByValue("USD");
 	}
 
-	public void setsupplierpartno(String strsupplierpartno) {
+	public void setSupplierPartNo(String strsupplierpartno) {
 		Browser.waitForElementToBeClickable(supplierpartno);
 		supplierpartno.sendKeys(strsupplierpartno);
 	}
 
-	public void selectsupplier(String suppliername) throws Exception {
+	public void setSupplierName(String suppliername) throws Exception {
 		Browser.waitForElementToBeClickable(vendortextbox);
+		vendortextbox.clear();
+		vendortextbox.sendKeys(suppliername);
+		Browser.visibilityOfListLocated(vendorlist);
 	
 	}
 
-	public void selectmanufacturer(String manufacturername) throws Exception {
+	public void setManufacturer(String manufacturername) throws Exception {
 		Browser.waitForElementToBeClickable(mfrname);
-
+		mfrname.clear();
+		mfrname.sendKeys(manufacturername);
 	}
 
-	public void selectcommoditycode(String commoditycode) throws Exception {
+	public void setCommodityCode(String commoditycode) throws Exception {
 		System.out.println("commodity code:" + commoditycode);
-
+		
+		Browser.waitForElementToBeClickable(commoditybox);
+		commoditybox.sendKeys(commoditycode);
 	}
 
 	public void clickAdd() throws Exception {
+		
+		// skip contract pop-up if shown
+		if(contractalert.isDisplayed()) {
+			btnNO.click();
+		}
+		
 		Browser.waitForElementToBeClickable(additem);
 		additem.click();
-		System.out.println("Clicked on Add");
+		System.out.println("Clicked on Add button");
 	}
 
 	public String bootAlertbox() throws Exception {
 
-		Thread.sleep(2000);
+		Thread.sleep(Browser.defaultWait);
 		String alerttitle = alertboxtitle.getText();
 		System.out.println(alerttitle);
 
@@ -206,7 +247,7 @@ public class OffCatalogReqPOM {
 	}
 
 	public String bootalertmessage() throws Exception {
-		Thread.sleep(2000);
+		Thread.sleep(Browser.defaultWait);
 		String alertmessage = alterboxmessage.getText();
 		System.out.println(alertmessage);
 
@@ -219,6 +260,15 @@ public class OffCatalogReqPOM {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void movetoviewreq() throws Exception {
+		Thread.sleep((Browser.defaultWait)*2);
+		Browser.getDriver().switchTo().defaultContent();
+		Thread.sleep(Browser.defaultWait);
+		//Browser.switchToFrameBasedOnFrameName("C1ReqMain");
+		// PCDriver.getDriver().switchTo().frame(reqframe);
+		//viewreqtab.click();
 	}
 
 }
