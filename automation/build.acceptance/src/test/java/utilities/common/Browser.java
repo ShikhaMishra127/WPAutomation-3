@@ -194,26 +194,14 @@ public class Browser implements WebDriver {
 		ele.clear();
 		ele.sendKeys(itemToSet);		
 	}
-	/*
-	 * 	public void selectsupplier(String suppliername) throws Exception {
-		PCDriver.waitForElementToBeClickable(vendortextbox);
-		vendortextbox.clear();
-		vendortextbox.sendKeys(suppliername);
-		PCDriver.visibilityOfListLocated(vendorlist);
-		Thread.sleep(5000);
-		System.out.println(vendorlist.size());
-		for (WebElement vendor : vendorlist) {
-			if (vendor.getText().contains(ReadExcelData.getInstance("Request").getStringValue("supplierselected"))) {
-				// System.out.println(vendor.getText());
-				Assert.assertEquals(vendor.getText(),
-						ReadExcelData.getInstance("Request").getStringValue("supplierselected"));
 
-				PCDriver.waitForElementToBeClickable(vendor);
-				vendor.click();
-				// System.out.println(vendortextbox.getAttribute("value"));
-			}
-		}
+
+	public static void switchToFrameBasedOnFrameName(String frameName) {
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameName));
 	}
-	 */
 
+	public static void switchToDefaultContent() {
+		Browser.getDriver().switchTo().defaultContent();
+	}
 }

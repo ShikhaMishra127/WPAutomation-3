@@ -11,8 +11,6 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
 public class LoginPagePOM extends Browser {
-
-	public ResourceLoader loginpage = new ResourceLoader("pageobjects", Locale.forLanguageTag(this.language)); 
 	
 	public LoginPagePOM() throws IOException {
 		super();
@@ -63,7 +61,6 @@ public class LoginPagePOM extends Browser {
 
 	public void clickOnLogin() {
 		btnLogin.click();
-
 	}
 
 	public void clickOnRegisterLink() {

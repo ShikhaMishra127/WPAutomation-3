@@ -131,10 +131,6 @@ public class OffCatalogReqPOM {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-/*
-		checkRetainKeyInfo();
- */
 	}
 	
 
@@ -222,15 +218,35 @@ public class OffCatalogReqPOM {
 		System.out.println("commodity code:" + commoditycode);
 		
 		Browser.waitForElementToBeClickable(commoditybox);
+		commoditybox.clear();
 		commoditybox.sendKeys(commoditycode);
-	}
+		Browser.visibilityOfListLocated(commoditylist);
+		Thread.sleep(Browser.defaultWait);
+		
+		System.out.println("Size of list:" +commoditylist.size());
+
+		for (WebElement commodity : commoditylist) {
+			System.out.println(commodity.getText());
+
+			Browser.waitForElementToBeClickable(commodity);
+			// ((JavascriptExecutor) Browser.getDriver()).executeScript("window.confirm =
+			// function(msg){return false;};");
+			commodity.click();
+		}
+	}	
+
+	
+	/*
+	 * 
+	 */
 
 	public void clickAdd() throws Exception {
 		
-		// skip contract pop-up if shown
+		/* skip contract pop-up if shown
 		if(contractalert.isDisplayed()) {
 			btnNO.click();
 		}
+		*/
 		
 		Browser.waitForElementToBeClickable(additem);
 		additem.click();
@@ -262,13 +278,35 @@ public class OffCatalogReqPOM {
 		}
 	}
 	
-	public void movetoviewreq() throws Exception {
-		Thread.sleep((Browser.defaultWait)*2);
-		Browser.getDriver().switchTo().defaultContent();
+	public void movetoviewreq() {
+		try {
+			Thread.sleep((Browser.defaultWait)*2);
+			Browser.getDriver().switchTo().defaultContent();
+			Thread.sleep(Browser.defaultWait);
+			Browser.switchToFrameBasedOnFrameName("C1ReqMain");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setsupplier(String suppliername) throws Exception {
+		Browser.waitForElementToBeClickable(vendortextbox);
+		vendortextbox.clear();
+		vendortextbox.sendKeys(suppliername);
+		Browser.visibilityOfListLocated(vendorlist);
 		Thread.sleep(Browser.defaultWait);
-		//Browser.switchToFrameBasedOnFrameName("C1ReqMain");
-		// PCDriver.getDriver().switchTo().frame(reqframe);
-		//viewreqtab.click();
+		System.out.println(vendorlist.size());
+		for (WebElement vendor : vendorlist) {
+			if (vendor.getText().contains(suppliername)) {
+				System.out.println(vendor.getText());
+				Assert.assertEquals(vendor.getText(), suppliername);
+
+				Browser.waitForElementToBeClickable(vendor);
+				vendor.click();
+				System.out.println(vendortextbox.getAttribute("value"));
+			}
+		}
 	}
 
 }

@@ -48,7 +48,7 @@ public class CreateRequest {
 		
 		navbar.typesofreqlist("Off-Catalog Request");
 		request.addItemToOffCatReq();
-		//request.moveToViewReq();
+		request.movetoviewreq();
 	}
 
 }
