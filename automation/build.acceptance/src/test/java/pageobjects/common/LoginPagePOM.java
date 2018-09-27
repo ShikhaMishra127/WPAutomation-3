@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import utilities.common.Browser;
+import utilities.common.OracleQuery;
 import utilities.common.ResourceLoader;
 
 public class LoginPagePOM extends Browser {
@@ -15,6 +16,21 @@ public class LoginPagePOM extends Browser {
 	public LoginPagePOM() throws IOException {
 		super();
 		PageFactory.initElements(Browser.getDriver(), this);
+		normalizePassword(Browser.buyerUsername);
+	}
+
+	private void normalizePassword(String username) {
+
+		OracleQuery db = new OracleQuery();
+		String query =	"UPDATE ORG_PERSON " +
+						"SET USERPWD = 'xa4BWbmm+g1ZeMFQKHL0jxFciXfDJ+9je30oN1QOiI3D0roJWe/Koq/yb7XB2UwPqBEV3fQlO1tdfTCE+QLDfyOYCPVMk+wz5N+k1TyhmEZZHyqQlmc4F3IOkxRJ/PH9', " +
+						"PWD_CHANGE_DATE = to_date('123120', 'MMDDYY'), " +
+						"USERPWD_SALT = 'd+SMnnlTS/abHFVjioec4Q==', " +
+						"ISLOCKEDOUT = 0 " +
+						"WHERE USERNAME = '" + username +"'";
+		db.Connect();
+		db.executeUpdate(query);
+		db.Close();
 	}
 
 	@FindBy(xpath = "//button[contains(@id,'saveCookieSettings')]")
@@ -66,6 +82,14 @@ public class LoginPagePOM extends Browser {
 	public void clickOnRegisterLink() {
 		Browser.waitForElementToBeClickable(lnkRegister);
 		lnkRegister.click();
+	}
+
+	public void loginAsBuyer() {
+		// before starting our tests, first log into the system as a buyer
+		//normalizePassword();
+		setUsername(Browser.buyerUsername);
+		setPassword(Browser.buyerPassword);
+		clickOnLogin();		
 	}
 
 }

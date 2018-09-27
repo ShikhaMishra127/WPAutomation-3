@@ -103,7 +103,7 @@ public class OffCatalogReqPOM {
 	@FindBy(xpath = "//button[text()='OK']")
 	public WebElement okalertbtn;
 
-	public ResourceLoader reqdata = new ResourceLoader("data/requisition"); 
+	public ResourceLoader reqdata = new ResourceLoader("data/requisition", Browser.language); 
 
 	public OffCatalogReqPOM() {
 		PageFactory.initElements(Browser.getDriver(), this);
@@ -290,7 +290,7 @@ public class OffCatalogReqPOM {
 		}
 	}
 	
-	public void setsupplier(String suppliername) throws Exception {
+	public void selectsupplier(String suppliername) throws Exception {
 		Browser.waitForElementToBeClickable(vendortextbox);
 		vendortextbox.clear();
 		vendortextbox.sendKeys(suppliername);

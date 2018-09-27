@@ -12,8 +12,9 @@ public class ResourceLoader extends ResourceBundle {
 		bundle = ResourceBundle.getBundle(resourcename);
 	}
 	
-	public ResourceLoader(String resourcename, Locale locale) {
-		bundle = ResourceBundle.getBundle(resourcename, locale);
+	public ResourceLoader(String resourcename, String locale) {
+		Locale loc = Locale.forLanguageTag(locale);
+		bundle = ResourceBundle.getBundle(resourcename, loc);
 	}
 	
 	public String getValue(String key) {

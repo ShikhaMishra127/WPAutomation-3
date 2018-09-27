@@ -27,10 +27,7 @@ public class CreateRequest {
 
 	@BeforeClass
 	public void setup() {
-		// before starting our tests, first log into the system as a buyer
-		login.setUsername(Browser.buyerUsername);
-		login.setPassword(Browser.buyerPassword);
-		login.clickOnLogin();
+		login.loginAsBuyer();
 	}
 	
 	@AfterClass
