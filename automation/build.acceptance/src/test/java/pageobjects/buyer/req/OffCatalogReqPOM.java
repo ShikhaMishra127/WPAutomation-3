@@ -1,312 +1,257 @@
 package pageobjects.buyer.req;
 
-import java.util.List;
-import java.util.Locale;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
+import java.util.List;
+
 public class OffCatalogReqPOM {
-	
-	@FindBy(xpath = "//*[@id='page-title']/h3")
-	public WebElement offcatreqpagetitle;
 
-	@FindBy(xpath = "//button[text()='Add']")
-	public WebElement additem;
+    @FindBy(xpath = "//*[@id='page-title']/h3")
+    public WebElement offcatreqpagetitle;
 
-	@FindBy(xpath = "//button[test()='Reset']")
-	public WebElement reset;
+    @FindBy(xpath = "//button[text()='Add']")
+    public WebElement additem;
 
-	@FindBy(xpath = "//input[@name = 'chkAddToFavorites']")
-	public WebElement addtofavorites;
+    @FindBy(xpath = "//button[test()='Reset']")
+    public WebElement reset;
 
-	@FindBy(xpath = "//input[@name = 'chkRetainKeyInfo' and not(contains(@type,'hidden'))]")
-	public WebElement retainkeyinfo;
+    @FindBy(xpath = "//input[@name = 'chkAddToFavorites']")
+    public WebElement addtofavorites;
 
-	@FindBy(xpath = "//*[@id='OrderQty']")
-	public WebElement orderquantity;
+    @FindBy(xpath = "//input[@name = 'chkRetainKeyInfo' and not(contains(@type,'hidden'))]")
+    public WebElement retainkeyinfo;
 
-	@FindBy(xpath = "//*[@id='select2-selUOMID-container']")
-	public WebElement dropdownunit;
+    @FindBy(xpath = "//*[@id='OrderQty']")
+    public WebElement orderquantity;
 
-	@FindBy(xpath = "//input[@class='select2-search__field']")
-	public WebElement unittextbox;
+    @FindBy(xpath = "//*[@id='select2-selUOMID-container']")
+    public WebElement dropdownunit;
 
-	@FindBy(xpath = "//ul[@class='select2-results__options']")
-	public List<WebElement> unitlist;
+    @FindBy(xpath = "//input[@class='select2-search__field']")
+    public WebElement unittextbox;
 
-	@FindBy(xpath = "//*[@id='UnitPrice']")
-	public WebElement unitprice;
+    @FindBy(xpath = "//ul[@class='select2-results__options']")
+    public List<WebElement> unitlist;
 
-	@FindBy(xpath = "//*[@id='selCurrencyCode']")
-	public WebElement dropdowncurrency;
+    @FindBy(xpath = "//*[@id='UnitPrice']")
+    public WebElement unitprice;
 
-	@FindBy(xpath = "//*[@id='SupplierPartNum']")
-	public WebElement supplierpartno;
+    @FindBy(xpath = "//*[@id='selCurrencyCode']")
+    public WebElement dropdowncurrency;
 
-	@FindBy(xpath = "//*[@id='input_SupplierName']")
-	public WebElement selectsupplier;
+    @FindBy(xpath = "//*[@id='SupplierPartNum']")
+    public WebElement supplierpartno;
 
-	@FindBy(xpath = "//*[@id='input_SupplierName']")
-	public WebElement vendortextbox;
+    @FindBy(xpath = "//*[@id='input_SupplierName']")
+    public WebElement selectsupplier;
 
-	@FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
-	public List<WebElement> vendorlist;
+    @FindBy(xpath = "//*[@id='input_SupplierName']")
+    public WebElement vendortextbox;
 
-	@FindBy(xpath = "//*[@id='input_MfrName']")
-	public WebElement mfrname;
+    @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
+    public List<WebElement> vendorlist;
 
-	@FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
-	public List<WebElement> mfrlist;
+    @FindBy(xpath = "//*[@id='input_MfrName']")
+    public WebElement mfrname;
 
-	@FindBy(xpath = "//*[@id='dateNeedBy']")
-	public WebElement dateneedby;
+    @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
+    public List<WebElement> mfrlist;
 
-	@FindBy(xpath = "//*[@id='input_catcode']")
-	public WebElement commoditybox;
+    @FindBy(xpath = "//*[@id='dateNeedBy']")
+    public WebElement dateneedby;
 
-	@FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
-	public List<WebElement> commoditylist;
+    @FindBy(xpath = "//*[@id='input_catcode']")
+    public WebElement commoditybox;
 
-	@FindBy(xpath = "//*[@id='input_contractNum']")
-	public WebElement selectcontract;
+    @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
+    public List<WebElement> commoditylist;
 
-	@FindBy(xpath = "//td/iframe[@name='C1ReqMain']")
-	public WebElement cartFrame;
+    @FindBy(xpath = "//*[@id='input_contractNum']")
+    public WebElement selectcontract;
 
-	@FindBy(xpath = "//*[@class='modal-dialog']")
-	public WebElement alertbox;
+    @FindBy(xpath = "//td/iframe[@name='C1ReqMain']")
+    public WebElement cartFrame;
 
-	@FindBy(xpath = "//*[@class='modal-title']")
-	public WebElement alertboxtitle;
+    @FindBy(xpath = "//*[@class='modal-dialog']")
+    public WebElement alertbox;
 
-	@FindBy(xpath = "//div[@class='bootbox-body']")
-	public WebElement alterboxmessage;
-	
-	@FindBy(xpath = "//div[contains(text(),'One or more contracts are available for the selected commodity. Would you like to select a contract as well?')]")
-	public WebElement contractalert;
-	
-	@FindBy(xpath = "//button[@type='button' and contains(text(),'No')]")
-	public WebElement btnNO;
-	
-	@FindBy(xpath = "//button[@type='button' and contains(text(),'Yes')]")
-	public WebElement btnYES;
+    @FindBy(xpath = "//*[@class='modal-title']")
+    public WebElement alertboxtitle;
 
-	@FindBy(xpath = "//button[text()='OK']")
-	public WebElement okalertbtn;
+    @FindBy(xpath = "//div[@class='bootbox-body']")
+    public WebElement alterboxmessage;
 
-	public ResourceLoader reqdata = new ResourceLoader("data/requisition", Browser.language); 
+    //	@FindBy(xpath = "//div[contains(text(),'One or more contracts are available for the selected commodity. Would you like to select a contract as well?')]")
+    @FindBy(xpath = "//body[contains(@onload,'DisplayMsg()')]")
+    public WebElement contractalert;
 
-	public OffCatalogReqPOM() {
-		PageFactory.initElements(Browser.getDriver(), this);
-	}
+    @FindBy(xpath = "//button[@type='button' and contains(text(),'No')]")
+    public WebElement btnNO;
 
-	public void addItemToOffCatReq() {
+    @FindBy(xpath = "//button[@type='button' and contains(text(),'Yes')]")
+    public WebElement btnYES;
 
-		try {
-			// Navigate to correct portion of new req screen
-			Browser.waitForElementToDisappear(By.id("loadingDiv"));
-			Browser.waitForPageLoad();
-			Browser.getDriver().switchTo().defaultContent();
-			Browser.getDriver().switchTo().frame("C1ReqMain");
+    @FindBy(xpath = "//button[text()='OK']")
+    public WebElement okalertbtn;
 
-			// enter new req data
-			setQuantity(reqdata.getValue("Quantity"));
-			setEstimatedUnitPrice(reqdata.getValue("UnitPrice"));
-			setSupplierPartNo(reqdata.getValue("SupplierPartNo"));
-			setSupplierName(reqdata.getValue("SupplierName"));
-			setManufacturer(reqdata.getValue("Manufacturer"));
-			setCommodityCode(reqdata.getValue("CommodityCode"));
+    public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
-			clickAdd();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+    public OffCatalogReqPOM() {
+        PageFactory.initElements(Browser.getDriver(), this);
+    }
 
-	public void donotenterquantity() throws Exception {
-		Browser.waitForElementToDisappear(By.id("loadingDiv"));
-		Browser.waitForPageLoad();
+    public void addItemToOffCatReq() {
 
-	}
+        try {
+            // Navigate to correct portion of new req screen
+            Browser.waitForElementToDisappear(By.id("loadingDiv"));
+            Browser.waitForPageLoad();
+            Browser.getDriver().switchTo().defaultContent();
+            Browser.getDriver().switchTo().frame("C1ReqMain");
+            checkRetainKeyInfo();
 
-	public void donotenterunitprice() throws Exception {
-		Browser.waitForElementToDisappear(By.id("loadingDiv"));
-		Browser.waitForPageLoad();
+            // enter new req data
+            setQuantity(reqdata.getValue("Quantity"));
+            setEstimatedUnitPrice(reqdata.getValue("UnitPrice"));
+            setSupplierPartNo(reqdata.getValue("SupplierPartNo"));
+            setSupplierName(reqdata.getValue("SupplierName"));
+            setManufacturer(reqdata.getValue("Manufacturer"));
+            setCommodityCode(reqdata.getValue("SearchCommodityCode"), reqdata.getValue("CommodityCode"));
 
-	}
+            //skip contract alert if appears
+            if (contractalert.getAttribute("class").contains("modal-open")) {
+                btnNO.click();
+            }
+            clickAdd();
 
-	public void donotentercommoditycode() throws InterruptedException, Exception {
-		Browser.waitForElementToDisappear(By.id("loadingDiv"));
-		Browser.waitForPageLoad();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
-	public void checkRetainKeyInfo() {
-		
-		Browser.WaitTillElementIsPresent(retainkeyinfo);
-		if (retainkeyinfo.isSelected()) {
-		} else {
-			retainkeyinfo.click();
-		}
-	}
 
-	public void setQuantity(String strquantity) {
-		Browser.waitForElementToBeClickable(orderquantity);
-		orderquantity.sendKeys(strquantity);
-		Assert.assertFalse(orderquantity.getAttribute("value").isEmpty());
-	}
+    public void checkRetainKeyInfo() {
+        Browser.WaitTillElementIsPresent(retainkeyinfo);
+        if (retainkeyinfo.isSelected()) {
+            System.out.println("Retain Key Info checkbox is already checked");
+        } else {
+            retainkeyinfo.click();
+        }
+    }
 
-	public void setUnitPrice(String selectedunit) {
-		// new Select(dropdownunit).selectByValue("EA");
-	
-		try {
-			Browser.waitForElementToBeClickable(dropdownunit);
-			dropdownunit.click();
-			Browser.waitForElementToBeClickable(unittextbox);
-			unittextbox.sendKeys(selectedunit);
-			for (WebElement unit : unitlist) {
-				if (unit.getText().contentEquals(selectedunit)) {
-					unit.click();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    public void setQuantity(String strquantity) {
+        Browser.waitForElementToBeClickable(orderquantity);
+        orderquantity.sendKeys(strquantity);
+        Assert.assertFalse(orderquantity.getAttribute("value").isEmpty());
+    }
 
-	public void setEstimatedUnitPrice(String strunitprice) {
-		Browser.waitForElementToBeClickable(unitprice);
-		unitprice.sendKeys(strunitprice);
-		Assert.assertFalse(unitprice.getAttribute("value").isEmpty());
-	}
+    public void setUnitPrice(String selectedunit) {
+        try {
+            Browser.waitForElementToBeClickable(dropdownunit);
+            dropdownunit.click();
+            Browser.waitForElementToBeClickable(unittextbox);
+            unittextbox.sendKeys(selectedunit);
+            for (WebElement unit : unitlist) {
+                if (unit.getText().contentEquals(selectedunit)) {
+                    unit.click();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void selectcurrencycode() {
-		new Select(dropdowncurrency).selectByValue("USD");
-	}
+    public void setEstimatedUnitPrice(String strunitprice) {
+        Browser.waitForElementToBeClickable(unitprice);
+        unitprice.sendKeys(strunitprice);
+        Assert.assertFalse(unitprice.getAttribute("value").isEmpty());
+    }
 
-	public void setSupplierPartNo(String strsupplierpartno) {
-		Browser.waitForElementToBeClickable(supplierpartno);
-		supplierpartno.sendKeys(strsupplierpartno);
-	}
+    public void selectcurrencycode() {
+        new Select(dropdowncurrency).selectByValue("USD");
+    }
 
-	public void setSupplierName(String suppliername) throws Exception {
-		Browser.waitForElementToBeClickable(vendortextbox);
-		vendortextbox.clear();
-		vendortextbox.sendKeys(suppliername);
-		Browser.visibilityOfListLocated(vendorlist);
-	
-	}
+    public void setSupplierPartNo(String strsupplierpartno) {
+        Browser.waitForElementToBeClickable(supplierpartno);
+        supplierpartno.sendKeys(strsupplierpartno);
+    }
 
-	public void setManufacturer(String manufacturername) throws Exception {
-		Browser.waitForElementToBeClickable(mfrname);
-		mfrname.clear();
-		mfrname.sendKeys(manufacturername);
-	}
+    public void setSupplierName(String suppliername) throws Exception {
+        Browser.waitForElementToBeClickable(vendortextbox);
+        vendortextbox.clear();
+        vendortextbox.sendKeys("**");
+        Browser.visibilityOfListLocated(vendorlist);
+        for (WebElement vendor : vendorlist) {
+            if (vendor.getText().contains(suppliername)) {
+                Assert.assertEquals(vendor.getText(), suppliername);
+                Browser.waitForElementToBeClickable(vendor);
+                vendor.click();
+            }
+        }
 
-	public void setCommodityCode(String commoditycode) throws Exception {
-		System.out.println("commodity code:" + commoditycode);
-		
-		Browser.waitForElementToBeClickable(commoditybox);
-		commoditybox.clear();
-		commoditybox.sendKeys(commoditycode);
-		Browser.visibilityOfListLocated(commoditylist);
-		Thread.sleep(Browser.defaultWait);
-		
-		System.out.println("Size of list:" +commoditylist.size());
+    }
 
-		for (WebElement commodity : commoditylist) {
-			System.out.println(commodity.getText());
+    public void setManufacturer(String manufacturername) throws Exception {
+        Browser.waitForElementToBeClickable(mfrname);
+        mfrname.clear();
+        mfrname.sendKeys(manufacturername);
+    }
 
-			Browser.waitForElementToBeClickable(commodity);
-			// ((JavascriptExecutor) Browser.getDriver()).executeScript("window.confirm =
-			// function(msg){return false;};");
-			commodity.click();
-		}
-	}	
+    public void setCommodityCode(String searchcommoditycode, String commoditycode) throws Exception {
+        Browser.waitForElementToBeClickable(commoditybox);
+        commoditybox.sendKeys(searchcommoditycode);
+        Browser.visibilityOfListLocated(commoditylist);
 
-	
-	/*
-	 * 
-	 */
+        for (WebElement commodity : commoditylist) {
 
-	public void clickAdd() throws Exception {
-		
-		/* skip contract pop-up if shown
-		if(contractalert.isDisplayed()) {
-			btnNO.click();
-		}
-		*/
-		
-		Browser.waitForElementToBeClickable(additem);
-		additem.click();
-		System.out.println("Clicked on Add button");
-	}
+            if (commodity.getText().contains(commoditycode)) {
 
-	public String bootAlertbox() throws Exception {
+                Assert.assertEquals(commodity.getText(), commoditycode);
+                Browser.waitForElementToBeClickable(commodity);
+                //((JavascriptExecutor) Browser.getDriver()).executeScript("window.confirm = function(msg){return false;};");
+                commodity.click();
+            }
+        }
+    }
 
-		Thread.sleep(Browser.defaultWait);
-		String alerttitle = alertboxtitle.getText();
-		System.out.println(alerttitle);
+    public void clickAdd() throws Exception {
 
-		return alerttitle;
-	}
+        Browser.waitForElementToBeClickable(additem);
+        additem.click();
+       // System.out.println("Clicked on Add Button");
+    }
 
-	public String bootalertmessage() throws Exception {
-		Thread.sleep(Browser.defaultWait);
-		String alertmessage = alterboxmessage.getText();
-		System.out.println(alertmessage);
 
-		return alertmessage;
-	}
+    public String bootAlertbox() throws Exception {
 
-	public void acceptalertbox() {
-		try {
-			okalertbtn.click();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void movetoviewreq() {
-		try {
-			Thread.sleep((Browser.defaultWait)*2);
-			Browser.getDriver().switchTo().defaultContent();
-			Thread.sleep(Browser.defaultWait);
-			Browser.switchToFrameBasedOnFrameName("C1ReqMain");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void selectsupplier(String suppliername) throws Exception {
-		Browser.waitForElementToBeClickable(vendortextbox);
-		vendortextbox.clear();
-		vendortextbox.sendKeys(suppliername);
-		Browser.visibilityOfListLocated(vendorlist);
-		Thread.sleep(Browser.defaultWait);
-		System.out.println(vendorlist.size());
-		for (WebElement vendor : vendorlist) {
-			if (vendor.getText().contains(suppliername)) {
-				System.out.println(vendor.getText());
-				Assert.assertEquals(vendor.getText(), suppliername);
+        Thread.sleep(Browser.defaultWait);
+        String alerttitle = alertboxtitle.getText();
+        System.out.println(alerttitle);
+        return alerttitle;
+    }
 
-				Browser.waitForElementToBeClickable(vendor);
-				vendor.click();
-				System.out.println(vendortextbox.getAttribute("value"));
-			}
-		}
-	}
+    public String bootalertmessage() throws Exception {
+
+        Thread.sleep(Browser.defaultWait);
+        String alertmessage = alterboxmessage.getText();
+        System.out.println(alertmessage);
+        return alertmessage;
+    }
+
+    public void acceptalertbox() {
+        try {
+            okalertbtn.click();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

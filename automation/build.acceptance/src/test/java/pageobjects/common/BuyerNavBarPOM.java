@@ -49,7 +49,7 @@ public class BuyerNavBarPOM extends Browser {
 	@FindBy(xpath = "//button[@id = 'saveCookieSettings']")
 	public WebElement cookiessavesetting;
 	
-	@FindBy(xpath = "(//button[contains(text(),'×')])[1]")
+	@FindBy(xpath = "(//button[contains(text(),'ï¿½')])[1]")
 	public WebElement enhancementsalert;
 	
 	@FindBy(xpath = "//a[@title='Request']")
@@ -103,7 +103,6 @@ public class BuyerNavBarPOM extends Browser {
 		Browser.waitForPageLoad();
 		try{
 			Browser.waitForPageLoad();
-			//Thread.sleep(10000);
 			Browser.waitForElementToBeClickable(cookiessavesetting);
 			cookiessavesetting.click();
 		}catch(Exception e){
@@ -161,7 +160,7 @@ public class BuyerNavBarPOM extends Browser {
 			Browser.waitForPageLoad();
 
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(8000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
