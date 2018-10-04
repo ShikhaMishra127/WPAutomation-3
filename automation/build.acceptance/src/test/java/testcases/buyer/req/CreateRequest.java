@@ -1,5 +1,6 @@
 package testcases.buyer.req;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -27,15 +28,12 @@ public class CreateRequest {
     @BeforeClass
     public void setup() {
         // before starting our tests, first log into the system as a buyer
-        login.handleCookie();
-        login.setUsername(Browser.buyerUsername);
-        login.setPassword(Browser.buyerPassword);
-        login.clickOnLogin();
+        login.loginAsBuyer();
     }
 
     @AfterClass
     public void teardown() {
-        //navbar.logout();
+        navbar.logout();
         login.close();
     }
 

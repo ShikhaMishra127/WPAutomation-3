@@ -89,6 +89,7 @@ public class LoginPagePOM extends Browser {
 	public void loginAsBuyer() {
 		// before starting our tests, first log into the system as a buyer
 		//normalizePassword();
+        handleCookie();
 		setUsername(Browser.buyerUsername);
 		setPassword(Browser.buyerPassword);
 		clickOnLogin();		

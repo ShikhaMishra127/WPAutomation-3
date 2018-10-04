@@ -1,9 +1,11 @@
 package utilities.common;
 
 import org.openqa.selenium.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,7 +19,7 @@ public class Browser implements WebDriver {
     public static WebDriver driver;
 
     public static ResourceLoader environment = new ResourceLoader("env");
-    public static String driverpath = environment.getValue("driverPath");
+   // public static String driverpath = environment.getValue("driverPath");
     public static String browser = environment.getValue("browser");
     public static String baseUrl = environment.getValue("baseURL");
     public static String language = environment.getValue("Language");
@@ -32,18 +34,17 @@ public class Browser implements WebDriver {
             switch (browser) {
 
                 case "firefox":
-
+                    FirefoxOptions ffoptions = new FirefoxOptions();
+                    ffoptions.addArguments("--lang" + language);
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver(ffoptions);
                     break;
 
                 case "chrome":
-                    DesiredCapabilities capChrome = DesiredCapabilities.chrome();
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--lang=" + language);
-                    capChrome.setCapability(ChromeOptions.CAPABILITY, options);
-                    capChrome.acceptInsecureCerts();
-                    System.setProperty("webdriver.chrome.driver", driverpath + "chromedriver.exe");
+                    WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver(options);
-
                     break;
 
                 case "ie":
