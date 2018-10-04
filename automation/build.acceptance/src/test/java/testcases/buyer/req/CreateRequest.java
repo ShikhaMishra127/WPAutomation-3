@@ -1,52 +1,55 @@
 package testcases.buyer.req;
 
-import java.io.IOException;
-import java.util.Locale;
-
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import pageobjects.buyer.req.OffCatalogReqPOM;
+import pageobjects.buyer.req.ProcessReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
-import utilities.common.ResourceLoader;
+
+import java.io.IOException;
 
 public class CreateRequest {
 
-	public CreateRequest() throws IOException {
-		super();
-	}
+    public CreateRequest() throws IOException {
+        super();
+    }
 
 
-	LoginPagePOM login = new LoginPagePOM();
-	BuyerNavBarPOM navbar = new BuyerNavBarPOM();
-	OffCatalogReqPOM request = new OffCatalogReqPOM();
+    LoginPagePOM login = new LoginPagePOM();
+    BuyerNavBarPOM navbar = new BuyerNavBarPOM();
+    OffCatalogReqPOM offrequest = new OffCatalogReqPOM();
+    ProcessReqPOM shoppingcart = new ProcessReqPOM();
 
-	@BeforeClass
-	public void setup() {
-		login.loginAsBuyer();
-	}
-	
-	@AfterClass
-	public void teardown() {
-		//navbar.logout();
-		login.close();
-	}
-	
-	@Test
-	public void clickNewReq() {
-		navbar.selectTopNavDropDown("Request");
-		navbar.requestdropdown("Create new");
-		
-		Assert.assertTrue(navbar.getTitle().contains("WebProcure: Request And Workflow"));
-		
-		navbar.typesofreqlist("Off-Catalog Request");
-		request.addItemToOffCatReq();
-		request.movetoviewreq();
-	}
+    @BeforeClass
+    public void setup() {
+        // before starting our tests, first log into the system as a buyer
+        login.loginAsBuyer();
+    }
+
+    @AfterClass
+    public void teardown() {
+        navbar.logout();
+        login.close();
+    }
+
+    @Test()
+    public void clickNewReq() {
+
+        navbar.selectTopNavDropDown("Request");
+        navbar.requestdropdown("Create new");
+        Assert.assertTrue(navbar.getTitle().contains("WebProcure: Request And Workflow"));
+        navbar.typesofreqlist("Off-Catalog Request");
+        offrequest.addItemToOffCatReq();
+        shoppingcart.printRequestName();
+        shoppingcart.viewcart();
+        shoppingcart.submitRequest();
+        Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "Request successfully submitted.");
+    }
 
 }
 

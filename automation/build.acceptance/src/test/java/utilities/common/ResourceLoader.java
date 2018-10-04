@@ -28,7 +28,8 @@ public class ResourceLoader extends ResourceBundle {
 	}
 
 	@Override
-	protected Object handleGetObject(String arg0) {
+	protected Object handleGetObject(String arg0)
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
