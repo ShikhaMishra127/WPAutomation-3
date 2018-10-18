@@ -4,6 +4,7 @@
   <test thread-count="5" name="Test">
     <classes>
       <class name="testcases.buyer.req.CreateRequest"/>
+      <class name="testcases.buyer.req.ViewAllReqTC"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebProcure Build Acceptance -->

@@ -45,14 +45,14 @@ public class ProcessReqPOM {
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
 
-    public void printRequestName() {
+    public void getRequestName() {
         try {
             Browser.waitForPageLoad();
             Browser.getDriver().switchTo().defaultContent();
             Browser.switchToFrame(reqcartframe);
             Browser.waitForElementToBeClickable(reqname);
             if (reqname.getAttribute("value").isEmpty()) {
-                Thread.sleep(Browser.defaultWait);
+                Thread.sleep(5000);
             }
             System.out.println("Req name is: " + reqname.getAttribute("value"));
             Assert.assertFalse(reqname.getAttribute("value").isEmpty());

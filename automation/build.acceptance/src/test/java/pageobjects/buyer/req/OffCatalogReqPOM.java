@@ -101,7 +101,6 @@ public class OffCatalogReqPOM {
     @FindBy(xpath = "//button[text()='OK']")
     public WebElement okalertbtn;
 
-    public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
     public OffCatalogReqPOM() {
         PageFactory.initElements(Browser.getDriver(), this);
@@ -110,6 +109,7 @@ public class OffCatalogReqPOM {
     public void addItemToOffCatReq() {
 
         try {
+            ResourceLoader reqdata = new ResourceLoader("data/requisition");
             // Navigate to correct portion of new req screen
             Browser.waitForElementToDisappear(By.id("loadingDiv"));
             Browser.waitForPageLoad();
