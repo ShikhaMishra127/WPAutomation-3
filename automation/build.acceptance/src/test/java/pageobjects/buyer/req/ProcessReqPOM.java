@@ -52,7 +52,7 @@ public class ProcessReqPOM {
             Browser.switchToFrame(reqcartframe);
             Browser.waitForElementToBeClickable(reqname);
             if (reqname.getAttribute("value").isEmpty()) {
-                Thread.sleep(5000);
+                Thread.sleep(Browser.defaultWait);
             }
             System.out.println("Req name is: " + reqname.getAttribute("value"));
             Assert.assertFalse(reqname.getAttribute("value").isEmpty());
