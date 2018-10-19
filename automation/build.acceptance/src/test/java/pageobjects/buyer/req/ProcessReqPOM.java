@@ -45,7 +45,7 @@ public class ProcessReqPOM {
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
 
-    public void printRequestName() {
+    public void getRequestName() {
         try {
             Browser.waitForPageLoad();
             Browser.getDriver().switchTo().defaultContent();

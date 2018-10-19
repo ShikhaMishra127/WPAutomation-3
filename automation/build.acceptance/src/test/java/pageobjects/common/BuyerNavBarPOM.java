@@ -140,13 +140,15 @@ public class BuyerNavBarPOM extends Browser {
 
 		} finally {
 			Browser.waitForPageLoad();
-			Browser.switchToFrame(reqiframe);
+			//Browser.switchToFrame(reqiframe);
 		}
 	}
 
 	// Select type of request which user want to create
 	public void typesofreqlist(String requesttype) {
 
+		Browser.getDriver().switchTo().defaultContent();
+		Browser.switchToFrame(reqiframe);
 		typeofreqlist.findElement(By.xpath(".//following-sibling::li//a[contains(text(),'" + requesttype + "')]"))
 				.click();
 		try {

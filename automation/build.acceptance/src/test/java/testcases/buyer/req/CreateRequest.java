@@ -1,5 +1,6 @@
 package testcases.buyer.req;
 
+import com.relevantcodes.extentreports.LogStatus;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -10,10 +11,11 @@ import pageobjects.buyer.req.ProcessReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
+import utilities.common.ExtentReport;
 
 import java.io.IOException;
 
-public class CreateRequest {
+public class CreateRequest extends Browser{
 
     public CreateRequest() throws IOException {
         super();
@@ -24,32 +26,48 @@ public class CreateRequest {
     BuyerNavBarPOM navbar = new BuyerNavBarPOM();
     OffCatalogReqPOM offrequest = new OffCatalogReqPOM();
     ProcessReqPOM shoppingcart = new ProcessReqPOM();
+    ExtentReport testreport = new ExtentReport();
 
     @BeforeClass
     public void setup() {
         // before starting our tests, first log into the system as a buyer
-        login.loginAsBuyer();
-    }
-
-    @AfterClass
-    public void teardown() {
-        navbar.logout();
-        login.close();
+        try{
+            testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+            testreport.logger.log(LogStatus.INFO, "Test Case Started");
+            login.loginAsBuyer();
+            testreport.logger.log(LogStatus.PASS, "Logged in Successful");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            e.getMessage();
+            Assert.fail();
+        }
     }
 
     @Test()
-    public void clickNewReq() {
+    public void createOffCatRequest() {
 
         navbar.selectTopNavDropDown("Request");
         navbar.requestdropdown("Create new");
         Assert.assertTrue(navbar.getTitle().contains("WebProcure: Request And Workflow"));
         navbar.typesofreqlist("Off-Catalog Request");
         offrequest.addItemToOffCatReq();
-        shoppingcart.printRequestName();
+        shoppingcart.getRequestName();
         shoppingcart.viewcart();
         shoppingcart.submitRequest();
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "Request successfully submitted.");
+        testreport.logger.log(LogStatus.PASS, "Created off-catalog request successfully");
     }
+
+    @AfterClass
+    public void teardown() {
+        navbar.logout();
+        testreport.report.endTest(ExtentReport.logger);
+        testreport.report.flush();
+        // login.close();
+    }
+
+
 
 }
 
