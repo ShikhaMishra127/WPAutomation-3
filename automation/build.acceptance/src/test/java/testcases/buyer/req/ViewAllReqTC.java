@@ -14,7 +14,7 @@ import utilities.common.ResourceLoader;
 
 import java.io.IOException;
 
-public class ViewAllReqTC {
+public class ViewAllReqTC extends Browser {
 
     public ViewAllReqTC() throws IOException {
         super();

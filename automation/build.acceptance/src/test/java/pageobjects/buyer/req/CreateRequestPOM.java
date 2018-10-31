@@ -9,11 +9,10 @@ import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 
-public class CreateRequestPOM extends Browser {
+public class CreateRequestPOM {
 
 
 	public CreateRequestPOM() throws IOException {
-		super();
 		PageFactory.initElements(Browser.getDriver(), this);
 	}
 

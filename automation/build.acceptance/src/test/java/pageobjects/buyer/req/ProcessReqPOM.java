@@ -13,7 +13,6 @@ import java.util.List;
 
 public class ProcessReqPOM {
 
-
     public ProcessReqPOM() {
         PageFactory.initElements(Browser.getDriver(), this);
     }

@@ -10,11 +10,10 @@ import utilities.common.ResourceLoader;
 import java.io.IOException;
 import java.util.Locale;
 
-public class LoginPagePOM extends Browser {
+public class LoginPagePOM {
 
 	
 	public LoginPagePOM() throws IOException {
-		super();
 		PageFactory.initElements(Browser.getDriver(), this);
 		//normalizePassword(Browser.buyerUsername);
 	}

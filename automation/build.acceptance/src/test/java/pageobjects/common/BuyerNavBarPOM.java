@@ -10,10 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 
 import utilities.common.Browser;
 
-public class BuyerNavBarPOM extends Browser {
+public class BuyerNavBarPOM  {
 
 	public BuyerNavBarPOM() throws IOException {
-		super();
 		PageFactory.initElements(Browser.getDriver(), this);
 	}
 	
@@ -171,5 +170,9 @@ public class BuyerNavBarPOM extends Browser {
 			Browser.getDriver().switchTo().defaultContent();
 			Browser.waitForElementToDisappear(By.id("loadingDiv"));
 		}
+	}
+
+	public String getTitle() {
+		return Browser.getDriver().getTitle();
 	}
 }

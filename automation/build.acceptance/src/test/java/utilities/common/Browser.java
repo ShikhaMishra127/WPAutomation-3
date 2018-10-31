@@ -19,9 +19,9 @@ public class Browser implements WebDriver {
     public static WebDriver driver;
 
     public static ResourceLoader environment = new ResourceLoader("env");
-   // public static String driverpath = environment.getValue("driverPath");
     public static String browser = environment.getValue("browser");
     public static String baseUrl = environment.getValue("baseURL");
+    public static String contractUrl = environment.getValue("contractBB_URL");
     public static String language = environment.getValue("Language");
     public static Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
     public static String buyerUsername = environment.getValue("buyerUsername");

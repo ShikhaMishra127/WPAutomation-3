@@ -15,7 +15,7 @@ import utilities.common.ExtentReport;
 
 import java.io.IOException;
 
-public class CreateRequest extends Browser{
+public class CreateRequest extends Browser {
 
     public CreateRequest() throws IOException {
         super();
