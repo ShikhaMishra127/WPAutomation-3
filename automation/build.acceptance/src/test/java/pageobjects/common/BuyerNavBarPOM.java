@@ -11,7 +11,10 @@ import utilities.common.Browser;
 
 public class BuyerNavBarPOM  {
 
-	public BuyerNavBarPOM() throws IOException {
+    private final Browser browser;
+
+	public BuyerNavBarPOM(Browser browser) throws IOException {
+	    this.browser = browser;
 	}
 	
 	// PAGE OBJECTS
@@ -60,12 +63,12 @@ public class BuyerNavBarPOM  {
 			
 	// HELPFUL METHODS
 	public void clickGotIt() {
-		Browser.waitForElementToBeClickable(btnGotIt);
+		browser.waitForElementToBeClickable(btnGotIt);
 		btnGotIt.click();
 	}
 
 	public void movetoSubOrg() {
-		Browser.waitForElementToBeClickable(borgdropdown);
+		browser.waitForElementToBeClickable(borgdropdown);
 		borgdropdown.click();
 		selectedsuborg.click();
 	}
@@ -81,10 +84,10 @@ public class BuyerNavBarPOM  {
 	}
 
 	public void clickIgnoreOnPopUp() {
-		Browser.waitForPageLoad();
+		browser.waitForPageLoad();
 		try {
-					Browser.waitForElementToBeClickable(sessionModal);
-			Browser.waitForElementToBeClickable(btnIgnoreOnPopUp);
+					browser.waitForElementToBeClickable(sessionModal);
+			browser.waitForElementToBeClickable(btnIgnoreOnPopUp);
 			btnIgnoreOnPopUp.click();
 		} catch (Exception e) {
 
@@ -97,10 +100,10 @@ public class BuyerNavBarPOM  {
 	}
 	
 	public void cookiesalert(){
-		Browser.waitForPageLoad();
+		browser.waitForPageLoad();
 		try{
-			Browser.waitForPageLoad();
-			Browser.waitForElementToBeClickable(cookiessavesetting);
+			browser.waitForPageLoad();
+			browser.waitForElementToBeClickable(cookiessavesetting);
 			cookiessavesetting.click();
 		}catch(Exception e){
 			
@@ -108,55 +111,55 @@ public class BuyerNavBarPOM  {
 	}
 
 	public void selectTopNavDropDown(String navName) {
-		Browser.waitForElementToBeClickable(topNav);
+		browser.waitForElementToBeClickable(topNav);
 		topNav.findElement(By.xpath("//a[contains(text(),'" + navName + "')]")).click();
 	}
 	
 	public void logout() {
-		Browser.waitForPageLoad();
-		Browser.waitForElementToBeClickable(drpDownUserMenu);
+		browser.waitForPageLoad();
+		browser.waitForElementToBeClickable(drpDownUserMenu);
 		drpDownUserMenu.click();
-		Browser.waitForElementToBeClickable(lnkLogout);
-		 ((JavascriptExecutor)Browser.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+		browser.waitForElementToBeClickable(lnkLogout);
+		 ((JavascriptExecutor)browser.getDriver()).executeScript("window.confirm = function(msg){return true;}");
 		lnkLogout.click();
-		Browser.waitForPageLoad();
+		browser.waitForPageLoad();
 	}
 	
 	// Request DropDown Menu
 	public void requestdropdown(String reqoptions) {
-		// Browser.waitForElementToBeClickable(requestdropdown);
+		// browser.waitForElementToBeClickable(requestdropdown);
 
 		requestdropdown.findElement(By.xpath("//li[@class='dropdown open']//a[contains(text(),'" + reqoptions + "')]"))
 				.click();
 
 		try {
-			Browser.getDriver().switchTo().alert().accept();
+			browser.getDriver().switchTo().alert().accept();
 
 		} catch (Exception e) {
 			System.out.println("No Alert Present");
 
 		} finally {
-			Browser.waitForPageLoad();
-			//Browser.switchToFrame(reqiframe);
+			browser.waitForPageLoad();
+			//browser.switchToFrame(reqiframe);
 		}
 	}
 
 	// Select type of request which user want to create
 	public void typesofreqlist(String requesttype) {
 
-		Browser.getDriver().switchTo().defaultContent();
-		Browser.switchToFrame(reqiframe);
+		browser.getDriver().switchTo().defaultContent();
+		browser.switchToFrame(reqiframe);
 		typeofreqlist.findElement(By.xpath(".//following-sibling::li//a[contains(text(),'" + requesttype + "')]"))
 				.click();
 		try {
-			Browser.getDriver().switchTo().alert().accept();
+			browser.getDriver().switchTo().alert().accept();
 
 		} catch (Exception e) {
 			System.out.println("No Alert Present");
 
 		} finally {
-			Browser.waitForElementToDisappear(By.id("loadingDiv"));
-			Browser.waitForPageLoad();
+			browser.waitForElementToDisappear(By.id("loadingDiv"));
+			browser.waitForPageLoad();
 
 			try {
 				Thread.sleep(8000);
@@ -165,12 +168,12 @@ public class BuyerNavBarPOM  {
 				e.printStackTrace();
 			}
 
-			Browser.getDriver().switchTo().defaultContent();
-			Browser.waitForElementToDisappear(By.id("loadingDiv"));
+			browser.getDriver().switchTo().defaultContent();
+			browser.waitForElementToDisappear(By.id("loadingDiv"));
 		}
 	}
 
 	public String getTitle() {
-		return Browser.getDriver().getTitle();
+		return browser.getDriver().getTitle();
 	}
 }

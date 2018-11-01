@@ -1,18 +1,17 @@
 package pageobjects.common;
 
+import java.io.IOException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utilities.common.Browser;
 import utilities.common.OracleQuery;
-import utilities.common.ResourceLoader;
-
-import java.io.IOException;
-import java.util.Locale;
 
 public class LoginPagePOM {
 
-	
-	public LoginPagePOM() throws IOException {
+    private final Browser browser;
+
+    public LoginPagePOM(Browser browser) throws IOException {
+        this.browser = browser;
 		//normalizePassword(Browser.buyerUsername);
 	}
 
@@ -56,13 +55,13 @@ public class LoginPagePOM {
     public WebElement alert;
 
     public void setUsername(String str) {
-        Browser.waitForElementToBeClickable(txtUsername);
+        browser.waitForElementToBeClickable(txtUsername);
         txtUsername.sendKeys(str);
     }
 
     public void handleCookie() {
         try {
-            Browser.waitForElementToBeClickable(okcookie);
+            browser.waitForElementToBeClickable(okcookie);
             okcookie.click();
         } catch (Exception e) {
             System.out.println("Popup not present");
@@ -79,7 +78,7 @@ public class LoginPagePOM {
     }
 
     public void clickOnRegisterLink() {
-        Browser.waitForElementToBeClickable(lnkRegister);
+        browser.waitForElementToBeClickable(lnkRegister);
         lnkRegister.click();
     }
 
@@ -87,8 +86,8 @@ public class LoginPagePOM {
 		// before starting our tests, first log into the system as a buyer
 		//normalizePassword();
         handleCookie();
-		setUsername(Browser.buyerUsername);
-		setPassword(Browser.buyerPassword);
+		setUsername(browser.buyerUsername);
+		setPassword(browser.buyerPassword);
 		clickOnLogin();		
 	}
 

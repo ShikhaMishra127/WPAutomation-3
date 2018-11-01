@@ -10,8 +10,10 @@ import utilities.common.Browser;
 
 public class CreateRequestPOM {
 
+	private final Browser browser;
 
-	public CreateRequestPOM() throws IOException {
+	public CreateRequestPOM(Browser browser) throws IOException {
+		this.browser = browser;
 	}
 
 	@FindBy(xpath = "//[@id='idCatalog']")
@@ -33,7 +35,7 @@ public class CreateRequestPOM {
 	public WebElement viewrequest;
 
 	public void clickoffcatlogtab() {
-		Browser.waitForElementToBeClickable(offcatalogreq);
+		browser.waitForElementToBeClickable(offcatalogreq);
 		offcatalogreq.click();
 	}
 }
