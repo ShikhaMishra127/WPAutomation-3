@@ -4,16 +4,16 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import utilities.common.Browser;
 
 
 public class CreateRequestPOM {
 
+	private final Browser browser;
 
-	public CreateRequestPOM() throws IOException {
-		PageFactory.initElements(Browser.getDriver(), this);
+	public CreateRequestPOM(Browser browser) throws IOException {
+		this.browser = browser;
 	}
 
 	@FindBy(xpath = "//[@id='idCatalog']")
@@ -35,7 +35,7 @@ public class CreateRequestPOM {
 	public WebElement viewrequest;
 
 	public void clickoffcatlogtab() {
-		Browser.waitForElementToBeClickable(offcatalogreq);
+		browser.waitForElementToBeClickable(offcatalogreq);
 		offcatalogreq.click();
 	}
 }

@@ -21,7 +21,10 @@ public class ExtentReport implements ITestListener,ISuiteListener {
     public static ExtentReports report;
     public static ExtentTest logger;
 
-    public ExtentReport() {
+    private final Browser browser;
+
+    public ExtentReport(Browser browser) {
+        this.browser = browser;
         report = new ExtentReports(environment.getValue("report_path"));
         report.loadConfig(new File(System.getProperty("user.dir") + "//ExtentReport.xml"));
 
@@ -57,7 +60,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
     public void onTestFailure(ITestResult result) {
         try {
             logger.log(LogStatus.FAIL,
-                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(Browser.getDriver(), result.getName()))));
+                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(browser.getDriver(), result.getName()))));
 
 
         } catch (Exception e) {
@@ -69,7 +72,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
     public void onTestSkipped(ITestResult result) {
         try {
             logger.log(LogStatus.FAIL,
-                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(Browser.getDriver(), result.getName()))));
+                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(browser.getDriver(), result.getName()))));
 
 
         } catch (Exception e) {
@@ -82,7 +85,7 @@ public class ExtentReport implements ITestListener,ISuiteListener {
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         try {
             logger.log(LogStatus.FAIL,
-                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(Browser.getDriver(), result.getName()))));
+                    logger.addScreenCapture(ExtentReport.logger.addScreenCapture(getScreenshot(browser.getDriver(), result.getName()))));
 
 
         } catch (Exception e) {

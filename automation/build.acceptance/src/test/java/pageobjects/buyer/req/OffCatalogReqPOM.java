@@ -1,17 +1,17 @@
 package pageobjects.buyer.req;
 
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
-import java.util.List;
-
 public class OffCatalogReqPOM {
+
+    private final Browser browser;
 
     @FindBy(xpath = "//*[@id='page-title']/h3")
     public WebElement offcatreqpagetitle;
@@ -102,8 +102,8 @@ public class OffCatalogReqPOM {
     public WebElement okalertbtn;
 
 
-    public OffCatalogReqPOM() {
-        PageFactory.initElements(Browser.getDriver(), this);
+    public OffCatalogReqPOM(Browser browser) {
+        this.browser = browser;
     }
 
     public void addItemToOffCatReq() {
@@ -111,10 +111,10 @@ public class OffCatalogReqPOM {
         try {
             ResourceLoader reqdata = new ResourceLoader("data/requisition");
             // Navigate to correct portion of new req screen
-            Browser.waitForElementToDisappear(By.id("loadingDiv"));
-            Browser.waitForPageLoad();
-            Browser.getDriver().switchTo().defaultContent();
-            Browser.getDriver().switchTo().frame("C1ReqMain");
+            browser.waitForElementToDisappear(By.id("loadingDiv"));
+            browser.waitForPageLoad();
+            browser.getDriver().switchTo().defaultContent();
+            browser.getDriver().switchTo().frame("C1ReqMain");
             checkRetainKeyInfo();
 
             // enter new req data
@@ -139,7 +139,7 @@ public class OffCatalogReqPOM {
 
 
     public void checkRetainKeyInfo() {
-        Browser.WaitTillElementIsPresent(retainkeyinfo);
+        browser.WaitTillElementIsPresent(retainkeyinfo);
         if (retainkeyinfo.isSelected()) {
             System.out.println("Retain Key Info checkbox is already checked");
         } else {
@@ -148,16 +148,16 @@ public class OffCatalogReqPOM {
     }
 
     public void setQuantity(String strquantity) {
-        Browser.waitForElementToBeClickable(orderquantity);
+        browser.waitForElementToBeClickable(orderquantity);
         orderquantity.sendKeys(strquantity);
         Assert.assertFalse(orderquantity.getAttribute("value").isEmpty());
     }
 
     public void setUnitPrice(String selectedunit) {
         try {
-            Browser.waitForElementToBeClickable(dropdownunit);
+            browser.waitForElementToBeClickable(dropdownunit);
             dropdownunit.click();
-            Browser.waitForElementToBeClickable(unittextbox);
+            browser.waitForElementToBeClickable(unittextbox);
             unittextbox.sendKeys(selectedunit);
             for (WebElement unit : unitlist) {
                 if (unit.getText().contentEquals(selectedunit)) {
@@ -170,7 +170,7 @@ public class OffCatalogReqPOM {
     }
 
     public void setEstimatedUnitPrice(String strunitprice) {
-        Browser.waitForElementToBeClickable(unitprice);
+        browser.waitForElementToBeClickable(unitprice);
         unitprice.sendKeys(strunitprice);
         Assert.assertFalse(unitprice.getAttribute("value").isEmpty());
     }
@@ -180,19 +180,19 @@ public class OffCatalogReqPOM {
     }
 
     public void setSupplierPartNo(String strsupplierpartno) {
-        Browser.waitForElementToBeClickable(supplierpartno);
+        browser.waitForElementToBeClickable(supplierpartno);
         supplierpartno.sendKeys(strsupplierpartno);
     }
 
     public void setSupplierName(String suppliername) throws Exception {
-        Browser.waitForElementToBeClickable(vendortextbox);
+        browser.waitForElementToBeClickable(vendortextbox);
         vendortextbox.clear();
         vendortextbox.sendKeys("**");
-        Browser.visibilityOfListLocated(vendorlist);
+        browser.visibilityOfListLocated(vendorlist);
         for (WebElement vendor : vendorlist) {
             if (vendor.getText().contains(suppliername)) {
                 Assert.assertEquals(vendor.getText(), suppliername);
-                Browser.waitForElementToBeClickable(vendor);
+                browser.waitForElementToBeClickable(vendor);
                 vendor.click();
             }
         }
@@ -200,23 +200,23 @@ public class OffCatalogReqPOM {
     }
 
     public void setManufacturer(String manufacturername) throws Exception {
-        Browser.waitForElementToBeClickable(mfrname);
+        browser.waitForElementToBeClickable(mfrname);
         mfrname.clear();
         mfrname.sendKeys(manufacturername);
     }
 
     public void setCommodityCode(String searchcommoditycode, String commoditycode) throws Exception {
-        Browser.waitForElementToBeClickable(commoditybox);
+        browser.waitForElementToBeClickable(commoditybox);
         commoditybox.sendKeys(searchcommoditycode);
-        Browser.visibilityOfListLocated(commoditylist);
+        browser.visibilityOfListLocated(commoditylist);
 
         for (WebElement commodity : commoditylist) {
 
             if (commodity.getText().contains(commoditycode)) {
 
                 Assert.assertEquals(commodity.getText(), commoditycode);
-                Browser.waitForElementToBeClickable(commodity);
-                //((JavascriptExecutor) Browser.getDriver()).executeScript("window.confirm = function(msg){return false;};");
+                browser.waitForElementToBeClickable(commodity);
+                //((JavascriptExecutor) browser.getDriver()).executeScript("window.confirm = function(msg){return false;};");
                 commodity.click();
             }
         }
@@ -224,7 +224,7 @@ public class OffCatalogReqPOM {
 
     public void clickAdd() throws Exception {
 
-        Browser.waitForElementToBeClickable(additem);
+        browser.waitForElementToBeClickable(additem);
         additem.click();
        // System.out.println("Clicked on Add Button");
     }
@@ -232,7 +232,7 @@ public class OffCatalogReqPOM {
 
     public String bootAlertbox() throws Exception {
 
-        Thread.sleep(Browser.defaultWait);
+        Thread.sleep(browser.defaultWait);
         String alerttitle = alertboxtitle.getText();
         System.out.println(alerttitle);
         return alerttitle;
@@ -240,7 +240,7 @@ public class OffCatalogReqPOM {
 
     public String bootalertmessage() throws Exception {
 
-        Thread.sleep(Browser.defaultWait);
+        Thread.sleep(browser.defaultWait);
         String alertmessage = alterboxmessage.getText();
         System.out.println(alertmessage);
         return alertmessage;
