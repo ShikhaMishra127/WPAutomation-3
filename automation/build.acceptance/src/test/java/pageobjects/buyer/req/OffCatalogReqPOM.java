@@ -3,7 +3,6 @@ package pageobjects.buyer.req;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utilities.common.Browser;
@@ -103,7 +102,6 @@ public class OffCatalogReqPOM {
 
 
     public OffCatalogReqPOM() {
-        PageFactory.initElements(Browser.getDriver(), this);
     }
 
     public void addItemToOffCatReq() {

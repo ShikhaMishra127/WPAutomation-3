@@ -2,7 +2,6 @@ package pageobjects.common;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 import utilities.common.OracleQuery;
 import utilities.common.ResourceLoader;
@@ -14,7 +13,6 @@ public class LoginPagePOM {
 
 	
 	public LoginPagePOM() throws IOException {
-		PageFactory.initElements(Browser.getDriver(), this);
 		//normalizePassword(Browser.buyerUsername);
 	}
 

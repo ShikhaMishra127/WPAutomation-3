@@ -2,6 +2,7 @@ package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
 import java.io.IOException;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,6 +11,7 @@ import pageobjects.buyer.req.OffCatalogReqPOM;
 import pageobjects.buyer.req.ProcessReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
+import utilities.common.Browser;
 import utilities.common.ExtentReport;
 
 public class CreateRequest {
@@ -19,11 +21,12 @@ public class CreateRequest {
     }
 
 
-    LoginPagePOM login =  new LoginPagePOM();
-    BuyerNavBarPOM navbar = new BuyerNavBarPOM();
-    OffCatalogReqPOM offrequest = new OffCatalogReqPOM();
-    ProcessReqPOM shoppingcart = new ProcessReqPOM();
-    ExtentReport testreport = new ExtentReport();
+    Browser browser = new Browser();
+    LoginPagePOM login = PageFactory.initElements(browser, LoginPagePOM.class);
+    BuyerNavBarPOM navbar = PageFactory.initElements(browser, BuyerNavBarPOM.class);
+    OffCatalogReqPOM offrequest = PageFactory.initElements(browser, OffCatalogReqPOM.class);
+    ProcessReqPOM shoppingcart = PageFactory.initElements(browser, ProcessReqPOM.class);
+    ExtentReport testreport = PageFactory.initElements(browser, ExtentReport.class);
 
     @BeforeClass
     public void setup() {
