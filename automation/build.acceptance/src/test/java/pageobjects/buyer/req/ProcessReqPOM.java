@@ -4,7 +4,6 @@ package pageobjects.buyer.req;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
@@ -14,7 +13,6 @@ import java.util.List;
 public class ProcessReqPOM {
 
     public ProcessReqPOM() {
-        PageFactory.initElements(Browser.getDriver(), this);
     }
 
     @FindBy(xpath = "//iframe")
