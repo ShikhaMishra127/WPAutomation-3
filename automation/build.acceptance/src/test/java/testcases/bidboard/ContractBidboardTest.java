@@ -11,7 +11,7 @@ import com.relevantcodes.extentreports.LogStatus;
 import utilities.common.Browser;
 import utilities.common.ExtentReport;
 
-public class ContractBidboardTest extends Browser {
+public class ContractBidboardTest {
 
 	public ContractBidboardTest() throws IOException {
 		super();

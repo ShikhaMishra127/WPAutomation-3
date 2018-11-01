@@ -1,20 +1,20 @@
 package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
+import java.io.IOException;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import pageobjects.buyer.req.ProcessReqPOM;
 import pageobjects.buyer.req.ViewAllReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
-import utilities.common.Browser;
 import utilities.common.DatePicker;
 import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 
-import java.io.IOException;
-
-public class ViewAllReqTC extends Browser {
+public class ViewAllReqTC {
 
     public ViewAllReqTC() throws IOException {
         super();
