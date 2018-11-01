@@ -1,15 +1,9 @@
 package testcases.bidboard;
 
 import java.io.IOException;
-
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.relevantcodes.extentreports.LogStatus;
-
 import utilities.common.Browser;
-import utilities.common.ExtentReport;
 
 public class ContractBidboardTest {
 
@@ -19,10 +13,11 @@ public class ContractBidboardTest {
 	}
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws IOException {
     	
         // TEMPORARY: load a different URL
-    	Browser.getDriver().get(Browser.contractUrl);
+        Browser browser = new Browser();
+    	browser.getDriver().get(browser.contractUrl);
     }
     
     @Test()

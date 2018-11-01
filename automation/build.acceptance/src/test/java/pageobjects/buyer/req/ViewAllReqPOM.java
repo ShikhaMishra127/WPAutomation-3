@@ -1,6 +1,9 @@
 package pageobjects.buyer.req;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,13 +12,14 @@ import org.testng.Assert;
 import utilities.common.Browser;
 import utilities.common.DatePicker;
 import utilities.common.ResourceLoader;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Set;
 
 public class ViewAllReqPOM {
-    public ViewAllReqPOM() {
+
+    private final Browser browser;
+
+    public ViewAllReqPOM(Browser browser) {
+        this.browser = browser;
+
     }
 
     @FindBy(xpath = "//select[@id='FSts']")
@@ -93,12 +97,12 @@ public class ViewAllReqPOM {
 
 
     public void filterByStatus(String RequestStatus){
-        Browser.waitForElementToBeClickable(requeststatusdropdown);
+        browser.waitForElementToBeClickable(requeststatusdropdown);
         Select reqstatus = new Select(requeststatusdropdown);
         reqstatus.selectByVisibleText(RequestStatus);
         submitbtn.click();
-        Browser.waitForPageLoad();
-        Browser.WaitTillElementIsPresent(resulttable);
+        browser.waitForPageLoad();
+        browser.WaitTillElementIsPresent(resulttable);
         for (int i = 1; i <= reqresultrows.size(); i++) {
             String actualreqstatus = reqstatuscol.getText().trim();
             Assert.assertEquals(actualreqstatus, reqdata.getValue("RequestStatus"));
@@ -107,12 +111,12 @@ public class ViewAllReqPOM {
     }
 
     public void filterByRequester(String Requester){
-        Browser.waitForElementToBeClickable(requesterdropdown);
+        browser.waitForElementToBeClickable(requesterdropdown);
         Select requestername = new Select(requesterdropdown);
         requestername.selectByVisibleText(Requester);
         submitbtn.click();
-        Browser.waitForPageLoad();
-        Browser.WaitTillElementIsPresent(resulttable);
+        browser.waitForPageLoad();
+        browser.WaitTillElementIsPresent(resulttable);
         for (int i = 1; i <= reqresultrows.size(); i++) {
             String actualrequester = requestercol.getText().trim();
             Assert.assertEquals(actualrequester, reqdata.getValue("Requester"));
@@ -120,11 +124,11 @@ public class ViewAllReqPOM {
     }
 
     public void filterByRequestName(String RequestName) {
-        Browser.waitForElementToBeClickable(requestnamesearchox);
+        browser.waitForElementToBeClickable(requestnamesearchox);
         requestnamesearchox.sendKeys(RequestName);
         submitbtn.click();
-        Browser.waitForPageLoad();
-        Browser.WaitTillElementIsPresent(resulttable);
+        browser.waitForPageLoad();
+        browser.WaitTillElementIsPresent(resulttable);
         for (int i = 1; i <= reqresultrows.size(); i++) {
             String actualreqname = reqnamecol.getText().trim();
             Assert.assertEquals(actualreqname, requestnamesearchox.getAttribute("value"));
@@ -132,12 +136,12 @@ public class ViewAllReqPOM {
     }
 
     public void filterByRequestNumber(String RequestNumber){
-        Browser.waitForElementToBeClickable(requestnumbersearchbox);
+        browser.waitForElementToBeClickable(requestnumbersearchbox);
         requestnumbersearchbox.sendKeys(RequestNumber);
         submitbtn.click();
-        Browser.waitForPageLoad();
-        Browser.waitForElementToDisappear(By.id("loadingDiv"));
-        Browser.WaitTillElementIsPresent(resulttable);
+        browser.waitForPageLoad();
+        browser.waitForElementToDisappear(By.id("loadingDiv"));
+        browser.WaitTillElementIsPresent(resulttable);
         for (int i = 1; i <= reqresultrows.size(); i++) {
             String actualrequestnumber = reqnumbercol.getText().trim();
             Assert.assertEquals(actualrequestnumber, requestnumbersearchbox.getAttribute("value"));
@@ -145,12 +149,12 @@ public class ViewAllReqPOM {
     }
 
      public void filteByBuyerContact(String BuyerContact){
-        Browser.waitForElementToBeClickable(buyercontactdropdown);
+        browser.waitForElementToBeClickable(buyercontactdropdown);
         Select buyercontact = new Select(buyercontactdropdown);
         buyercontact.selectByVisibleText(BuyerContact);
         submitbtn.click();
-        Browser.waitForPageLoad();
-        Browser.WaitTillElementIsPresent(resulttable);
+        browser.waitForPageLoad();
+        browser.WaitTillElementIsPresent(resulttable);
          for (int i = 1; i <= reqresultrows.size(); i++) {
              String actualbuyercontact = buyercontactcol.getText().trim();
              Assert.assertEquals(actualbuyercontact, reqdata.getValue("BuyerContact"));
@@ -159,25 +163,25 @@ public class ViewAllReqPOM {
 
      public void setFromDate(String from){
 
-        Browser.waitForElementToBeClickable(fromdate);
+        browser.waitForElementToBeClickable(fromdate);
         fromdate.click();
-        Browser.waitForElementToBeClickable(datepicker);
+        browser.waitForElementToBeClickable(datepicker);
         fromdate.sendKeys(from);
         requestnamesearchox.click();
      }
 
      public void setToDate(String to){
-         Browser.waitForElementToBeClickable(todate);
+         browser.waitForElementToBeClickable(todate);
          todate.click();
-         Browser.waitForElementToBeClickable(datepicker);
+         browser.waitForElementToBeClickable(datepicker);
          todate.sendKeys(to);
          requestnamesearchox.click();
      }
 
      public void createDateAssertion(){
         try {
-            Browser.waitForPageLoad();
-            Browser.WaitTillElementIsPresent(resulttable);
+            browser.waitForPageLoad();
+            browser.WaitTillElementIsPresent(resulttable);
             System.out.println(reqresultrows.size());
             Date fromDate = new SimpleDateFormat("MM/dd/yyyy").parse(DatePicker.getPastDate());
             Date toDate = new SimpleDateFormat("MM/dd/yyyy").parse(DatePicker.getCurrentDate());
@@ -195,19 +199,19 @@ public class ViewAllReqPOM {
 
     public void copyRequest(){
         filterByRequestNumber(reqdata.getValue("RequestNumber"));
-        Browser.waitForPageLoad();
+        browser.waitForPageLoad();
         try {
-            Browser.waitForElementToDisappear(By.id("loadingDiv"));
+            browser.waitForElementToDisappear(By.id("loadingDiv"));
             // System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                Thread.sleep(Browser.defaultWait);
-                Browser.visibilityOfListLocated(actionlist);
+                Thread.sleep(browser.defaultWait);
+                browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Copy to Request")) {
-                        Thread.sleep(Browser.defaultWait);
+                        Thread.sleep(browser.defaultWait);
                         copyaction.click();
-                        Browser.waitForElementToDisappear(By.id("loadingDiv"));
+                        browser.waitForElementToDisappear(By.id("loadingDiv"));
                     }
                 }
             }
@@ -218,19 +222,19 @@ public class ViewAllReqPOM {
 
     public void reqPrint(){
         filterByRequestNumber(reqdata.getValue("RequestNumber"));
-        Browser.waitForPageLoad();
+        browser.waitForPageLoad();
         try {
-            Browser.waitForElementToDisappear(By.id("loadingDiv"));
+            browser.waitForElementToDisappear(By.id("loadingDiv"));
             // System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                Thread.sleep(Browser.defaultWait);
-                Browser.visibilityOfListLocated(actionlist);
+                Thread.sleep(browser.defaultWait);
+                browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Print")) {
-                        Thread.sleep(Browser.defaultWait);
+                        Thread.sleep(browser.defaultWait);
                         copyaction.click();
-                        Browser.waitForElementToDisappear(By.id("loadingDiv"));
+                        browser.waitForElementToDisappear(By.id("loadingDiv"));
                     }
                 }
             }
@@ -241,31 +245,31 @@ public class ViewAllReqPOM {
 
     public void validatePrint(){
 
-        String viewallreqwindow = Browser.driver.getWindowHandle();
+        String viewallreqwindow = browser.driver.getWindowHandle();
         // System.out.println(viewallreqwindow);
 
-        Set<String> printwindow = Browser.driver.getWindowHandles();
+        Set<String> printwindow = browser.driver.getWindowHandles();
         //System.out.println(printwindow);
 
-        for (String printpriviewwindow: Browser.driver.getWindowHandles()) {
+        for (String printpriviewwindow: browser.driver.getWindowHandles()) {
             //System.out.println(printpriviewwindow);
-            Browser.driver.switchTo().window(printpriviewwindow);
-            Browser.driver.manage().window().maximize();
+            browser.driver.switchTo().window(printpriviewwindow);
+            browser.driver.manage().window().maximize();
         }
-        Browser.waitForPageLoad();
+        browser.waitForPageLoad();
         System.out.println(reqprintheader.getText());
         Assert.assertEquals(reqprintheader.getText(),"Request");
     }
 
     public void clickSubmit(){
-        Browser.waitForElementToBeClickable(submitbtn);
+        browser.waitForElementToBeClickable(submitbtn);
         submitbtn.click();
     }
 
     public void clickReset(){
-        Browser.waitForElementToBeClickable(resetbtn);
+        browser.waitForElementToBeClickable(resetbtn);
         resetbtn.click();
-        Browser.waitForPageLoad();
+        browser.waitForPageLoad();
     }
 
 }

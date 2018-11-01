@@ -12,7 +12,10 @@ import java.util.List;
 
 public class ProcessReqPOM {
 
-    public ProcessReqPOM() {
+    private final Browser browser;
+
+    public ProcessReqPOM(Browser browser) {
+        this.browser = browser;
     }
 
     @FindBy(xpath = "//iframe")
@@ -44,12 +47,12 @@ public class ProcessReqPOM {
 
     public void getRequestName() {
         try {
-            Browser.waitForPageLoad();
-            Browser.getDriver().switchTo().defaultContent();
-            Browser.switchToFrame(reqcartframe);
-            Browser.waitForElementToBeClickable(reqname);
+            browser.waitForPageLoad();
+            browser.getDriver().switchTo().defaultContent();
+            browser.switchToFrame(reqcartframe);
+            browser.waitForElementToBeClickable(reqname);
             if (reqname.getAttribute("value").isEmpty()) {
-                Thread.sleep(Browser.defaultWait);
+                Thread.sleep(browser.defaultWait);
             }
             System.out.println("Req name is: " + reqname.getAttribute("value"));
             Assert.assertFalse(reqname.getAttribute("value").isEmpty());
@@ -63,8 +66,8 @@ public class ProcessReqPOM {
     public void viewcart() {
 
         try {
-            Browser.getDriver().switchTo().defaultContent();
-            Browser.switchToFrame(reqframe);
+            browser.getDriver().switchTo().defaultContent();
+            browser.switchToFrame(reqframe);
             viewreqtab.click();
 
         } catch (Exception e) {
@@ -75,14 +78,14 @@ public class ProcessReqPOM {
 
     public void submitRequest() {
         try {
-            Browser.waitForPageLoad();
-            Browser.getDriver().switchTo().defaultContent();
-            Browser.switchToFrame(reqframe);
-            Browser.waitForElementToBeClickable(submitbutton);
+            browser.waitForPageLoad();
+            browser.getDriver().switchTo().defaultContent();
+            browser.switchToFrame(reqframe);
+            browser.waitForElementToBeClickable(submitbutton);
             submitbutton.click();
-            Browser.waitForPageLoad();
-            if (Browser.getDriver().getPageSource().contains("Confirmation")) {
-                Browser.waitForElementToBeClickable(submitbutton);
+            browser.waitForPageLoad();
+            if (browser.getDriver().getPageSource().contains("Confirmation")) {
+                browser.waitForElementToBeClickable(submitbutton);
                 submitbutton.click();
             }
         } catch (Exception e) {
@@ -91,10 +94,10 @@ public class ProcessReqPOM {
     }
 
     public String reqConfirmationMsg() {
-        Browser.waitForElementToDisappear(By.id("loadingDiv"));
-        Browser.getDriver().switchTo().defaultContent();
-        Browser.WaitTillElementIsPresent(bootalert);
-        Browser.waitForElementToBeClickable(bootalert);
+        browser.waitForElementToDisappear(By.id("loadingDiv"));
+        browser.getDriver().switchTo().defaultContent();
+        browser.WaitTillElementIsPresent(bootalert);
+        browser.waitForElementToBeClickable(bootalert);
         String reqsubmissionmsg = reqconfirmationmessage.getText();
         System.out.println(reqsubmissionmsg);
         return reqsubmissionmsg;
