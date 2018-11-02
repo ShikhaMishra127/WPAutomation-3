@@ -23,8 +23,8 @@ public class ExtentReport implements ITestListener,ISuiteListener {
 
     private final Browser browser;
 
-    public ExtentReport(Browser browser) {
-        this.browser = browser;
+    public ExtentReport(WebDriver browser) {
+        this.browser = (Browser) browser;
         report = new ExtentReports(environment.getValue("report_path"));
         report.loadConfig(new File(System.getProperty("user.dir") + "//ExtentReport.xml"));
 

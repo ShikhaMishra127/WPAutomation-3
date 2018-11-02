@@ -1,6 +1,7 @@
 package pageobjects.common;
 
 import java.io.IOException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utilities.common.Browser;
@@ -10,8 +11,12 @@ public class LoginPagePOM {
 
     private final Browser browser;
 
-    public LoginPagePOM(Browser browser) throws IOException {
-        this.browser = browser;
+    /**
+     * Constructor called by PageFactory.instantiatePage
+     * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
+     */
+    public LoginPagePOM(WebDriver browser) throws IOException {
+        this.browser = (Browser) browser;
 		//normalizePassword(Browser.buyerUsername);
 	}
 
