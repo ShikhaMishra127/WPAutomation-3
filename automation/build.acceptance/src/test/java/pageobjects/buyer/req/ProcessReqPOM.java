@@ -2,6 +2,7 @@ package pageobjects.buyer.req;
 
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
@@ -14,8 +15,13 @@ public class ProcessReqPOM {
 
     private final Browser browser;
 
-    public ProcessReqPOM(Browser browser) {
-        this.browser = browser;
+    /**
+     * Constructor called by PageFactory.instantiatePage
+     * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
+     */
+    public ProcessReqPOM(WebDriver browser) {
+        this.browser = (Browser) browser;
+        PageFactory.initElements(((Browser) browser).driver, this);
     }
 
     @FindBy(xpath = "//iframe")

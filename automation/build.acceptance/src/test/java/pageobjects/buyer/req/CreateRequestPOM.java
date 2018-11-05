@@ -2,9 +2,11 @@ package pageobjects.buyer.req;
 
 import java.io.IOException;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 
@@ -12,8 +14,13 @@ public class CreateRequestPOM {
 
 	private final Browser browser;
 
-	public CreateRequestPOM(Browser browser) throws IOException {
-		this.browser = browser;
+	/**
+	 * Constructor called by PageFactory.instantiatePage
+	 * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
+	 */
+	public CreateRequestPOM(WebDriver browser) throws IOException {
+		this.browser = (Browser)browser;
+		PageFactory.initElements(((Browser) browser).driver, this);
 	}
 
 	@FindBy(xpath = "//[@id='idCatalog']")

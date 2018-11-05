@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 public class ResourceLoader extends ResourceBundle {
 
-	static ResourceBundle bundle;
+	ResourceBundle bundle;
 
 	public ResourceLoader(String resourcename) {
 		try {

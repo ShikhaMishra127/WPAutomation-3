@@ -4,17 +4,24 @@ import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 public class BuyerNavBarPOM  {
 
     private final Browser browser;
 
-	public BuyerNavBarPOM(Browser browser) throws IOException {
-	    this.browser = browser;
+    /**
+     * Constructor called by PageFactory.instantiatePage
+     * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
+     */
+	public BuyerNavBarPOM(WebDriver browser) throws IOException {
+	    this.browser = (Browser) browser;
+        PageFactory.initElements(((Browser) browser).driver, this);
 	}
 	
 	// PAGE OBJECTS

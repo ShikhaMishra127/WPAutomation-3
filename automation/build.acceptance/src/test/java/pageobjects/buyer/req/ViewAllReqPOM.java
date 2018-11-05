@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
@@ -17,9 +18,13 @@ public class ViewAllReqPOM {
 
     private final Browser browser;
 
-    public ViewAllReqPOM(Browser browser) {
-        this.browser = browser;
-
+    /**
+     * Constructor called by PageFactory.instantiatePage
+     * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
+     */
+    public ViewAllReqPOM(WebDriver browser) {
+        this.browser = (Browser) browser;
+        PageFactory.initElements(((Browser) browser).driver, this);
     }
 
     @FindBy(xpath = "//select[@id='FSts']")
