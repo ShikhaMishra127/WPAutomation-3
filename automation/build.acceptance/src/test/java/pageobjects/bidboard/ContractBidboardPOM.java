@@ -2,6 +2,7 @@ package pageobjects.bidboard;
 
 import java.io.IOException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 public class ContractBidboardPOM {
@@ -14,5 +15,6 @@ public class ContractBidboardPOM {
 	 */
 	public ContractBidboardPOM(WebDriver browser) throws IOException {
 		this.browser = (Browser)browser;
+		PageFactory.initElements(((Browser) browser).driver, this);
 	}
 }

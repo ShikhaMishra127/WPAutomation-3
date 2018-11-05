@@ -2,7 +2,6 @@ package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
 import java.io.IOException;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -16,32 +15,33 @@ import utilities.common.ExtentReport;
 
 public class CreateRequest {
 
+    Browser browser;
+    LoginPagePOM login;
+    BuyerNavBarPOM navbar;
+    OffCatalogReqPOM offrequest;
+    ProcessReqPOM shoppingcart;
+    ExtentReport testreport;
+
     public CreateRequest() throws IOException {
-        super();
+
+        browser = new Browser();
+        login = new LoginPagePOM(browser);
+        navbar = new BuyerNavBarPOM(browser);
+        offrequest = new OffCatalogReqPOM(browser);
+        shoppingcart = new ProcessReqPOM(browser);
+        testreport = new ExtentReport(browser);
     }
 
 
-    Browser browser = new Browser();
-    LoginPagePOM login = PageFactory.initElements(browser, LoginPagePOM.class);
-    BuyerNavBarPOM navbar = PageFactory.initElements(browser, BuyerNavBarPOM.class);
-    OffCatalogReqPOM offrequest = PageFactory.initElements(browser, OffCatalogReqPOM.class);
-    ProcessReqPOM shoppingcart = PageFactory.initElements(browser, ProcessReqPOM.class);
-    ExtentReport testreport = PageFactory.initElements(browser, ExtentReport.class);
-
     @BeforeClass
-    public void setup() {
+    public void setup() throws IOException {
+
         // before starting our tests, first log into the system as a buyer
-        try{
             testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
             testreport.logger.log(LogStatus.INFO, "Test Case Started");
             login.loginAsBuyer();
             testreport.logger.log(LogStatus.PASS, "Logged in Successful");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            e.getMessage();
-            Assert.fail();
-        }
+
     }
 
     @Test()

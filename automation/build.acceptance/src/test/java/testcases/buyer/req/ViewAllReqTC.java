@@ -2,7 +2,6 @@ package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
 import java.io.IOException;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,22 +17,28 @@ import utilities.common.ResourceLoader;
 
 public class ViewAllReqTC {
 
+    Browser browser;
+    LoginPagePOM login;
+    BuyerNavBarPOM navbar;
+    ViewAllReqPOM  viewall;
+    ProcessReqPOM shoppingcart;
+    ExtentReport testreport;
+
     public ViewAllReqTC() throws IOException {
-        super();
+        browser = new Browser();
+        login = new LoginPagePOM(browser);
+        navbar = new BuyerNavBarPOM(browser);
+        viewall = new ViewAllReqPOM(browser);
+        shoppingcart = new ProcessReqPOM(browser);
+        testreport = new ExtentReport(browser);
     }
 
-    Browser browser = new Browser();
-    LoginPagePOM login = PageFactory.initElements(browser, LoginPagePOM.class);
-    BuyerNavBarPOM navbar = PageFactory.initElements(browser, BuyerNavBarPOM.class);
-    ViewAllReqPOM  viewall = PageFactory.initElements(browser, ViewAllReqPOM.class);
-    ProcessReqPOM shoppingcart = PageFactory.initElements(browser, ProcessReqPOM.class);
-    ExtentReport testreport = PageFactory.initElements(browser, ExtentReport.class);
 
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws IOException {
         // before starting our tests, first log into the system as a buyer
         try{
             testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());

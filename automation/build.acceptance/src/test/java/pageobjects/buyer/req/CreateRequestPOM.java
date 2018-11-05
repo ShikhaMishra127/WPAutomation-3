@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 
@@ -19,6 +20,7 @@ public class CreateRequestPOM {
 	 */
 	public CreateRequestPOM(WebDriver browser) throws IOException {
 		this.browser = (Browser)browser;
+		PageFactory.initElements(((Browser) browser).driver, this);
 	}
 
 	@FindBy(xpath = "//[@id='idCatalog']")

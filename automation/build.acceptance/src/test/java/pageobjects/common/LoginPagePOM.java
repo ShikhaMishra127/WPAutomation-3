@@ -4,12 +4,13 @@ import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 import utilities.common.OracleQuery;
 
 public class LoginPagePOM {
 
-    private final Browser browser;
+    private Browser browser;
 
     /**
      * Constructor called by PageFactory.instantiatePage
@@ -17,6 +18,7 @@ public class LoginPagePOM {
      */
     public LoginPagePOM(WebDriver browser) throws IOException {
         this.browser = (Browser) browser;
+        PageFactory.initElements(((Browser) browser).driver, this);
 		//normalizePassword(Browser.buyerUsername);
 	}
 
