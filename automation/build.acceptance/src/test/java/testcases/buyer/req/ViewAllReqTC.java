@@ -2,6 +2,7 @@ package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
 import java.io.IOException;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -32,8 +33,6 @@ public class ViewAllReqTC {
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
     }
-
-
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 

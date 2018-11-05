@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utilities.common.Browser;
@@ -26,7 +25,6 @@ public class ViewAllReqPOM {
     public ViewAllReqPOM(WebDriver browser) {
         this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
-
     }
 
     @FindBy(xpath = "//select[@id='FSts']")
