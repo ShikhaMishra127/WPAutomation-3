@@ -36,6 +36,8 @@ public class CreateRequest {
     @BeforeClass
     public void setup() throws IOException {
 
+    	browser.getDriver().get(browser.baseUrl);
+
         // before starting our tests, first log into the system as a buyer
             testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
             testreport.logger.log(LogStatus.INFO, "Test Case Started");
