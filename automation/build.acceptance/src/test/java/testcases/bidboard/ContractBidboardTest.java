@@ -10,11 +10,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 
 public class ContractBidboardTest {
 
     Browser browser;
 	ContractBidboardPOM bidboard;
+    ResourceLoader resource;
+    String targetContract;
+
 	
 	public ContractBidboardTest() throws IOException {
 
@@ -23,10 +27,15 @@ public class ContractBidboardTest {
     @BeforeClass
     public void setup() throws IOException {
  
+    	resource = new ResourceLoader("data/bidboard");
     	browser = new Browser();
     	bidboard = new ContractBidboardPOM(browser);
     	
+    	targetContract = resource.getValue("contract_number");
+    	
     	browser.getDriver().get(browser.contractUrl);
+    	
+    	
     }
     
     @Test()
@@ -47,7 +56,7 @@ public class ContractBidboardTest {
     public void ViewContractSummary() {
  	
     	// Look up one, unique contract
-		bidboard.searchContracts("ACN001");
+		bidboard.searchContracts(targetContract);
 		browser.WaitTillElementIsPresent(bidboard.firstContract);
 		
 		// verify title, date, supplier and the fact only one contract returned
