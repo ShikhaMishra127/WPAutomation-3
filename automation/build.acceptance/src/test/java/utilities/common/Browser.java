@@ -59,8 +59,6 @@ public class Browser implements WebDriver {
 
             System.out.println("Driver value is : " + driver);
             driver.manage().window().maximize();
-
-            driver.get(baseUrl);
         }
     }
 
