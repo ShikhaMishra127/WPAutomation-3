@@ -13,14 +13,15 @@ def statuscolor = { currentBuild ->
 }
 echo("Hello from Pipeline");
 node {
-  withEnv(['PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
+  withEnv(['JAVA_HOME=/opt/java','PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
     stage("Environment") {
       slackSend message: "started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
           //color: statuscolor(currentBuild),
-          channel: "#ENTERSLACKCHANNEL", teamDomain: "perfectcommerce",
+          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
           token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
 
       sh 'echo $PATH'
+      sh 'java -version'
       sh 'mvn -version'
     }
     stage('Checkout WPQATools') {
@@ -30,7 +31,7 @@ node {
 
       slackSend message: "finished ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
           //color: statuscolor(currentBuild),
-          channel: "#ENTERSLACKCHANNEL", teamDomain: "perfectcommerce",
+          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
           token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
     }
   }
