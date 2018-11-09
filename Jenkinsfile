@@ -17,7 +17,7 @@ node {
     stage("Environment") {
       slackSend message: "started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
           //color: statuscolor(currentBuild),
-          channel: "#webprocure-builds", teamDomain: "perfectcommerce",
+          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
           token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
 
       sh 'echo $PATH'
@@ -31,7 +31,7 @@ node {
 
       slackSend message: "finished ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
           //color: statuscolor(currentBuild),
-          channel: "#webprocure-builds", teamDomain: "perfectcommerce",
+          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
           token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
     }
   }
