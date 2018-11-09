@@ -27,7 +27,7 @@ node {
     stage('Checkout WPQATools') {
       checkout scm
       //sh 'git status'   
-      sh 'mvn -V -U -e clean test'
+      sh 'cd /wpautomation/automation/build.acceptance/ ; mvn -V -U -e clean test'
 
       slackSend message: "finished ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
           //color: statuscolor(currentBuild),
