@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Browser implements WebDriver {
@@ -93,6 +94,11 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
+    
+    public void selectFromDropDownByVisibleText(WebElement ele, String value) {
+		waitForElementToBeClickable(ele);
+		new Select(ele).selectByVisibleText(value);
+	}
 
     public void waitForElementToDisappear(By id) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
