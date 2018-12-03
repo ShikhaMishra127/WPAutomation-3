@@ -5,6 +5,7 @@
     <classes>
       <class name="testcases.buyer.req.CreateRequest"/>
       <class name="testcases.buyer.req.ViewAllReqTC"/>
+      <class name="testcases.buyer.inv.InvoiceCreation"/>
       <class name="testcases.bidboard.ContractBidboardTest"/>
     </classes>
   </test> <!-- Test -->

@@ -85,6 +85,7 @@ public class ContractBidboardTest {
     
     @AfterClass
     public void teardown() {
-    	browser.close();
+
+		browser.close();
     }
 }

@@ -14,6 +14,7 @@ import org.testng.Assert;
 import utilities.common.Browser;
 import utilities.common.DatePicker;
 import utilities.common.ResourceLoader;
+import java.util.concurrent.TimeUnit;
 
 public class ViewAllReqPOM {
 
@@ -97,6 +98,20 @@ public class ViewAllReqPOM {
     @FindBy(xpath = "//tr[@class='ReportHeader']")
     public WebElement reqprintheader;
 
+    @FindBy(xpath = "//font[@class = 'ReportFieldName']")
+    public List<WebElement> printfieldnames;
+
+    @FindBy(xpath = "//font[@class = 'ReportFieldResult']")
+    public List<WebElement> printfieldvalues;
+
+    @FindBy(xpath = "//li[@id='reqHistTab']")
+    public WebElement historytab;
+
+    @FindBy(xpath = "//li[@id='reqWFHistTab']")
+    public WebElement historywftab;
+
+    @FindBy(xpath = "//button[@title='Close']")
+    public WebElement historyclosebtn;
 
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
@@ -215,9 +230,11 @@ public class ViewAllReqPOM {
                 browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Copy to Request")) {
-                        Thread.sleep(browser.defaultWait);
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        //Thread.sleep(Browser.defaultWait);
                         copyaction.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
+                        break;
                     }
                 }
             }
@@ -234,13 +251,16 @@ public class ViewAllReqPOM {
             // System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                Thread.sleep(browser.defaultWait);
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
+                //Thread.sleep(Browser.defaultWait);
                 browser.visibilityOfListLocated(actionlist);
-                for (WebElement copyaction : actionlist) {
-                    if (copyaction.getText().contains("Print")) {
-                        Thread.sleep(browser.defaultWait);
-                        copyaction.click();
+                for (WebElement reqprinticon : actionlist) {
+                    if (reqprinticon.getText().contains("Print")) {
+                        //Thread.sleep(Browser.defaultWait);
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        reqprinticon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
+                        break;
                     }
                 }
             }
@@ -262,10 +282,59 @@ public class ViewAllReqPOM {
             browser.driver.switchTo().window(printpriviewwindow);
             browser.driver.manage().window().maximize();
         }
+
         browser.waitForPageLoad();
         System.out.println(reqprintheader.getText());
         Assert.assertEquals(reqprintheader.getText(),"Request");
+        int i= 0;
+        for(WebElement fieldname : printfieldnames){
+           // System.out.println(fieldname.getText());
+            if(fieldname.getText().contains("Number:")){
+             //   System.out.println(printfieldvalues.get(i).getText());
+                Assert.assertEquals(printfieldvalues.get(i).getText(),reqdata.getValue("RequestNumber"));
+                break;
+            }
+            i++;
+        }
+        browser.driver.close();
+        browser.driver.switchTo().window(viewallreqwindow);
     }
+
+    public void reqHistory(){
+        filterByRequestNumber(reqdata.getValue("RequestNumber"));
+        browser.waitForPageLoad();
+        try {
+            browser.waitForElementToDisappear(By.id("loadingDiv"));
+            // System.out.println(actiondropdown.size());
+            for (WebElement action : actiondropdown) {
+                action.click();
+                //Thread.sleep(Browser.defaultWait);
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
+                browser.visibilityOfListLocated(actionlist);
+                for (WebElement reqhistoryicon : actionlist) {
+                    if (reqhistoryicon.getText().contains("View Request History")) {
+                        //Thread.sleep(Browser.defaultWait);
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        reqhistoryicon.click();
+                        browser.waitForElementToDisappear(By.id("loadingDiv"));
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void verifyreqHistory(){
+        browser.visibilityOfElement(historytab);
+        Assert.assertTrue(browser.driver.getPageSource().contains("Request History Log"));
+        browser.waitForElementToBeClickable(historywftab);
+        historywftab.click();
+        Assert.assertTrue(browser.driver.getPageSource().contains("Workflow History Log"));
+        historyclosebtn.click();
+    }
+
 
     public void clickSubmit(){
         browser.waitForElementToBeClickable(submitbtn);

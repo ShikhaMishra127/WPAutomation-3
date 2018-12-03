@@ -11,6 +11,7 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ProcessReqPOM {
 
@@ -59,7 +60,7 @@ public class ProcessReqPOM {
             browser.switchToFrame(reqcartframe);
             browser.waitForElementToBeClickable(reqname);
             if (reqname.getAttribute("value").isEmpty()) {
-                Thread.sleep(browser.defaultWait);
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
             }
             System.out.println("Req name is: " + reqname.getAttribute("value"));
             Assert.assertFalse(reqname.getAttribute("value").isEmpty());
