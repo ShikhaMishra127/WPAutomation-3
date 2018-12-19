@@ -188,24 +188,15 @@ public class Browser implements WebDriver {
         // TODO Auto-generated method stub
         return null;
     }
-	/*
-	 * 	public void selectsupplier(String suppliername) throws Exception {
-		PCDriver.waitForElementToBeClickable(vendortextbox);
-		vendortextbox.clear();
-		vendortextbox.sendKeys(suppliername);
-		PCDriver.visibilityOfListLocated(vendorlist);
-		Thread.sleep(5000);
-		System.out.println(vendorlist.size());
-		for (WebElement vendor : vendorlist) {
-			if (vendor.getText().contains(ReadExcelData.getInstance("Request").getStringValue("supplierselected"))) {
-				// System.out.println(vendor.getText());
-				Assert.assertEquals(vendor.getText(),
-						ReadExcelData.getInstance("Request").getStringValue("supplierselected"));
 
-				PCDriver.waitForElementToBeClickable(vendor);
-				vendor.click();
-				// System.out.println(vendortextbox.getAttribute("value"));
-			}
-		}
-    */
+    /*
+        Allows us to inject JavaScript into a WebElement to change its properties
+        Used primarily for entering data into read-only web elements
+     */
+    public void InjectJavaScript(String script, WebElement element, String arguments) {
+
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript( script, element, arguments );
+
+    }
 }

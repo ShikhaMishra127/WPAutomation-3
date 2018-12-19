@@ -17,12 +17,37 @@ public class ExecuteReportPOM {
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
+    // Report List page
     @FindBy(xpath = "//table[@class='table table-bordered table-striped no-footer']//tbody")
     public WebElement reportList;
 
+    // Report Parameters page
+    @FindBy (xpath="//h3")
+    public WebElement reportParameterHeader;
+
+    @FindBy (xpath="//input[@id='txtReportTitle']")
+    public WebElement reportTitleEdit;
+
+    @FindBy (xpath="//input[@id='selectAllBorg']")
+    public WebElement reportAllBorgsCheckbox;
+
+    @FindBy (xpath="//input[@id='selectAll']")
+    public WebElement reportAllStatusCheckbox;
+
+    @FindBy (xpath="//input[@id='id_CalfromBeginDate']")
+    public WebElement reportFromDate;
+
+    @FindBy (xpath="//input[@id='id_CaltoEndDate']")
+    public WebElement reportToDate;
+
+    @FindBy (xpath="//button[@title='Submit']")
+    public WebElement submitButton;
+
+    ///////////////////////////////////////////////////
+
     public void selectReportByName(String headerName, String reportName) {
 
-        // find group of reports by header string
+        // find group of reports by header string (triangle icon)
         WebElement reportHeaderLink = reportList.findElement(By.xpath("//*[text()[contains(.,'"+headerName+"')]]/a"));
         reportHeaderLink.click();
 
