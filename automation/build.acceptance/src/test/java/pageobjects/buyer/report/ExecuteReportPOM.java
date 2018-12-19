@@ -17,7 +17,8 @@ public class ExecuteReportPOM {
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
-    // Report List page
+    //// Report List page
+
     @FindBy(xpath = "//table[@class='table table-bordered table-striped no-footer']//tbody")
     public WebElement reportList;
 
@@ -42,6 +43,18 @@ public class ExecuteReportPOM {
 
     @FindBy (xpath="//button[@title='Submit']")
     public WebElement submitButton;
+
+    @FindBy (xpath="//button[@title='Back']")
+    public WebElement backButton;
+
+    //// pop-up HTML report
+
+    @FindBy (xpath="//tr[@class='ReportHeader']/td/font")
+    public WebElement HTMLReportHeader;
+
+    @FindBy (xpath="//td[@class='ReportSubheader']")
+    public WebElement HTMLReportSubHeader;
+
 
     ///////////////////////////////////////////////////
 

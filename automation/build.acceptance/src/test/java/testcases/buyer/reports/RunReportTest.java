@@ -1,6 +1,7 @@
 package testcases.buyer.reports;
 
 import org.junit.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -48,22 +49,30 @@ public class RunReportTest {
 
         login.loginAsBuyer();
     }
+    
+    @AfterClass
+    public void tearDown() {
+        navbar.logout();
+    }
 
-
-    @Test()
-    public void ExecuteReportTest() {
+    @Test(priority = 1)
+    public void GoToReportTest() {
 
         // Navigate to Execute Reports
-        navbar.selectdropdownitem("Analytics","Execute Reports");
+        navbar.selectdropdownitem("Analytics", "Execute Reports");
 
         // Select report specified in report.properties
         reports.selectReportByName(reportSection, reportName);
 
         // verify the report title
-        Assert.assertTrue("Report Title Header OK", reports.reportParameterHeader.getText().contains(reportName) );
+        Assert.assertTrue("Report Title Header OK", reports.reportParameterHeader.getText().contains(reportName));
+    }
+
+    @Test(priority = 2)
+    public void SetReportParametersTest() {
 
         // Add the report title to edit box
-        reports.reportTitleEdit.sendKeys("Automation - " + reportTitle);
+        reports.reportTitleEdit.sendKeys(reportTitle);
 
         // check "Select all Organizations" if it hasn't been checked already
         if (!reports.reportAllBorgsCheckbox.isSelected()) {
@@ -71,8 +80,8 @@ public class RunReportTest {
         }
 
         // Add report "From" and "To" dates
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", reports.reportFromDate, reportFromDate );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", reports.reportToDate, reportToDate );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", reports.reportFromDate, reportFromDate);
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", reports.reportToDate, reportToDate);
 
         // check "Select all Statuses" if it hasn't been checked already
         if (!reports.reportAllStatusCheckbox.isSelected()) {
@@ -83,8 +92,20 @@ public class RunReportTest {
         reports.submitButton.click();
     }
 
-    @Test()
-    public void ViewExecutedReportTest() {
+    @Test(priority = 3)
+    public void ReviewHTMLReportTest() {
 
+        // set focus to report details
+        String parentWindow = browser.driver.getWindowHandle();
+        browser.SwitchToPopUp(parentWindow);
+
+        // verify the HTML pop-up report title
+        Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
+        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
+
+        // close pop-up and return to parent window
+        browser.ClosePopUp(parentWindow);
+
+        reports.backButton.click();
     }
 }

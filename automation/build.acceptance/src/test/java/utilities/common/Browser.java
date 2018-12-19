@@ -1,9 +1,12 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -94,11 +97,11 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
-    
+
     public void selectFromDropDownByVisibleText(WebElement ele, String value) {
-		waitForElementToBeClickable(ele);
-		new Select(ele).selectByVisibleText(value);
-	}
+        waitForElementToBeClickable(ele);
+        new Select(ele).selectByVisibleText(value);
+    }
 
     public void waitForElementToDisappear(By id) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -195,8 +198,38 @@ public class Browser implements WebDriver {
      */
     public void InjectJavaScript(String script, WebElement element, String arguments) {
 
-        JavascriptExecutor js = (JavascriptExecutor)driver;
-        js.executeScript( script, element, arguments );
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(script, element, arguments);
 
+    }
+
+    /*
+        Takes the current window, waits for it to have children, then
+        changes focus to the first child window it finds.
+     */
+    public void SwitchToPopUp(String parentWindow) {
+
+        Set<String> handleSet = driver.getWindowHandles();
+
+        // wait until there is a child window to switch to
+        WebDriverWait hangAround = new WebDriverWait(driver, 20);
+        hangAround.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        Iterator<String> i = handleSet.iterator();
+
+        while (i.hasNext()) {
+
+            String child = i.next();
+
+            if (!parentWindow.equals(child)) {
+                driver.switchTo().window(child);
+                break;
+            }
+        }
+    }
+    public void ClosePopUp(String parentWindow)
+    {
+        driver.close();
+        driver.switchTo().window(parentWindow);
     }
 }
