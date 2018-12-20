@@ -96,7 +96,8 @@ public class LoginPagePOM {
         handleCookie();
 		setUsername(browser.buyerUsername);
 		setPassword(browser.buyerPassword);
-		clickOnLogin();		
+		clickOnLogin();
+        browser.waitForPageLoad();
 	}
 
 }

@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import utilities.common.Browser;
 
 public class BuyerNavBarPOM  {
@@ -61,6 +62,9 @@ public class BuyerNavBarPOM  {
 	
 	@FindBy(xpath = "//a[@title='Request']")
 	public WebElement requestdropdown;
+
+	@FindBy(xpath = "//*[@id='Analytics']")
+	public WebElement analyticsdropdown;
 	
 	@FindBy(xpath = "//li[contains (@class,'paginate_button')]")
 	public WebElement typeofreqlist;
@@ -149,6 +153,27 @@ public class BuyerNavBarPOM  {
 			browser.waitForPageLoad();
 			//browser.switchToFrame(reqiframe);
 		}
+	}
+
+	/*
+	  headerItem - Top-level nav bar menu item
+	  subItem - Menu item below the top-level item
+    */
+	public void selectdropdownitem(String headerItem, String subItem) {
+
+	    String headerXPath = "//ul[contains(@class,'navbar-left')]//*[@title='" + headerItem + "']";
+	    String subItemXPath = headerXPath + "/following-sibling::*//*[@title='" + subItem + "']";
+
+	    // click on the nav bar header item
+	    WebElement header = topNav.findElement(By.xpath(headerXPath));
+	    header.click();
+
+	    // click on the sub-item below the header item
+	    WebElement sub = header.findElement(By.xpath(subItemXPath));
+	    sub.click();
+
+	    // Wait for the page to load before leaving
+        browser.waitForPageLoad();
 	}
 
 	// Select type of request which user want to create
