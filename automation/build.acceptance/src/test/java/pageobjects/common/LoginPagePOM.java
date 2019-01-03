@@ -50,7 +50,7 @@ public class LoginPagePOM {
     @FindBy(id = "login-submit")
     public WebElement btnLogin;
 
-    @FindBy(xpath = "//a[text()='Register Here']")
+    @FindBy(xpath = "//a[contains(@href,'/supplierReg')]")
     public WebElement lnkRegister;
 
     @FindBy(xpath = "//a[@id='userMenu']")
