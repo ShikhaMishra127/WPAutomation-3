@@ -178,8 +178,7 @@ public class Browser implements WebDriver {
     }
 
     public TargetLocator switchTo() {
-        // TODO Auto-generated method stub
-        return null;
+        return driver.switchTo();
     }
 
     public Navigation navigate() {

@@ -13,7 +13,7 @@ import utilities.common.ResourceLoader;
 
 import java.io.IOException;
 
-public class RunReportTest {
+public class ExecuteReportTest {
 
     Browser browser;
     ExecuteReportPOM reports;
@@ -26,7 +26,7 @@ public class RunReportTest {
     private String reportToDate;
     private String reportSection;
 
-    public RunReportTest() throws IOException {
+    public ExecuteReportTest() throws IOException {
 
     }
 
@@ -49,10 +49,11 @@ public class RunReportTest {
 
         login.loginAsBuyer();
     }
-    
+
     @AfterClass
     public void tearDown() {
         navbar.logout();
+        browser.close();
     }
 
     @Test(priority = 1)
