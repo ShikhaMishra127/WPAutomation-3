@@ -7,6 +7,8 @@
       <class name="testcases.buyer.req.ViewAllReqTC"/>
       <class name="testcases.buyer.inv.InvoiceCreation"/>
       <class name="testcases.bidboard.ContractBidboardTest"/>
+      <class name="testcases.buyer.reports.ExecuteReportTest"/>
+      <class name="testcases.buyer.reports.CreateReportTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebProcure Build Acceptance -->

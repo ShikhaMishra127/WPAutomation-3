@@ -17,9 +17,7 @@ public class ContractBidboardTest {
     Browser browser;
 	ContractBidboardPOM bidboard;
     ResourceLoader resource;
-    String targetContract;
 
-	
 	public ContractBidboardTest() throws IOException {
 
 	}
@@ -30,12 +28,9 @@ public class ContractBidboardTest {
     	resource = new ResourceLoader("data/bidboard");
     	browser = new Browser();
     	bidboard = new ContractBidboardPOM(browser);
-    	
-    	targetContract = resource.getValue("contract_number");
-    	
+
     	browser.getDriver().get(browser.contractUrl);
-    	
-    	
+
     }
     
     @Test()
@@ -56,15 +51,16 @@ public class ContractBidboardTest {
     public void ViewContractSummary() {
  	
     	// Look up one, unique contract
-		bidboard.searchContracts(targetContract);
+		bidboard.searchContracts(resource.getValue("contract_number"));
 		browser.WaitTillElementIsPresent(bidboard.firstContract);
 		
 		// verify title, date, supplier and the fact only one contract returned
-		Assert.assertTrue("Only target contract returned", (bidboard.numberOfContracts() == 1) );
-		Assert.assertTrue("Target contract Title OK", bidboard.firstContract.getText().contains("Automation Test") );
-		Assert.assertTrue("Target contract Dates OK", bidboard.firstContract.getText().contains("Nov 5, 2018 - Dec 31, 2025") );
-		Assert.assertTrue("Target contract Supplier OK", bidboard.firstContract.getText().contains("AutoSupplier") );
-		
+		Assert.assertTrue("Only the target contract returned", (bidboard.numberOfContracts() == 1) );
+		Assert.assertTrue("Target contract Title OK", bidboard.firstContract.getText().contains(resource.getValue("contract_title")) );
+		Assert.assertTrue("Target contract Dates OK", bidboard.firstContract.getText().contains(resource.getValue("contract_dates")) );
+		Assert.assertTrue("Target contract Supplier OK", bidboard.firstContract.getText().contains(resource.getValue("contract_suppliername")) );
+
+		//resource.getValue("contract_")
 		bidboard.viewSummaryPage();
 		
 		// verify PUBLIC attachments are visible and PRIVATE attachments are NOT
@@ -72,18 +68,18 @@ public class ContractBidboardTest {
 		Assert.assertTrue("Contract DOES NOT contain private attachment", !bidboard.summaryAttachments.getText().contains("private"));
 
 		// verify Contract Period dates
-		Assert.assertTrue("Contract has Issue Date", bidboard.summaryPeriod.getText().contains("Issue Date:Nov 5, 2018"));
-		Assert.assertTrue("Contract has Award Date", bidboard.summaryPeriod.getText().contains("Award Date:Nov 5, 2018"));
-		Assert.assertTrue("Contract has Effective Date", bidboard.summaryPeriod.getText().contains("Effective Date:Nov 5, 2018"));
-		Assert.assertTrue("Contract has Expiration Date", bidboard.summaryPeriod.getText().contains("Expiration Date:Dec 31, 2025"));
-		
+		Assert.assertTrue("Contract has Issue Date", bidboard.summaryPeriod.getText().contains(resource.getValue("contract_issueddate")));
+		Assert.assertTrue("Contract has Award Date", bidboard.summaryPeriod.getText().contains(resource.getValue("contract_awarddate")));
+		Assert.assertTrue("Contract has Effective Date", bidboard.summaryPeriod.getText().contains(resource.getValue("contract_effectivedate")));
+		Assert.assertTrue("Contract has Expiration Date", bidboard.summaryPeriod.getText().contains(resource.getValue("contract_expireddate")));
+
 		// verify Contract Pricing
-		Assert.assertTrue("Contract has Pricing Type", bidboard.summaryPricing.getText().contains("Pricing Type: Fixed Price"));
-		Assert.assertTrue("Contract has Total Value", bidboard.summaryPricing.getText().contains("Value: $50,000.00"));
-		Assert.assertTrue("Contract has Contract Type", bidboard.summaryPricing.getText().contains("Contract Type: State Contract"));
+		Assert.assertTrue("Contract has Pricing Type", bidboard.summaryPricing.getText().contains(resource.getValue("contract_pricingtype")));
+		Assert.assertTrue("Contract has Total Value", bidboard.summaryPricing.getText().contains(resource.getValue("contract_totalvalue")));
+		Assert.assertTrue("Contract has Contract Type", bidboard.summaryPricing.getText().contains(resource.getValue("contract_type")));
     }
-    
-    @AfterClass
+
+	@AfterClass
     public void teardown() {
 
 		browser.close();
