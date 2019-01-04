@@ -39,6 +39,42 @@ public class StandardRegistrationTest {
      //   browser.close();
     }
 
+    // loads default for company registration data
+    public void loadOrgInfo() {
+        reg.orgCompanyName.sendKeys(resource.getValue("vendor_base_name")+" "+vendorNum.getNumber());
+        reg.orgDBAEdit.sendKeys(resource.getValue("vendor_dba")+vendorNum.getNumber());
+        reg.orgURLEdit.sendKeys(resource.getValue("vendor_website"));
+
+        new Select(reg.orgEnterpriseTypeDrop).selectByIndex(3);
+        new Select(reg.orgStateIncorporatedDrop).selectByVisibleText("Virginia");
+        new Select(reg.orgTimeZoneDrop).selectByIndex(5);
+
+        reg.orgParentBranchRadioPARENT.click();
+
+        reg.orgCompanyPhone1.sendKeys("800");
+        reg.orgCompanyPhone2.sendKeys("555");
+        reg.orgCompanyPhone3.sendKeys("1212");
+
+        reg.orgCompanyFax1.sendKeys("800");
+        reg.orgCompanyFax2.sendKeys("777");
+        reg.orgCompanyFax3.sendKeys("3434");
+
+        reg.orgEmailEdit.sendKeys("andrew.comenzo@perfect.com");
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", reg.orgEmailConfirmEdit, "andrew.comenzo@perfect.com" );
+
+        new Select(reg.orgCountryDrop).selectByVisibleText("United States");
+
+        reg.orgAddress1.sendKeys("PO Box 22321");
+        reg.orgAddress2.sendKeys("1 Bayport Way");
+        reg.orgAddress3.sendKeys("Suite 120");
+
+        reg.orgCity.sendKeys("Newport News");
+
+        new Select(reg.orgStateDrop).selectByVisibleText("Virginia");
+
+        reg.orgZip1.sendKeys("23606");
+    }
+
     @Test(priority = 1)
     public void LoginPageTest() {
 
@@ -127,39 +163,83 @@ public class StandardRegistrationTest {
 
     }
 
-    // loads default for company registration data
-    public void loadOrgInfo() {
-        reg.orgCompanyName.sendKeys(resource.getValue("vendor_base_name")+" "+vendorNum.getNumber());
-        reg.orgDBAEdit.sendKeys(resource.getValue("vendor_dba")+vendorNum.getNumber());
-        reg.orgURLEdit.sendKeys(resource.getValue("vendor_website"));
+    @Test(priority = 6)
+    public void ContactInformationTest() {
 
-        new Select(reg.orgEnterpriseTypeDrop).selectByIndex(3);
-        new Select(reg.orgStateIncorporatedDrop).selectByVisibleText("Virginia");
-        new Select(reg.orgTimeZoneDrop).selectByIndex(5);
+        new Select(reg.contactTitleDrop).selectByVisibleText("Mrs.");
+        reg.contactFirstNameEdit.sendKeys("Zelda");
+        reg.contactLastNameEdit.sendKeys("Lipshitz");
 
-        reg.orgParentBranchRadioPARENT.click();
+        // auto-copy all fields from main contact info
+        reg.contactSameAsOrgCheckbox.click();
+        reg.contactPOContactSameAsCheckbox.click();
+        reg.contactPOAddressSameAsCheckbox.click();
+        reg.contactSolContactSameAsCheckbox.click();
+        reg.contactSolAddressSameAsCheckbox.click();
+        reg.contactRemitContactSameAsCheckbox.click();
+        reg.contactRemitAddressSameAsCheckbox.click();
 
-        reg.orgCompanyPhone1.sendKeys("800");
-        reg.orgCompanyPhone2.sendKeys("555");
-        reg.orgCompanyPhone3.sendKeys("1212");
+        // click Continue after all fields populated
+        reg.continueButton.click();
 
-        reg.orgCompanyFax1.sendKeys("800");
-        reg.orgCompanyFax2.sendKeys("777");
-        reg.orgCompanyFax3.sendKeys("3434");
-
-        reg.orgEmailEdit.sendKeys("andrew.comenzo@perfect.com");
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", reg.orgEmailConfirmEdit, "andrew.comenzo@perfect.com" );
-
-        new Select(reg.orgCountryDrop).selectByVisibleText("United States");
-
-        reg.orgAddress1.sendKeys("PO Box 22321");
-        reg.orgAddress2.sendKeys("1 Bayport Way");
-        reg.orgAddress3.sendKeys("Suite 120");
-
-        reg.orgCity.sendKeys("Newport News");
-
-        new Select(reg.orgStateDrop).selectByVisibleText("Virginia");
-
-        reg.orgZip1.sendKeys("23606");
+        Assert.assertTrue("Contact Info Accepted OK", reg.stepTitle.getText().contains("Demographic Information"));
     }
+
+    @Test(priority = 6)
+    public void DemographicInfoTest() {
+
+        // select minority assignments
+        reg.demoSmallOwnedCheckbox.click();
+        reg.demoVeteranOwnedCheckbox.click();
+        reg.demoWomenOwnedCheckbox.click();
+        new Select(reg.demoMinorityDrop).selectByVisibleText("Hispanic");
+
+        // click Continue after all fields populated
+        reg.continueButton.click();
+
+        Assert.assertTrue("Demographic Info Accepted OK", reg.stepTitle.getText().contains("Select Buying Organizations"));
+    }
+
+    @Test(priority = 6)
+    public void SelectBuyerTest() {
+
+        // add new supplier to Perfect City
+        reg.buyerPerfectCityCheckbox.click();
+
+        // click Continue after all fields populated
+        reg.continueButton.click();
+
+        Assert.assertTrue("Select target buyer OK", reg.stepTitle.getText().contains("Buyer Terms and Conditions"));
+
+        reg.buyerTandCAcceptRadio.click();
+        reg.continueButton.click();
+
+        Assert.assertTrue("Accept buyer T&Cs OK", reg.stepTitle.getText().contains("Select Username and Password"));
+
+    }
+
+    @Test(priority = 6)
+    public void SelectUsernameTest() {
+
+        // username is unique and set to our SSN/FEIN number for this test
+        reg.userNameEdit.sendKeys(vendorNum.getNumber());
+
+        // enter password and confirmation
+        reg.userPasswordEdit.sendKeys("Xxxxxx1!");
+        reg.userPasswordConfirmEdit.sendKeys("Xxxxxx1!");
+
+        // click Continue after all fields populated
+        reg.continueButton.click();
+
+        Assert.assertTrue("Username/Password created OK", reg.stepTitle.getText().contains("Confirm Registration Information"));
+
+        // click Continue after summary page shown
+        reg.continueButton.click();
+
+        // AT THIS POINT you should be logged in as the vendor. look around. do we have a vendor interface POM???
+
+
+    }
+
+
 }

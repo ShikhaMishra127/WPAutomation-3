@@ -34,14 +34,14 @@ public class RegStandardPOM {
     @FindBy(xpath = "//img[contains(@title,'Go Previous')]")
     public WebElement previousButton;
 
-    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 1
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 1 (T&Cs)
     @FindBy(xpath = "//img[contains(@title,'Decline')]")
     public WebElement declineButton;
 
     @FindBy(xpath = "//img[contains(@title,'Accept')]")
     public WebElement acceptButton;
 
-    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 2
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 2 (Organization)
 
     @FindBy(xpath = "//input[@name='orgInfoCmd.name']")
     public WebElement orgCompanyName;
@@ -143,4 +143,121 @@ public class RegStandardPOM {
     @FindBy(xpath = "//table[@class='errorTable']/tbody/tr/td/ol/li/span")
     public WebElement orgErrorMessage;
 
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 3 (Contact)
+
+    //form[@name="supplierRegForm"]//select[@name='mainContactInfoCmd.title']
+    @FindBy(xpath = "//form[@name='supplierRegForm']//select[@name='mainContactInfoCmd.title']")
+    public WebElement contactTitleDrop;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.fname']")
+    public WebElement contactFirstNameEdit;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.lname']")
+    public WebElement contactLastNameEdit;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.phone1']")
+    public WebElement contactPhone1Edit ;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.phone2']")
+    public WebElement contactPhone2Edit ;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.phone3']")
+    public WebElement contactPhone3Edit ;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.email']")
+    public WebElement contactEmailEdit;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.fax1']")
+    public WebElement contactFax1Edit;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.fax2']")
+    public WebElement contactFax2Edit;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.fax3']")
+    public WebElement contactFax3Edit;
+
+    @FindBy(xpath = "//select[@name='mainContactInfoCmd.country']")
+    public WebElement contactCountryDrop;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.addr1']")
+    public WebElement contactAddress1;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.addr2']")
+    public WebElement contactAddress2;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.addr3']")
+    public WebElement contactAddress3;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.city']")
+    public WebElement contactCity;
+
+    @FindBy(xpath = "//select[@name='mainContactInfoCmd.state']")
+    public WebElement contactStateDrop;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.zip1']")
+    public WebElement contactZip1;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoCmd.zip2']")
+    public WebElement contactZip2;
+
+    @FindBy(xpath = "//input[@name='mainContactInfoSameAsOrgInfo']")
+    public WebElement contactSameAsOrgCheckbox;
+
+    @FindBy(xpath = "//input[@name='poContactSameAsLocalContact']")
+    public WebElement contactPOContactSameAsCheckbox;
+
+    @FindBy(xpath = "//input[@name='poAddressSameAsLocalAddress']")
+    public WebElement contactPOAddressSameAsCheckbox;
+
+    @FindBy(xpath = "//input[@name='solContactSameAsLocalContact']")
+    public WebElement contactSolContactSameAsCheckbox;
+
+    @FindBy(xpath = "//input[@name='solAddressSameAsLocalAddress']")
+    public WebElement contactSolAddressSameAsCheckbox;
+
+    @FindBy(xpath = "//input[@name='remitContactSameAsLocalContact']")
+    public WebElement contactRemitContactSameAsCheckbox;
+
+    @FindBy(xpath = "//input[@name='remitAddressSameAsLocalAddress']")
+    public WebElement contactRemitAddressSameAsCheckbox;
+
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 4 (Demographics)
+
+    @FindBy(xpath = "//input[@name='demographicInfoCmd.wob']")
+    public WebElement demoWomenOwnedCheckbox;
+
+    @FindBy(xpath = "//input[@name='demographicInfoCmd.smallbusiness']")
+    public WebElement demoSmallOwnedCheckbox;
+
+    @FindBy(xpath = "//input[@name='demographicInfoCmd.vob']")
+    public WebElement demoVeteranOwnedCheckbox;
+
+    @FindBy(xpath = "//select[@name='demographicInfoCmd.minorityTypeId']")
+    public WebElement demoMinorityDrop;
+
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 5&6 (Select EBO)
+
+    @FindBy(xpath = "//td[contains(text(),'Perfect City')]/parent::*//input[@name='buyerOrgCmd.selectedOrgs']")
+    public WebElement buyerPerfectCityCheckbox;
+
+
+    @FindBy(xpath = "//input[@value='A']")
+    public WebElement buyerTandCAcceptRadio;
+
+    //////////////////////////////////////////////////////////////////////// REGISTRATION STEP 7 (Username/Password)
+    @FindBy(xpath = "//input[@name='userName']")
+    public WebElement userNameEdit;
+
+    @FindBy(xpath = "//input[@name='password']")
+    public WebElement userPasswordEdit;
+
+    @FindBy(xpath = "//input[@name='confirmPassword']")
+    public WebElement userPasswordConfirmEdit;
+
+
 }
+/*
+    @FindBy(xpath = "")
+    public WebElement ;
+
+ */
