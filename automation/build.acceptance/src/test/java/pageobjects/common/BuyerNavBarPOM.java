@@ -122,6 +122,7 @@ public class BuyerNavBarPOM  {
 	}
 
 	public void selectTopNavDropDown(String navName) {
+
 		browser.waitForElementToBeClickable(topNav);
 		topNav.findElement(By.xpath("//a[contains(text(),'" + navName + "')]")).click();
 	}

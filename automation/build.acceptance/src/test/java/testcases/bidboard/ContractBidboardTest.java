@@ -44,6 +44,7 @@ public class ContractBidboardTest {
 		
 		// Click Filter reset - verify results for more than just "Active"
 		bidboard.clickReset();
+		browser.waitForPageLoad();
 		Assert.assertTrue("Contract list larger after reset", (bidboard.numberOfContracts() > currentContracts) );
     }
     

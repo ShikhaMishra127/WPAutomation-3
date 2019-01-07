@@ -207,8 +207,9 @@ public class ViewAllReqPOM {
             Date fromDate = new SimpleDateFormat("MM/dd/yyyy").parse(DatePicker.getPastDate());
             Date toDate = new SimpleDateFormat("MM/dd/yyyy").parse(DatePicker.getCurrentDate());
             for (int i = 1; i <= reqresultrows.size(); i++) {
-                String reqcreatedate = buyercontactcol.getText().trim();
-                Date createdDate = new SimpleDateFormat("MM/dd/yyyy").parse(reqcreatedate);
+                String reqcreatedate = createdatecol.getText();
+                System.out.println(reqcreatedate);
+                Date createdDate = new SimpleDateFormat("MMMM dd, yyyy").parse(reqcreatedate);
                 System.out.println(createdDate);
                 Assert.assertTrue(fromDate.before(createdDate));
                 Assert.assertFalse(toDate.after(createdDate));
