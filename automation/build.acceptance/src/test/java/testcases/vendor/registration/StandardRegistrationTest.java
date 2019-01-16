@@ -6,6 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
+import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
@@ -19,6 +20,9 @@ public class StandardRegistrationTest {
     ResourceLoader resource = new ResourceLoader("data/registration");
     RegStandardPOM reg;
     LoginPagePOM login;
+    VendorNavBarPOM vendor;
+    String vendorUsername;
+
     ssnFein vendorNum = new ssnFein();
 
     public StandardRegistrationTest() throws IOException {
@@ -30,13 +34,14 @@ public class StandardRegistrationTest {
         browser = new Browser();
         login = new LoginPagePOM(browser);
         reg = new RegStandardPOM(browser);
+        vendor = new VendorNavBarPOM(browser);
 
         browser.getDriver().get(browser.baseUrl);
     }
 
     @AfterClass
     public void tearDown() {
-     //   browser.close();
+        browser.close();
     }
 
     // loads default for company registration data
@@ -46,33 +51,33 @@ public class StandardRegistrationTest {
         reg.orgURLEdit.sendKeys(resource.getValue("vendor_website"));
 
         new Select(reg.orgEnterpriseTypeDrop).selectByIndex(3);
-        new Select(reg.orgStateIncorporatedDrop).selectByVisibleText("Virginia");
+        new Select(reg.orgStateIncorporatedDrop).selectByVisibleText(resource.getValue("vendor_state"));
         new Select(reg.orgTimeZoneDrop).selectByIndex(5);
 
         reg.orgParentBranchRadioPARENT.click();
 
-        reg.orgCompanyPhone1.sendKeys("800");
-        reg.orgCompanyPhone2.sendKeys("555");
-        reg.orgCompanyPhone3.sendKeys("1212");
+        reg.orgCompanyPhone1.sendKeys(resource.getValue("vendor_phone_pt1"));
+        reg.orgCompanyPhone2.sendKeys(resource.getValue("vendor_phone_pt2"));
+        reg.orgCompanyPhone3.sendKeys(resource.getValue("vendor_phone_pt3"));
 
-        reg.orgCompanyFax1.sendKeys("800");
-        reg.orgCompanyFax2.sendKeys("777");
-        reg.orgCompanyFax3.sendKeys("3434");
+        reg.orgCompanyFax1.sendKeys(resource.getValue("vendor_fax_pt1"));
+        reg.orgCompanyFax2.sendKeys(resource.getValue("vendor_fax_pt2"));
+        reg.orgCompanyFax3.sendKeys(resource.getValue("vendor_fax_pt3"));
 
-        reg.orgEmailEdit.sendKeys("andrew.comenzo@perfect.com");
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", reg.orgEmailConfirmEdit, "andrew.comenzo@perfect.com" );
+        reg.orgEmailEdit.sendKeys(resource.getValue("vendor_email"));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", reg.orgEmailConfirmEdit, resource.getValue("vendor_email") );
 
-        new Select(reg.orgCountryDrop).selectByVisibleText("United States");
+        new Select(reg.orgCountryDrop).selectByVisibleText(resource.getValue("vendor_country"));
 
-        reg.orgAddress1.sendKeys("PO Box 22321");
-        reg.orgAddress2.sendKeys("1 Bayport Way");
-        reg.orgAddress3.sendKeys("Suite 120");
+        reg.orgAddress1.sendKeys(resource.getValue("vendor_address1"));
+        reg.orgAddress2.sendKeys(resource.getValue("vendor_address2"));
+        reg.orgAddress3.sendKeys(resource.getValue("vendor_address3"));
 
-        reg.orgCity.sendKeys("Newport News");
+        reg.orgCity.sendKeys(resource.getValue("vendor_city"));
 
-        new Select(reg.orgStateDrop).selectByVisibleText("Virginia");
+        new Select(reg.orgStateDrop).selectByVisibleText(resource.getValue("vendor_state"));
 
-        reg.orgZip1.sendKeys("23606");
+        reg.orgZip1.sendKeys(resource.getValue("vendor_zip"));
     }
 
     @Test(priority = 1)
@@ -93,7 +98,7 @@ public class StandardRegistrationTest {
         reg.startButton.click();
 
         // go to Terms & Conditions page
-        Assert.assertTrue("T&C Loaded OK", reg.stepTitle.getText().contains("WebProcure Terms and Conditions"));
+        Assert.assertTrue("T&C Loaded OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_tc")));
 
         // initially decline terms and conditions
         reg.declineButton.click();
@@ -102,7 +107,7 @@ public class StandardRegistrationTest {
         // now go back and accept Terms and Conditions
         reg.startButton.click();
         reg.acceptButton.click();
-        Assert.assertTrue("Terms Accepted OK", reg.stepTitle.getText().contains("Organization Information"));
+        Assert.assertTrue("Terms Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_org")));
     }
 
     @Test(priority = 3)
@@ -120,7 +125,7 @@ public class StandardRegistrationTest {
         reg.continueButton.click();
         reg.getOrgDuplicateCloseButton.click();  // close pesky pop-up
 
-        Assert.assertTrue("Duplicate FEIN message OK", reg.orgErrorMessage.getText().contains("already exists in the system"));
+        Assert.assertTrue("Duplicate FEIN message OK", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
 
         // reset FEIN
         reg.orgFein1Edit.clear();
@@ -140,7 +145,7 @@ public class StandardRegistrationTest {
         // click CONTINUE and verify fail message
         reg.continueButton.click();
 
-        Assert.assertTrue("Duplicate SSN message OK", reg.orgErrorMessage.getText().contains("already exists in the system"));
+        Assert.assertTrue("Duplicate SSN message OK", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
 
         // reset SSN
         reg.orgSsn1Edit.clear();
@@ -159,16 +164,16 @@ public class StandardRegistrationTest {
 
         reg.continueButton.click();
 
-        Assert.assertTrue("Org Info Accepted OK", reg.stepTitle.getText().contains("Contact Information"));
+        Assert.assertTrue("Org Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_con")));
 
     }
 
     @Test(priority = 6)
     public void ContactInformationTest() {
 
-        new Select(reg.contactTitleDrop).selectByVisibleText("Mrs.");
-        reg.contactFirstNameEdit.sendKeys("Zelda");
-        reg.contactLastNameEdit.sendKeys("Lipshitz");
+        new Select(reg.contactTitleDrop).selectByVisibleText(resource.getValue("vendor_title"));
+        reg.contactFirstNameEdit.sendKeys(resource.getValue("vendor_firstname"));
+        reg.contactLastNameEdit.sendKeys(resource.getValue("vendor_lastname"));
 
         // auto-copy all fields from main contact info
         reg.contactSameAsOrgCheckbox.click();
@@ -182,25 +187,25 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Contact Info Accepted OK", reg.stepTitle.getText().contains("Demographic Information"));
+        Assert.assertTrue("Contact Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_dem")));
     }
 
-    @Test(priority = 6)
+    @Test(priority = 7)
     public void DemographicInfoTest() {
 
         // select minority assignments
         reg.demoSmallOwnedCheckbox.click();
         reg.demoVeteranOwnedCheckbox.click();
         reg.demoWomenOwnedCheckbox.click();
-        new Select(reg.demoMinorityDrop).selectByVisibleText("Hispanic");
+        new Select(reg.demoMinorityDrop).selectByVisibleText(resource.getValue("vendor_minority"));
 
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Demographic Info Accepted OK", reg.stepTitle.getText().contains("Select Buying Organizations"));
+        Assert.assertTrue("Demographic Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_ebo")));
     }
 
-    @Test(priority = 6)
+    @Test(priority = 8)
     public void SelectBuyerTest() {
 
         // add new supplier to Perfect City
@@ -209,37 +214,55 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Select target buyer OK", reg.stepTitle.getText().contains("Buyer Terms and Conditions"));
+        Assert.assertTrue("Select target buyer OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_btc")));
 
         reg.buyerTandCAcceptRadio.click();
         reg.continueButton.click();
 
-        Assert.assertTrue("Accept buyer T&Cs OK", reg.stepTitle.getText().contains("Select Username and Password"));
+        Assert.assertTrue("Accept buyer T&Cs OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_usr")));
 
     }
 
-    @Test(priority = 6)
+    @Test(priority = 9)
     public void SelectUsernameTest() {
 
         // username is unique and set to our SSN/FEIN number for this test
-        reg.userNameEdit.sendKeys(vendorNum.getNumber());
+        vendorUsername = vendorNum.getNumber();
+        reg.userNameEdit.sendKeys(vendorUsername);
 
         // enter password and confirmation
-        reg.userPasswordEdit.sendKeys("Xxxxxx1!");
-        reg.userPasswordConfirmEdit.sendKeys("Xxxxxx1!");
+        reg.userPasswordEdit.sendKeys(resource.getValue("vendor_password"));
+        reg.userPasswordConfirmEdit.sendKeys(resource.getValue("vendor_password"));
 
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Username/Password created OK", reg.stepTitle.getText().contains("Confirm Registration Information"));
+        Assert.assertTrue("Username/Password created OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_fin")));
 
         // click Continue after summary page shown
         reg.continueButton.click();
 
-        // AT THIS POINT you should be logged in as the vendor. look around. do we have a vendor interface POM???
-
-
+        // AT THIS POINT you should be logged in as the vendor
+        // Wait for login username/password fields
+        browser.waitForElementToAppear(login.txtUsername);
+        login.txtUsername.clear();
     }
 
+    @Test(priority = 10)
+    public void ConfirmVendorLogin() {
+
+        // log in as the new vendor. Username is our SSN/FEIN number
+        vendorUsername = vendorNum.getNumber();
+        login.loginAsUser(vendorUsername, resource.getValue("vendor_password"));
+
+        browser.waitForElementToAppear(vendor.topNav);
+
+        // If logged in properly, the username should be the top menu item
+        String FullName = (resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
+        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(FullName));
+
+        vendor.vendorLogout();
+
+    }
 
 }
