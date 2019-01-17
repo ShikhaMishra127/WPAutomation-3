@@ -1,7 +1,5 @@
 package utilities.common;
 
-import sun.util.calendar.BaseCalendar;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -11,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 public class DatePicker {
 
     public void setDate(String Date){
-        SimpleDateFormat a = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat a;
+        a = new SimpleDateFormat("mm/dd/yyyy");
         try{
             System.out.println(a.parse(Date).getDate());
         }catch (ParseException e){

@@ -49,7 +49,7 @@ public class LoginPagePOM {
     @FindBy(id = "login-submit")
     public WebElement btnLogin;
 
-    @FindBy(xpath = "//a[text()='Register Here']")
+    @FindBy(xpath = "//a[contains(@href,'/supplierReg')]")
     public WebElement lnkRegister;
 
     @FindBy(xpath = "//a[@id='userMenu']")
@@ -89,14 +89,22 @@ public class LoginPagePOM {
         lnkRegister.click();
     }
 
-	public void loginAsBuyer() {
-		// before starting our tests, first log into the system as a buyer
-		//normalizePassword();
+    public void loginAsUser(String username, String password) {
         handleCookie();
-		setUsername(browser.buyerUsername);
-		setPassword(browser.buyerPassword);
-		clickOnLogin();
+        setUsername(username);
+        setPassword(password);
+        clickOnLogin();
         browser.waitForPageLoad();
-	}
+    }
+
+    public void loginAsBuyer() {
+        // before starting our tests, first log into the system as a buyer
+        //normalizePassword();
+        handleCookie();
+        setUsername(browser.buyerUsername);
+        setPassword(browser.buyerPassword);
+        clickOnLogin();
+        browser.waitForPageLoad();
+    }
 
 }
