@@ -16,7 +16,7 @@ public class LoginPagePOM {
      * Constructor called by PageFactory.instantiatePage
      * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
      */
-    public LoginPagePOM(WebDriver browser) throws IOException {
+    public LoginPagePOM(WebDriver browser) {
         this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
 		//normalizePassword(Browser.buyerUsername);
