@@ -20,7 +20,7 @@ public class BuyerNavBarPOM  {
      * Constructor called by PageFactory.instantiatePage
      * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
      */
-	public BuyerNavBarPOM(WebDriver browser) throws IOException {
+	public BuyerNavBarPOM(WebDriver browser) {
 	    this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
 	}

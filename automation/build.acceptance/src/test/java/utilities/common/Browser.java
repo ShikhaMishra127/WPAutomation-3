@@ -34,7 +34,7 @@ public class Browser implements WebDriver {
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
 
-    public Browser() throws IOException {
+    public Browser() {
 
         if (driver == null) {
 

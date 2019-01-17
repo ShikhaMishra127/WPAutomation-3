@@ -236,7 +236,7 @@ public class InvoicePom{
 		}
 		
 	
-	public void additem() throws IOException 
+	public void additem()
 	{
 		Findpo.click();
 		browser.switchToFrame(frame);
@@ -298,7 +298,7 @@ public class InvoicePom{
 		nxt.click();
 	}
 
-	public void attachment() throws IOException {
+	public void attachment() {
 		browser.waitForPageLoad();
 		nxtclick.click();
 	}
