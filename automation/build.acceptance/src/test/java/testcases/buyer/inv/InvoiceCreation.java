@@ -21,8 +21,8 @@ import utilities.common.Browser;
 //import utilities.common.HomePagebtn;
 
 @Listeners//(ExtentReport.class)
-public class InvoiceCreation extends Browser {
-	Browser browser=new Browser();
+public class InvoiceCreation {
+	Browser browser;
 	ViewinvoicePom viewinv;
 	InvoicePom invpom;
 	BuyerNavBarPOM navbar;
@@ -33,13 +33,6 @@ public class InvoiceCreation extends Browser {
 
 	public InvoiceCreation() throws IOException {
 
-		viewinv = new ViewinvoicePom(browser);
-		invpom = new InvoicePom(browser);
-		navbar = new BuyerNavBarPOM(browser);
-		// log4jClass log=new log4jClass();
-		//ViewinvoicePom view = new ViewinvoicePom();
-		login = new LoginPagePOM(browser);
-	
 	}
 	
 
@@ -47,6 +40,13 @@ public class InvoiceCreation extends Browser {
 	@BeforeClass
 	public void setup() {
 		try {
+			browser = new Browser();
+			viewinv = new ViewinvoicePom(browser);
+			invpom = new InvoicePom(browser);
+			navbar = new BuyerNavBarPOM(browser);
+			// log4jClass log=new log4jClass();
+			//ViewinvoicePom view = new ViewinvoicePom();
+			login = new LoginPagePOM(browser);
 			// log.info("Before Class entered");
 			//ExtentReport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
 			//ExtentReport.logger.log(LogStatus.INFO, "Test Case Started");
@@ -64,7 +64,7 @@ public class InvoiceCreation extends Browser {
 	}
 	@AfterClass
 	public void tearDown() {
-		
+
 		//ExtentReport.report.endTest(ExtentReport.logger);
 
 		/*
@@ -72,6 +72,7 @@ public class InvoiceCreation extends Browser {
 		 * ExtentReport.report.flush(); ExtentReport.report.close();
 		 */
 		navbar.logout();
+		browser.close();
 		
 	}
 	/********* Invoice Creation happy flow ***********/

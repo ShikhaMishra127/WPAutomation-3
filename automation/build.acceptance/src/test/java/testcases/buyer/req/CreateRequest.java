@@ -25,22 +25,23 @@ public class CreateRequest {
 
     public CreateRequest() throws IOException {
 
+    }
+
+    @BeforeClass
+    public void setup() throws IOException {
         browser = new Browser();
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
         offrequest = new OffCatalogReqPOM(browser);
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
-    }
-
-    @BeforeClass
-    public void setup() throws IOException {
 
     	browser.getDriver().get(browser.baseUrl);
 
         // before starting our tests, first log into the system as a buyer
             testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
             testreport.logger.log(LogStatus.INFO, "Test Case Started");
+            browser.getDriver().get(browser.baseUrl);
             login.loginAsBuyer();
             testreport.logger.log(LogStatus.PASS, "Logged in Successful");
 
@@ -66,10 +67,8 @@ public class CreateRequest {
         navbar.logout();
         testreport.report.endTest(ExtentReport.logger);
         testreport.report.flush();
-        // login.close();
+        browser.close();
     }
-
-
 
 }
 

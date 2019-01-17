@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 
 public class OffCatalogReqPOM {
 
@@ -239,7 +242,7 @@ public class OffCatalogReqPOM {
 
     public String bootAlertbox() throws Exception {
 
-        Thread.sleep(browser.defaultWait);
+        TimeUnit.SECONDS.sleep(browser.defaultWait);
         String alerttitle = alertboxtitle.getText();
         System.out.println(alerttitle);
         return alerttitle;
@@ -247,7 +250,8 @@ public class OffCatalogReqPOM {
 
     public String bootalertmessage() throws Exception {
 
-        Thread.sleep(browser.defaultWait);
+
+        TimeUnit.SECONDS.sleep(browser.defaultWait);
         String alertmessage = alterboxmessage.getText();
         System.out.println(alertmessage);
         return alertmessage;
