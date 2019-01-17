@@ -66,7 +66,7 @@ public class CreateRequest {
         navbar.logout();
         testreport.report.endTest(ExtentReport.logger);
         testreport.report.flush();
-        // login.close();
+        browser.close();
     }
 
 
