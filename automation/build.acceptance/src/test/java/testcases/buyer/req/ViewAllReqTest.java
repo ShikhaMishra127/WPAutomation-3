@@ -16,7 +16,7 @@ import utilities.common.DatePicker;
 import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 
-public class ViewAllReqTC {
+public class ViewAllReqTest {
 
     Browser browser;
     LoginPagePOM login;
@@ -25,7 +25,7 @@ public class ViewAllReqTC {
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
 
-    public ViewAllReqTC() { }
+    public ViewAllReqTest() { }
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
