@@ -15,7 +15,7 @@ import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 
 @Listeners
-public class InvoiceCreation {
+public class InvoiceCreationTest {
 	private ViewinvoicePom viewinv;
 	private InvoicePom invpom;
 	private BuyerNavBarPOM navbar;
@@ -23,7 +23,7 @@ public class InvoiceCreation {
 	private Browser browser;
 	
 
-	public InvoiceCreation() { }
+	public InvoiceCreationTest() { }
 
 	@BeforeClass
 	public void setup() {
