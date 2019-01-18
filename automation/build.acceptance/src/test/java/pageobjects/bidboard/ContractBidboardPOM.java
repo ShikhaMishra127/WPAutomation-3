@@ -1,6 +1,8 @@
 package pageobjects.bidboard;
 
 import java.io.IOException;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,7 +41,10 @@ public class ContractBidboardPOM {
 	
 	@FindBy(xpath = BidBoardList + "/div/div/div[3]/div[5]/ul/li[1]/span")
 	public WebElement firstContractLink;
-	
+
+	@FindBy(xpath = "//div[@class= 'contractDetail']")
+	public WebElement contractdetailspage;
+
 	@FindBy(xpath = BidBoardDetail + "/div[1]/div/div/div[2]/div/div[1]/h5")
 	public WebElement summaryHeader;
 	
@@ -105,7 +110,12 @@ public class ContractBidboardPOM {
 		firstContractLink.click();
 		
 		// wait for summary page to load before returning
-		try { Thread.sleep(browser.defaultWait); } catch (InterruptedException e) { e.printStackTrace(); }
+		try {
+			Thread.sleep(browser.defaultWait);
+			browser.visibilityOfElement(contractdetailspage);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		browser.WaitTillElementIsPresent(summaryAttachments);
 	}
 }
