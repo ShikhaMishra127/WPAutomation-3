@@ -17,7 +17,7 @@ import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 
 public class ViewAllReqTest {
-    
+
     Browser browser;
     LoginPagePOM login;
     BuyerNavBarPOM navbar;
