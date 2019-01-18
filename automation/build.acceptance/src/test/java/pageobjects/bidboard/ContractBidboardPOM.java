@@ -112,7 +112,7 @@ public class ContractBidboardPOM {
 		// wait for summary page to load before returning
 		try {
 			Thread.sleep(browser.defaultWait);
-			browser.visibilityOfElement(contractdetailspage);
+			//browser.visibilityOfElement(contractdetailspage);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
