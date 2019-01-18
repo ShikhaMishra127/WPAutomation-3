@@ -110,7 +110,7 @@ public class ViewAllReqTest {
         testreport.logger.log(LogStatus.PASS, "Request copied and created Successful");
         viewall.clickReset();
     }
-    
+
     @Test(priority = 8)
     public void printRequestTC(){
         viewall.reqPrint();

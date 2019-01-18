@@ -22,6 +22,7 @@ public class CreateRequestTest {
     ExtentReport testreport;
 
     public CreateRequestTest() { }
+
     @BeforeClass
     public void setup() {
         browser = new Browser();
