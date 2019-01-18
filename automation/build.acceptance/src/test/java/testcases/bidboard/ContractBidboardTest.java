@@ -34,7 +34,7 @@ public class ContractBidboardTest {
     }
     
     @Test()
-    public void ViewContractList() {
+    public void ViewContractList() throws Exception {
     	
     	bidboard.clickHome();
 		
@@ -45,15 +45,17 @@ public class ContractBidboardTest {
 		// Click Filter reset - verify results for more than just "Active"
 		bidboard.clickReset();
 		browser.waitForPageLoad();
+		Thread.sleep(5000);
 		Assert.assertTrue("Contract list larger after reset", (bidboard.numberOfContracts() > currentContracts) );
     }
     
     @Test()
-    public void ViewContractSummary() {
+    public void ViewContractSummary() throws Exception {
  	
     	// Look up one, unique contract
 		bidboard.searchContracts(resource.getValue("contract_number"));
 		browser.WaitTillElementIsPresent(bidboard.firstContract);
+		Thread.sleep(browser.defaultWait);
 		
 		// verify title, date, supplier and the fact only one contract returned
 		Assert.assertTrue("Only the target contract returned", (bidboard.numberOfContracts() == 1) );
