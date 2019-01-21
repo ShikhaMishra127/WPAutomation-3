@@ -3,3 +3,5 @@ WPAutomation/com.perfect.wp.automation/test-output/
 WPAutomation/.idea/workspace.xml
 WPAutomation/.recommenders/
 automation/build.acceptance/.idea
+*.iml
+automation/build.acceptance/BuildReport.html

@@ -1,8 +1,6 @@
 package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
-import java.io.IOException;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,7 +12,7 @@ import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ExtentReport;
 
-public class CreateRequest {
+public class CreateRequestTest {
 
     Browser browser;
     LoginPagePOM login;
@@ -23,33 +21,26 @@ public class CreateRequest {
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
 
-    public CreateRequest() throws IOException {
-
-    }
+    public CreateRequestTest() { }
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
         browser = new Browser();
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
         offrequest = new OffCatalogReqPOM(browser);
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
-
     	browser.getDriver().get(browser.baseUrl);
-
         // before starting our tests, first log into the system as a buyer
-            testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-            testreport.logger.log(LogStatus.INFO, "Test Case Started");
-            browser.getDriver().get(browser.baseUrl);
-            login.loginAsBuyer();
-            testreport.logger.log(LogStatus.PASS, "Logged in Successful");
-
+        testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+        testreport.logger.log(LogStatus.INFO, "Test Case Started");
+        login.loginAsBuyer();
+        testreport.logger.log(LogStatus.PASS, "Logged in Successful");
     }
 
     @Test()
     public void createOffCatRequest() {
-
         navbar.selectTopNavDropDown("Request");
         navbar.requestdropdown("Create new");
         Assert.assertTrue(navbar.getTitle().contains("WebProcure: Request And Workflow"));

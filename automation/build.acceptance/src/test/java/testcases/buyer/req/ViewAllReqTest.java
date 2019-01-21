@@ -16,7 +16,7 @@ import utilities.common.DatePicker;
 import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 
-public class ViewAllReqTC{
+public class ViewAllReqTest {
 
     Browser browser;
     LoginPagePOM login;
@@ -25,14 +25,12 @@ public class ViewAllReqTC{
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
 
-    public ViewAllReqTC() throws IOException {
-
-    }
+    public ViewAllReqTest() { }
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
         browser = new Browser();
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
@@ -40,18 +38,11 @@ public class ViewAllReqTC{
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
         // before starting our tests, first log into the system as a buyer
-        try{
-            testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-            testreport.logger.log(LogStatus.INFO, "Test Case Started");
-            browser.getDriver().get(browser.baseUrl);
-            login.loginAsBuyer();
-            testreport.logger.log(LogStatus.PASS, "Logged in Successful");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            e.getMessage();
-            Assert.fail();
-        }
+        testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+        testreport.logger.log(LogStatus.INFO, "Test Case Started");
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+        testreport.logger.log(LogStatus.PASS, "Logged in Successful");
     }
 
     @Test
@@ -61,15 +52,14 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Redirected to View All Req Successful");
     }
 
-    @Test(priority = 1, enabled = true)
+    @Test(priority = 1)
     public void byStatus(){
-
         viewall.filterByStatus(reqdata.getValue("RequestStatus"));
         viewall.clickReset();
         testreport.logger.log(LogStatus.PASS, "Filtered By Status Successfull");
     }
 
-    @Test(priority = 2, enabled = true)
+    @Test(priority = 2)
     public void byRequester() {
 
         viewall.filterByRequester(reqdata.getValue("Requester"));
@@ -77,7 +67,7 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Filtered By Requester Successfull");
     }
 
-    @Test(priority = 3, enabled = true)
+    @Test(priority = 3)
     void byRequestNumber(){
 
         viewall.filterByRequestNumber(reqdata.getValue("RequestNumber"));
@@ -85,7 +75,7 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Filtered By RequestNumber Successfull");
     }
 
-    @Test(priority = 4, enabled = true)
+    @Test(priority = 4)
     public void byRequestName(){
 
         viewall.filterByRequestName(reqdata.getValue("RequestName"));
@@ -93,7 +83,7 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Filtered By RequestName Successfull");
     }
 
-    @Test(priority = 5, enabled = true)
+    @Test(priority = 5)
     public void byBuyerContact(){
 
         viewall.filteByBuyerContact(reqdata.getValue("BuyerContact"));
@@ -101,7 +91,7 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Filtered By BuyerContact Successfull");
     }
 
-    @Test(priority = 6, enabled = true)
+    @Test(priority = 6)
     public void byDate(){
         viewall.setFromDate(DatePicker.getPastDate());
         viewall.setToDate(DatePicker.getCurrentDate());
@@ -111,7 +101,7 @@ public class ViewAllReqTC{
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
 
-    @Test(priority = 7, enabled = true)
+    @Test(priority = 7)
     public void copyRequestTC(){
         viewall.copyRequest();
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "New Request created.");
@@ -121,7 +111,7 @@ public class ViewAllReqTC{
         viewall.clickReset();
     }
 
-    @Test(priority = 8, enabled = true)
+    @Test(priority = 8)
     public void printRequestTC(){
         viewall.reqPrint();
         viewall.validatePrint();
