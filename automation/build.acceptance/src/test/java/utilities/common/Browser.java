@@ -233,4 +233,16 @@ public class Browser implements WebDriver {
         driver.close();
         driver.switchTo().window(parentWindow);
     }
+
+    public void UncheckCheckbox(WebElement element) {
+        if (element.isSelected()) {
+            element.click();
+        }
+    }
+
+    public void CheckCheckbox(WebElement element) {
+        if (!element.isSelected()) {
+            element.click();
+        }
+    }
 }
