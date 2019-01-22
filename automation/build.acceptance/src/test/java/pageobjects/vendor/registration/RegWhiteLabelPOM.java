@@ -1,12 +1,12 @@
 package pageobjects.vendor.registration;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RegWhiteLabelPOM {
 
@@ -114,33 +114,144 @@ public class RegWhiteLabelPOM {
     @FindBy(xpath = "//input[@id='zipcode']")
     public WebElement orgZipEdit;
 
+    @FindBy(xpath = "//a[@id='disableCompValidation']")
+    public WebElement orgValidateAddressLink;
+
     @FindBy(xpath = "//select[@id='suptype']")
     public WebElement orgBusinessTypeDrop;
+
+    @FindBy(xpath = "//input[@id='divnow']")
+    public WebElement orgDiversitySectionRadio;
+
+    @FindBy(xpath = "//input[@id='wbe']")
+    public WebElement orgDiversityWbeRadio;
+
+    @FindBy(xpath = "//input[@id='mbe']")
+    public WebElement orgDiversityMbeRadio;
+
+    @FindBy(xpath = "//input[@id='dbe']")
+    public WebElement orgDiversityDbeCheckbox;
+
+    @FindBy(xpath = "//input[@id='emvendor2']")
+    public WebElement orgEmergencySectionRadio;
+
+    @FindBy(xpath = "//input[@id='emcontactname']")
+    public WebElement orgEmergencyNameEdit;
+
+    @FindBy(xpath = "//input[@id='emcontactemail']")
+    public WebElement orgEmergencyEmailEdit;
+
+    @FindBy(xpath = "//input[@id='verifyemcontactemail']")
+    public WebElement orgEmergencyEmailConfirmEdit;
+
+    @FindBy(xpath = "//input[@id='emphone']")
+    public WebElement orgEmergencyPhoneEdit;
+
+    @FindBy(xpath = "//input[@id='verifyemphone']")
+    public WebElement orgEmergencyPhoneConfirmEdit;
+
+    //////////////////////////////////////////////////////////////////////// CONTACT INFORMATION PAGE
+
+    @FindBy(xpath = "//div[@id='contactinfo']/h2/span")
+    public WebElement contactInfoTitle;
+
+    @FindBy(xpath = "//select[@id='salutation']")
+    public WebElement contactSalutationDrop;
+
+    @FindBy(xpath = "//input[@id='fname']")
+    public WebElement contactFirstNameEdit;
+
+    @FindBy(xpath = "//input[@id='lname']")
+    public WebElement contactLastNameEdit;
+
+    @FindBy(xpath = "//input[@id='jobtitle']")
+    public WebElement contactJobEdit;
+
+    @FindBy(xpath = "//input[@id='myphone']")
+    public WebElement contactPhoneEdit;
+
+    @FindBy(xpath = "//input[@id='verifymyphone']")
+    public WebElement contactPhoneConfirmEdit;
+
+    @FindBy(xpath = "//input[@id='myfax']")
+    public WebElement contactFaxEdit;
+
+    @FindBy(xpath = "//input[@id='verifymyfax']")
+    public WebElement contactFaxConfirmEdit;
+
+    @FindBy(xpath = "//input[@id='username']")
+    public WebElement contactEmailEdit;
+
+    @FindBy(xpath = "//input[@id='verifyusername']")
+    public WebElement contactEmailConfirmEdit;
+
+    @FindBy(xpath = "//input[@id='username1']")
+    public WebElement contactUsernameEdit;
+
+    @FindBy(xpath = "//input[@id='password']")
+    public WebElement contactPasswordEdit;
+
+    @FindBy(xpath = "//input[@id='retypePassword']")
+    public WebElement contactPasswordConfirmEdit;
+
+    //////////////////////////////////////////////////////////////////////// PAYMENT INFORMATION PAGE
+
+    @FindBy(xpath = "//div[@id='paymentTypeSelection']/h2/span")
+    public WebElement paymentInfoTitle;
+
+    @FindBy(xpath = "//tr[@id='paymentType_Row_1']//input[@type='checkbox']")
+    public WebElement paymentActionFirstCheckbox;
+
+
+    //////////////////////////////////////////////////////////////////////// COMMODITY CODES PAGE
+
+    @FindBy(xpath = "//div[@id='categories']/h2/span")
+    public WebElement commodityInfoTitle;
+
+    @FindBy(xpath = "//input[@id='searchTxt']")
+    public WebElement commoditySearchEdit;
+
+    @FindBy(xpath = "//button[@id='searchCats']")
+    public WebElement commoditySearchButton;
+
+    @FindBy(xpath = "//button[@id='clearsearch']")
+    public WebElement commoditySearchClearButton;
+
+    @FindBy(xpath = "//div[@id='catTreeDiv']")
+    public WebElement commoditySearchResults;
+
+    @FindBy(xpath = "//div[@id='catTreeDiv']//span[contains(@class, 'fancytree-title')]")
+    public WebElement commoditySearchTree;
+
+
+
+
+    public void selectCommodityByCode(String code) {
+
+        String checkboxpath = "//span[contains(@class, 'fancytree-title') and contains(text(), '" + code + "')]/preceding-sibling::*[1]";
+
+        // search by code
+        commoditySearchClearButton.click();
+        commoditySearchEdit.sendKeys(code);
+        commoditySearchButton.click();
+
+        // wait for tree to be updated with results
+        //browser.WaitUntilTextUpdate(commoditySearchTree);
+
+        browser.waitForElementToAppear(By.xpath(checkboxpath));
+
+        // find the checkbox of the found code
+        WebElement checkbox = commoditySearchResults.findElement(By.xpath(checkboxpath));
+
+        // click the correct code
+        browser.waitForElementToBeClickable(checkbox);
+        checkbox.click();
+    }
 }
-
-
 /*
 
-    @FindBy(xpath = "")
-    public WebElement ;
 
-    @FindBy(xpath = "")
-    public WebElement ;
 
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
 
     @FindBy(xpath = "")
     public WebElement ;

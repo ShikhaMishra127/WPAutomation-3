@@ -1,6 +1,7 @@
 package testcases.vendor.registration;
 
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.Select;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
 import org.testng.annotations.AfterClass;
@@ -10,6 +11,7 @@ import utilities.common.ResourceLoader;
 import utilities.common.ssnFein;
 
 import java.io.IOException;
+import java.nio.channels.SelectableChannel;
 
 public class WhiteLabelRegistrationTest {
 
@@ -32,12 +34,10 @@ public class WhiteLabelRegistrationTest {
 
     @Test(priority = 1)
     public void startTest() {
-        //regFrame
+
         browser.switchToFrame(reg.regFrame);
         browser.waitForPageLoad();
-        System.out.format("TITLE: %s%n", reg.stepHeader.getText());
         Assert.assertTrue("Doing Business with MO banner OK", reg.stepHeader.getText().contains("Doing Business"));
-
     }
 
     @Test(priority = 2)
@@ -91,16 +91,92 @@ public class WhiteLabelRegistrationTest {
     }
 
     @Test(priority = 5)
-    public void ValidOrgInfoTest() {
-
+    public void OrgInfoPageTest() {
+/*
         reg.orgFeinEdit1.sendKeys(vendorNum.getFeinPt1());
         reg.orgFeinEdit2.sendKeys(vendorNum.getFeinPt2());
         reg.orgFeinConfirmEdit1.sendKeys(vendorNum.getFeinPt1());
         reg.orgFeinConfirmEdit2.sendKeys(vendorNum.getFeinPt2());
+        */
+        browser.waitForElementToAppear(reg.orgInfoTitle);
+        Assert.assertTrue("Organization Info banner OK", reg.orgInfoTitle.getText().contains("Organization Information"));
 
+        reg.orgFeinEdit1.sendKeys("01");
+        reg.orgFeinEdit2.sendKeys("2120190");
+        reg.orgFeinConfirmEdit1.sendKeys("01");
+        reg.orgFeinConfirmEdit2.sendKeys("2120190");
+
+        //reg.orgCompanyName.sendKeys("Automated Supplier " + vendorNum.getNumber());
+        reg.orgCompanyName.sendKeys("Automated Supplier 012120190");
+        reg.orgAddressEdit1.sendKeys("123 Industrial Pkwy");
+        reg.orgAddressEdit2.sendKeys("Suite 200");
+        reg.orgCityEdit.sendKeys("Newport News");
+        new Select(reg.orgStateDrop).selectByVisibleText("Virginia");
+        reg.orgZipEdit.sendKeys("23606");
+        new Select(reg.orgBusinessTypeDrop).selectByVisibleText("Individual/Sole Proprietor");
+
+        browser.ClickWhenClickable(reg.orgDiversitySectionRadio);
+        browser.ClickWhenClickable(reg.orgDiversityWbeRadio);
+        browser.ClickWhenClickable(reg.orgDiversityDbeCheckbox);
+
+        browser.ClickWhenClickable(reg.orgEmergencySectionRadio);
+        reg.orgEmergencyNameEdit.sendKeys("Andrew Comenzo");
+        reg.orgEmergencyPhoneEdit.sendKeys("8005551212");
+        reg.orgEmergencyPhoneConfirmEdit.sendKeys("8005551212");
+        reg.orgEmergencyEmailEdit.sendKeys("andrew.comenzo@perfect.com");
+        reg.orgEmergencyEmailConfirmEdit.sendKeys("andrew.comenzo@perfect.com");
+
+        browser.ClickWhenClickable(reg.orgValidateAddressLink);
+        reg.nextButton.click();
 
 
     }
 
+    @Test(priority = 6)
+    public void ContactInfoPageTest() {
+
+        browser.waitForElementToAppear(reg.contactInfoTitle);
+        Assert.assertTrue("Contact Info banner OK", reg.contactInfoTitle.getText().contains("Organization Contact Information"));
+
+        reg.contactFirstNameEdit.sendKeys("Zelda");
+        reg.contactLastNameEdit.sendKeys("Lipinski");
+        reg.contactJobEdit.sendKeys("Automated User");
+        reg.contactPhoneEdit.sendKeys("1234567890");
+        reg.contactPhoneConfirmEdit.sendKeys("1234567890");
+        reg.contactFaxEdit.sendKeys("1234567890");
+        reg.contactFaxConfirmEdit.sendKeys("1234567890");
+        reg.contactEmailEdit.sendKeys("andrew.comenzo@perfect.com");
+        reg.contactEmailConfirmEdit.sendKeys("andrew.comenzo@perfect.com");
+        reg.contactUsernameEdit.sendKeys("012120190");
+        reg.contactPasswordEdit.sendKeys("Xxxxxx1!");
+        reg.contactPasswordConfirmEdit.sendKeys("Xxxxxx1!");
+
+        reg.nextButton.click();
 
     }
+
+    @Test(priority = 7)
+    public void PaymentTypePageTest() {
+
+        browser.waitForElementToAppear(reg.paymentInfoTitle);
+        Assert.assertTrue("Payment Type banner OK", reg.paymentInfoTitle.getText().contains("Organization Payment Information"));
+
+        browser.ClickWhenClickable(reg.nextButton);
+
+    }
+
+    @Test(priority = 8)
+    public void CommodityPageTest() {
+
+        browser.waitForElementToAppear(reg.commodityInfoTitle);
+        Assert.assertTrue("Commodity banner OK", reg.commodityInfoTitle.getText().contains("Select Commodity/Service Codes"));
+
+        // Add commodity codes to profile (level 2 & 4)
+        reg.selectCommodityByCode("51290000");
+        reg.selectCommodityByCode("77111503");
+
+        // submit registration
+        //reg.nextButton.click();
+    }
+
+}
