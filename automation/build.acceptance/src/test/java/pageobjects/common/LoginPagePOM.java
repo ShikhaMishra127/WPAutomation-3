@@ -61,6 +61,14 @@ public class LoginPagePOM {
     @FindBy(xpath = "//div[contains(@class,'error alert alert-danger')]")
     public WebElement alert;
 
+    @FindBy(xpath = "(//img[@src='/images/registration/arrow_accept.gif'])[1]")
+    public WebElement vendorAcceptTermsButton;
+
+    @FindBy(xpath = "(//img[@src='/images/registration/arrow_decline.gif'])[1]")
+    public WebElement vendorDeclineTermsButton;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
     public void setUsername(String str) {
         browser.waitForElementToBeClickable(txtUsername);
         txtUsername.sendKeys(str);

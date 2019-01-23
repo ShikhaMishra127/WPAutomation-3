@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
+import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
 import org.testng.annotations.AfterClass;
@@ -21,6 +22,7 @@ public class WhiteLabelRegistrationTest {
     ResourceLoader resource = new ResourceLoader("data/registration");
     RegWhiteLabelPOM reg;
     LoginPagePOM login;
+    VendorProfileVerificationPOM profile;
     VendorNavBarPOM vendor;
 
     String vendor_username;
@@ -33,9 +35,10 @@ public class WhiteLabelRegistrationTest {
     public void setup() throws IOException {
 
         browser = new Browser();
-        String baseURL = resource.getValue("wl_baseurl");
+        String wlBaseURL = resource.getValue("wl_baseurl");
         reg = new RegWhiteLabelPOM(browser);
         login = new LoginPagePOM(browser);
+        profile = new VendorProfileVerificationPOM(browser);
         vendor = new VendorNavBarPOM(browser);
 
         // username is always the FEIN/SSN number we generated for the test
@@ -47,7 +50,7 @@ public class WhiteLabelRegistrationTest {
         vendor_fullfaxnum=resource.getValue("vendor_fax_pt1") + resource.getValue("vendor_fax_pt2") +
                 resource.getValue("vendor_fax_pt3");
 
-       browser.getDriver().get(baseURL);
+        browser.getDriver().get(wlBaseURL);
 
     }
 
@@ -159,9 +162,9 @@ public class WhiteLabelRegistrationTest {
         browser.waitForElementToAppear(reg.contactInfoTitle);
         Assert.assertTrue("Contact Info banner OK", reg.contactInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_con")));
 
-        reg.contactFirstNameEdit.sendKeys("Zelda");
-        reg.contactLastNameEdit.sendKeys("Lipinski");
-        reg.contactJobEdit.sendKeys("Automated User");
+        reg.contactFirstNameEdit.sendKeys(resource.getValue("vendor_firstname"));
+        reg.contactLastNameEdit.sendKeys(resource.getValue("vendor_lastname"));
+        reg.contactJobEdit.sendKeys(resource.getValue("vendor_base_name"));
         reg.contactPhoneEdit.sendKeys(vendor_fullphonenum);
         reg.contactPhoneConfirmEdit.sendKeys(vendor_fullphonenum);
         reg.contactFaxEdit.sendKeys(vendor_fullfaxnum);
@@ -172,7 +175,7 @@ public class WhiteLabelRegistrationTest {
         reg.contactPasswordEdit.sendKeys(resource.getValue("vendor_password"));
         reg.contactPasswordConfirmEdit.sendKeys(resource.getValue("vendor_password"));
 
-        reg.nextButton.click();
+       // reg.nextButton.click();
 
     }
 
@@ -212,7 +215,11 @@ public class WhiteLabelRegistrationTest {
         Assert.assertTrue("Username displayed OK", reg.finalUsername.getText().contains(vendor_username));
 
         // click button to take us to the Webprocure Login page
-        reg.finalTakeMeToWPButton.click();
+        //reg.finalTakeMeToWPButton.click();
+
+        // to save time, load the login page directly.
+        // come back some day and 1) step out of iFrame, 2) switch to new window, 3) close both when test done
+        browser.get(browser.baseUrl);
 
     }
 
@@ -221,6 +228,14 @@ public class WhiteLabelRegistrationTest {
 
         browser.waitForElementToAppear(login.btnLogin);
         login.loginAsUser(vendor_username, resource.getValue("vendor_password"));
+
+        // First-time vendors must accept terms and conditions before logging in
+        browser.waitForElementToAppear(login.vendorAcceptTermsButton);
+        login.vendorAcceptTermsButton.click();
+
+        // First time vendors also get a confirmation page for FEIN, etc.
+        browser.waitForElementToAppear(profile.okButton);
+        profile.okButton.click();
 
         browser.waitForElementToAppear(vendor.topNav);
 
@@ -231,4 +246,5 @@ public class WhiteLabelRegistrationTest {
         vendor.vendorLogout();
 
     }
+
 }
