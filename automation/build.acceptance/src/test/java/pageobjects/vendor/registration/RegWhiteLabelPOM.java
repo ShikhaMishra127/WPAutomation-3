@@ -150,6 +150,7 @@ public class RegWhiteLabelPOM {
     @FindBy(xpath = "//input[@id='verifyemphone']")
     public WebElement orgEmergencyPhoneConfirmEdit;
 
+
     //////////////////////////////////////////////////////////////////////// CONTACT INFORMATION PAGE
 
     @FindBy(xpath = "//div[@id='contactinfo']/h2/span")
@@ -194,6 +195,7 @@ public class RegWhiteLabelPOM {
     @FindBy(xpath = "//input[@id='retypePassword']")
     public WebElement contactPasswordConfirmEdit;
 
+
     //////////////////////////////////////////////////////////////////////// PAYMENT INFORMATION PAGE
 
     @FindBy(xpath = "//div[@id='paymentTypeSelection']/h2/span")
@@ -220,11 +222,7 @@ public class RegWhiteLabelPOM {
     @FindBy(xpath = "//div[@id='catTreeDiv']")
     public WebElement commoditySearchResults;
 
-    @FindBy(xpath = "//div[@id='catTreeDiv']//span[contains(@class, 'fancytree-title')]")
-    public WebElement commoditySearchTree;
-
-
-
+    /////
 
     public void selectCommodityByCode(String code) {
 
@@ -236,8 +234,6 @@ public class RegWhiteLabelPOM {
         commoditySearchButton.click();
 
         // wait for tree to be updated with results
-        //browser.WaitUntilTextUpdate(commoditySearchTree);
-
         browser.waitForElementToAppear(By.xpath(checkboxpath));
 
         // find the checkbox of the found code
@@ -247,22 +243,13 @@ public class RegWhiteLabelPOM {
         browser.waitForElementToBeClickable(checkbox);
         checkbox.click();
     }
+
+    //////////////////////////////////////////////////////////////////////// REGISTRATION COMPLETE PAGE
+
+    @FindBy(xpath = "//div[@id='confirmmsg']//p[contains(text(),'Your username')]/b")
+    public WebElement finalUsername;
+
+    @FindBy(xpath = "//a[@class='sexybutton sexylarge sexysimple customblue']")
+    public WebElement finalTakeMeToWPButton;
+
 }
-/*
-
-
-
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
- */
