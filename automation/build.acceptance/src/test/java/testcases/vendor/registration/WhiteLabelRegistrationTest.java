@@ -69,6 +69,7 @@ public class WhiteLabelRegistrationTest {
         // initially decline terms and conditions
         browser.UncheckCheckbox(reg.termsCheckbox);
         reg.nextButton.click();
+        browser.waitForElementToAppear(reg.termsErrorMessage);
         Assert.assertTrue("Terms Declined OK", reg.termsErrorMessage.isDisplayed());
 
         // now accept T&Cs and continue
@@ -89,6 +90,7 @@ public class WhiteLabelRegistrationTest {
         reg.orgFeinEdit1.sendKeys(existingVendor.getFeinPt1());
         reg.orgFeinEdit2.sendKeys(existingVendor.getFeinPt2());
         reg.orgFeinConfirmEdit1.click();
+        browser.waitForElementToAppear(reg.orgDuplicateFeinError);
 
         Assert.assertTrue("Duplicate FEIN message OK", reg.orgDuplicateFeinError.isDisplayed());
 
@@ -108,6 +110,7 @@ public class WhiteLabelRegistrationTest {
         reg.orgSsnEdit2.sendKeys(existingVendor.getSSNPt2());
         reg.orgSsnEdit3.sendKeys(existingVendor.getSSNPt3());
         reg.orgSsnConfirmEdit1.click();
+        browser.waitForElementToAppear(reg.orgDuplicateSsnError);
 
         Assert.assertTrue("Duplicate SSN message OK", reg.orgDuplicateSsnError.isDisplayed());
 
@@ -161,7 +164,7 @@ public class WhiteLabelRegistrationTest {
 
         browser.waitForElementToAppear(reg.contactInfoTitle);
         Assert.assertTrue("Contact Info banner OK", reg.contactInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_con")));
-
+        browser.waitForPageLoad();
         reg.contactFirstNameEdit.sendKeys(resource.getValue("vendor_firstname"));
         reg.contactLastNameEdit.sendKeys(resource.getValue("vendor_lastname"));
         reg.contactJobEdit.sendKeys(resource.getValue("vendor_base_name"));
@@ -175,7 +178,7 @@ public class WhiteLabelRegistrationTest {
         reg.contactPasswordEdit.sendKeys(resource.getValue("vendor_password"));
         reg.contactPasswordConfirmEdit.sendKeys(resource.getValue("vendor_password"));
 
-       // reg.nextButton.click();
+        reg.nextButton.click();
 
     }
 
