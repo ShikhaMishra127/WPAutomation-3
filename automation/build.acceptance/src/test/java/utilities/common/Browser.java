@@ -244,6 +244,7 @@ public class Browser implements WebDriver {
             element.click();
         }
     }
+    
     public void waitForPopUpToOpen()
     {
         WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
