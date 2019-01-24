@@ -26,12 +26,12 @@ public class ExecuteReportTest {
     private String reportToDate;
     private String reportSection;
 
-    public ExecuteReportTest() throws IOException {
+    public ExecuteReportTest() {
 
     }
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
 
         resource = new ResourceLoader("data/report");
         browser = new Browser();
@@ -100,6 +100,8 @@ public class ExecuteReportTest {
         browser.waitForPopUpToOpen();
         browser.switchToOtherWindow(browser.getWindowHandle());
         browser.waitForPageLoad();
+        //refresh this, running without debugging didn't seem to refresh this in time.
+        reports = new ExecuteReportPOM(browser);
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
