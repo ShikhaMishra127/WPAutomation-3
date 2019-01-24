@@ -8,7 +8,6 @@
       <class name="testcases.bidboard.ContractBidboardTest"/>
       <class name="testcases.buyer.reports.ExecuteReportTest"/>
       <class name="testcases.buyer.reports.CreateReportTest"/>
-      <class name="testcases.buyer.order.ViewAllOrderTest" />
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebProcure Build Acceptance -->
