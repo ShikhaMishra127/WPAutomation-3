@@ -209,36 +209,6 @@ public class Browser implements WebDriver {
 
     }
 
-    /*
-        Takes the current window, waits for it to have children, then
-        changes focus to the first child window it finds.
-     */
-    public void switchToOtherWindow(String parentWindow) {
-
-        Set<String> handleSet = driver.getWindowHandles();
-
-        // wait until there is a child window to switch to
-        WebDriverWait hangAround = new WebDriverWait(driver, 20);
-        hangAround.until(ExpectedConditions.numberOfWindowsToBe(2));
-
-        Iterator<String> i = handleSet.iterator();
-
-        while (i.hasNext()) {
-
-            String child = i.next();
-
-            if (!parentWindow.equals(child)) {
-                driver.switchTo().window(child);
-                break;
-            }
-        }
-    }
-    public void closePopUp(String parentWindow)
-    {
-        driver.close();
-        driver.switchTo().window(parentWindow);
-    }
-    
     public void UncheckCheckbox(WebElement element) {
         if (element.isSelected()) {
             element.click();
@@ -260,5 +230,15 @@ public class Browser implements WebDriver {
     {
         WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
         wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
+    }
+
+    /*
+     * Switches to a window by name. To get the name, in the dev tools console,
+     * use 'window.name'.
+     */
+    public void switchToWindow(String name)
+    {
+        this.driver.switchTo().window(name);
+        this.waitForPageLoad();
     }
 }
