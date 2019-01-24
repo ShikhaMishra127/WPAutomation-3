@@ -95,17 +95,18 @@ public class ExecuteReportTest {
 
     @Test(priority = 3)
     public void ReviewHTMLReportTest() {
-
-        // set focus to report details
         String parentWindow = browser.driver.getWindowHandle();
-        browser.SwitchToPopUp(parentWindow);
+        // set focus to report details after it loads
+        browser.waitForPopUpToOpen();
+        browser.switchToOtherWindow(browser.getWindowHandle());
+        browser.waitForPageLoad();
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
         Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
 
         // close pop-up and return to parent window
-        browser.ClosePopUp(parentWindow);
+        browser.closePopUp(parentWindow);
 
         reports.backButton.click();
     }

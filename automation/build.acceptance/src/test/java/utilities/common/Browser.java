@@ -31,6 +31,7 @@ public class Browser implements WebDriver {
     public String contractUrl = environment.getValue("contractBB_URL");
     public String language = environment.getValue("Language");
     public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
+    public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
 
@@ -176,13 +177,11 @@ public class Browser implements WebDriver {
     }
 
     public Set<String> getWindowHandles() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandles();
     }
 
     public String getWindowHandle() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandle();
     }
 
     public TargetLocator switchTo() {
@@ -214,7 +213,7 @@ public class Browser implements WebDriver {
         Takes the current window, waits for it to have children, then
         changes focus to the first child window it finds.
      */
-    public void SwitchToPopUp(String parentWindow) {
+    public void switchToOtherWindow(String parentWindow) {
 
         Set<String> handleSet = driver.getWindowHandles();
 
@@ -234,12 +233,12 @@ public class Browser implements WebDriver {
             }
         }
     }
-    public void ClosePopUp(String parentWindow)
+    public void closePopUp(String parentWindow)
     {
         driver.close();
         driver.switchTo().window(parentWindow);
     }
-
+    
     public void UncheckCheckbox(WebElement element) {
         if (element.isSelected()) {
             element.click();
@@ -255,5 +254,11 @@ public class Browser implements WebDriver {
     public void ClickWhenClickable(WebElement element) {
         waitForElementToBeClickable(element);
         element.click();
+    }
+
+    public void waitForPopUpToOpen()
+    {
+        WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
+        wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
     }
 }
