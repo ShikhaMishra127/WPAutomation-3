@@ -101,7 +101,7 @@ public class ViewAllReqTest {
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
 
-    @Test(priority = 7)
+    @Test(priority = 7, enabled = false)
     public void copyRequestTC(){
         viewall.copyRequest();
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "New Request created.");
@@ -111,7 +111,7 @@ public class ViewAllReqTest {
         viewall.clickReset();
     }
 
-    @Test(priority = 8)
+    @Test(priority = 8, enabled = false)
     public void printRequestTC(){
         viewall.reqPrint();
         viewall.validatePrint();
@@ -119,7 +119,7 @@ public class ViewAllReqTest {
         viewall.clickReset();
     }
 
-    @Test(priority = 9, enabled = true)
+    @Test(priority = 9, enabled = false)
     public void reqHistoryTC(){
         viewall.reqHistory();
         viewall.verifyreqHistory();

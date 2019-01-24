@@ -250,7 +250,7 @@ public class Browser implements WebDriver {
             element.click();
         }
     }
-
+    
     public void ClickWhenClickable(WebElement element) {
         waitForElementToBeClickable(element);
         element.click();

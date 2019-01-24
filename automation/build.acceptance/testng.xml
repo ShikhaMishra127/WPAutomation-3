@@ -3,11 +3,15 @@
 <suite name="WebProcure Build Acceptance">
   <test thread-count="5" name="Test">
     <classes>
+      <class name="testcases.bidboard.ContractBidboardTest"/>
+      <class name="testcases.buyer.inv.InvoiceCreationTest" />
+      <class name="testcases.buyer.order.ViewAllOrderTest" />
+      <class name="testcases.buyer.reports.CreateReportTest"/>
+      <class name="testcases.buyer.reports.ExecuteReportTest"/>
       <!-- <class name="testcases.buyer.req.CreateRequestTest"/> Disabled for now -->
       <class name="testcases.buyer.req.ViewAllReqTest"/>
-      <class name="testcases.bidboard.ContractBidboardTest"/>
-      <class name="testcases.buyer.reports.ExecuteReportTest"/>
-      <class name="testcases.buyer.reports.CreateReportTest"/>
+      <class name="testcases.vendor.registration.StandardRegistrationTest" />
+      <class name="testcases.vendor.registration.WhiteLabelRegistrationTest" />
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebProcure Build Acceptance -->
