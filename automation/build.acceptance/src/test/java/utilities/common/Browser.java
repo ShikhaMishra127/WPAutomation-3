@@ -121,6 +121,12 @@ public class Browser implements WebDriver {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void waitForElementToAppear(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+
     public void visibilityOfListLocated(List<WebElement> ele) {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -244,5 +250,10 @@ public class Browser implements WebDriver {
         if (!element.isSelected()) {
             element.click();
         }
+    }
+
+    public void ClickWhenClickable(WebElement element) {
+        waitForElementToBeClickable(element);
+        element.click();
     }
 }
