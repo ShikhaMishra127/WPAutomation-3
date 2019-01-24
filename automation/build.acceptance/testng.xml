@@ -3,7 +3,7 @@
 <suite name="WebProcure Build Acceptance">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="testcases.buyer.req.CreateRequestTest"/>
+      <!-- <class name="testcases.buyer.req.CreateRequestTest"/> Disabled for now -->
       <class name="testcases.buyer.req.ViewAllReqTest"/>
       <class name="testcases.bidboard.ContractBidboardTest"/>
       <class name="testcases.buyer.reports.ExecuteReportTest"/>
