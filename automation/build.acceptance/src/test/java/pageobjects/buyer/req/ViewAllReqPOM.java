@@ -231,7 +231,7 @@ public class ViewAllReqPOM {
                 browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Copy to Request")) {
-                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
                         //Thread.sleep(Browser.defaultWait);
                         copyaction.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
@@ -252,13 +252,13 @@ public class ViewAllReqPOM {
             // System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                TimeUnit.SECONDS.sleep(browser.defaultWait);
+                TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
                 //Thread.sleep(Browser.defaultWait);
                 browser.visibilityOfListLocated(actionlist);
                 for (WebElement reqprinticon : actionlist) {
                     if (reqprinticon.getText().contains("Print")) {
                         //Thread.sleep(Browser.defaultWait);
-                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
                         reqprinticon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;
@@ -310,12 +310,12 @@ public class ViewAllReqPOM {
             for (WebElement action : actiondropdown) {
                 action.click();
                 //Thread.sleep(Browser.defaultWait);
-                TimeUnit.SECONDS.sleep(browser.defaultWait);
+                TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
                 browser.visibilityOfListLocated(actionlist);
                 for (WebElement reqhistoryicon : actionlist) {
                     if (reqhistoryicon.getText().contains("View Request History")) {
                         //Thread.sleep(Browser.defaultWait);
-                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
                         reqhistoryicon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;
