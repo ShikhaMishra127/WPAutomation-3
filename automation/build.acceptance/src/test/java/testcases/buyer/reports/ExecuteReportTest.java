@@ -100,6 +100,7 @@ public class ExecuteReportTest {
         browser.waitForPopUpToOpen();
         browser.switchToOtherWindow(browser.getWindowHandle());
         browser.waitForPageLoad();
+
         //refresh this, running without debugging didn't seem to refresh this in time.
         reports = new ExecuteReportPOM(browser);
 
