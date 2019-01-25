@@ -1,6 +1,7 @@
 package testcases.bidboard;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
@@ -55,7 +56,7 @@ public class ContractBidboardTest {
     	// Look up one, unique contract
 		bidboard.searchContracts(resource.getValue("contract_number"));
 		browser.WaitTillElementIsPresent(bidboard.firstContract);
-		Thread.sleep(browser.defaultWait);
+		TimeUnit.SECONDS.sleep(browser.defaultWait);
 		
 		// verify title, date, supplier and the fact only one contract returned
 		Assert.assertTrue("Only the target contract returned", (bidboard.numberOfContracts() == 1) );
