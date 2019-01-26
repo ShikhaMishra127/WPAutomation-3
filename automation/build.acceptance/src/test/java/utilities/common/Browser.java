@@ -2,8 +2,6 @@ package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -50,23 +48,33 @@ public class Browser implements WebDriver {
 
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
+                    options.addArguments("window-size=1800x1800");
+                    if(getVisible()) {
+                        options.addArguments("--start-maximized");
+                    } else {
+                        options.addArguments("headless");
+                    }
                     options.addArguments("--lang=" + language);
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver(options);
                     break;
-
                 case "ie":
                     break;
 
                 default:
                     break;
             }
-
-            System.out.println("Driver value is : " + driver);
-            driver.manage().window().maximize();
-
-           // driver.get(baseUrl);
         }
+    }
+
+    /**
+     * use System property -DVISIBLE to determine if headless or not, defaults to 'true'
+     *
+     * @return should we use the broweser in headless mode?
+     */
+    private boolean getVisible() {
+        String val = System.getProperty("VISIBLE", "true");
+        return Boolean.valueOf(val).booleanValue();
     }
 
     public WebDriver getDriver() {
