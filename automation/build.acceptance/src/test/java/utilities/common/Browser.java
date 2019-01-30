@@ -29,6 +29,7 @@ public class Browser implements WebDriver {
     public String browser = environment.getValue("browser");
     public String baseUrl = environment.getValue("baseURL");
     public String contractUrl = environment.getValue("contractBB_URL");
+    public String solicitationUrl = environment.getValue("solicitationBB_URL");
     public String language = environment.getValue("Language");
     public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
     public String buyerUsername = environment.getValue("buyerUsername");
