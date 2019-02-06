@@ -15,7 +15,9 @@ pipeline {
         }                                                                                                                                                                          
         stage('Test') {                                                                                                                                                           
             steps {
-                sh 'pwd'
+                dir('automation/build.acceptance') {
+		    sh 'mvn clean compile test'
+		}
             }                                                                                                                                                                      
         }                                                                                                                                                                          
     }                                                                                                                                                                              
