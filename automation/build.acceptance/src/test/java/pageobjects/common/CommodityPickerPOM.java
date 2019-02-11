@@ -32,7 +32,10 @@ public class CommodityPickerPOM {
     @FindBy(xpath = "//div[@id='catTreeDiv']")
     public WebElement commoditySearchResults;
 
-    /////
+    @FindBy(xpath = "//div[@id='select_categories']//div[@class='modal-footer']/button")
+    public WebElement commodityCloseButton;
+
+    ////////////////////////////////////////////////////////////////////////
 
     public void selectCommodityByCode(String code) {
 

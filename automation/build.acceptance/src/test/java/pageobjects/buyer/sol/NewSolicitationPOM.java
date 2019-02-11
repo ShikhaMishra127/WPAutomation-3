@@ -28,10 +28,10 @@ public class NewSolicitationPOM {
     @FindBy(xpath = "//input[@id='bidTitle']")
     public WebElement headBidTitleEdit;
 
-    @FindBy(xpath = "//select[@id='solType']")
-    public WebElement headSolTypeDrop;
-
     @FindBy(xpath = "//select[@id='bidInvitationType']")
+    public WebElement headSolPublicTypeDrop;
+
+    @FindBy(xpath = "//select[@id='solType']")
     public WebElement headInvitationTypeDrop;
 
     @FindBy(xpath = "//input[@id='bidestimatedtotal']")
@@ -46,9 +46,26 @@ public class NewSolicitationPOM {
     @FindBy(xpath = "//button[@id='selectCatButton']")
     public WebElement headSelectCatButton;}
 
+    @FindBy(xpath = "//input[@id='solstartdatetime']")
+    public WebElement headStartDate;
 
-/*
+    @FindBy(xpath = "//input[@id='solenddatetime']")
+    public WebElement headEndDate;
 
+
+    /*
+
+    @FindBy(xpath = "")
+    public WebElement ;
+
+    @FindBy(xpath = "")
+    public WebElement ;
+
+    @FindBy(xpath = "")
+    public WebElement ;
+
+    @FindBy(xpath = "")
+    public WebElement ;
 
     @FindBy(xpath = "")
     public WebElement ;

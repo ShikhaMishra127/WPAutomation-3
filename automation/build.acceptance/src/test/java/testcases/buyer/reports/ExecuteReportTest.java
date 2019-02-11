@@ -60,7 +60,7 @@ public class ExecuteReportTest {
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
-        navbar.selectdropdownitem("Analytics", "Execute Reports");
+        navbar.selectDropDownItem("Analytics", "Execute Reports");
 
         // Select report specified in report.properties
         reports.selectReportByName(reportSection, reportName);

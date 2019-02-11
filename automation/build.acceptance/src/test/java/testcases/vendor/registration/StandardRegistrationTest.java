@@ -10,7 +10,7 @@ import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.ssnFein;
+import utilities.common.UniqueID;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ public class StandardRegistrationTest {
     VendorNavBarPOM vendor;
     String vendorUsername;
 
-    ssnFein vendorNum = new ssnFein();
+    UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
     public StandardRegistrationTest() throws IOException {
     }
@@ -117,7 +117,7 @@ public class StandardRegistrationTest {
         loadOrgInfo();
 
         // set FEIN to known duplicate value
-        ssnFein existingVendor = new ssnFein(resource.getValue("duplicate_ssnfein"));
+        UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
         reg.orgFein1Edit.sendKeys(existingVendor.getFeinPt1());
         reg.orgFein2Edit.sendKeys(existingVendor.getFeinPt2());
 
@@ -137,7 +137,7 @@ public class StandardRegistrationTest {
     public void DuplicateSSNTest() {
 
         // set SSN to known duplicate value
-        ssnFein existingVendor = new ssnFein(resource.getValue("duplicate_ssnfein"));
+        UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
         reg.orgSsn1Edit.sendKeys(existingVendor.getSSNPt1());
         reg.orgSsn2Edit.sendKeys(existingVendor.getSSNPt2());
         reg.orgSsn3Edit.sendKeys(existingVendor.getSSNPt3());

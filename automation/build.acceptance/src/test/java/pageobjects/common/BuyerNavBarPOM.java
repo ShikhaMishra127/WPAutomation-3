@@ -71,6 +71,10 @@ public class BuyerNavBarPOM  {
 
 	@FindBy(name = "C1ReqMain")
 	public WebElement reqiframe;
+
+	@FindBy(xpath = "//a[@title='Create Informal Solicitation']")
+	public WebElement informalSolCreate;
+
 			
 	// HELPFUL METHODS
 	public void clickGotIt() {
@@ -160,7 +164,7 @@ public class BuyerNavBarPOM  {
 	  headerItem - Top-level nav bar menu item
 	  subItem - Menu item below the top-level item
     */
-	public void selectdropdownitem(String headerItem, String subItem) {
+	public void selectDropDownItem(String headerItem, String subItem) {
 
 	    String headerXPath = "//ul[contains(@class,'navbar-left')]//*[@title='" + headerItem + "']";
 	    String subItemXPath = headerXPath + "/following-sibling::*//*[@title='" + subItem + "']";

@@ -1,9 +1,6 @@
 package testcases.buyer.reports;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
@@ -53,7 +50,7 @@ public class CreateReportTest {
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
-        navbar.selectdropdownitem("Analytics", "Create Report");
+        navbar.selectDropDownItem("Analytics", "Create Report");
 
         // verify the page title
         Assert.assertTrue("Report Page Header OK", reports.createReportPageHeader.getText().contains("Create Reports"));
