@@ -1,6 +1,7 @@
 package testcases.buyer.sol;
 
 //import com.sun.java.swing.ui.CommonMenuBar;
+import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,13 +41,15 @@ public class CreateSolicitationTest {
         login.loginAsBuyer();
     }
 
-    @Test()
-    public void ViewSolicitationList() {
+    @Test(priority = 1)
+    public void HeaderStepTest() {
 
         navbar.selectDropDownItem("Solicitations", "Create Informal Solicitation" );
 
         UniqueID solNum = new UniqueID(UniqueID.IDType.DATE);
         String solName = "Automated Sol " + solNum.getNumber();
+
+        Assert.assertTrue("Solicitation Step HEADER OK", sol.stepTitle.getText().contains("Header"));
 
         sol.headBidTitleEdit.sendKeys(solName);
         sol.headBidNumberEdit.clear();
@@ -67,7 +70,71 @@ public class CreateSolicitationTest {
 
         commodity.commodityCloseButton.click();
 
+        // wait until we load the page after picking commodities
+        browser.waitForElementToAppear(sol.headStartDateEdit);
+
+        // set our Solicitation start date to 5 minutes from NOW
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, sol.solDatePlusMin(5));
+
+        // set Collaboration dates if not already set
+        if (!sol.headCollaborationCheckbox.isSelected()) {
+            sol.headCollaborationCheckbox.click();
+        }
+
+        // set Collaboration date to 6 minutes from now (must be after sol start)
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, sol.solDatePlusMin(6));
+
+        sol.nextButton.click();
 
     }
-}
 
+    @Test(priority = 2)
+    public void RequirementsStepTest() {
+
+        Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains("Requirements"));
+
+        browser.waitForElementToAppear(sol.requireNextButton);
+        sol.requireNextButton.click();
+
+    }
+
+    @Test(priority = 3)
+    public void QuestionnaireStepTest() {
+
+        Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains("Questionnaire"));
+
+        browser.waitForElementToAppear(sol.nextButton);
+        sol.nextButton.click();
+
+    }
+
+    @Test(priority = 4)
+    public void AttachmentsStepTest() {
+
+        Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains("Attachments"));
+
+        // go to the Upload From Document library
+        browser.waitForElementToAppear(sol.docsUploadFromLibButton);
+        sol.docsUploadFromLibButton.click();
+
+        // set focus to pop-up
+        String parentWindow = browser.driver.getWindowHandle();
+        browser.SwitchToPopUp(parentWindow);
+
+        // click on the 1st file in the list (assume that there is at least one file)
+        browser.waitForElementToAppear(sol.docsUploadFirstFileCheckbox);
+        sol.docsUploadFirstFileCheckbox.click();
+
+        sol.docsUploadSaveButton.click();
+
+        // switch focus back to main window
+        browser.switchTo().window(parentWindow);
+
+        // wait for header from list of attached files to appear
+        browser.waitForElementToAppear(sol.docsFileUploadHeader);
+
+        sol.nextButton.click();
+
+    }
+
+}

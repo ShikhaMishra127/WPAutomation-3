@@ -7,20 +7,35 @@ import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class NewSolicitationPOM {
 
     private final Browser browser;
 
     public NewSolicitationPOM(WebDriver browser) throws IOException {
-        this.browser = (Browser)browser;
+        this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
-    //////////////////////////////////////////////////////////////////////// HEADER PAGE
 
-    @FindBy(xpath = "//li[@id='solc_Header' and @class='active']")
-    public WebElement headTitle;
+
+    //////////////////////////////////////////////////////////////////////// COMMON
+
+    @FindBy(xpath = "//ul[@class='nav nav-wizard']//li[@class='active']")
+    public WebElement stepTitle;
+
+    @FindBy(xpath = "//button[@onclick='javascript:NextStep();']")
+    public WebElement nextButton;
+
+    @FindBy(xpath = "//button[@onclick='javascript:MoveStep(true);']")
+    public WebElement requireNextButtonAlt;
+
+    //button[@onclick='javascript:Finished();']
+
+
+    //////////////////////////////////////////////////////////////////////// HEADER PAGE
 
     @FindBy(xpath = "//input[@id='bidNumber']")
     public WebElement headBidNumberEdit;
@@ -44,42 +59,52 @@ public class NewSolicitationPOM {
     public WebElement headNoLineItemCheckbox;
 
     @FindBy(xpath = "//button[@id='selectCatButton']")
-    public WebElement headSelectCatButton;}
+    public WebElement headSelectCatButton;
 
     @FindBy(xpath = "//input[@id='solstartdatetime']")
-    public WebElement headStartDate;
+    public WebElement headStartDateEdit;
 
     @FindBy(xpath = "//input[@id='solenddatetime']")
-    public WebElement headEndDate;
+    public WebElement headEndDateEdit;
+
+    @FindBy(xpath = "//input[@name='collaboration_enable']")
+    public WebElement headCollaborationCheckbox;
+
+    @FindBy(xpath = "//input[@id='collabstartdatetime']")
+    public WebElement headCollaborationStartDateEdit;
+
+    @FindBy(xpath = "//input[@id='collabenddatetime']")
+    public WebElement headCollaborationEndDateEdit;
+
+    //////////////////////////////////////////////////////////////////////// REQUIREMENTS PAGE
+
+    @FindBy(xpath = "//button[@onclick='javascript:MoveStep(true);']")
+    public WebElement requireNextButton;
+
+    //////////////////////////////////////////////////////////////////////// QUESTIONNAIRE PAGE
+
+    //////////////////////////////////////////////////////////////////////// ATTACHMENTS PAGE
+
+    @FindBy(xpath = "//button[@onclick='javascript:UploadDocumentFromLibrary();']")
+    public WebElement docsUploadFromLibButton;
+
+    @FindBy(xpath = "(//input[@type='checkbox'])[1]")
+    public WebElement docsUploadFirstFileCheckbox;
+
+    @FindBy(xpath = "//button[@onclick='javascript:Save();']")
+    public WebElement docsUploadSaveButton;
+
+    @FindBy(xpath = "//table[@class='table table-bordered table-striped no-footer']//thead")
+    public WebElement docsFileUploadHeader;
 
 
-    /*
+    ////////////////////////////////////////////////////////////////////////
 
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
-
-    @FindBy(xpath = "")
-    public WebElement ;
+    ////////////////////////////////////////////////////////////////////////
 
 
+    public String solDatePlusMin(int min) {
+        return LocalDateTime.now().plusMinutes(min).format(DateTimeFormatter.ofPattern("MM/dd/yyyy, hh:mm a"));
+    }
 
-
- */
+}
