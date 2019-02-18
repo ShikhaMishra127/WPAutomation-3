@@ -46,29 +46,34 @@ public class CreateSolicitationTest {
     @Test(priority = 1)
     public void HeaderStepTest() {
 
-        navbar.selectDropDownItem("Solicitations", "Create Informal Solicitation" );
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem") );
 
         UniqueID solNum = new UniqueID(UniqueID.IDType.DATE);
-        String solName = "Automated Sol " + solNum.getNumber();
+        String solName = resource.getValue("solname") + " " + solNum.getNumber();
 
-        Assert.assertTrue("Solicitation Step HEADER OK", sol.stepTitle.getText().contains("Header"));
+        Assert.assertTrue("Solicitation Step HEADER OK", sol.stepTitle.getText().contains(resource.getValue("solstep_header")));
 
         sol.headBidTitleEdit.sendKeys(solName);
         sol.headBidNumberEdit.clear();
         sol.headBidNumberEdit.sendKeys(solNum.getNumber());
-        sol.headDescriptionEdit.sendKeys("This is a long description for " + solName );
+        sol.headDescriptionEdit.sendKeys(resource.getValue("sollongdesc") + " " + solName );
 
-        new Select(sol.headSolPublicTypeDrop).selectByValue("Y");
+        new Select(sol.headSolPublicTypeDrop).selectByValue(resource.getValue("solprivate"));
         new Select(sol.headInvitationTypeDrop).selectByIndex(1);
 
-        sol.headEstTotalEdit.sendKeys("1500.00");
+        sol.headEstTotalEdit.sendKeys( resource.getValue("solesttotal") );
 
         sol.headSelectCatButton.click();
 
         browser.waitForElementToAppear(commodity.commoditySearchButton);
 
-        commodity.selectCommodityByCode("05240");
-        commodity.selectCommodityByCode("44505");
+        // Add a list of comma-separated commodity codes to add to sol header
+        String[] values = resource.getValue("solheadcommodities").split(",");
+
+        // for each code, search for and then add code to solicitation header
+        for (String code : values) {
+            commodity.selectCommodityByCode(code);
+        }
 
         commodity.commodityCloseButton.click();
 
@@ -93,7 +98,7 @@ public class CreateSolicitationTest {
     @Test(priority = 2)
     public void RequirementsStepTest() {
 
-        Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains("Requirements"));
+        Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_requirements")));
 
         browser.clickWhenAvailable(sol.requireNextButton);
 
@@ -102,7 +107,7 @@ public class CreateSolicitationTest {
     @Test(priority = 3)
     public void QuestionnaireStepTest() {
 
-        Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains("Questionnaire"));
+        Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains(resource.getValue("solstep_questionnaire")));
 
         browser.clickWhenAvailable(sol.nextButton);
 
@@ -111,7 +116,7 @@ public class CreateSolicitationTest {
     @Test(priority = 4)
     public void AttachmentsStepTest() {
 
-        Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains("Attachments"));
+        Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_attachments")));
 
         // go to the Upload From Document library
         browser.clickWhenAvailable(sol.docsUploadFromLibButton);
@@ -137,34 +142,20 @@ public class CreateSolicitationTest {
     @Test(priority = 5)
     public void ItemSpecStepTest() {
 
-        Assert.assertTrue("Solicitation Step ITEM SPECS OK", sol.stepTitle.getText().contains("Item Specs"));
+        Assert.assertTrue("Solicitation Step ITEM SPECS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_itemspecs")));
 
         // Add two groups to the solicitation, verify groups appear in drop-down
-        sol.itemCreateGroup("Goods");
-        sol.itemCreateGroup("Services");
+        sol.itemCreateGroup(resource.getValue("solgroupname1"));
+        sol.itemCreateGroup(resource.getValue("solgroupname2"));
 
         Assert.assertTrue("Group DropDown Exists OK", sol.itemGroupDropDown.isEnabled() );
 
-        sol.itemCreateItem(
-                "Snow Plow Services",
-                "SP0001",
-                "ABC Corp.",
-                "MPN239222",
-                "This is a long description for snow plow services. Includes de-icing and removal of snow.",
-                "05240",
-                "4",
-                "Services"
-        );
-        sol.itemCreateItem(
-                "Flex Heliobolts",
-                "AT0001",
-                "ABC Corp.",
-                "MPN239222",
-                "This is a long description for the heliobolt item",
-                "44505",
-                "2",
-                "Goods"
-        );
+        // add two items from resources. I know it's a terrible implementation - please improve
+        String[] item1 = resource.getValue("solitem1").split(",");
+        String[] item2 = resource.getValue("solitem2").split(",");
+
+        sol.itemCreateItem( item1[0],item1[1],item1[2],item1[3],item1[4],item1[5],item1[6],item1[7] );
+        sol.itemCreateItem( item2[0],item2[1],item2[2],item2[3],item2[4],item2[5],item2[6],item2[7] );
 
         sol.itemPageNextButton.click();
 
@@ -173,7 +164,7 @@ public class CreateSolicitationTest {
     @Test(priority = 6)
     public void SupplierSelectStepTest() {
 
-        Assert.assertTrue("Solicitation Step SELECT SUPPLIERS OK", sol.stepTitle.getText().contains("Suppliers"));
+        Assert.assertTrue("Solicitation Step SELECT SUPPLIERS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_suppliers")));
 
         // zip between tabs to clear out pre-selected commodities in search
         browser.clickWhenAvailable(sol.supplierSelectedTab);
@@ -181,7 +172,7 @@ public class CreateSolicitationTest {
         browser.clickWhenAvailable(sol.supplierSelectedTab);
         browser.clickWhenAvailable(sol.supplierSearchButton);
 
-        sol.supplierSearchName.sendKeys("AutoSupplier");
+        sol.supplierSearchName.sendKeys(resource.getValue("solsuppliername"));
 
         sol.supplierLookupButton.click();
 
@@ -205,7 +196,7 @@ public class CreateSolicitationTest {
     @Test(priority = 7)
     public void SupplierSummaryStepTest() {
 
-        Assert.assertTrue("Solicitation Step SUMMARY OK", sol.stepTitle.getText().contains("Summary"));
+        Assert.assertTrue("Solicitation Step SUMMARY OK", sol.stepTitle.getText().contains(resource.getValue("solstep_summary")));
 
         // click on Submit Solicitation button
         browser.clickWhenAvailable(sol.summarySubmitButton);

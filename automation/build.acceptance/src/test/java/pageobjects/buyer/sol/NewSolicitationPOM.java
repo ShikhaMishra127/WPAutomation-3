@@ -225,8 +225,7 @@ public class NewSolicitationPOM {
                                String group
     ) {
 
-        browser.waitForElementToAppear(itemCreateItemButton);
-        itemCreateItemButton.click();
+        browser.clickWhenAvailable(itemCreateItemButton);
 
         // set focus to pop-up
         String parentWindow = browser.driver.getWindowHandle();
@@ -251,14 +250,12 @@ public class NewSolicitationPOM {
         itemNewCommoditySearchEdit.sendKeys(commodity);
         itemNewCommoditySearchButton.click();
 
-        browser.waitForElementToAppear(itemNewCommoditySearchResultLink);
-        itemNewCommoditySearchResultLink.click();
+        browser.clickWhenAvailable(itemNewCommoditySearchResultLink);
 
         // go back to add item screen and save item
         browser.switchTo().window(newItemWindow);
 
-        browser.waitForElementToAppear(itemNewSaveItemButton);
-        itemNewSaveItemButton.click();
+        browser.clickWhenAvailable(itemNewSaveItemButton);
 
         // click cancel on alert asking to create another item
         Alert alert = browser.switchTo().alert();
