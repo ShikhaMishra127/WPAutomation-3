@@ -2,6 +2,8 @@ package testcases.buyer.sol;
 
 //import com.sun.java.swing.ui.CommonMenuBar;
 import org.junit.Assert;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -93,8 +95,7 @@ public class CreateSolicitationTest {
 
         Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains("Requirements"));
 
-        browser.waitForElementToAppear(sol.requireNextButton);
-        sol.requireNextButton.click();
+        browser.clickWhenAvailable(sol.requireNextButton);
 
     }
 
@@ -103,8 +104,7 @@ public class CreateSolicitationTest {
 
         Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains("Questionnaire"));
 
-        browser.waitForElementToAppear(sol.nextButton);
-        sol.nextButton.click();
+        browser.clickWhenAvailable(sol.nextButton);
 
     }
 
@@ -114,17 +114,14 @@ public class CreateSolicitationTest {
         Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains("Attachments"));
 
         // go to the Upload From Document library
-        browser.waitForElementToAppear(sol.docsUploadFromLibButton);
-        sol.docsUploadFromLibButton.click();
+        browser.clickWhenAvailable(sol.docsUploadFromLibButton);
 
         // set focus to pop-up
         String parentWindow = browser.driver.getWindowHandle();
         browser.SwitchToPopUp(parentWindow);
 
         // click on the 1st file in the list (assume that there is at least one file)
-        browser.waitForElementToAppear(sol.docsUploadFirstFileCheckbox);
-        sol.docsUploadFirstFileCheckbox.click();
-
+        browser.clickWhenAvailable(sol.docsUploadFirstFileCheckbox);
         sol.docsUploadSaveButton.click();
 
         // switch focus back to main window
@@ -137,4 +134,88 @@ public class CreateSolicitationTest {
 
     }
 
+    @Test(priority = 5)
+    public void ItemSpecStepTest() {
+
+        Assert.assertTrue("Solicitation Step ITEM SPECS OK", sol.stepTitle.getText().contains("Item Specs"));
+
+        // Add two groups to the solicitation, verify groups appear in drop-down
+        sol.itemCreateGroup("Goods");
+        sol.itemCreateGroup("Services");
+
+        Assert.assertTrue("Group DropDown Exists OK", sol.itemGroupDropDown.isEnabled() );
+
+        sol.itemCreateItem(
+                "Snow Plow Services",
+                "SP0001",
+                "ABC Corp.",
+                "MPN239222",
+                "This is a long description for snow plow services. Includes de-icing and removal of snow.",
+                "05240",
+                "4",
+                "Services"
+        );
+        sol.itemCreateItem(
+                "Flex Heliobolts",
+                "AT0001",
+                "ABC Corp.",
+                "MPN239222",
+                "This is a long description for the heliobolt item",
+                "44505",
+                "2",
+                "Goods"
+        );
+
+        sol.itemPageNextButton.click();
+
+    }
+
+    @Test(priority = 6)
+    public void SupplierSelectStepTest() {
+
+        Assert.assertTrue("Solicitation Step SELECT SUPPLIERS OK", sol.stepTitle.getText().contains("Suppliers"));
+
+        // zip between tabs to clear out pre-selected commodities in search
+        browser.clickWhenAvailable(sol.supplierSelectedTab);
+        browser.clickWhenAvailable(sol.supplierSearchButton);
+        browser.clickWhenAvailable(sol.supplierSelectedTab);
+        browser.clickWhenAvailable(sol.supplierSearchButton);
+
+        sol.supplierSearchName.sendKeys("AutoSupplier");
+
+        sol.supplierLookupButton.click();
+
+        String checkboxxpath = "//a[contains(text(),'" +
+                "AutoSupplier" +
+                "')]/parent::*/parent::*/parent::*/parent::*/parent::*/preceding-sibling::*/input[@title='select']";
+
+        // wait for supplier results page with our checkbox
+        browser.waitForElementToAppear(By.xpath(checkboxxpath));
+
+        // find the checkbox of the found code
+        WebElement checkbox = sol.supplierSearchResultTable.findElement(By.xpath(checkboxxpath));
+
+        // click the correct code
+        browser.clickWhenAvailable(checkbox);
+
+        sol.nextButton.click();
+
+    }
+
+    @Test(priority = 7)
+    public void SupplierSummaryStepTest() {
+
+        Assert.assertTrue("Solicitation Step SUMMARY OK", sol.stepTitle.getText().contains("Summary"));
+
+        // click on Submit Solicitation button
+        browser.clickWhenAvailable(sol.summarySubmitButton);
+
+        // click OK on alert asking to create solicitation
+        Alert alert = browser.switchTo().alert();
+        alert.accept();
+
+        // click OK button after sol submitted to return to sol list screen
+        browser.clickWhenAvailable(sol.summaryOKAfterSubmitButton);
+
+    }
 }

@@ -127,6 +127,13 @@ public class Browser implements WebDriver {
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public void clickWhenAvailable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.visibilityOf(element));
+
+        element.click();
+    }
+
 
     public void visibilityOfListLocated(List<WebElement> ele) {
 
@@ -217,11 +224,11 @@ public class Browser implements WebDriver {
      */
     public void SwitchToPopUp(String parentWindow) {
 
-        Set<String> handleSet = driver.getWindowHandles();
-
         // wait until there is a child window to switch to
         WebDriverWait hangAround = new WebDriverWait(driver, 20);
         hangAround.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        Set<String> handleSet = driver.getWindowHandles();
 
         Iterator<String> i = handleSet.iterator();
 
@@ -235,6 +242,25 @@ public class Browser implements WebDriver {
             }
         }
     }
+
+    public void SwitchToWindow(String handle) {
+
+        // wait until there is a child window to switch to
+        //       int onemore = (driver.getWindowHandles().size() + 1);
+
+        int onemore = (driver.getWindowHandles().size());
+        WebDriverWait hangAround = new WebDriverWait(driver, 20);
+        hangAround.until(ExpectedConditions.numberOfWindowsToBe(onemore));
+
+        driver.switchTo().window(handle);
+
+
+        // get a list of available windows
+        Set<String> handleSet = driver.getWindowHandles();
+
+
+    }
+
     public void ClosePopUp(String parentWindow)
     {
         driver.close();
