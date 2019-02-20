@@ -107,6 +107,6 @@ public class ExecuteReportTest {
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);
 
-        reports.backButton.click();
+        browser.clickWhenAvailable(reports.backButton);
     }
 }

@@ -1,7 +1,6 @@
 package pageobjects.buyer.sol;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class NewSolicitationPOM {
 
     private final Browser browser;
+    public String TargetSolNum;
 
     public NewSolicitationPOM(WebDriver browser) throws IOException {
         this.browser = (Browser) browser;

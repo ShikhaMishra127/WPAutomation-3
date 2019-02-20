@@ -1,12 +1,11 @@
 package testcases.buyer.sol;
 
-//import com.sun.java.swing.ui.CommonMenuBar;
+import main.java.framework.Solicitation;
 import org.junit.Assert;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import pageobjects.buyer.sol.NewSolicitationPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
@@ -17,7 +16,7 @@ import utilities.common.UniqueID;
 
 import java.io.IOException;
 
-public class CreateSolicitationTest {
+public class SolCreator {
 
     Browser browser;
     ResourceLoader resource;
@@ -25,31 +24,53 @@ public class CreateSolicitationTest {
     BuyerNavBarPOM navbar;
     LoginPagePOM login;
     NewSolicitationPOM sol;
+    Solicitation newsol;
 
-    CreateSolicitationTest() throws IOException {   }
+    SolCreator() {   }
 
-    @BeforeClass
-    public void setup() throws IOException {
+
+    public Solicitation CreateSolicitation(String soldata) {
+
+        try {
+            setup(soldata);
+            HeaderStep();
+            RequirementsAndQuestionnaireStep();
+            AttachmentsStep();
+            ItemSpecStep();
+            SupplierSelectStep();
+            SolicitationSummaryStep();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return newsol;
+    }
+
+    private void setup(String soldata) throws IOException {
 
         browser = new Browser();
-        resource = new ResourceLoader("data/solicitation");
+        resource = new ResourceLoader(soldata);
         commodity = new CommodityPickerPOM(browser);
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
         sol = new NewSolicitationPOM(browser);
+        newsol = new Solicitation();
 
         browser.getDriver().get(browser.baseUrl);
 
         login.loginAsBuyer();
     }
 
-    @Test(priority = 1)
-    public void HeaderStepTest() {
+    private void HeaderStep() {
 
         navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem") );
 
         UniqueID solNum = new UniqueID(UniqueID.IDType.DATE);
+        newsol.setSolNumber(solNum.getNumber());
+
         String solName = resource.getValue("solname") + " " + solNum.getNumber();
+        newsol.setSolName(solName);
 
         Assert.assertTrue("Solicitation Step HEADER OK", sol.stepTitle.getText().contains(resource.getValue("solstep_header")));
 
@@ -81,7 +102,9 @@ public class CreateSolicitationTest {
         browser.waitForElementToAppear(sol.headStartDateEdit);
 
         // set our Solicitation start date to 5 minutes from NOW
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, sol.solDatePlusMin(5));
+        String solStartDate = sol.solDatePlusMin(Integer.valueOf(resource.getValue("solminutestowait")));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, solStartDate);
+        newsol.setSolStartDate(solStartDate);
 
         // set Collaboration dates if not already set
         if (!sol.headCollaborationCheckbox.isSelected()) {
@@ -89,32 +112,22 @@ public class CreateSolicitationTest {
         }
 
         // set Collaboration date to 6 minutes from now (must be after sol start)
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, sol.solDatePlusMin(6));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, sol.solDatePlusMin((Integer.valueOf(resource.getValue("solminutestowait"))+1) ));
 
         sol.nextButton.click();
 
     }
 
-    @Test(priority = 2)
-    public void RequirementsStepTest() {
+    private void RequirementsAndQuestionnaireStep() {
 
         Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_requirements")));
-
         browser.clickWhenAvailable(sol.requireNextButton);
 
-    }
-
-    @Test(priority = 3)
-    public void QuestionnaireStepTest() {
-
         Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains(resource.getValue("solstep_questionnaire")));
-
         browser.clickWhenAvailable(sol.nextButton);
-
     }
 
-    @Test(priority = 4)
-    public void AttachmentsStepTest() {
+    private void AttachmentsStep() {
 
         Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_attachments")));
 
@@ -139,8 +152,7 @@ public class CreateSolicitationTest {
 
     }
 
-    @Test(priority = 5)
-    public void ItemSpecStepTest() {
+    private void ItemSpecStep() {
 
         Assert.assertTrue("Solicitation Step ITEM SPECS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_itemspecs")));
 
@@ -161,8 +173,7 @@ public class CreateSolicitationTest {
 
     }
 
-    @Test(priority = 6)
-    public void SupplierSelectStepTest() {
+    private void SupplierSelectStep() {
 
         Assert.assertTrue("Solicitation Step SELECT SUPPLIERS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_suppliers")));
 
@@ -193,8 +204,7 @@ public class CreateSolicitationTest {
 
     }
 
-    @Test(priority = 7)
-    public void SupplierSummaryStepTest() {
+    private void SolicitationSummaryStep() {
 
         Assert.assertTrue("Solicitation Step SUMMARY OK", sol.stepTitle.getText().contains(resource.getValue("solstep_summary")));
 
@@ -209,4 +219,6 @@ public class CreateSolicitationTest {
         browser.clickWhenAvailable(sol.summaryOKAfterSubmitButton);
 
     }
+
+
 }
