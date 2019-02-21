@@ -2,8 +2,6 @@ package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +29,7 @@ public class Browser implements WebDriver {
     public String contractUrl = environment.getValue("contractBB_URL");
     public String language = environment.getValue("Language");
     public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
+    public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
 
@@ -49,23 +48,33 @@ public class Browser implements WebDriver {
 
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
+                    options.addArguments("window-size=1800x1800");
+                    if(getVisible()) {
+                        options.addArguments("--start-maximized");
+                    } else {
+                        options.addArguments("headless");
+                    }
                     options.addArguments("--lang=" + language);
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver(options);
                     break;
-
                 case "ie":
                     break;
 
                 default:
                     break;
             }
-
-            System.out.println("Driver value is : " + driver);
-            driver.manage().window().maximize();
-
-           // driver.get(baseUrl);
         }
+    }
+
+    /**
+     * use System property -DVISIBLE to determine if headless or not, defaults to 'true'
+     *
+     * @return should we use the broweser in headless mode?
+     */
+    private boolean getVisible() {
+        String val = System.getProperty("VISIBLE", "true");
+        return Boolean.valueOf(val).booleanValue();
     }
 
     public WebDriver getDriver() {
@@ -176,13 +185,11 @@ public class Browser implements WebDriver {
     }
 
     public Set<String> getWindowHandles() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandles();
     }
 
     public String getWindowHandle() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandle();
     }
 
     public TargetLocator switchTo() {
@@ -210,36 +217,6 @@ public class Browser implements WebDriver {
 
     }
 
-    /*
-        Takes the current window, waits for it to have children, then
-        changes focus to the first child window it finds.
-     */
-    public void SwitchToPopUp(String parentWindow) {
-
-        Set<String> handleSet = driver.getWindowHandles();
-
-        // wait until there is a child window to switch to
-        WebDriverWait hangAround = new WebDriverWait(driver, 20);
-        hangAround.until(ExpectedConditions.numberOfWindowsToBe(2));
-
-        Iterator<String> i = handleSet.iterator();
-
-        while (i.hasNext()) {
-
-            String child = i.next();
-
-            if (!parentWindow.equals(child)) {
-                driver.switchTo().window(child);
-                break;
-            }
-        }
-    }
-    public void ClosePopUp(String parentWindow)
-    {
-        driver.close();
-        driver.switchTo().window(parentWindow);
-    }
-
     public void UncheckCheckbox(WebElement element) {
         if (element.isSelected()) {
             element.click();
@@ -251,9 +228,25 @@ public class Browser implements WebDriver {
             element.click();
         }
     }
-
+    
     public void ClickWhenClickable(WebElement element) {
         waitForElementToBeClickable(element);
         element.click();
+    }
+
+    public void waitForPopUpToOpen()
+    {
+        WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
+        wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
+    }
+
+    /*
+     * Switches to a window by name. To get the name, in the dev tools console,
+     * use 'window.name'.
+     */
+    public void switchToWindow(String name)
+    {
+        this.driver.switchTo().window(name);
+        this.waitForPageLoad();
     }
 }

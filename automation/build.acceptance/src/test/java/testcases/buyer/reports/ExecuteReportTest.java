@@ -1,6 +1,7 @@
 package testcases.buyer.reports;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,12 +27,12 @@ public class ExecuteReportTest {
     private String reportToDate;
     private String reportSection;
 
-    public ExecuteReportTest() throws IOException {
+    public ExecuteReportTest() {
 
     }
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
 
         resource = new ResourceLoader("data/report");
         browser = new Browser();
@@ -95,18 +96,23 @@ public class ExecuteReportTest {
 
     @Test(priority = 3)
     public void ReviewHTMLReportTest() {
+        //Wait for popup and switch focus
+        browser.waitForPopUpToOpen();
 
-        // set focus to report details
-        String parentWindow = browser.driver.getWindowHandle();
-        browser.SwitchToPopUp(parentWindow);
+        browser.waitForPageLoad();
+        browser.switchToWindow("ReportResult");
+        browser.waitForPageLoad();
+        browser.waitForElementToAppear(By.xpath("//tr[@class='ReportHeader']/td/font"));
+
+        //refresh this, running without debugging didn't seem to refresh this in time.
+        reports = new ExecuteReportPOM(browser);
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
         Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
-
         // close pop-up and return to parent window
-        browser.ClosePopUp(parentWindow);
-
+        browser.driver.close();
+        browser.switchToWindow("");
         reports.backButton.click();
     }
 }
