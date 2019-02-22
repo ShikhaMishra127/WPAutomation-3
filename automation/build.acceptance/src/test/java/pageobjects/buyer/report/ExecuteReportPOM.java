@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ExecuteReportPOM {
     private final Browser browser;
 
-    public ExecuteReportPOM(WebDriver browser) throws IOException {
+    public ExecuteReportPOM(WebDriver browser) {
         this.browser = (Browser)browser;
         PageFactory.initElements(((Browser) browser).driver, this);
     }

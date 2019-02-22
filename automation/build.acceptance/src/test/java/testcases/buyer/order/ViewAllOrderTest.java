@@ -15,7 +15,7 @@ import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 import java.io.IOException;
 
-public class ViewAllOrderTC {
+public class ViewAllOrderTest {
 
     Browser browser;
     LoginPagePOM login;
@@ -24,14 +24,12 @@ public class ViewAllOrderTC {
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
 
-    public ViewAllOrderTC() throws IOException {
-
-    }
+    public ViewAllOrderTest() { }
 
     public ResourceLoader orderdata = new ResourceLoader("data/order");
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
         browser = new Browser();
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
@@ -39,17 +37,11 @@ public class ViewAllOrderTC {
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
         // before starting our tests, first log into the system as a buyer
-        try {
-            testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-            testreport.logger.log(LogStatus.INFO, "Test Case Started");
-            browser.getDriver().get(browser.baseUrl);
-            login.loginAsBuyer();
-            testreport.logger.log(LogStatus.PASS, "Logged in Successful");
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getMessage();
-            Assert.fail();
-        }
+        testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+        testreport.logger.log(LogStatus.INFO, "Test Case Started");
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+        testreport.logger.log(LogStatus.PASS, "Logged in Successful");
     }
 
 

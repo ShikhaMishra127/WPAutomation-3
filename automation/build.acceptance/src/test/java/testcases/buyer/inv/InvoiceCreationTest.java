@@ -38,7 +38,7 @@ public class InvoiceCreationTest {
 	}
 	
 	/********* Invoice Creation happy flow ***********/
-	@Test(priority = 1, enabled=true)
+	@Test(priority = 1)
 	public void invoiceCreation() {
         invpom.invoiceHeader();
         invpom.additem();
@@ -46,7 +46,7 @@ public class InvoiceCreationTest {
         invpom.match();
         invpom.invoiceSummary();
 	}
-	@Test(priority =2, enabled=true)
+	@Test(priority =2)
 	public void supsearch() {
 		navbar.selectTopNavDropDown("Invoice");
 		viewinv.supinv();
@@ -57,19 +57,36 @@ public class InvoiceCreationTest {
 		}
 		Assert.assertTrue(viewinv.supassert1().contains("AutoSupplier"));
 	}
-	@Test(priority =3, enabled=true)
+	@Test(priority =3)
 		public void invoiceSearch() {
 		navbar.selectTopNavDropDown("Invoice");	
 		viewinv.invNo();
 			Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 		}
-	@Test(priority =4, enabled=true)
+	@Test(priority =4)
 	public void sortSupName()
 	{
 		navbar.selectTopNavDropDown("Invoice");
 		browser.waitForPageLoad();
 		viewinv.supcolheader.click();
 		browser.waitForPageLoad();
+		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
+	}
+	@Test(priority =5, enabled=true)
+	public void datesearch()
+	{
+		navbar.selectTopNavDropDown("Invoice");
+		browser.waitForPageLoad();
+		viewinv.date();
+		browser.waitForPageLoad();
+		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
+	}
+	@Test(priority =6, enabled=true)
+	public void buyerinvoice()
+	{
+		navbar.selectTopNavDropDown("Invoice");
+		browser.waitForPageLoad();
+		viewinv.buyInv();
 		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 	}
 
