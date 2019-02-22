@@ -27,6 +27,7 @@ public class Browser implements WebDriver {
     public String browser = environment.getValue("browser");
     public String baseUrl = environment.getValue("baseURL");
     public String contractUrl = environment.getValue("contractBB_URL");
+    public String solicitationUrl = environment.getValue("solicitationBB_URL");
     public String language = environment.getValue("Language");
     public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
     public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
@@ -135,6 +136,13 @@ public class Browser implements WebDriver {
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public void clickWhenAvailable(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.visibilityOf(element));
+
+        element.click();
+    }
+
 
     public void visibilityOfListLocated(List<WebElement> ele) {
 
@@ -215,6 +223,51 @@ public class Browser implements WebDriver {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script, element, arguments);
 
+    }
+
+    /*
+        Takes the current window, waits for it to have children, then
+        changes focus to the first child window it finds.
+     */
+    public void SwitchToPopUp(String parentWindow) {
+
+        // wait until there is a child window to switch to
+        WebDriverWait hangAround = new WebDriverWait(driver, 20);
+        hangAround.until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        Set<String> handleSet = driver.getWindowHandles();
+
+        Iterator<String> i = handleSet.iterator();
+
+        while (i.hasNext()) {
+
+            String child = i.next();
+
+            if (!parentWindow.equals(child)) {
+                driver.switchTo().window(child);
+                break;
+            }
+        }
+    }
+
+    public void SwitchToWindow(String handle) {
+
+        // wait until there is a child window to switch to
+        int onemore = (driver.getWindowHandles().size());
+      
+        WebDriverWait hangAround = new WebDriverWait(driver, 20);
+        hangAround.until(ExpectedConditions.numberOfWindowsToBe(onemore));
+
+        driver.switchTo().window(handle);
+
+        // get a list of available windows
+        Set<String> handleSet = driver.getWindowHandles();
+    }
+
+    public void ClosePopUp(String parentWindow)
+    {
+        driver.close();
+        driver.switchTo().window(parentWindow);
     }
 
     public void UncheckCheckbox(WebElement element) {

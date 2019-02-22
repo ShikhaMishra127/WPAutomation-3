@@ -1,27 +1,42 @@
 package utilities.common;
 
-public class ssnFein {
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class UniqueID {
+
+	public enum IDType{ SSNFEIN, DATE }
 
 	private String number;
 
-	public ssnFein() { generateNumber(); }
-	public ssnFein(String newvalue) { setNumber(newvalue); }
+	public UniqueID(IDType type) {
+		if (type == IDType.SSNFEIN) {
+			generateFEINSSN();
+		} else {
+			generateDateID();
+		}
+	}
+
+	public UniqueID(String newvalue) { setNumber(newvalue); }
+
+	public String getNumber() { return number; }
 
 	public String getDuns() { return number; }
+
 	public String getFeinPt1() { return number.substring(0,2); }
 	public String getFeinPt2() { return number.substring(2,9); }
+
 	public String getSSNPt1() { return number.substring(0,3); }
 	public String getSSNPt2() { return number.substring(3,5); }
 	public String getSSNPt3() { return number.substring(5,9); }
 
-    public String getNumber() { return number; }
 	public void setNumber(String newvalue) { number = newvalue; }
 
 	public int Compare(String input) {
 		return (number.compareTo(input));
 	}
 
-	public void generateNumber() {
+	public void generateFEINSSN() {
 
 		long timeSeed = System.nanoTime(); 			// to get the current date time value
 		double randSeed = Math.random() * 1000; 	// random number generation
@@ -31,5 +46,9 @@ public class ssnFein {
 		String subStr = s.substring(0, 9);
 
 		number = subStr;
+	}
+
+	public void generateDateID() {
+		number = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd.hhmmss"));
 	}
 }

@@ -61,7 +61,7 @@ public class ExecuteReportTest {
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
-        navbar.selectdropdownitem("Analytics", "Execute Reports");
+        navbar.selectDropDownItem("Analytics", "Execute Reports");
 
         // Select report specified in report.properties
         reports.selectReportByName(reportSection, reportName);
@@ -110,9 +110,10 @@ public class ExecuteReportTest {
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
         Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
+      
         // close pop-up and return to parent window
-        browser.driver.close();
-        browser.switchToWindow("");
-        reports.backButton.click();
+        browser.ClosePopUp(parentWindow);
+      
+        browser.clickWhenAvailable(reports.backButton);
     }
 }
