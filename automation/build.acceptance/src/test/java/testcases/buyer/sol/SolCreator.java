@@ -31,18 +31,13 @@ public class SolCreator {
 
     public Solicitation CreateSolicitation(String soldata) {
 
-        try {
-            setup(soldata);
-            HeaderStep();
-            RequirementsAndQuestionnaireStep();
-            AttachmentsStep();
-            ItemSpecStep();
-            SupplierSelectStep();
-            SolicitationSummaryStep();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setup(soldata);
+        HeaderStep();
+        RequirementsAndQuestionnaireStep();
+        AttachmentsStep();
+        ItemSpecStep();
+        SupplierSelectStep();
+        SolicitationSummaryStep();
 
         return newsol;
     }
