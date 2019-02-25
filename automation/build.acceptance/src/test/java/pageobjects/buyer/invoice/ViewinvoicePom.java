@@ -22,6 +22,7 @@ public class ViewinvoicePom {
 		this.browser = (Browser) browser;
 		PageFactory.initElements(((Browser) browser).driver, this);
 	}
+	/********* Invoice Searching Filter ***********/
 
 	@FindBy(xpath = "//input[contains(@id,'supplierSrch')]")
 	public WebElement supsrch;
@@ -64,9 +65,9 @@ public class ViewinvoicePom {
 
 	@FindBy(xpath = "(//a[contains(@title,'View All')])[3]")
 	public WebElement viewall;
-
-	@FindBy(xpath = "/html/body/div[1]/section[4]/div[2]/table/tbody/tr[1]/td[7]")
-	public WebElement Airplan;
+	
+	@FindBy(xpath = "//table[@id='invTable']//tbody/tr[1]//td[contains(text(),'AutoSupplier')]")
+	public WebElement supplierName;
 
 	@FindBy(xpath = "//table//tbody//tr[1]//td[7]")
 	public WebElement vendorname;
@@ -88,9 +89,6 @@ public class ViewinvoicePom {
 	
 	@FindBy(xpath="//b/u[contains(text(),'Workflow Map')]")
 	public WebElement workflow;
-	
-	@FindBy(xpath="/html/body/table/tbody/tr/td[2]/table[3]/tbody/tr[2]/td[2]/button")
-	public WebElement close;
 
 	@FindBy(xpath="(//img[contains(@title,'Expand')])[1]")
 	public WebElement expandinv;
@@ -121,8 +119,8 @@ public class ViewinvoicePom {
 	
 	public ResourceLoader invdata = new ResourceLoader("data/Invoice");
 	
-	
-	public void supinv() {
+	////Search invoice by supplier name
+	public void supplierfilter() {
 		viewall.click();
 		browser.waitForPageLoad();
 		try {
@@ -134,31 +132,16 @@ public class ViewinvoicePom {
 		filter.click();
 
 	}
-	public void chooseaction(String str)
-	{
-		actions.findElement(By.xpath("//span[contains(@class,'open')]/child::ul/li/a[contains(text(),'"+str+"')]")).click();
-		
-	}
-    public void clickaction(String str)
-    {
-    	selectaction.findElement(By.xpath(""
-    			+ "(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[1]")).click();
-    }
-    public void searchInv(String str)
-    {
-    	no.findElement(By.xpath("(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[2]")).click();
-    }
-    
+    ////Search invoice by Buyer invoice number
 	public void buyInv() {
 		browser.waitForPageLoad();
-
-		browser.waitForElementToBeClickable(viewall);
+        browser.waitForElementToBeClickable(viewall);
 		viewall.click();
 		reset.click();
 		binvnum.sendKeys(invdata.getValue("BuyerInvoice"));
 		filter.click();
 	}
-
+    ////Search invoice by invoice number
 	public void invNo() { 
 		browser.waitForElementToBeClickable(viewall);
 		viewall.click();
@@ -168,15 +151,17 @@ public class ViewinvoicePom {
 		filter.click();
 	}
 	public String supassert1() {
-		System.out.println(Airplan.getText());
-		return Airplan.getText();
+		System.out.println(supplierName.getText());
+		return supplierName.getText();
 	}
+	
 	public void sortSupplier()
 	{
 		supcolheader.click();
 		browser.waitForPageLoad();
 		Assert.assertTrue(supassert2().contains("AutoSupplier"));
 	}
+    ////Date filter
 	public void date() {
 		viewall.click();
 		reset.click();
@@ -199,4 +184,20 @@ public class ViewinvoicePom {
 	public String poSelect() {
 		return POdata.getText();
 	}
+	
+	public void chooseaction(String str)
+	{
+		actions.findElement(By.xpath("//span[contains(@class,'open')]/child::ul/li/a[contains(text(),'"+str+"')]")).click();
+		
+	}
+    public void clickaction(String str)
+    {
+    	selectaction.findElement(By.xpath(""
+    			+ "(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[1]")).click();
+    }
+    public void searchInv(String str)
+    {
+    	no.findElement(By.xpath("(//td[contains(text(),'"+str+"')]/following-sibling::td//img)[2]")).click();
+    }
+    
 }

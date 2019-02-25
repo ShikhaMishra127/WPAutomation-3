@@ -46,10 +46,13 @@ public class InvoiceCreationTest {
         invpom.match();
         invpom.invoiceSummary();
 	}
-	@Test(priority =2)
-	public void supsearch() {
+
+	/********* Search Invoice by supplier name ***********/
+	@Test(priority =2, enabled=true)
+	public void suppliersearch() {
+
 		navbar.selectTopNavDropDown("Invoice");
-		viewinv.supinv();
+		viewinv.supplierfilter();
 		browser.waitForPageLoad();
 		try {
 			TimeUnit.SECONDS.sleep(3);
@@ -57,13 +60,18 @@ public class InvoiceCreationTest {
 		}
 		Assert.assertTrue(viewinv.supassert1().contains("AutoSupplier"));
 	}
-	@Test(priority =3)
-		public void invoiceSearch() {
+
+	/********* Search by Invoice number***********/
+	@Test(priority =3, enabled=true)
+		public void invoiceNo() {
 		navbar.selectTopNavDropDown("Invoice");	
 		viewinv.invNo();
 			Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 		}
-	@Test(priority =4)
+	
+	/********* Supplier sorting filter***********/
+	@Test(priority =4, enabled=true)
+
 	public void sortSupName()
 	{
 		navbar.selectTopNavDropDown("Invoice");
@@ -72,6 +80,7 @@ public class InvoiceCreationTest {
 		browser.waitForPageLoad();
 		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 	}
+	/********* Date filter ***********/
 	@Test(priority =5, enabled=true)
 	public void datesearch()
 	{
@@ -81,6 +90,7 @@ public class InvoiceCreationTest {
 		browser.waitForPageLoad();
 		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 	}
+	/********* Search invoice by buyer invoice number***********/
 	@Test(priority =6, enabled=true)
 	public void buyerinvoice()
 	{

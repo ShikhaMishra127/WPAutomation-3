@@ -2,6 +2,7 @@ package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Browser implements WebDriver {
 
-    public WebDriver driver;
+    public static WebDriver driver;
 
     public ResourceLoader environment = new ResourceLoader("env");
     public String browser = environment.getValue("browser");
@@ -81,6 +82,11 @@ public class Browser implements WebDriver {
     public WebDriver getDriver() {
         return driver;
     }
+    
+    public void switchToWindow(String strWindowName) {
+
+		driver.switchTo().window(strWindowName);
+	}
 
     public void waitForElementToBeClickable(WebElement ele, Long... i) {
 
@@ -93,6 +99,9 @@ public class Browser implements WebDriver {
         }
 
     }
+    public void switchToDefaultWindow() {
+		driver.switchTo().defaultContent();
+	}
 
     public void waitForPageLoad() {
         ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
@@ -297,7 +306,7 @@ public class Browser implements WebDriver {
      * Switches to a window by name. To get the name, in the dev tools console,
      * use 'window.name'.
      */
-    public void switchToWindow(String name)
+    public void switchToWindow1(String name)
     {
         this.driver.switchTo().window(name);
         this.waitForPageLoad();
