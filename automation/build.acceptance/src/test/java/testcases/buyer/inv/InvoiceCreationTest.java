@@ -72,6 +72,23 @@ public class InvoiceCreationTest {
 		browser.waitForPageLoad();
 		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
 	}
+	@Test(priority =5, enabled=true)
+	public void datesearch()
+	{
+		navbar.selectTopNavDropDown("Invoice");
+		browser.waitForPageLoad();
+		viewinv.date();
+		browser.waitForPageLoad();
+		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
+	}
+	@Test(priority =6, enabled=true)
+	public void buyerinvoice()
+	{
+		navbar.selectTopNavDropDown("Invoice");
+		browser.waitForPageLoad();
+		viewinv.buyInv();
+		Assert.assertTrue(viewinv.supassert2().contains("AutoSupplier"));
+	}
 
 	@AfterClass
 	public void tearDown() {

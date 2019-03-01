@@ -7,14 +7,12 @@ import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utilities.common.ResourceLoader;
-import utilities.common.ssnFein;
+import utilities.common.UniqueID;
 
 import java.io.IOException;
-import java.nio.channels.SelectableChannel;
 
 public class WhiteLabelRegistrationTest {
 
@@ -29,7 +27,7 @@ public class WhiteLabelRegistrationTest {
     String vendor_fullphonenum;
     String vendor_fullfaxnum;
 
-    ssnFein vendorNum = new ssnFein();
+    UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
     @BeforeClass
     public void setup() throws IOException {
@@ -84,7 +82,7 @@ public class WhiteLabelRegistrationTest {
     public void DuplicateFEINTest() {
 
         // set FEIN to known duplicate value
-        ssnFein existingVendor = new ssnFein(resource.getValue("duplicate_ssnfein"));
+        UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
 
         reg.orgFeinEdit1.click();
         reg.orgFeinEdit1.sendKeys(existingVendor.getFeinPt1());
@@ -103,7 +101,7 @@ public class WhiteLabelRegistrationTest {
     public void DuplicateSsnTest() {
 
         // set SSN to known duplicate value
-        ssnFein existingVendor = new ssnFein(resource.getValue("duplicate_ssnfein"));
+        UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
 
         reg.orgSsnEdit1.click();
         reg.orgSsnEdit1.sendKeys(existingVendor.getSSNPt1());

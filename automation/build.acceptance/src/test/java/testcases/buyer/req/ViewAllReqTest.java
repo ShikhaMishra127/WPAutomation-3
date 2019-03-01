@@ -105,7 +105,6 @@ public class ViewAllReqTest {
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
 
-
     @Test(priority = 7)
     public void copyRequestTC(){
         viewall.copyRequest();
@@ -116,7 +115,7 @@ public class ViewAllReqTest {
         viewall.clickReset();
     }
 
-    @Test(priority = 8)
+    @Test(priority = 8, enabled = false)
     public void printRequestTC(){
         viewall.reqPrint();
         viewall.validatePrint();

@@ -231,7 +231,9 @@ public class ViewAllReqPOM {
                // browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Copy to Request")) {
+
                         TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         copyaction.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;
@@ -252,14 +254,15 @@ public class ViewAllReqPOM {
              System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
+
                 TimeUnit.SECONDS.sleep(browser.defaultWait);
 
-               // browser.visibilityOfListLocated(actionlist);
                 for (WebElement reqprinticon : actionlist) {
 
                     if (reqprinticon.getText().contains("Print")) {
 
                         TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         reqprinticon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
 
@@ -318,6 +321,7 @@ public class ViewAllReqPOM {
                     if (reqhistoryicon.getText().contains("View Request History")) {
 
                         TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         reqhistoryicon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;

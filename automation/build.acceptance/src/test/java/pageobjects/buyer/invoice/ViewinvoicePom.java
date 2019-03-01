@@ -2,6 +2,7 @@ package pageobjects.buyer.invoice;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -37,8 +38,8 @@ public class ViewinvoicePom {
 	@FindBy(xpath = "//span[contains(@id,'search_concept')]")
 	public WebElement datetype;
 
-	@FindBy(xpath = "//*[@id=\"filter\"]/form/fieldset/div[2]/div[1]/div/div[1]/div/div[1]/ul/li[2]/a")
-	public WebElement postdate;
+	@FindBy(xpath = "//a[contains(text(),'Issue Date')]")
+	public WebElement issuedate;
 
 	@FindBy(xpath = "//input[contains(@name,'fromdate')]")
 	public WebElement from;
@@ -51,6 +52,9 @@ public class ViewinvoicePom {
 
 	@FindBy(xpath = "(//button[contains(@class,'btn btn-wp')])[1]")
 	public WebElement filter;
+	
+	@FindBy(xpath = "//*[@id=\"page-title\"]/h3")
+	public WebElement POdata;
 
 	@FindBy(xpath = "(//button[contains(@class,'btn btn-wp')])[2]")
 	public WebElement reset;
@@ -64,8 +68,8 @@ public class ViewinvoicePom {
 	@FindBy(xpath = "/html/body/div[1]/section[4]/div[2]/table/tbody/tr[1]/td[7]")
 	public WebElement Airplan;
 
-	@FindBy(xpath = "//*[@id=\"invTable\"]/tbody/tr[1]/td[7]")
-	public WebElement pawn;
+	@FindBy(xpath = "//table//tbody//tr[1]//td[7]")
+	public WebElement vendorname;
 	
 	@FindBy(xpath="//td")
 	public WebElement actions;
@@ -162,19 +166,37 @@ public class ViewinvoicePom {
 		invnum.sendKeys(invdata.getValue("InvoiceNo."));
 		browser.waitForPageLoad();
 		filter.click();
-	}public String supassert1() {
+	}
+	public String supassert1() {
 		System.out.println(Airplan.getText());
 		return Airplan.getText();
-	}
-
-	public String supassert2() {
-		System.out.println(pawn.getText());
-		return pawn.getText();
 	}
 	public void sortSupplier()
 	{
 		supcolheader.click();
 		browser.waitForPageLoad();
 		Assert.assertTrue(supassert2().contains("AutoSupplier"));
+	}
+	public void date() {
+		viewall.click();
+		reset.click();
+		browser.waitForPageLoad();
+		datetype.click();
+		issuedate.click();
+		from.sendKeys(invdata.getValue("Fromdate"));
+		to.sendKeys(invdata.getValue("Todate"));
+		filter.click();
+		
+	}
+	public String supassert2() {
+		try {
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e1) {
+		}
+		return vendorname.getText();
+	}
+	
+	public String poSelect() {
+		return POdata.getText();
 	}
 }

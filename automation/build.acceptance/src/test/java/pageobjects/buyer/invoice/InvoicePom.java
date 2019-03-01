@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
@@ -46,6 +47,9 @@ public class InvoicePom{
 	@FindBy(xpath = "//input[@id='receive_date']")
 	public WebElement receivedate;
 
+	@FindBy(xpath = "//span[contains(@id,'search_concept')]")
+	public WebElement datetype;
+	
 	@FindBy(xpath = "//input[@id='post_date']")
 	public WebElement postdate;
 
@@ -342,5 +346,8 @@ public class InvoicePom{
 		System.out.println(pawn.getText());
 		return pawn.getText();
 	}
+	
+
+	
 
 }

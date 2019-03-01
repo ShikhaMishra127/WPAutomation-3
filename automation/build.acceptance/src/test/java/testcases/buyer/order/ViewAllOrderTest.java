@@ -14,11 +14,11 @@ import utilities.common.DatePicker;
 import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
 
-import java.io.IOException;
-
 public class ViewAllOrderTest {
 
+
     public ResourceLoader orderdata = new ResourceLoader("data/order");
+
     Browser browser;
     LoginPagePOM login;
     BuyerNavBarPOM navbar;
@@ -43,12 +43,13 @@ public class ViewAllOrderTest {
             browser.getDriver().get(browser.baseUrl);
             login.loginAsBuyer();
             testreport.logger.log(LogStatus.PASS, "Logged in Successful");
-
     }
 
 
     @Test
+
     public void viewallOrder() {
+      
         browser.waitForPageLoad();
         navbar.selectTopNavDropDown("Order");
         navbar.requestdropdown("View All");
@@ -58,11 +59,11 @@ public class ViewAllOrderTest {
 
     @Test(priority = 1)
     public void byBuyerStatus() {
-
         viewall.filterbyBuyerStatus(orderdata.getValue("BuyerStatus"));
         viewall.clickReset();
         testreport.logger.log(LogStatus.PASS, "Filtered By Buyer Status Successfull");
     }
+
 
     @Test(priority = 2)
     public void byBuyer() {
@@ -70,17 +71,18 @@ public class ViewAllOrderTest {
         viewall.clickReset();
     }
 
+
     @Test(priority = 3)
     public void byRequester() {
         viewall.filterbyRequester(orderdata.getValue("Requester"));
         viewall.clickReset();
     }
 
+
     @Test(priority = 4)
     public void byOrganization() {
         viewall.filterbyOrganization(orderdata.getValue("Organization"));
         viewall.clickReset();
-
     }
 
     @Test(priority = 5)
@@ -88,6 +90,7 @@ public class ViewAllOrderTest {
         viewall.filterbyOrderNumber(orderdata.getValue("OrderNumber"));
         viewall.clickReset();
     }
+
 
     @Test(priority = 6)
     public void byOrderName() {
@@ -116,7 +119,6 @@ public class ViewAllOrderTest {
         viewall.clickReset();
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
-
 
     @AfterClass
     public void teardown() {

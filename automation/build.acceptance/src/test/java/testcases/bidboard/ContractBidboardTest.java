@@ -38,6 +38,7 @@ public class ContractBidboardTest {
     public void ViewContractList() throws Exception {
     	
     	bidboard.clickHome();
+		browser.WaitTillElementIsPresent(bidboard.firstContract);
 		
     	// Get an initial count of how many contracts returned
     	int currentContracts = bidboard.numberOfContracts();
@@ -46,7 +47,6 @@ public class ContractBidboardTest {
 		// Click Filter reset - verify results for more than just "Active"
 		bidboard.clickReset();
 		browser.waitForPageLoad();
-		Thread.sleep(5000);
 		Assert.assertTrue("Contract list larger after reset", (bidboard.numberOfContracts() > currentContracts) );
     }
     
