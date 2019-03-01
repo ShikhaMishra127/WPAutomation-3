@@ -8,18 +8,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
-import java.io.IOException;
-
 public class VendorNavBarPOM {
 
     private final Browser browser;
 
-    public VendorNavBarPOM(WebDriver browser) throws IOException {
+    public VendorNavBarPOM(WebDriver browser) {
         this.browser = (Browser)browser;
         PageFactory.initElements(((Browser)browser).driver, this);
     }
 
-    ///// PAGE OBJECTS
+    //////////////////////////////////////////////////////////////////////// PAGE OBJECTS
     @FindBy(xpath = "//ul[contains(@class,'navbar-left')]")
     public WebElement topNav;
 
@@ -29,6 +27,7 @@ public class VendorNavBarPOM {
     @FindBy(xpath = "//a[@id='userMenu']")
     public WebElement topUsername;
 
+    //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     public void selectUserDropDownItem(String menuItem) {
 
@@ -55,6 +54,17 @@ public class VendorNavBarPOM {
 
         // Wait for the page to load before leaving
         browser.waitForPageLoad();
+    }
+
+    // Specifically for Solicitation menu item - selects list item by buyer company name (ex. "Perfect City", "Current Solicitations")
+    public void selectNavSolItemByBuyer(String buyername, String subitem) {
+
+        WebElement header = topNav.findElement(By.xpath("//ul[contains(@class,'navbar-left')]//*[@title='Solicitations']"));
+        browser.clickWhenAvailable(header);
+
+        WebElement menulink = topNav.findElement(By.xpath("//li[@class='dropdown open']//li[contains(text(),'"+ buyername +"')]"));
+        menulink.findElement(By.xpath("./following-sibling::*/a[contains(text(),'"+ subitem +"')]")).click();
+
     }
 
     public void vendorLogout() {

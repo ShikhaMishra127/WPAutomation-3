@@ -1,17 +1,7 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -20,6 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class Browser implements WebDriver {
 
@@ -109,7 +103,20 @@ public class Browser implements WebDriver {
     public void waitForElementToDisappear(By id) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.invisibilityOfElementLocated(id));
+    }
 
+    public boolean elementExists(By id) {
+        return (driver.findElements(id).size() > 0);
+    }
+
+    public boolean elementExists(WebElement element) {
+
+        try {
+            return element.isDisplayed();
+        }
+        catch (NoSuchElementException ignored) {
+            return false;
+        }
     }
 
     public void WaitTillElementIsPresent(WebElement retainkeyinfo) {
@@ -123,7 +130,7 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -132,6 +139,12 @@ public class Browser implements WebDriver {
         wait.until(ExpectedConditions.visibilityOf(element));
 
         element.click();
+    }
+
+    public void clickSubElement(WebElement parent, String subelement) {
+
+        WebElement element = parent.findElement(By.xpath(subelement));
+        clickWhenAvailable(element);
     }
 
 
@@ -246,18 +259,15 @@ public class Browser implements WebDriver {
     public void SwitchToWindow(String handle) {
 
         // wait until there is a child window to switch to
-        //       int onemore = (driver.getWindowHandles().size() + 1);
-
         int onemore = (driver.getWindowHandles().size());
+
         WebDriverWait hangAround = new WebDriverWait(driver, 20);
         hangAround.until(ExpectedConditions.numberOfWindowsToBe(onemore));
 
         driver.switchTo().window(handle);
 
-
         // get a list of available windows
         Set<String> handleSet = driver.getWindowHandles();
-
 
     }
 

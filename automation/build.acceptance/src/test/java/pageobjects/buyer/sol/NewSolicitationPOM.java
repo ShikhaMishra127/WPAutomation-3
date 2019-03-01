@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import utilities.common.Browser;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,7 +16,7 @@ public class NewSolicitationPOM {
     private final Browser browser;
     public String TargetSolNum;
 
-    public NewSolicitationPOM(WebDriver browser) throws IOException {
+    public NewSolicitationPOM(WebDriver browser) {
         this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
     }
