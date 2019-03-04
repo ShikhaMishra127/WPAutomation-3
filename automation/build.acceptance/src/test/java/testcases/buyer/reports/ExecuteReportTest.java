@@ -13,6 +13,7 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class ExecuteReportTest {
 
@@ -99,13 +100,10 @@ public class ExecuteReportTest {
         //Wait for popup and switch focus
         browser.waitForPopUpToOpen();
 
-        browser.waitForPageLoad();
-        browser.switchToWindow("ReportResult");
-        browser.waitForPageLoad();
-        browser.waitForElementToAppear(By.xpath("//tr[@class='ReportHeader']/td/font"));
-
-        //refresh this, running without debugging didn't seem to refresh this in time.
-        reports = new ExecuteReportPOM(browser);
+        // set focus to report details
+        String parentWindow = browser.driver.getWindowHandle();
+        browser.SwitchToPopUp(parentWindow);
+        browser.waitForElementToAppear(reports.HTMLReportHeader);
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );

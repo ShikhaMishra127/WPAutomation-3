@@ -227,17 +227,19 @@ public class ViewAllReqPOM {
             // System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                Thread.sleep(browser.defaultWait);
-                browser.visibilityOfListLocated(actionlist);
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
+               // browser.visibilityOfListLocated(actionlist);
                 for (WebElement copyaction : actionlist) {
                     if (copyaction.getText().contains("Copy to Request")) {
-                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
-                        //Thread.sleep(Browser.defaultWait);
+
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         copyaction.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;
                     }
                 }
+                break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,21 +251,24 @@ public class ViewAllReqPOM {
         browser.waitForPageLoad();
         try {
             browser.waitForElementToDisappear(By.id("loadingDiv"));
-            // System.out.println(actiondropdown.size());
+             System.out.println(actiondropdown.size());
             for (WebElement action : actiondropdown) {
                 action.click();
-                TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
-                //Thread.sleep(Browser.defaultWait);
-                browser.visibilityOfListLocated(actionlist);
+
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                 for (WebElement reqprinticon : actionlist) {
+
                     if (reqprinticon.getText().contains("Print")) {
-                        //Thread.sleep(Browser.defaultWait);
-                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
+
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         reqprinticon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
-                        break;
+
                     }
                 }
+                break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -273,13 +278,13 @@ public class ViewAllReqPOM {
     public void validatePrint(){
 
         String viewallreqwindow = browser.driver.getWindowHandle();
-        // System.out.println(viewallreqwindow);
+
 
         Set<String> printwindow = browser.driver.getWindowHandles();
-        //System.out.println(printwindow);
+
 
         for (String printpriviewwindow: browser.driver.getWindowHandles()) {
-            //System.out.println(printpriviewwindow);
+
             browser.driver.switchTo().window(printpriviewwindow);
             browser.driver.manage().window().maximize();
         }
@@ -289,7 +294,7 @@ public class ViewAllReqPOM {
         Assert.assertEquals(reqprintheader.getText(),"Request");
         int i= 0;
         for(WebElement fieldname : printfieldnames){
-           // System.out.println(fieldname.getText());
+
             if(fieldname.getText().contains("Number:")){
              //   System.out.println(printfieldvalues.get(i).getText());
                 Assert.assertEquals(printfieldvalues.get(i).getText(),reqdata.getValue("RequestNumber"));
@@ -306,16 +311,17 @@ public class ViewAllReqPOM {
         browser.waitForPageLoad();
         try {
             browser.waitForElementToDisappear(By.id("loadingDiv"));
-            // System.out.println(actiondropdown.size());
+
             for (WebElement action : actiondropdown) {
                 action.click();
-                //Thread.sleep(Browser.defaultWait);
-                TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
-                browser.visibilityOfListLocated(actionlist);
+
+                TimeUnit.SECONDS.sleep(browser.defaultWait);
+               // browser.visibilityOfListLocated(actionlist);
                 for (WebElement reqhistoryicon : actionlist) {
                     if (reqhistoryicon.getText().contains("View Request History")) {
-                        //Thread.sleep(Browser.defaultWait);
-                        TimeUnit.MILLISECONDS.sleep(browser.defaultWait);
+
+                        TimeUnit.SECONDS.sleep(browser.defaultWait);
+
                         reqhistoryicon.click();
                         browser.waitForElementToDisappear(By.id("loadingDiv"));
                         break;
@@ -328,7 +334,10 @@ public class ViewAllReqPOM {
     }
 
     public void verifyreqHistory(){
+
         //browser.visibilityOfElement(historytab);
+        browser.waitForElementToAppear(historytab);
+
         Assert.assertTrue(browser.driver.getPageSource().contains("Request History Log"));
         browser.waitForElementToBeClickable(historywftab);
         historywftab.click();

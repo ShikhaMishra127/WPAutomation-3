@@ -3,6 +3,10 @@
 <suite name="WebProcure Build Acceptance">
   <test thread-count="5" name="Test">
     <classes>
+      <class name="testcases.buyer.req.CreateRequestTest"/>
+      <class name="testcases.buyer.req.ViewAllReqTest"/>
+      <class name="testcases.buyer.order.ViewAllOrderTest"/>
+        <class name="testcases.buyer.inv.InvoiceCreationTest"/>
       <class name="testcases.bidboard.ContractBidboardTest"/>
       <class name="testcases.buyer.inv.InvoiceCreationTest" />
       <class name="testcases.buyer.order.ViewAllOrderTest" />

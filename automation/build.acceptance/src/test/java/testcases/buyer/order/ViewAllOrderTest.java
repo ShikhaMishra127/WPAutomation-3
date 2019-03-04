@@ -13,9 +13,11 @@ import utilities.common.Browser;
 import utilities.common.DatePicker;
 import utilities.common.ExtentReport;
 import utilities.common.ResourceLoader;
-import java.io.IOException;
 
 public class ViewAllOrderTest {
+
+
+    public ResourceLoader orderdata = new ResourceLoader("data/order");
 
     Browser browser;
     LoginPagePOM login;
@@ -26,8 +28,6 @@ public class ViewAllOrderTest {
 
     public ViewAllOrderTest() { }
 
-    public ResourceLoader orderdata = new ResourceLoader("data/order");
-
     @BeforeClass
     public void setup() {
         browser = new Browser();
@@ -37,16 +37,19 @@ public class ViewAllOrderTest {
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
         // before starting our tests, first log into the system as a buyer
-        testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
-        testreport.logger.log(LogStatus.INFO, "Test Case Started");
-        browser.getDriver().get(browser.baseUrl);
-        login.loginAsBuyer();
-        testreport.logger.log(LogStatus.PASS, "Logged in Successful");
+
+            testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
+            testreport.logger.log(LogStatus.INFO, "Test Case Started");
+            browser.getDriver().get(browser.baseUrl);
+            login.loginAsBuyer();
+            testreport.logger.log(LogStatus.PASS, "Logged in Successful");
     }
 
 
     @Test
-    public void viewallOrder(){
+
+    public void viewallOrder() {
+      
         browser.waitForPageLoad();
         navbar.selectTopNavDropDown("Order");
         navbar.requestdropdown("View All");
@@ -54,59 +57,61 @@ public class ViewAllOrderTest {
     }
 
 
-    @Test(priority = 1, enabled = true)
-    public void byBuyerStatus(){
-
+    @Test(priority = 1)
+    public void byBuyerStatus() {
         viewall.filterbyBuyerStatus(orderdata.getValue("BuyerStatus"));
         viewall.clickReset();
         testreport.logger.log(LogStatus.PASS, "Filtered By Buyer Status Successfull");
     }
 
-    @Test(priority = 2, enabled = true)
-    public void byBuyer(){
+
+    @Test(priority = 2)
+    public void byBuyer() {
         viewall.filterbyBuyer(orderdata.getValue("Buyer"));
         viewall.clickReset();
     }
 
-    @Test(priority = 3, enabled = true)
-    public void byRequester(){
+
+    @Test(priority = 3)
+    public void byRequester() {
         viewall.filterbyRequester(orderdata.getValue("Requester"));
         viewall.clickReset();
     }
 
-    @Test(priority = 4, enabled = true)
-    public void byOrganization(){
+
+    @Test(priority = 4)
+    public void byOrganization() {
         viewall.filterbyOrganization(orderdata.getValue("Organization"));
         viewall.clickReset();
-
     }
 
-    @Test(priority = 5, enabled = true)
-    public void byOrderNumber(){
+    @Test(priority = 5)
+    public void byOrderNumber() {
         viewall.filterbyOrderNumber(orderdata.getValue("OrderNumber"));
         viewall.clickReset();
     }
 
-    @Test(priority = 6, enabled = true)
-    public void byOrderName(){
+
+    @Test(priority = 6)
+    public void byOrderName() {
         viewall.filterbyOrderName(orderdata.getValue("OrderName"));
         viewall.clickReset();
     }
 
-    @Test(priority = 7, enabled = true)
-    public void bySupplier(){
+    @Test(priority = 7)
+    public void bySupplier() {
         viewall.filterbySupplier(orderdata.getValue("Supplier"));
         viewall.clickReset();
     }
 
-    @Test(priority = 8, enabled = true)
-    public void byTransmissionStatus(){
+    @Test(priority = 8)
+    public void byTransmissionStatus() {
         viewall.filterbyTransmissionStatus(orderdata.getValue("TransmissionStatus"));
         viewall.clickReset();
     }
 
-    @Test(priority = 9, enabled = true)
-    public void byDate(){
+    @Test(priority = 9)
+    public void byDate() {
         viewall.setFromDate(DatePicker.getPastDate());
         viewall.setToDate(DatePicker.getCurrentDate());
         viewall.clickSubmit();
@@ -114,7 +119,6 @@ public class ViewAllOrderTest {
         viewall.clickReset();
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
-
 
     @AfterClass
     public void teardown() {
