@@ -14,8 +14,6 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
 
-import java.io.IOException;
-
 public class SolCreator {
 
     Browser browser;
@@ -32,6 +30,9 @@ public class SolCreator {
     public Solicitation CreateSolicitation(String soldata) {
 
         setup(soldata);
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
         HeaderStep();
         RequirementsAndQuestionnaireStep();
         AttachmentsStep();
@@ -39,10 +40,13 @@ public class SolCreator {
         SupplierSelectStep();
         SolicitationSummaryStep();
 
+        navbar.logout();
+        browser.close();
+
         return newsol;
     }
 
-    private void setup(String soldata) throws IOException {
+    private void setup(String soldata) {
 
         browser = new Browser();
         resource = new ResourceLoader(soldata);
@@ -52,9 +56,6 @@ public class SolCreator {
         sol = new NewSolicitationPOM(browser);
         newsol = new Solicitation();
 
-        browser.getDriver().get(browser.baseUrl);
-
-        login.loginAsBuyer();
     }
 
     private void HeaderStep() {
@@ -214,6 +215,4 @@ public class SolCreator {
         browser.clickWhenAvailable(sol.summaryOKAfterSubmitButton);
 
     }
-
-
 }

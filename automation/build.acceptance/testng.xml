@@ -11,6 +11,7 @@
       <class name="testcases.buyer.inv.InvoiceCreationTest" />
       <class name="testcases.buyer.order.ViewAllOrderTest" />
       <class name="testcases.buyer.reports.CreateReportTest"/>
+      <class name="testcases.buyer.sol.SolicitationFlowTest"/>
       <class name="testcases.buyer.reports.ExecuteReportTest"/>
       <!-- <class name="testcases.buyer.req.CreateRequestTest"/> Disabled for now -->
       <class name="testcases.buyer.req.ViewAllReqTest"/>

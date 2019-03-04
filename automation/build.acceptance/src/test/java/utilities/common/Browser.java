@@ -114,7 +114,20 @@ public class Browser implements WebDriver {
     public void waitForElementToDisappear(By id) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.invisibilityOfElementLocated(id));
+    }
 
+    public boolean elementExists(By id) {
+        return (driver.findElements(id).size() > 0);
+    }
+
+    public boolean elementExists(WebElement element) {
+
+        try {
+            return element.isDisplayed();
+        }
+        catch (NoSuchElementException ignored) {
+            return false;
+        }
     }
 
     public void WaitTillElementIsPresent(WebElement retainkeyinfo) {
@@ -128,7 +141,7 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -137,6 +150,12 @@ public class Browser implements WebDriver {
         wait.until(ExpectedConditions.visibilityOf(element));
 
         element.click();
+    }
+
+    public void clickSubElement(WebElement parent, String subelement) {
+
+        WebElement element = parent.findElement(By.xpath(subelement));
+        clickWhenAvailable(element);
     }
 
 
@@ -250,7 +269,6 @@ public class Browser implements WebDriver {
 
         // wait until there is a child window to switch to
         int onemore = (driver.getWindowHandles().size());
-      
         WebDriverWait hangAround = new WebDriverWait(driver, 20);
         hangAround.until(ExpectedConditions.numberOfWindowsToBe(onemore));
 

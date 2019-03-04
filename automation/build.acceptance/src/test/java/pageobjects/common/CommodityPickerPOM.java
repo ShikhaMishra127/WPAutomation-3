@@ -7,13 +7,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
-import java.io.IOException;
 
 public class CommodityPickerPOM {
 
     private final Browser browser;
 
-    public CommodityPickerPOM(WebDriver browser) throws IOException {
+    public CommodityPickerPOM(WebDriver browser) {
         this.browser = (Browser)browser;
         PageFactory.initElements(((Browser) browser).driver, this);
     }
@@ -40,6 +39,8 @@ public class CommodityPickerPOM {
     public void selectCommodityByCode(String code) {
 
         String checkboxpath = "//span[contains(@class, 'fancytree-title') and contains(text(), '" + code + "')]/preceding-sibling::*[1]";
+
+        browser.waitForElementToAppear(commoditySearchEdit);
 
         // search by code
         commoditySearchClearButton.click();

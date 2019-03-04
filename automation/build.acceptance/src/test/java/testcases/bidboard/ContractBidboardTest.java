@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
+
+import java.io.IOException;
 
 public class ContractBidboardTest {
 
