@@ -25,7 +25,9 @@ public class ViewAllReqTest {
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
 
+
     public ViewAllReqTest() { }
+
 
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
@@ -38,11 +40,13 @@ public class ViewAllReqTest {
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
         // before starting our tests, first log into the system as a buyer
+
         testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
         testreport.logger.log(LogStatus.INFO, "Test Case Started");
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
         testreport.logger.log(LogStatus.PASS, "Logged in Successful");
+
     }
 
     @Test
@@ -101,7 +105,7 @@ public class ViewAllReqTest {
         testreport.logger.log(LogStatus.PASS, "Filtered By Date Successfull");
     }
 
-    @Test(priority = 7, enabled = false)
+    @Test(priority = 7)
     public void copyRequestTC(){
         viewall.copyRequest();
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "New Request created.");
@@ -119,7 +123,7 @@ public class ViewAllReqTest {
         viewall.clickReset();
     }
 
-    @Test(priority = 9, enabled = false)
+    @Test(priority = 9)
     public void reqHistoryTC(){
         viewall.reqHistory();
         viewall.verifyreqHistory();
