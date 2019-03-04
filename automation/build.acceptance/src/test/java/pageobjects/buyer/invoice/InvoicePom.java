@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
@@ -46,6 +47,9 @@ public class InvoicePom{
 	@FindBy(xpath = "//input[@id='receive_date']")
 	public WebElement receivedate;
 
+	@FindBy(xpath = "//span[contains(@id,'search_concept')]")
+	public WebElement datetype;
+	
 	@FindBy(xpath = "//input[@id='post_date']")
 	public WebElement postdate;
 
@@ -270,8 +274,7 @@ public class InvoicePom{
 			e1.printStackTrace();
 		}
 		savebtn.click();
-		//browser.waitForElementToDisappear(By.xpath("//button[@class='btn btn-wp savebutton']"));
-	
+
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -283,11 +286,7 @@ public class InvoicePom{
 		quantity.get(0).sendKeys(Keys.chord(Keys.CONTROL, "a"));
 		quantity.get(0).sendKeys(Keys.BACK_SPACE);
 		quantity.get(0).sendKeys(invdata.getValue("Quantityofitem"));
-		//browser.visibilityOfListLocated(quantity);
-		//quantity.get(1).click();
-		//quantity.get(1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		//quantity.get(1).sendKeys(Keys.BACK_SPACE);
-		//quantity.get(1).sendKeys(ReadExcelData.getInstance("Attachment").getStringValue("Quantityofitem1"));
+
 		browser.waitForElementToBeClickable(nxt);
 		try {
 			Thread.sleep(2000);
@@ -321,15 +320,6 @@ public class InvoicePom{
 	{
 		browser.waitForElementToBeClickable(supplier);
 		supplier.sendKeys(Supname);
-		/*supplier.clear();
-		try {
-			browser.waitForElementToBeClickable(pendu);
-			pendu.click();
-		} catch (Exception e) {
-			System.out.println("Popup not present");
-		}
-		supplier.sendKeys(Supname);
-		System.out.println("Supplier");*/
 
 		browser.visibilityOfListLocated(select);
 		System.out.println("Select list visible");
@@ -356,5 +346,8 @@ public class InvoicePom{
 		System.out.println(pawn.getText());
 		return pawn.getText();
 	}
+	
+
+	
 
 }

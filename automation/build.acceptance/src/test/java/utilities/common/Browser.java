@@ -26,6 +26,7 @@ public class Browser implements WebDriver {
     public String solicitationUrl = environment.getValue("solicitationBB_URL");
     public String language = environment.getValue("Language");
     public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
+    public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
 
@@ -44,23 +45,33 @@ public class Browser implements WebDriver {
 
                 case "chrome":
                     ChromeOptions options = new ChromeOptions();
+                    options.addArguments("window-size=1800x1800");
+                    if(getVisible()) {
+                        options.addArguments("--start-maximized");
+                    } else {
+                        options.addArguments("headless");
+                    }
                     options.addArguments("--lang=" + language);
                     WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver(options);
                     break;
-
                 case "ie":
                     break;
 
                 default:
                     break;
             }
-
-            System.out.println("Driver value is : " + driver);
-            driver.manage().window().maximize();
-
-           // driver.get(baseUrl);
         }
+    }
+
+    /**
+     * use System property -DVISIBLE to determine if headless or not, defaults to 'true'
+     *
+     * @return should we use the broweser in headless mode?
+     */
+    private boolean getVisible() {
+        String val = System.getProperty("VISIBLE", "true");
+        return Boolean.valueOf(val).booleanValue();
     }
 
     public WebDriver getDriver() {
@@ -197,13 +208,11 @@ public class Browser implements WebDriver {
     }
 
     public Set<String> getWindowHandles() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandles();
     }
 
     public String getWindowHandle() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.driver.getWindowHandle();
     }
 
     public TargetLocator switchTo() {
@@ -260,7 +269,6 @@ public class Browser implements WebDriver {
 
         // wait until there is a child window to switch to
         int onemore = (driver.getWindowHandles().size());
-
         WebDriverWait hangAround = new WebDriverWait(driver, 20);
         hangAround.until(ExpectedConditions.numberOfWindowsToBe(onemore));
 
@@ -268,7 +276,6 @@ public class Browser implements WebDriver {
 
         // get a list of available windows
         Set<String> handleSet = driver.getWindowHandles();
-
     }
 
     public void ClosePopUp(String parentWindow)
@@ -288,9 +295,25 @@ public class Browser implements WebDriver {
             element.click();
         }
     }
-
+    
     public void ClickWhenClickable(WebElement element) {
         waitForElementToBeClickable(element);
         element.click();
+    }
+
+    public void waitForPopUpToOpen()
+    {
+        WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
+        wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
+    }
+
+    /*
+     * Switches to a window by name. To get the name, in the dev tools console,
+     * use 'window.name'.
+     */
+    public void switchToWindow(String name)
+    {
+        this.driver.switchTo().window(name);
+        this.waitForPageLoad();
     }
 }

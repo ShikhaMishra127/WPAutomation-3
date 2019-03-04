@@ -1,5 +1,8 @@
 package testcases.bidboard;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -35,6 +38,7 @@ public class ContractBidboardTest {
     public void ViewContractList() throws Exception {
     	
     	bidboard.clickHome();
+		browser.WaitTillElementIsPresent(bidboard.firstContract);
 		
     	// Get an initial count of how many contracts returned
     	int currentContracts = bidboard.numberOfContracts();
@@ -43,8 +47,7 @@ public class ContractBidboardTest {
 		// Click Filter reset - verify results for more than just "Active"
 		bidboard.clickReset();
 		browser.waitForPageLoad();
-		Thread.sleep(5000);
-//		Assert.assertTrue("Contract list larger after reset", (bidboard.numberOfContracts() > currentContracts) );
+		Assert.assertTrue("Contract list larger after reset", (bidboard.numberOfContracts() > currentContracts) );
     }
     
     @Test()
@@ -53,7 +56,7 @@ public class ContractBidboardTest {
     	// Look up one, unique contract
 		bidboard.searchContracts(resource.getValue("contract_number"));
 		browser.WaitTillElementIsPresent(bidboard.firstContract);
-		Thread.sleep(browser.defaultWait);
+		TimeUnit.SECONDS.sleep(browser.defaultWait);
 		
 		// verify title, date, supplier and the fact only one contract returned
 		Assert.assertTrue("Only the target contract returned", (bidboard.numberOfContracts() == 1) );

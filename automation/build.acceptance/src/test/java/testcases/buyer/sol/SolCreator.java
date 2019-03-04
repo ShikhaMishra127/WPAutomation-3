@@ -30,11 +30,9 @@ public class SolCreator {
     public Solicitation CreateSolicitation(String soldata) {
 
         setup(soldata);
-
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
 
-        // go through the various wizard steps when creating a solicitation
         HeaderStep();
         RequirementsAndQuestionnaireStep();
         AttachmentsStep();
