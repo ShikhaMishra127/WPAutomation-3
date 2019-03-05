@@ -97,18 +97,29 @@ public class SolCreator {
         // wait until we load the page after picking commodities
         browser.waitForElementToAppear(sol.headStartDateEdit);
 
-        // set our Solicitation start date to 5 minutes from NOW
+        // set our Solicitation start date to (solminutestowait) minutes from NOW and lasting (solminutesduration) minutes
         String solStartDate = sol.solDatePlusMin(Integer.valueOf(resource.getValue("solminutestowait")));
+        String solEndDate = sol.solDatePlusMin(
+                Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration"))
+        );
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, solStartDate);
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headEndDateEdit, solEndDate);
         newsol.setSolStartDate(solStartDate);
+        newsol.setSolEndDate(solEndDate);
 
         // set Collaboration dates if not already set
         if (!sol.headCollaborationCheckbox.isSelected()) {
             sol.headCollaborationCheckbox.click();
         }
 
-        // set Collaboration date to 6 minutes from now (must be after sol start)
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, sol.solDatePlusMin((Integer.valueOf(resource.getValue("solminutestowait"))+1) ));
+        // set Collaboration date to (solminutestowait + 1) minutes from now and -1 minutes from end
+        String solColStartDate = sol.solDatePlusMin(Integer.valueOf(resource.getValue("solminutestowait")) + 1);;
+        String solColEndDate = sol.solDatePlusMin(
+                Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration")) - 1
+        );
+
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, solColStartDate);
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationEndDateEdit, solColEndDate);
 
         sol.nextButton.click();
 
