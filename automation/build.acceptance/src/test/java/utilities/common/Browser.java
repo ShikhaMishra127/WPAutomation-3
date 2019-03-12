@@ -306,14 +306,4 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
         wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
     }
-
-    /*
-     * Switches to a window by name. To get the name, in the dev tools console,
-     * use 'window.name'.
-     */
-    public void switchToWindow1(String name)
-    {
-        this.driver.switchTo().window(name);
-        this.waitForPageLoad();
-    }
 }
