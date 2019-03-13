@@ -184,32 +184,12 @@ public class VendorSolResponsePOM {
     public void waitForSolToAppear(String solnum) {
 
         String solnum_xpath = "//a[contains(text(),'"+ solnum +"')]";
-        int timeout = 0;
 
-        while (timeout < 20) {
-            if ( browser.elementExists(By.xpath(solnum_xpath))) {
-                break;
-            }
-            else{
-                // sleep for 15-seconds and refresh results to try again
-                try {
-                    Thread.sleep(15000);
-                    viewFilterSubmitButton.click();
-                    timeout++;
-                    System.out.printf("Waiting for Sol %s (%s sec)%n", solnum, String.valueOf(timeout*15));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        browser.waitForElementWithRefresh(
+                solnum_xpath,
+                viewFilterSubmitButton,
+                15,
+                300
+        );
     }
-
-
-
-
-
-
-
-
-
 }

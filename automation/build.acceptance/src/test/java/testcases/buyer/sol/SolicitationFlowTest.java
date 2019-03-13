@@ -1,12 +1,13 @@
 package testcases.buyer.sol;
 
 
+import junit.framework.Assert;
 import main.java.framework.Solicitation;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pageobjects.bidboard.SolicitationBidboardPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
@@ -30,6 +31,8 @@ public class SolicitationFlowTest {
         // create a solicitation and come back with the sol number
         SolCreator creator = new SolCreator();
         sol = creator.CreateSolicitation("data/solicitation");
+
+        System.out.format("%s created.%n", sol.getSolName());
     }
 
     @Test(priority = 2)
@@ -55,7 +58,7 @@ public class SolicitationFlowTest {
        sol.waitForSolToAppear(this.sol.getSolNumber());
 
        // get a list of WebElements we can use for our target solicitation (date, name, actions, etc.)
-        Map<VendorSolResponsePOM.SolColumn,WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
+        Map<VendorSolResponsePOM.SolColumn, WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
 
         // make sure target solicitation is Active (so we can bid on it)
         Assert.assertTrue("Sol STATUS OK",  targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
@@ -97,5 +100,31 @@ public class SolicitationFlowTest {
         navbar.vendorLogout();
         browser.close();
     }
+
+    @Test(priority = 3)
+    public void IndexSolicitationTest() {
+        Browser browser = new Browser();
+        SolicitationBidboardPOM board = new SolicitationBidboardPOM(browser);
+
+        browser.getDriver().get(browser.solicitationUrl);
+
+        sol.dumpSolInfo();
+
+        board.searchForSol(sol.getSolNumber());
+
+        WebElement ourline = board.getSolLineItem(sol.getSolNumber());
+
+        browser.getSubElement(ourline, board.itemTitle).click();
+
+        browser.waitForElementToAppear(board.summaryTitle);
+
+        Assert.assertTrue("Sol Name OK", board.summaryTitle.getText().contains(sol.getSolName()));
+        Assert.assertTrue("Sol Number OK", board.summaryInfo.getText().contains(sol.getSolNumber()));
+        Assert.assertTrue("Sol Long Description OK", board.summaryLongDesc.getText().contains(sol.getSolLongDesc()));
+
+        browser.close();
+
+    }
+
 
 }

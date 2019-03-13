@@ -158,6 +158,12 @@ public class Browser implements WebDriver {
         clickWhenAvailable(element);
     }
 
+    public WebElement getSubElement(WebElement parent, String subelement) {
+
+        waitForElementToAppear(parent);
+        return parent.findElement(By.xpath(subelement));
+    }
+
 
     public void visibilityOfListLocated(List<WebElement> ele) {
 
@@ -315,5 +321,40 @@ public class Browser implements WebDriver {
     {
         this.driver.switchTo().window(name);
         this.waitForPageLoad();
+    }
+
+    /*
+        waitForElementWithRefresh
+
+        Used while waiting for an xpath element to appear. Will refresh every few seconds until the item appears. Use
+        when waiting for solicitations, POs, other items to show up in a list of items.
+
+        String      searchPath              - XPath containing the string we're looking for
+        WebElement  refreshButton           - "clickable" item to refresh page until item shows up
+        int         refreshIntervalSeconds  - How ofter to click Refresh
+        int         totalLimitSeconds       - Total amount of time to wait for item to appear
+
+     */
+    public void waitForElementWithRefresh(String searchPath, WebElement refreshButton, int refreshIntervalSeconds, int totalLimitSeconds ) {
+
+        int timeout = 0;
+
+        while ( timeout < (totalLimitSeconds / refreshIntervalSeconds)) {
+            // if we find what we're looking for, leave
+            if (elementExists(By.xpath(searchPath))) {
+                System.out.printf("Found.%n");
+                break;
+            } else {
+                // otherwise, sleep for (refreshIntervalSeconds) seconds and click refresh results to try again
+                try {
+                    Thread.sleep((refreshIntervalSeconds * 1000));
+                    refreshButton.click();
+                    timeout++;
+                    System.out.printf("Waiting for %d sec%n", (timeout * refreshIntervalSeconds));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
