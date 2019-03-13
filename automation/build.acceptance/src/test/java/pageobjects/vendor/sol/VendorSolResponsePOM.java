@@ -185,11 +185,6 @@ public class VendorSolResponsePOM {
 
         String solnum_xpath = "//a[contains(text(),'"+ solnum +"')]";
 
-        browser.waitForElementWithRefresh(
-                solnum_xpath,
-                viewFilterSubmitButton,
-                15,
-                300
-        );
+        browser.waitForElementWithRefresh(solnum_xpath,15, 300);
     }
 }

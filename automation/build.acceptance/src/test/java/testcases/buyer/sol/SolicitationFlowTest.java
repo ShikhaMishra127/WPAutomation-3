@@ -110,7 +110,7 @@ public class SolicitationFlowTest {
 
         sol.dumpSolInfo();
 
-        board.searchForSol(sol.getSolNumber());
+        board.waitForSol(sol.getSolNumber());
 
         WebElement ourline = board.getSolLineItem(sol.getSolNumber());
 

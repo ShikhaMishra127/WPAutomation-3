@@ -61,14 +61,15 @@ public class SolicitationBidboardPOM {
     //////////////////////////////////////////////////////////////////////// HELPFUIL METHODS
 
 
-    public void searchForSol(String solnum) {
+    public void waitForSol(String solnum) {
 
         browser.waitForElementToAppear(listSearchEdit);
         listSearchEdit.sendKeys(solnum);
 
         String xpath = "//span[@class='title teal-text'][contains(text(),'"+ solnum +"')]";
 
-        browser.waitForElementToAppear(By.xpath(xpath));
+        browser.waitForElementWithRefresh(xpath, 15, 300);
+
     }
 
     // function that takes solnumber and returns webelement for line-item in sol bidboard (all elements)

@@ -330,12 +330,11 @@ public class Browser implements WebDriver {
         when waiting for solicitations, POs, other items to show up in a list of items.
 
         String      searchPath              - XPath containing the string we're looking for
-        WebElement  refreshButton           - "clickable" item to refresh page until item shows up
         int         refreshIntervalSeconds  - How ofter to click Refresh
         int         totalLimitSeconds       - Total amount of time to wait for item to appear
 
      */
-    public void waitForElementWithRefresh(String searchPath, WebElement refreshButton, int refreshIntervalSeconds, int totalLimitSeconds ) {
+    public void waitForElementWithRefresh(String searchPath, int refreshIntervalSeconds, int totalLimitSeconds ) {
 
         int timeout = 0;
 
@@ -347,8 +346,9 @@ public class Browser implements WebDriver {
             } else {
                 // otherwise, sleep for (refreshIntervalSeconds) seconds and click refresh results to try again
                 try {
+                    // wait for X seconds, then refresh the page
                     Thread.sleep((refreshIntervalSeconds * 1000));
-                    refreshButton.click();
+                    driver.navigate().refresh();
                     timeout++;
                     System.out.printf("Waiting for %d sec%n", (timeout * refreshIntervalSeconds));
                 } catch (InterruptedException e) {
