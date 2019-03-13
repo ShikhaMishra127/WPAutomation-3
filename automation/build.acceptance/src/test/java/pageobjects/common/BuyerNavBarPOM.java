@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBy;
 
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+
 import utilities.common.Browser;
 
 public class BuyerNavBarPOM  {
@@ -74,7 +75,9 @@ public class BuyerNavBarPOM  {
 
 	@FindBy(xpath = "//a[@title='Create Informal Solicitation']")
 	public WebElement informalSolCreate;
-
+	
+	@FindBy(xpath = "//span[@class='fa fa-home fa-lg']")
+	public WebElement btnHome;
 			
 	// HELPFUL METHODS
 	public void clickGotIt() {
@@ -112,6 +115,15 @@ public class BuyerNavBarPOM  {
 		} catch (Exception e) {
 
 		}
+		
+	}
+	
+	public void clickHomeButton() {
+	
+		browser.waitForElementToBeClickable(btnHome);
+		((JavascriptExecutor)browser.getDriver()).executeScript("window.confirm = function(msg){return true;}");
+
+		btnHome.click();
 	}
 	
 	public void cookiesalert(){
@@ -213,4 +225,6 @@ public class BuyerNavBarPOM  {
 	public String getTitle() {
 		return browser.getDriver().getTitle();
 	}
+
+	
 }

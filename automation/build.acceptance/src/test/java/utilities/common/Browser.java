@@ -1,7 +1,17 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.*;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -77,6 +87,11 @@ public class Browser implements WebDriver {
     public WebDriver getDriver() {
         return driver;
     }
+    
+    public void switchToWindow(String strWindowName) {
+
+		driver.switchTo().window(strWindowName);
+	}
 
     public void waitForElementToBeClickable(WebElement ele, Long... i) {
 
@@ -89,6 +104,9 @@ public class Browser implements WebDriver {
         }
 
     }
+    public void switchToDefaultWindow() {
+		driver.switchTo().defaultContent();
+	}
 
     public void waitForPageLoad() {
         ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
@@ -305,15 +323,5 @@ public class Browser implements WebDriver {
     {
         WebDriverWait wait = new WebDriverWait(this.driver, defaultPopupWaitSeconds);
         wait.until((ExpectedCondition<Boolean>) theDriver -> theDriver.getWindowHandles().size() > 1);
-    }
-
-    /*
-     * Switches to a window by name. To get the name, in the dev tools console,
-     * use 'window.name'.
-     */
-    public void switchToWindow(String name)
-    {
-        this.driver.switchTo().window(name);
-        this.waitForPageLoad();
     }
 }
