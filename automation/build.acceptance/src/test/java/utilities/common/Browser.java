@@ -27,7 +27,7 @@ import java.util.Set;
 
 public class Browser implements WebDriver {
 
-    public static WebDriver driver;
+    public WebDriver driver;
 
     public ResourceLoader environment = new ResourceLoader("env");
     public String browser = environment.getValue("browser");
