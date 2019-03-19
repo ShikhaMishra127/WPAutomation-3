@@ -1,17 +1,7 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -335,7 +325,7 @@ public class Browser implements WebDriver {
         driver.switchTo().window(strWindowName);
         waitForPageLoad();
     }
-    
+
     /*
         waitForElementWithRefresh
 
