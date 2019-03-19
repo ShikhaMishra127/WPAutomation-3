@@ -78,17 +78,16 @@ public class Browser implements WebDriver {
         return driver;
     }
 
-    public void waitForElementToBeClickable(WebElement ele, Long... i) {
-
-        if (i.length >= 1) {
-            WebDriverWait wait = new WebDriverWait(driver, i[0]);
-            wait.until(ExpectedConditions.elementToBeClickable(ele));
-        } else {
-            WebDriverWait wait = new WebDriverWait(driver, defaultWait);
-            wait.until(ExpectedConditions.elementToBeClickable(ele));
-        }
-
+    public void waitForElementToBeClickable(WebElement element) {
+        waitForElementToBeClickable(element, defaultWait);
     }
+
+    public void waitForElementToBeClickable(WebElement ele, Long i) {
+
+        WebDriverWait wait = new WebDriverWait(driver, i);
+        wait.until(ExpectedConditions.elementToBeClickable(ele));
+    }
+
     public void switchToDefaultWindow() {
 		driver.switchTo().defaultContent();
 	}

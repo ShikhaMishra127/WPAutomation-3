@@ -25,7 +25,7 @@ public class SolicitationFlowTest {
         sol = new Solicitation();
     }
 
-    @Test(priority = 1)
+    @Test
     public void CreateSolicitationTest() {
 
         // create a solicitation and come back with the sol number
@@ -35,7 +35,7 @@ public class SolicitationFlowTest {
         System.out.format("%s created.%n", sol.getSolName());
     }
 
-    @Test(priority = 2)
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
     public void VendorBidOnSolTest() {
 
         Browser browser = new Browser();
@@ -101,7 +101,7 @@ public class SolicitationFlowTest {
         browser.close();
     }
 
-    @Test(priority = 3)
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
     public void IndexSolicitationTest() {
         Browser browser = new Browser();
         SolicitationBidboardPOM board = new SolicitationBidboardPOM(browser);
