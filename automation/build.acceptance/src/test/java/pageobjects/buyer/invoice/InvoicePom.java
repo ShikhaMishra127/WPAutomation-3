@@ -24,7 +24,7 @@ public class InvoicePom{
 		PageFactory.initElements(((Browser) browser).driver, this);
 	}
 
-	/******** HeaderInformation ************/	
+	/******** Header Information Page ************/	
 	
 	@FindBy(xpath = "//a[contains(@title,'Create New')]")
 	public WebElement createnew;
@@ -68,14 +68,11 @@ public class InvoicePom{
 	@FindBy(id = "eft")
 	public WebElement eft;
 	
-	@FindBy(xpath = "/html/body/div[1]/section[4]/div[2]/table/tbody/tr[1]/td[7]")
-	public WebElement Airplan;
+	@FindBy(xpath = "//table[@id='invTable']//tbody/tr[1]//td[contains(text(),'AutoSupplier')]")
+	public WebElement supplierName;
 
 	@FindBy(xpath = "//*[@id=\"invTable\"]/tbody/tr[1]/td[7]")
 	public WebElement pawn;
-
-	@FindBy(xpath = "//*[@id=\"cont-requirement-content\"]/form/div[3]/div[3]/div/div[1]/span/span[1]/span")
-	public WebElement cat;
 
 	@FindBy(xpath = "//input[contains(@class,'select2-search__field')]")
 	public WebElement inputcat;
@@ -89,7 +86,7 @@ public class InvoicePom{
 	@FindBy(xpath = "//button[@class='btn btn-wp']")
 	public WebElement nxtbtn;
 
-	/********* InvoiceItem ***********/
+	/********* Purchase Order Selection Page ***********/
 	@FindBy(xpath = "//input[contains(@id,'ponum_filter')]")
 	public WebElement search;
 
@@ -135,7 +132,7 @@ public class InvoicePom{
 	@FindBy(xpath = "//section/h3[contains(text(),'Select Item Category')]")
 	public WebElement titlefa;
 
-	/********* Attachment ***********/
+	/********* Attachment Page ***********/
 	@FindBy(xpath = "//button[@id='adddocid']")
 	public WebElement adddoc;
 
@@ -154,7 +151,7 @@ public class InvoicePom{
 	@FindBy(xpath = "(//button[@class='btn btn-wp'])[3]")
 	public WebElement nxtclick;
 
-	/********* Invoice Matching ***********/
+	/********* Invoice Matching Page ***********/
 	@FindBy(xpath = "//button[contains(@onclick,'matchAll()')]")
 	public WebElement matchall;
 
@@ -164,7 +161,7 @@ public class InvoicePom{
 	@FindBy(xpath = "(//button[contains(@onclick,'matchInvoice')])[1]")
 	public WebElement match;
 
-	/********* Summary ***********/
+	/********* Summary Page***********/
 	@FindBy(xpath = "(//button[@class='btn btn-wp'])[4]")
 	public WebElement submit;
 
@@ -175,7 +172,7 @@ public class InvoicePom{
 	public WebElement uploadFile;
 
 	/********* Receive Date Alert ***********/
-	@FindBy(xpath = "//button[contains(@data-bb-handler,'ok')]")
+	/*@FindBy(xpath = "//button[contains(@data-bb-handler,'ok')]")
 	public WebElement okbtn;
 	
 	@FindBy(xpath = "//button[text()='OK']")
@@ -194,11 +191,7 @@ public class InvoicePom{
 	public WebElement closebtn;
 
 	@FindBy(xpath = "//span[contains(@id,'invsuppname')]")
-	public WebElement invsuppname;
-
-	/********* Attachment Alert ***********/
-	@FindBy(xpath = "(//label[contains(@class,'error')])[1]")
-	public WebElement attach;
+	public WebElement invsuppname;*/
 
 	/********* Assert pages ***********/
 	@FindBy(xpath = "//*[@id=\"page-title\"]/h3")
@@ -206,9 +199,7 @@ public class InvoicePom{
 	
 	  public ResourceLoader invdata = new ResourceLoader("data/Invoice");
 
-
-	/********* Invoice Creation ***********/
-
+    //// Adding data in Header Page
 	public void invoiceHeader() {
 		
 			System.out.println("Entered in Invoice Header");
@@ -239,7 +230,7 @@ public class InvoicePom{
 			nxtbtn.click();
 		}
 		
-	
+	//// Adding item details for invoice creation
 	public void additem()
 	{
 		Findpo.click();
@@ -296,12 +287,13 @@ public class InvoicePom{
 		}
 		nxt.click();
 	}
-
+	
+    //// Add attachment
 	public void attachment() {
 		browser.waitForPageLoad();
 		nxtclick.click();
 	}
-
+    //// Matching receipt 
 	public void match() {
 		browser.waitForPageLoad();
 		browser.waitForElementToBeClickable(matchall);
@@ -309,7 +301,7 @@ public class InvoicePom{
 		nxtclick2.click();
 
 	}
-
+    //// Summary Page
 	public void invoiceSummary() {
 		browser.waitForPageLoad();
 		((JavascriptExecutor) browser.getDriver()).executeScript("arguments[0].scrollIntoView(true);", submit);
@@ -337,12 +329,12 @@ public class InvoicePom{
 	}
 	}
 	
-	public String supassert1() {
-		System.out.println(Airplan.getText());
-		return Airplan.getText();
+	public String suppassert1() {
+		System.out.println(supplierName.getText());
+		return supplierName.getText();
 	}
 
-	public String supassert2() {
+	public String suppassert2() {
 		System.out.println(pawn.getText());
 		return pawn.getText();
 	}
