@@ -87,11 +87,6 @@ public class Browser implements WebDriver {
     public WebDriver getDriver() {
         return driver;
     }
-    
-    public void switchToWindow(String strWindowName) {
-
-		driver.switchTo().window(strWindowName);
-	}
 
     public void waitForElementToBeClickable(WebElement ele, Long... i) {
 
@@ -335,12 +330,12 @@ public class Browser implements WebDriver {
      * Switches to a window by name. To get the name, in the dev tools console,
      * use 'window.name'.
      */
-    public void switchToWindow(String name)
-    {
-        this.driver.switchTo().window(name);
-        this.waitForPageLoad();
-    }
+    public void switchToWindow(String strWindowName) {
 
+        driver.switchTo().window(strWindowName);
+        waitForPageLoad();
+    }
+    
     /*
         waitForElementWithRefresh
 
