@@ -24,6 +24,10 @@
           <suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
+          <systemPropertyVariables>
+            <!-- temporary workaround for WebDriverManager - see https://github.com/bonigarcia/webdrivermanager/issues/313 -->
+            <wdm.chromeDriverVersion>73</wdm.chromeDriverVersion>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
     </plugins>
@@ -43,7 +47,7 @@
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
-      <version>3.0.0</version>
+      <version>3.3.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>

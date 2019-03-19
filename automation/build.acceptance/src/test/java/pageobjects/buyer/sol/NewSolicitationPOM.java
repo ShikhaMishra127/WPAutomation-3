@@ -89,6 +89,9 @@ public class NewSolicitationPOM {
     @FindBy(xpath = "(//input[@type='checkbox'])[1]")
     public WebElement docsUploadFirstFileCheckbox;
 
+    @FindBy(xpath="(//input[@type='checkbox'])[1]/parent::*/parent::*/td[3]/a")
+    public WebElement docsUploadFirstFilenameText;
+
     @FindBy(xpath = "//button[@onclick='javascript:Save();']")
     public WebElement docsUploadSaveButton;
 

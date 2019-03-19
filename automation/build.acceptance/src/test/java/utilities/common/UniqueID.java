@@ -8,6 +8,8 @@ public class UniqueID {
 	public enum IDType{ SSNFEIN, DATE }
 
 	private String number;
+	private String date;
+	private LocalDateTime time;
 
 	public UniqueID(IDType type) {
 		if (type == IDType.SSNFEIN) {
@@ -20,6 +22,7 @@ public class UniqueID {
 	public UniqueID(String newvalue) { setNumber(newvalue); }
 
 	public String getNumber() { return number; }
+	public String getDate() { return date; }
 
 	public String getDuns() { return number; }
 
@@ -49,6 +52,11 @@ public class UniqueID {
 	}
 
 	public void generateDateID() {
-		number = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd.hhmmss"));
+
+		time = LocalDateTime.now();
+
+		number = time.format(DateTimeFormatter.ofPattern("yyMMdd.hhmmss"));
+		date = time.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy hh:mm:ss a"));
+
 	}
 }

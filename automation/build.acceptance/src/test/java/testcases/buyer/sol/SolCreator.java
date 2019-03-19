@@ -73,7 +73,10 @@ public class SolCreator {
         sol.headBidTitleEdit.sendKeys(solName);
         sol.headBidNumberEdit.clear();
         sol.headBidNumberEdit.sendKeys(solNum.getNumber());
-        sol.headDescriptionEdit.sendKeys(resource.getValue("sollongdesc") + " " + solName );
+
+        String longdesc = resource.getValue("sollongdesc") + " " + solName;
+        sol.headDescriptionEdit.sendKeys(longdesc);
+        newsol.setSolLongDesc(longdesc);
 
         new Select(sol.headSolPublicTypeDrop).selectByValue(resource.getValue("solprivate"));
         new Select(sol.headInvitationTypeDrop).selectByIndex(1);
@@ -98,28 +101,32 @@ public class SolCreator {
         browser.waitForElementToAppear(sol.headStartDateEdit);
 
         // set our Solicitation start date to (solminutestowait) minutes from NOW and lasting (solminutesduration) minutes
-        String solStartDate = sol.solDatePlusMin(Integer.valueOf(resource.getValue("solminutestowait")));
-        String solEndDate = sol.solDatePlusMin(
-                Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration"))
-        );
+        int offset = Integer.valueOf(resource.getValue("solminutestowait"));
+        int duration = Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration"));
+
+        // set dates for both the UI and the Solicitation object
+        String solStartDate = sol.solDatePlusMin(offset);
+        newsol.setSolStartDatePlusMin(offset);
+        String solEndDate = sol.solDatePlusMin(duration);
+        newsol.setSolEndDatePlusMin(duration);
+
+        // inject dates into edit boxes
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, solStartDate);
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headEndDateEdit, solEndDate);
-        newsol.setSolStartDate(solStartDate);
-        newsol.setSolEndDate(solEndDate);
 
         // set Collaboration dates if not already set
         if (!sol.headCollaborationCheckbox.isSelected()) {
-            sol.headCollaborationCheckbox.click();
+            browser.clickWhenAvailable(sol.headCollaborationCheckbox);
         }
 
         // set Collaboration date to (solminutestowait + 1) minutes from now and -1 minutes from end
-        String solColStartDate = sol.solDatePlusMin(Integer.valueOf(resource.getValue("solminutestowait")) + 1);;
-        String solColEndDate = sol.solDatePlusMin(
-                Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration")) - 1
-        );
+        String solColStartDate = sol.solDatePlusMin( offset + 1 );
+        String solColEndDate = sol.solDatePlusMin( duration - 1 );
 
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, solColStartDate);
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationEndDateEdit, solColEndDate);
+
+        System.out.format("Start: %s%nEnd: %s%n", newsol.getSolStartDate(), newsol.getSolEndDate());
 
         sol.nextButton.click();
 
@@ -147,6 +154,9 @@ public class SolCreator {
 
         // click on the 1st file in the list (assume that there is at least one file)
         browser.clickWhenAvailable(sol.docsUploadFirstFileCheckbox);
+
+        // add filename to solicitation object for later testing
+        newsol.setSolAttachment(sol.docsUploadFirstFilenameText.getText());
         sol.docsUploadSaveButton.click();
 
         // switch focus back to main window

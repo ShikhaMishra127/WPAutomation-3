@@ -1,8 +1,5 @@
 package pageobjects.bidboard;
 
-import java.io.IOException;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,7 +19,7 @@ public class ContractBidboardPOM {
 	 * Constructor called by PageFactory.instantiatePage
 	 * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
 	 */
-	public ContractBidboardPOM(WebDriver browser) throws IOException {
+	public ContractBidboardPOM(WebDriver browser) {
 		this.browser = (Browser)browser;
 		PageFactory.initElements(((Browser) browser).driver, this);
 		
