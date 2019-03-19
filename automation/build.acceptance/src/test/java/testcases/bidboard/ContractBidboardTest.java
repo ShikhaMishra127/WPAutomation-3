@@ -1,8 +1,5 @@
 package testcases.bidboard;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,6 +9,7 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class ContractBidboardTest {
 
@@ -63,9 +61,12 @@ public class ContractBidboardTest {
 		Assert.assertTrue("Target contract Dates OK", bidboard.firstContract.getText().contains(resource.getValue("contract_dates")) );
 		Assert.assertTrue("Target contract Supplier OK", bidboard.firstContract.getText().contains(resource.getValue("contract_suppliername")) );
 
-		//resource.getValue("contract_")
-		bidboard.viewSummaryPage();
-		
+		browser.clickWhenAvailable(bidboard.firstContractLink);
+
+		browser.waitForElementToAppear(bidboard.summaryAttachments);
+		browser.waitForElementToAppear(bidboard.summaryPeriod);
+		browser.waitForElementToAppear(bidboard.summaryPricing);
+
 		// verify PUBLIC attachments are visible and PRIVATE attachments are NOT
 		Assert.assertTrue("Contract contains public attachment", bidboard.summaryAttachments.getText().contains("public"));
 		Assert.assertTrue("Contract DOES NOT contain private attachment", !bidboard.summaryAttachments.getText().contains("private"));

@@ -101,20 +101,4 @@ public class ContractBidboardPOM {
 		searchBar.sendKeys(searchText);
 
 	}
-	
-	public void viewSummaryPage() {
-		
-		firstContractLink.click();
-		
-		// wait for summary page to load before returning
-		try {
-			Thread.sleep(browser.defaultWait);
-
-			//browser.visibilityOfElement(contractdetailspage);
-			browser.waitForElementToAppear(contractdetailspage);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		browser.WaitTillElementIsPresent(summaryAttachments);
-	}
 }
