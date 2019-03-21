@@ -29,6 +29,7 @@ public class Browser implements WebDriver {
     public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
+    public String buyerTimeZone = environment.getValue("buyerTimeZone");
 
     public Browser() {
 
