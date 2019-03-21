@@ -110,6 +110,8 @@ public class SolCreator {
         String solEndDate = sol.solDatePlusMin(duration);
         newsol.setSolEndDatePlusMin(duration);
 
+        newsol.dumpSolInfo();
+
         // inject dates into edit boxes
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, solStartDate);
         browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headEndDateEdit, solEndDate);
