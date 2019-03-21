@@ -76,7 +76,6 @@ public class ContractBidboardTest {
 		Assert.assertTrue("Contract has Issue Date", dates.contains(resource.getValue("contract_issueddate")));
 		Assert.assertTrue("Contract has Award Date", dates.contains(resource.getValue("contract_awarddate")));
 		Assert.assertTrue("Contract has Effective Date", dates.contains(resource.getValue("contract_effectivedate")));
-		System.out.printf("Resource value-> %s%n%nActual Value-> %s%n%nOrig Value-> %s%n", resource.getValue("contract_expireddate"), bidboard.summaryPeriod.getText(), dates);
 		Assert.assertTrue("Contract has Expiration Date", dates.contains(resource.getValue("contract_expireddate")));
 
 		// verify Contract Pricing

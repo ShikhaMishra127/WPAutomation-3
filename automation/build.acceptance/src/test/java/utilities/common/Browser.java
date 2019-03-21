@@ -86,6 +86,10 @@ public class Browser implements WebDriver {
 
         WebDriverWait wait = new WebDriverWait(driver, i);
         wait.until(ExpectedConditions.elementToBeClickable(ele));
+
+        // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
+        // try to get element to scroll into view before we can click
+        InjectJavaScript("arguments[0].scrollIntoView()", ele);
     }
 
     public void switchToDefaultWindow() {
@@ -245,7 +249,12 @@ public class Browser implements WebDriver {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script, element, arguments);
+    }
 
+    public void InjectJavaScript(String script, WebElement element) {
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(script, element);
     }
 
     /*
