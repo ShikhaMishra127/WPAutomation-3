@@ -11,6 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +32,7 @@ public class Browser implements WebDriver {
     public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
+    public String buyerTimeZone = environment.getValue("buyerTimeZone");
 
     public Browser() {
 
@@ -367,5 +371,11 @@ public class Browser implements WebDriver {
                 }
             }
         }
+    }
+
+    public ZonedDateTime getDateTimeNowInUsersTimezone() {
+        Instant nowUtc = Instant.now();
+        ZoneId usersTimeZone = ZoneId.of(buyerTimeZone);
+        return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
 }

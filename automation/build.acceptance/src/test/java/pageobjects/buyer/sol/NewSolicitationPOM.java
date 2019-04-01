@@ -267,9 +267,4 @@ public class NewSolicitationPOM {
         browser.switchTo().window(parentWindow);
     }
 
-
-    public String solDatePlusMin(int min) {
-        return LocalDateTime.now().plusMinutes(min).format(DateTimeFormatter.ofPattern("MM/dd/yyyy, hh:mm a"));
-    }
-
 }

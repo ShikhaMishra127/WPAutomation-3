@@ -14,6 +14,9 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class SolCreator {
 
     Browser browser;
@@ -105,16 +108,12 @@ public class SolCreator {
         int duration = Integer.valueOf(resource.getValue("solminutestowait")) + Integer.valueOf(resource.getValue("solminutesduration"));
 
         // set dates for both the UI and the Solicitation object
-        String solStartDate = sol.solDatePlusMin(offset);
-        newsol.setSolStartDatePlusMin(offset);
-        String solEndDate = sol.solDatePlusMin(duration);
-        newsol.setSolEndDatePlusMin(duration);
-
-        newsol.dumpSolInfo();
+        newsol.setSolStartDate(browser.getDateTimeNowInUsersTimezone().plusMinutes(offset));
+        newsol.setSolEndDate(browser.getDateTimeNowInUsersTimezone().plusMinutes(duration));
 
         // inject dates into edit boxes
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, solStartDate);
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headEndDateEdit, solEndDate);
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headStartDateEdit, newsol.getSolStartDateFormatted());
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headEndDateEdit, newsol.getSolEndDateFormatted());
 
         // set Collaboration dates if not already set
         if (!sol.headCollaborationCheckbox.isSelected()) {
@@ -122,13 +121,11 @@ public class SolCreator {
         }
 
         // set Collaboration date to (solminutestowait + 1) minutes from now and -1 minutes from end
-        String solColStartDate = sol.solDatePlusMin( offset + 1 );
-        String solColEndDate = sol.solDatePlusMin( duration - 1 );
+        newsol.setCollaborationStartDate(browser.getDateTimeNowInUsersTimezone().plusMinutes(offset + 1));
+        newsol.setCollaborationEndDate(browser.getDateTimeNowInUsersTimezone().plusMinutes(duration - 1));
 
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, solColStartDate);
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationEndDateEdit, solColEndDate);
-
-        System.out.format("Start: %s%nEnd: %s%n", newsol.getSolStartDate(), newsol.getSolEndDate());
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationStartDateEdit, newsol.getCollaborationStartDateFormatted());
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", sol.headCollaborationEndDateEdit, newsol.getCollaborationEndDateFormatted());
 
         sol.nextButton.click();
 
