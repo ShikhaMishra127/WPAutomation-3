@@ -46,7 +46,11 @@ public class StandardRegistrationTest {
 
     // loads default for company registration data
     public void loadOrgInfo() {
-        reg.orgCompanyName.sendKeys(resource.getValue("vendor_base_name")+" "+vendorNum.getNumber());
+
+        String companyName = resource.getValue("vendor_base_name") + " " + vendorNum.getNumber();
+        reg.orgCompanyName.sendKeys(companyName);
+        System.out.printf("Creating %s%n", companyName);
+
         reg.orgDBAEdit.sendKeys(resource.getValue("vendor_dba")+vendorNum.getNumber());
         reg.orgURLEdit.sendKeys(resource.getValue("vendor_website"));
 
