@@ -151,7 +151,7 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
@@ -259,6 +259,14 @@ public class Browser implements WebDriver {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script, element);
+    }
+
+
+    public void ReloadPage() {
+
+        // refresh entire page, then wait for elements to load
+        driver.navigate().refresh();
+        waitForPageLoad();
     }
 
     /*

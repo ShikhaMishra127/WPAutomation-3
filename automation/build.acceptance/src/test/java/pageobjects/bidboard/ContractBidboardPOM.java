@@ -1,16 +1,18 @@
 package pageobjects.bidboard;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
+import java.time.format.DateTimeFormatter;
+
 public class ContractBidboardPOM {
 
 	private final Browser browser;
-	
-	
+
 	private final String BidBoardHeader = "//*[@id='webprocure_public_contract_board']/app-root/contract-board/contract-board-header";
 	private final String BidBoardList = "//*[@id='webprocure_public_contract_board']/app-root/contract-board/contract-board-results";
 	private final String BidBoardDetail = "//*[@id='webprocure_public_contract_board']/app-root/contract-board/contract-board-detail";
@@ -24,11 +26,31 @@ public class ContractBidboardPOM {
 		PageFactory.initElements(((Browser) browser).driver, this);
 		
 	}
+
+	private DateTimeFormatter inputBoxFormatter = DateTimeFormatter.ofPattern("LLL d, yyyy");
+
+	//////////////////////////////////////////////////////////////////////// CONTRACT BOARD LIST PAGE
+
+	@FindBy(xpath="//a[@class='brand-logo']")
+	public WebElement searchBarHomeButton;
+
+	@FindBy(xpath = "//*[@id='search']")
+	public WebElement searchBarEdit;
+
 	@FindBy(xpath = "//*[@id='contract-facets']/contract-board-facet/div/span")
 	public WebElement resetFacetLink;
-	
-	@FindBy(xpath = "//*[@id='search']")
-	public WebElement searchBar;
+
+
+	@FindBy(xpath="//ul[@class='collection']")
+	public WebElement listOfContractResults;
+
+	////////// Contract line item sub-elements
+	public String itemTitle = "//span[@class='title']";
+	public String itemDescription ="//span[@class='contract-desc']";
+	public String itemVendor = "//span[contains(@class,'vendor-name')]";
+	public String itemStartDate = "//span[contains(@title,'Start Date')]";
+	public String itemEndDate = "//span[contains(@title,'End Date')]";
+
 	
 	@FindBy(xpath = BidBoardList + "/div/div/div[3]/div[1]/h5")
 	public WebElement contractCount;
@@ -39,36 +61,36 @@ public class ContractBidboardPOM {
 	@FindBy(xpath = BidBoardList + "/div/div/div[3]/div[5]/ul/li[1]/span")
 	public WebElement firstContractLink;
 
+	//////////////////////////////////////////////////////////////////////// CONTRACT BOARD SUMMARY PAGE
+
 	@FindBy(xpath = "//div[@class= 'contractDetail']")
 	public WebElement contractdetailspage;
-
-	@FindBy(xpath = BidBoardDetail + "/div[1]/div/div/div[2]/div/div[1]/h5")
-	public WebElement summaryHeader;
 	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'attachment']/parent::*/parent::*/div/ul")
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'attachment')]/parent::*/parent::*/div/ul")
 	public WebElement summaryAttachments;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'attach_money']/parent::*/parent::*/div")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'attach_money')]/parent::*/parent::*/div")
 	public WebElement summaryPricing;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'access_time']/parent::*/parent::*/div")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'access_time')]/parent::*/parent::*/div")
 	public WebElement summaryPeriod;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'library_books']/parent::*")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'library_books')]/parent::*")
 	public WebElement home_button;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'chevron_right']/parent::*")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'chevron_right')]/parent::*")
 	public WebElement right_chev_button;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'last_page']/parent::*")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'last_page')]/parent::*")
 	public WebElement right_chev_last_button;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'chevron_left']/parent::*")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'chevron_left')]/parent::*")
 	public WebElement left_chev_button;
-	
-	@FindBy(xpath = "//i[contains(@class, 'material-icons') and text() = 'first_page']/parent::*")
+
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'first_page')]/parent::*")
 	public WebElement left_chev_first_button;
 
+	//////////////////////////////////////////////////////////////////////// HELPFUL METHODS
 
 	public int numberOfContracts() {
 		int numberFound = 0;
@@ -97,8 +119,32 @@ public class ContractBidboardPOM {
 
 		clickReset();
 
-		browser.waitForElementToBeClickable(searchBar);
-		searchBar.sendKeys(searchText);
+		browser.waitForElementToBeClickable(searchBarEdit);
+		searchBarEdit.sendKeys(searchText);
 
 	}
+
+	public void waitForContract(String contractNumber) {
+
+		browser.clickWhenAvailable(searchBarHomeButton);
+
+		browser.waitForElementToAppear(searchBarEdit);
+		searchBarEdit.sendKeys(contractNumber);
+
+		String xpath = "//span[@class='title teal-text'][contains(text(),'"+ contractNumber +"')]";
+
+		browser.waitForElementWithRefresh(xpath, 15, 300);
+
+	}
+
+	// function that takes contract number and returns webelement for line-item in contract board (all elements)
+	public WebElement getContractLineItem(String contractNum) {
+
+		String xpath = "//span[@class='title teal-text'][contains(text(),'"+ contractNum +"')]/parent::*/parent::*/parent::*";
+
+		browser.waitForElementToAppear(By.xpath(xpath));
+
+		return listOfContractResults.findElement(By.xpath(xpath));
+	}
 }
+

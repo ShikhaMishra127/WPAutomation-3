@@ -107,11 +107,14 @@ public class ContractCreator {
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerPricingTotalValueEdit, "1500.00" );
 
         // Add contract dates
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerIssueDateEdit, "04/11/2019" );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, "04/11/2019" );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, "04/11/2019" );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, "12/31/2019" );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, "12/31/2019");
+        String startDate = browser.getDateTimeNowInUsersTimezone().format(newcontract.inputBoxFormatter);
+        String endDate = browser.getDateTimeNowInUsersTimezone().plusDays(30).format(newcontract.inputBoxFormatter);
+
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerIssueDateEdit, startDate );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, startDate );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, startDate );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, endDate );
+//        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate );
 
         browser.ClickWhenClickable(contract.nextStepButton);
     }
