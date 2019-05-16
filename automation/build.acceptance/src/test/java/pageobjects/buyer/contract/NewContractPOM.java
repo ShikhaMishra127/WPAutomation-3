@@ -120,16 +120,28 @@ public class NewContractPOM {
 
     //////////////////////////////////////////////////////////////////////// ATTACHMENTS PAGE
 
-    @FindBy(xpath="//button[@type='button'][contains(@onclick,'docfromlib')]")
-    public WebElement attachDocFromLibButton;
-
+    ////////// add files from library dialog
     @FindBy(xpath="//form[@name='theform']")
     public WebElement attachLibResult;
 
     @FindBy(xpath="//button[contains(@onclick,'submit')]")
     public WebElement attachLibSaveButton;
 
+    ////////// contract documents page
+    @FindBy(xpath="//tbody")
+    public WebElement attachContainer;
+
+
+    @FindBy(xpath="//button[@type='button'][contains(@onclick,'docfromlib')]")
+    public WebElement attachDocFromLibButton;
+
+    ////////// contract document sub-elements
+    String attachLineVisibleToContractorCheckbox = "./td/span/label/input[@type='checkbox']";
+    String attachLinePrivateToggle="./td/div/div[@class='bootstrap-switch-container']";
+
+    ////////// helper methods
     public void addFileFromLibrary(String filename) {
+
         String xpath = "//form[@name='theform']/table/tbody/tr/td/a[contains(text(),'"+ filename +"')]/parent::*/parent::*/td/input[@type='checkbox']";
 
         // if we find the file in the list of uploaded files, click on its checkbox. Otherwise fail.
@@ -139,6 +151,25 @@ public class NewContractPOM {
         else {
             System.out.printf("Cannot located file '%s' in contract file library.%n", filename);
         }
+    }
+
+    public void setFileVisibility(String filename, boolean markPrivate, boolean markVisible) {
+
+        String xpath = "//a[contains(.,'" + filename + "')]/parent::*/parent::*";
+
+        // search for line containing document
+        browser.waitForElementToAppear(By.xpath(xpath));
+        WebElement ourline = attachContainer.findElement(By.xpath(xpath));
+
+        if (!markPrivate) {
+            // click toggle switch
+            browser.clickSubElement(ourline, attachLinePrivateToggle);
+
+        } else if (markVisible) {
+            // click visible to contractor checkbox
+            browser.clickSubElement(ourline, attachLineVisibleToContractorCheckbox);
+        }
+
     }
 
     //////////////////////////////////////////////////////////////////////// AUTHORIZATION PAGE

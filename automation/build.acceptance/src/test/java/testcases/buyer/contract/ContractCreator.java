@@ -10,6 +10,8 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
 
+import java.time.ZonedDateTime;
+
 public class ContractCreator {
 
     Browser browser;
@@ -107,14 +109,20 @@ public class ContractCreator {
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerPricingTotalValueEdit, "1500.00" );
 
         // Add contract dates
-        String startDate = browser.getDateTimeNowInUsersTimezone().format(newcontract.inputBoxFormatter);
-        String endDate = browser.getDateTimeNowInUsersTimezone().plusDays(30).format(newcontract.inputBoxFormatter);
 
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerIssueDateEdit, startDate );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, startDate );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, startDate );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, endDate );
-//        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate );
+        ZonedDateTime startDate = browser.getDateTimeNowInUsersTimezone();
+        ZonedDateTime endDate = browser.getDateTimeNowInUsersTimezone().plusDays(30);
+
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerIssueDateEdit, startDate.format(newcontract.inputBoxFormatter) );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, startDate.format(newcontract.inputBoxFormatter) );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, startDate.format(newcontract.inputBoxFormatter) );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, endDate.format(newcontract.inputBoxFormatter) );
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate.format(newcontract.inputBoxFormatter) );
+
+        newcontract.setContractDateAward(startDate);
+        newcontract.setContractDateEffective(startDate);
+        newcontract.setContractDateExpiration(endDate);
+        newcontract.setContractDateProjected(endDate);
 
         browser.ClickWhenClickable(contract.nextStepButton);
     }
@@ -141,13 +149,16 @@ public class ContractCreator {
 
         contract.addFileFromLibrary("contract private attachment.txt");
         contract.addFileFromLibrary("contract private Visible to Contractor.txt");
-        contract.addFileFromLibrary("where is waldo.txt");
         contract.addFileFromLibrary("contract public attachment.txt");
 
         contract.attachLibSaveButton.click();
 
         // switch focus back to main window
         browser.switchTo().window(parentWindow);
+
+        contract.setFileVisibility("contract private attachment.txt", true, false);
+        contract.setFileVisibility("contract private Visible to Contractor.txt", true, true);
+        contract.setFileVisibility("contract public attachment.txt", false, false);
 
         browser.ClickWhenClickable(contract.nextStepButton);
     }

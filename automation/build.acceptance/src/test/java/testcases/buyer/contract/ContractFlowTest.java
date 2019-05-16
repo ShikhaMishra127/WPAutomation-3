@@ -8,10 +8,6 @@ import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
 import utilities.common.Browser;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class ContractFlowTest {
 
     Contract contract;
@@ -24,11 +20,10 @@ public class ContractFlowTest {
     @Test
     public void CreateContractTest() {
 
-/*
         ContractCreator creator = new ContractCreator();
         contract = creator.CreateContract("data/contract");
-*/
 
+/*
         DateTimeFormatter inputBoxFormatter = DateTimeFormatter.ofPattern("LLL d, yyyy");
         Browser browser = new Browser();
         contract.setContractNumber("190509.015550");
@@ -41,7 +36,7 @@ public class ContractFlowTest {
         contract.setContractDateEffective(browser.getDateTimeNowInUsersTimezone());
         contract.setContractDateExpiration(ZonedDateTime.of(2019, 06, 8, 02, 00, 0, 0, ZoneId.systemDefault()));
         contract.setContractDateProjected(browser.getDateTimeNowInUsersTimezone());
-
+*/
         System.out.format("Contract %s created.%n", contract.getContractNumber());
 
     }
