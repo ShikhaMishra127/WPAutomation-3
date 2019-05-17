@@ -140,36 +140,54 @@ public class NewContractPOM {
     String attachLinePrivateToggle="./td/div/div[@class='bootstrap-switch-container']";
 
     ////////// helper methods
-    public void addFileFromLibrary(String filename) {
 
-        String xpath = "//form[@name='theform']/table/tbody/tr/td/a[contains(text(),'"+ filename +"')]/parent::*/parent::*/td/input[@type='checkbox']";
+    public void addFilesFromLibrary(String contract_attachments) {
 
-        // if we find the file in the list of uploaded files, click on its checkbox. Otherwise fail.
-        if (browser.elementExists(By.xpath(xpath))) {
-            attachLibResult.findElement(By.xpath(xpath)).click();
-        }
-        else {
-            System.out.printf("Cannot located file '%s' in contract file library.%n", filename);
+        String[] files = contract_attachments.split(",");
+
+        for (String file: files) {
+
+            String filename = file.split("\\|")[0];
+
+            String xpath = "//form[@name='theform']/table/tbody/tr/td/a[contains(text(),'" + filename + "')]/parent::*/parent::*/td/input[@type='checkbox']";
+
+            // if we find the file in the list of uploaded files, click on its checkbox. Otherwise fail.
+            if (browser.elementExists(By.xpath(xpath))) {
+                attachLibResult.findElement(By.xpath(xpath)).click();
+            } else {
+                System.out.printf("Cannot located file '%s' in contract file library.%n", filename);
+            }
         }
     }
 
-    public void setFileVisibility(String filename, boolean markPrivate, boolean markVisible) {
+    public void setFileVisibility(String contract_attachments) {
 
-        String xpath = "//a[contains(.,'" + filename + "')]/parent::*/parent::*";
+        String[] files = contract_attachments.split(",");
 
-        // search for line containing document
-        browser.waitForElementToAppear(By.xpath(xpath));
-        WebElement ourline = attachContainer.findElement(By.xpath(xpath));
+        for (String file : files) {
 
-        if (!markPrivate) {
-            // click toggle switch
-            browser.clickSubElement(ourline, attachLinePrivateToggle);
+            String[] attribute = file.split("\\|");
 
-        } else if (markVisible) {
-            // click visible to contractor checkbox
-            browser.clickSubElement(ourline, attachLineVisibleToContractorCheckbox);
+            String filename = attribute[0];
+            boolean markPrivate = Boolean.valueOf(attribute[1]);
+            boolean markVisible = Boolean.valueOf(attribute[2]);
+
+            String xpath = "//a[contains(.,'" + filename + "')]/parent::*/parent::*";
+
+            // search for line containing document
+            browser.waitForElementToAppear(By.xpath(xpath));
+            WebElement ourline = attachContainer.findElement(By.xpath(xpath));
+
+            if (!markPrivate) {
+                // click toggle switch
+                browser.clickSubElement(ourline, attachLinePrivateToggle);
+
+            } else if (markVisible) {
+                // click visible to contractor checkbox
+                browser.clickSubElement(ourline, attachLineVisibleToContractorCheckbox);
+            }
+
         }
-
     }
 
     //////////////////////////////////////////////////////////////////////// AUTHORIZATION PAGE
@@ -189,8 +207,9 @@ public class NewContractPOM {
 
     //////////////////////////////////////////////////////////////////////// SUMMARY PAGE
 
-
     @FindBy(xpath="//button[contains(@onclick,'submitContract();')]")
     public WebElement summarySubmitButton;
+
+
 
 }

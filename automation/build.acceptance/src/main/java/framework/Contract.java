@@ -14,6 +14,10 @@ public class Contract {
     private ZonedDateTime contractDateEffective;
     private ZonedDateTime contractDateExpiration;
     private ZonedDateTime contractDateProjected;
+    private String contractVisibility;
+    private String contractType;
+    private String contractPricingType;
+    private String contractValueFormatted;
 
     public DateTimeFormatter inputBoxFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     public DateTimeFormatter bidboardFormatter = DateTimeFormatter.ofPattern("LLL d, yyyy");
@@ -28,6 +32,10 @@ public class Contract {
     public void setContractDateEffective(ZonedDateTime date) { contractDateEffective = date; }
     public void setContractDateExpiration(ZonedDateTime date) { contractDateExpiration = date; }
     public void setContractDateProjected(ZonedDateTime date) { contractDateProjected = date; }
+    public void setVisibility(String visibility) { contractVisibility = visibility; }
+    public void setContractType(String type) { contractType = type; }
+    public void setContractPricingType(String type) { contractPricingType = type; }
+    public void setContractValueFormatted(String value) { contractValueFormatted = value; }
 
     // Getters
     public String getContractNumber() { return contractNumber; }
@@ -42,6 +50,11 @@ public class Contract {
 
     public String getContractDateAwardBidboardFormatted() { return this.formatDateWithBidboardFormatter(this.contractDateAward); }
     public String getContractDateExpirationBidboardFormatted() { return this.formatDateWithBidboardFormatter(this.contractDateExpiration); }
+
+    public String getContractVisibility() { return this.contractVisibility; }
+    public String getContractType() { return this.contractType; }
+    public String getContractPricingType() { return this.contractPricingType; }
+    public String getContractValueFormatted() { return this.contractValueFormatted; }
 
     // Helpers
     private String formatDateWithInputBoxFormatter(ZonedDateTime dateTime){

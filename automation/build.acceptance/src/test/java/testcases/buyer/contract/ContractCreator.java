@@ -64,27 +64,38 @@ public class ContractCreator {
 
         UniqueID contractNum = new UniqueID(UniqueID.IDType.DATE);
 
-        String title = "Automated Contract " + contractNum.getNumber();
+        String title = resource.getValue("contract_name") + " " + contractNum.getNumber();
+        String longdesc = resource.getValue("contract_longdesc") + " " + title;
 
+        // fill our contract object with values from .properties and ID we just generated
         newcontract.setContractNumber(contractNum.getNumber());
+        newcontract.setContractName(title);
+        newcontract.setContractLongDesc(longdesc);
+        newcontract.setVisibility(resource.getValue("contract_visibility"));
+        newcontract.setContractType(resource.getValue("contract_type"));
+        newcontract.setContractSupplier(resource.getValue("contract_suppliername"));
+        newcontract.setContractPricingType(resource.getValue("contract_pricingtype"));
+        newcontract.setContractTotalValue(resource.getValue("contract_totalvalue"));
+        newcontract.setContractValueFormatted(resource.getValue("contract_totalvalueformatted"));
 
         contract.headContractTitleEdit.sendKeys(title);
-        new Select(contract.headContractVisibilityDrop).selectByValue("Public");
-        new Select(contract.headContractTypeDrop).selectByIndex(1);
+        new Select(contract.headContractVisibilityDrop).selectByVisibleText(newcontract.getContractVisibility());
+        new Select(contract.headContractTypeDrop).selectByVisibleText(newcontract.getContractType());
 
-        String longdesc = "This is a long description for " + title;
-
-        newcontract.setContractLongDesc(longdesc);
         contract.headLongDescEdit.sendKeys(longdesc);
 
         contract.headerContractNumber.sendKeys(contractNum.getNumber());
 
-        // Add commodities
+        // Add a list of comma-separated commodity codes to add to contract
         contract.headerCommoditiesButton.click();
-        commodity.selectCommodityByCode("05200");
-        commodity.selectCommodityByCode("06510");
-        commodity.selectCommodityByCode("02204");
-        commodity.selectCommodityByCode("00500");
+
+        String[] values = resource.getValue("contract_commodities").split(",");
+
+        // for each code, search for and then add code to solicitation header
+        for (String code : values) {
+            commodity.selectCommodityByCode(code);
+        }
+
         commodity.commodityCloseButton.click();
 
         // Add contractor
@@ -96,7 +107,7 @@ public class ContractCreator {
 
         browser.waitForElementToAppear(contract.headerSupplierSearchEdit);
 
-        contract.headerSupplierSearchEdit.sendKeys("AutoSupplier");
+        contract.headerSupplierSearchEdit.sendKeys(newcontract.getContractSupplier());
         contract.headerSupplierSearchButton.click();
         browser.ClickWhenClickable(contract.headerSupplierSearchCheck);
 
@@ -104,12 +115,12 @@ public class ContractCreator {
         browser.switchTo().window(parentWindow);
 
         // Add pricing information
-        new Select(contract.headerPricingTypeDrop).selectByValue("Fixed Price");
-        new Select(contract.headerPricingConditionDrop).selectByValue("Estimate");
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerPricingTotalValueEdit, "1500.00" );
+        new Select(contract.headerPricingTypeDrop).selectByValue(newcontract.getContractPricingType());
+        new Select(contract.headerPricingConditionDrop).selectByValue(resource.getValue("contract_pricingcondition"));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerPricingTotalValueEdit, newcontract.getContractTotalValue() );
+
 
         // Add contract dates
-
         ZonedDateTime startDate = browser.getDateTimeNowInUsersTimezone();
         ZonedDateTime endDate = browser.getDateTimeNowInUsersTimezone().plusDays(30);
 
@@ -117,7 +128,8 @@ public class ContractCreator {
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, startDate.format(newcontract.inputBoxFormatter) );
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, startDate.format(newcontract.inputBoxFormatter) );
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, endDate.format(newcontract.inputBoxFormatter) );
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate.format(newcontract.inputBoxFormatter) );
+ // included in 11.3
+//        browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate.format(newcontract.inputBoxFormatter) );
 
         newcontract.setContractDateAward(startDate);
         newcontract.setContractDateEffective(startDate);
@@ -147,18 +159,14 @@ public class ContractCreator {
         String parentWindow = browser.driver.getWindowHandle();
         browser.SwitchToPopUp(parentWindow);
 
-        contract.addFileFromLibrary("contract private attachment.txt");
-        contract.addFileFromLibrary("contract private Visible to Contractor.txt");
-        contract.addFileFromLibrary("contract public attachment.txt");
+        contract.addFilesFromLibrary(resource.getValue("contract_attachments"));
 
         contract.attachLibSaveButton.click();
 
         // switch focus back to main window
         browser.switchTo().window(parentWindow);
 
-        contract.setFileVisibility("contract private attachment.txt", true, false);
-        contract.setFileVisibility("contract private Visible to Contractor.txt", true, true);
-        contract.setFileVisibility("contract public attachment.txt", false, false);
+        contract.setFileVisibility(resource.getValue("contract_attachments"));
 
         browser.ClickWhenClickable(contract.nextStepButton);
     }

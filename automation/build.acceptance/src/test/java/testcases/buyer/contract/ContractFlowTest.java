@@ -23,20 +23,6 @@ public class ContractFlowTest {
         ContractCreator creator = new ContractCreator();
         contract = creator.CreateContract("data/contract");
 
-/*
-        DateTimeFormatter inputBoxFormatter = DateTimeFormatter.ofPattern("LLL d, yyyy");
-        Browser browser = new Browser();
-        contract.setContractNumber("190509.015550");
-        contract.setContractName("Automated Contract 190509.015550");
-        contract.setContractLongDesc("This is a long description for Automated Contract 190509.015550");
-        contract.setContractSupplier("AutoSupplier");
-        contract.setContractTotalValue("1,500.00");
-
-        contract.setContractDateAward(ZonedDateTime.of(2019, 05, 9, 02, 00, 0, 0, ZoneId.systemDefault()));
-        contract.setContractDateEffective(browser.getDateTimeNowInUsersTimezone());
-        contract.setContractDateExpiration(ZonedDateTime.of(2019, 06, 8, 02, 00, 0, 0, ZoneId.systemDefault()));
-        contract.setContractDateProjected(browser.getDateTimeNowInUsersTimezone());
-*/
         System.out.format("Contract %s created.%n", contract.getContractNumber());
 
     }
@@ -67,16 +53,23 @@ public class ContractFlowTest {
 
         browser.getSubElement(ourline, board.itemTitle).click();
 
-        // verify summary detail screen contains valid data
-
+        browser.waitForElementToAppear(board.summaryAttachments);
         browser.waitForElementToAppear(board.summaryPeriod);
-
-        Assert.assertTrue("IssueDate OK", board.summaryPeriod.getText().contains("Issue Date:" + contract.getContractDateAwardBidboardFormatted()));
+        browser.waitForElementToAppear(board.summaryPricing);
 
         // BUG: https://proactis.atlassian.net/browse/WP-4095
         //Assert.assertTrue("ExpirationDate OK", board.summaryPeriod.getText().contains("Expiration Date:" + contract.getContractDateExpirationBidboardFormatted()));
+        Assert.assertTrue("IssueDate OK", board.summaryPeriod.getText().contains("Issue Date:" + contract.getContractDateAwardBidboardFormatted()));
 
-        Assert.assertTrue("Pricing OK", board.summaryPricing.getText().contains(contract.getContractTotalValue()));
+        // verify PUBLIC attachments are visible and PRIVATE attachments are NOT
+        Assert.assertTrue("Contract contains public attachment", board.summaryAttachments.getText().contains("public"));
+        Assert.assertTrue("Contract DOES NOT contain private attachment", !board.summaryAttachments.getText().contains("private"));
+
+        // verify Contract Pricing
+        Assert.assertTrue("Contract has Pricing Type", board.summaryPricing.getText().contains(contract.getContractPricingType()));
+        Assert.assertTrue("Contract has Total Value", board.summaryPricing.getText().contains(contract.getContractValueFormatted()));
+        Assert.assertTrue("Contract has Contract Type", board.summaryPricing.getText().contains(contract.getContractType()));
+
 
     }
 
