@@ -11,6 +11,7 @@
       <class name="testcases.bidboard.ContractBidboardTest"/>
       <class name="testcases.buyer.reports.CreateReportTest"/>
       <class name="testcases.buyer.sol.SolicitationFlowTest"/>
+      <class name="testcases.buyer.contract.ContractFlowTest"/>
       <class name="testcases.buyer.reports.ExecuteReportTest"/>
       <class name="testcases.vendor.registration.StandardRegistrationTest" />
       <!-- <class name="testcases.vendor.registration.WhiteLabelRegistrationTest" /> -->

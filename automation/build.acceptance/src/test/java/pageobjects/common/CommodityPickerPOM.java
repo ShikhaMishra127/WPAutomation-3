@@ -53,7 +53,8 @@ public class CommodityPickerPOM {
         // find the checkbox of the found code
         WebElement checkbox = commoditySearchResults.findElement(By.xpath(checkboxpath));
 
-        // click the correct code
+        // click the correct code (if overlay is there, wait for it to leave before clicking checkbox
+        browser.waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
         browser.waitForElementToBeClickable(checkbox);
         checkbox.click();
     }

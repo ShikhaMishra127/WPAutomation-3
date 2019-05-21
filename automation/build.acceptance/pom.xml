@@ -25,8 +25,8 @@
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
           <systemPropertyVariables>
-            <!-- temporary workaround for WebDriverManager - see https://github.com/bonigarcia/webdrivermanager/issues/313 -->
-            <wdm.chromeDriverVersion>73</wdm.chromeDriverVersion>
+            <!-- temporary workaround for WebDriverManager - see https://github.com/bonigarcia/webdrivermanager/issues/313
+            <wdm.chromeDriverVersion>73</wdm.chromeDriverVersion> -->
           </systemPropertyVariables>
         </configuration>
       </plugin>
