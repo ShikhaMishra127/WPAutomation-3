@@ -1,6 +1,6 @@
 /**
- * TestRail API binding for Java (API v2, available since TestRail 3.0)
- * Updated for TestRail 5.7
+ * APIClient API binding for Java (API v2, available since APIClient 3.0)
+ * Updated for APIClient 5.7
  *
  * Learn more:
  *
@@ -45,6 +45,8 @@ public class APIClient
 		
 		this.m_url = base_url + "index.php?/api/v2/";
 	}
+	
+
 
 	/**
 	 * Get/Set User
@@ -218,7 +220,7 @@ public class APIClient
 			if (istream == null)
 			{
 				throw new APIException(
-					"TestRail API return HTTP " + status + 
+					"APIClient API return HTTP " + status + 
 					" (No additional error message received)"
 				);
 			}
@@ -279,7 +281,7 @@ public class APIClient
 		
 		// Check for any occurred errors and add additional details to
 		// the exception message, if any (e.g. the error message returned
-		// by TestRail).
+		// by APIClient).
 		if (status != 200)
 		{
 			String error = "No additional error message received";
@@ -293,7 +295,7 @@ public class APIClient
 			}
 			
 			throw new APIException(
-				"TestRail API returned HTTP " + status +
+				"APIClient API returned HTTP " + status +
 				"(" + error + ")"
 			);
 		}

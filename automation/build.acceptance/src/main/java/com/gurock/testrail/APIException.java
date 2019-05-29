@@ -1,5 +1,5 @@
 /**
- * TestRail API binding for Java (API v2, available since TestRail 3.0)
+ * APIClient API binding for Java (API v2, available since APIClient 3.0)
  *
  * Learn more:
  *
