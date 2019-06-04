@@ -10,24 +10,15 @@
  * Copyright Gurock Software GmbH. See license.md for details.
  */
  
-package com.gurock.testrail;
+package utilities.testrail;
 
-import java.net.URL;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.UnsupportedEncodingException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class APIClient
