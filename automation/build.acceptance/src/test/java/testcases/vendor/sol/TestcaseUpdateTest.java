@@ -20,10 +20,11 @@ public class TestcaseUpdateTest {
 
         //  System.out.printf("TEST RUN: %s%n",trail.GetTestRun("302"));
 
-        String testRunID = trail.AddTestRun("New Automation Test " + TodaysRun.getNumber());
-        System.out.printf("TEST RUN ID CREATED: %s%n", testRunID);
-        System.out.printf("TEST RUN CONTENTS: %n%s%n", trail.GetTestRun(testRunID));
-
+        trail.AddTestRun("New Automation Test " + TodaysRun.getNumber());
+        System.out.printf("TEST RUN ID CREATED: %s%n", trail.GetRun());
+        System.out.printf("TEST RUN CONTENTS: %n%s%n", trail.GetTestRun(trail.GetRun()));
+        
+        trail.CloseTestRun();
 
 
     }

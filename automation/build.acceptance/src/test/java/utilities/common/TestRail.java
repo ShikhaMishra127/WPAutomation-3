@@ -13,8 +13,9 @@ public class TestRail {
 	private ResourceLoader env;
 	private String ProjectID;
 	private String SuiteID;
+	private String RunID;
 
-	public enum Status{ PASS, FAIL, BLOCKED }
+	public enum Status{ PASSED, BLOCKED, UNTESTED, RETEST, FAILED }
 
 	public TestRail() {
 
@@ -26,6 +27,14 @@ public class TestRail {
 		ProjectID = env.getValue("testrail_projectID");
 		SuiteID = env.getValue("testrail_suiteID");
 	}
+
+	public void SetProject(String id) { ProjectID = id; }
+	public void SetSuite(String id) { SuiteID = id; }
+	public void SetRun(String id) { RunID = id; }
+
+	public String GetProject() { return ProjectID; }
+	public String GetSuite() { return SuiteID; }
+	public String GetRun() { return RunID; }
 
 	public String GetTestcase(String TCNumber) {
 
@@ -45,7 +54,7 @@ public class TestRail {
 	String runName - Name of the test case run you want to create
 	String <return> - test run ID for the test run you just created
 	 */
-	public String AddTestRun(String runName) {
+	public void AddTestRun(String runName) {
 
 		JSONObject object = new JSONObject();
 		JSONObject returnObj;
@@ -56,22 +65,28 @@ public class TestRail {
 		object.put("include_all", Boolean.TRUE);
 
 		returnObj = this.Post("add_run", ProjectID, object);
-		return returnObj.get("id").toString();
+
+		SetRun(returnObj.get("id").toString());
+	}
+
+	public void CloseTestRun() {
+
+		this.Post("close_run", this.RunID, new JSONObject() );
 	}
 
 
 	public JSONObject Get(String command, String RefID) {
 
-		JSONObject object = new JSONObject();
+		JSONObject objectOut = new JSONObject();
 		String tc = command + "/" + RefID;
 
 		try {
-			object = (JSONObject) API.sendGet( tc );
+			objectOut = (JSONObject) API.sendGet( tc );
 		} catch (IOException | APIException e) {
 			e.printStackTrace();
 		}
 
-		return object;
+		return objectOut;
 	}
 
 	public JSONObject Post(String command, String RefID, JSONObject objectIn) {
