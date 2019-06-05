@@ -1,19 +1,15 @@
 package testcases.buyer.reports;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import pageobjects.buyer.report.ExecuteReportPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import utilities.common.TestRail;
 
 public class ExecuteReportTest {
 
@@ -27,6 +23,7 @@ public class ExecuteReportTest {
     private String reportFromDate;
     private String reportToDate;
     private String reportSection;
+    TestRail tRail;
 
     public ExecuteReportTest() {
 
@@ -40,6 +37,7 @@ public class ExecuteReportTest {
         reports = new ExecuteReportPOM(browser);
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
+        tRail = new TestRail();
 
         reportSection = resource.getValue("report_section");
         reportName = resource.getValue("report_name");
@@ -69,6 +67,7 @@ public class ExecuteReportTest {
 
         // verify the report title
         Assert.assertTrue("Report Title Header OK", reports.reportParameterHeader.getText().contains(reportName));
+
     }
 
     @Test(priority = 2)
@@ -108,7 +107,9 @@ public class ExecuteReportTest {
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
         Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
-      
+
+        tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
+
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);
       

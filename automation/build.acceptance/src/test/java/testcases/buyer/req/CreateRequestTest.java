@@ -11,6 +11,7 @@ import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ExtentReport;
+import utilities.common.TestRail;
 
 public class CreateRequestTest {
 
@@ -20,6 +21,7 @@ public class CreateRequestTest {
     OffCatalogReqPOM offrequest;
     ProcessReqPOM shoppingcart;
     ExtentReport testreport;
+    TestRail trail;
 
     public CreateRequestTest() { }
 
@@ -32,6 +34,7 @@ public class CreateRequestTest {
         shoppingcart = new ProcessReqPOM(browser);
         testreport = new ExtentReport(browser);
     	browser.getDriver().get(browser.baseUrl);
+    	trail = new TestRail();
         // before starting our tests, first log into the system as a buyer
         testreport.logger = ExtentReport.report.startTest(this.getClass().getSimpleName());
         testreport.logger.log(LogStatus.INFO, "Test Case Started");
@@ -51,6 +54,9 @@ public class CreateRequestTest {
         shoppingcart.submitRequest();
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "Request successfully submitted.");
         testreport.logger.log(LogStatus.PASS, "Created off-catalog request successfully");
+
+        trail.UpdateTestcase("3516", TestRail.Status.PASSED, "Created off-catalog request successfully");
+
     }
 
     @AfterClass

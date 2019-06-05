@@ -21,7 +21,7 @@ public class CreateReportPOM {
 
     //// Report List page
 
-    @FindBy(xpath = "//table[@class='list-group']//tbody")
+    @FindBy(xpath = "//form[@name='frmReports']")
     public WebElement reportList;
 
     @FindBy(xpath = "//h3")
@@ -52,9 +52,13 @@ public class CreateReportPOM {
 
     public void selectReportByName(String reportName) {
 
+        String xpath = "//a[contains(text(),'" + reportName + "')]";
+
         // find report with report string
-        WebElement reportLink = reportList.findElement(By.xpath("//a[contains(text(),'" + reportName + "')]"));
-        reportLink.click();
+        browser.waitForElementToAppear(By.xpath(xpath));
+
+        WebElement reportLink = reportList.findElement(By.xpath(xpath));
+        browser.clickWhenAvailable(reportLink);
 
         // Wait for the page to load before leaving
         browser.waitForPageLoad();
