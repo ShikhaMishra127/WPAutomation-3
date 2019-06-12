@@ -10,6 +10,7 @@ import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
+import utilities.common.TestRail;
 import utilities.common.UniqueID;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class StandardRegistrationTest {
     LoginPagePOM login;
     VendorNavBarPOM vendor;
     String vendorUsername;
+    TestRail rTrail;
 
     UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
@@ -35,6 +37,7 @@ public class StandardRegistrationTest {
         login = new LoginPagePOM(browser);
         reg = new RegStandardPOM(browser);
         vendor = new VendorNavBarPOM(browser);
+        rTrail = new TestRail();
 
         browser.getDriver().get(browser.baseUrl);
     }
@@ -220,8 +223,12 @@ public class StandardRegistrationTest {
 
         Assert.assertTrue("Select target buyer OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_btc")));
 
-        reg.buyerTandCAcceptRadio.click();
-        reg.continueButton.click();
+        // if a T&C was included
+        if (browser.elementExists(reg.buyerTandCAcceptRadio)) {
+            reg.buyerTandCAcceptRadio.click();
+        }
+
+        browser.clickWhenAvailable(reg.continueButton);
 
         Assert.assertTrue("Accept buyer T&Cs OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_usr")));
 
@@ -266,6 +273,8 @@ public class StandardRegistrationTest {
         Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(FullName));
 
         vendor.vendorLogout();
+
+        rTrail.UpdateTestcase("3533", TestRail.Status.PASSED, "Vendor " + vendorNum.getNumber() + " created.");
 
     }
 
