@@ -1,6 +1,8 @@
 package utilities.common;
 
 import org.json.simple.JSONObject;
+
+import utilities.common.TestRail.Status;
 import utilities.testrail.APIClient;
 import utilities.testrail.APIException;
 
@@ -103,9 +105,23 @@ public class TestRail {
 		return objectOut;
 
 	}
+	
+	 public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
+		JSONObject object = new JSONObject();
+		JSONObject returnObj;
 
-	public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
+		object.put("name"," New Automation Test ");
+		object.put("description", "Automated test run created for use by Selenium Build Acceptance");
+		object.put("suite_id", Integer.parseInt(SuiteID) );
+		object.put("status_id", TCStatus.ordinal());
+		object.put("include_all", Boolean.TRUE);
+
+		returnObj = this.Post("add_result_for_case", ProjectID+"/"+TCNumber, object);
+
+		SetRun(returnObj.get("id").toString());
+		
 
 	}
+	
 
 }
