@@ -1,8 +1,6 @@
 package utilities.common;
 
 import org.json.simple.JSONObject;
-
-import utilities.common.TestRail.Status;
 import utilities.testrail.APIClient;
 import utilities.testrail.APIException;
 
@@ -17,7 +15,7 @@ public class TestRail {
 	private String SuiteID;
 	private String RunID;
 
-	public enum Status{ PASSED, BLOCKED, UNTESTED, RETEST, FAILED }
+	public enum Status{ COMMENT, PASSED, BLOCKED, UNTESTED, RETEST, FAILED }
 
 	public TestRail() {
 
@@ -28,6 +26,7 @@ public class TestRail {
 		API.setPassword(env.getValue("testrail_password"));
 		ProjectID = env.getValue("testrail_projectID");
 		SuiteID = env.getValue("testrail_suiteID");
+		RunID = env.getValue("testrail_runID");
 	}
 
 	public void SetProject(String id) { ProjectID = id; }
@@ -107,19 +106,17 @@ public class TestRail {
 	}
 	
 	 public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
+
 		JSONObject object = new JSONObject();
 		JSONObject returnObj;
 
-		object.put("name"," New Automation Test ");
-		object.put("description", "Automated test run created for use by Selenium Build Acceptance");
-		object.put("suite_id", Integer.parseInt(SuiteID) );
-		object.put("status_id", TCStatus.ordinal());
-		object.put("include_all", Boolean.TRUE);
+		 // fill up our object with test case result data
+		 if (TCStatus != Status.COMMENT) {
+			 object.put("status_id", TCStatus.ordinal());
+		 }
+		 object.put("comment", TCComment);
 
-		returnObj = this.Post("add_result_for_case", ProjectID+"/"+TCNumber, object);
-
-		SetRun(returnObj.get("id").toString());
-		
+		 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
 
 	}
 	
