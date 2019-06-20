@@ -91,6 +91,10 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(driver, i);
         wait.until(ExpectedConditions.elementToBeClickable(ele));
 
+        // if overlay is there, wait for it to leave before continuing
+        waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
+        waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
+
         // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
         // try to get element to scroll into view before we can click
         InjectJavaScript("arguments[0].scrollIntoView()", ele);
@@ -327,6 +331,7 @@ public class Browser implements WebDriver {
     
     public void ClickWhenClickable(WebElement element) {
         waitForElementToBeClickable(element);
+        waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
         element.click();
     }
 
