@@ -3,15 +3,14 @@ package testcases.buyer.reports;
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.buyer.report.ExecuteReportPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
-import utilities.common.Browser;
-import utilities.common.ResourceLoader;
-import utilities.common.TestRail;
-import utilities.common.TestRailListener;
+import utilities.common.*;
 
+@Listeners({TestRailListener.class})
 public class ExecuteReportTest {
 
     Browser browser;
@@ -57,8 +56,9 @@ public class ExecuteReportTest {
         browser.close();
     }
 
+
+    @TestRailReference(id=5781)
     @Test(priority = 1)
-    @TestRailListener.TestRailID(id=5781)
     public void GoToReportTest() {
 
         // Navigate to Execute Reports

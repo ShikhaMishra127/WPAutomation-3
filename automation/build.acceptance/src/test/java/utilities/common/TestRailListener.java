@@ -13,17 +13,9 @@ public class TestRailListener extends TestListenerAdapter {
     }
 
     public void getTestcase(ITestResult tr) {
-
-        Class<ITestResult> obj = ITestResult.class;
-
-        if (obj.isAnnotationPresent(TestRailID.class)) {
-
-            Annotation annotation = obj.getAnnotation(TestRailID.class);
-            TestRailID ourIDInfo = (TestRailID)annotation;
-
-            System.out.printf("Found testrail ID: %d%n", ourIDInfo.id());
-
-        }
+        Annotation annotation = tr.getMethod().getConstructorOrMethod().getMethod().getAnnotation(TestRailReference.class);
+        TestRailReference reference = (TestRailReference) annotation;
+        System.out.printf("Found testrail ID: %d%n", reference.id());
     }
 
     @Override
