@@ -10,6 +10,7 @@ import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.TestRail;
+import utilities.common.TestRailListener;
 
 public class ExecuteReportTest {
 
@@ -57,6 +58,7 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 1)
+    @TestRailListener.TestRailID(id=5781)
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
@@ -106,7 +108,7 @@ public class ExecuteReportTest {
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
-        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
+        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle+"HahAA!") );
 
         tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
 
