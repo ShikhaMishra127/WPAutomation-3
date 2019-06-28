@@ -4,37 +4,47 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 public class TestRailListener extends TestListenerAdapter {
 
+    private TestRail tRail = new TestRail();
 
-    public @interface TestRailID {
-        public int id() default 0;
+    private int getTestcase(ITestResult tr) {
+
+        int testCaseID = 0;
+        Method currentTestMethod = tr.getMethod().getConstructorOrMethod().getMethod();
+
+        if (currentTestMethod.isAnnotationPresent(TestRailReference.class)) {
+            Annotation annotation = currentTestMethod.getAnnotation(TestRailReference.class);
+            TestRailReference reference = (TestRailReference) annotation;
+            testCaseID = reference.id();
+        }
+
+        return testCaseID;
     }
 
-    public void getTestcase(ITestResult tr) {
-        Annotation annotation = tr.getMethod().getConstructorOrMethod().getMethod().getAnnotation(TestRailReference.class);
-        TestRailReference reference = (TestRailReference) annotation;
-        System.out.printf("Found testrail ID: %d%n", reference.id());
+    private void postTestResult(ITestResult tr, TestRail.Status status, String comment) {
+
+        int tc = getTestcase(tr);
+
+        if (tc != 0) {
+            tRail.UpdateTestcase(String.valueOf(tc), status, comment);
+        }
     }
 
     @Override
     public void onTestStart(ITestResult tr) {
-        getTestcase(tr);
-        System.out.println("test started...");
     }
 
     @Override
     public void onTestSuccess(ITestResult tr) {
-        System.out.println("Test '" + tr.getName() + "' PASSED");
-
-        //        tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
-
+        postTestResult(tr, TestRail.Status.PASSED, "Test '" + tr.getName() + "' PASSED");
     }
 
     @Override
     public void onTestFailure(ITestResult tr) {
-        System.out.println("Test '" + tr.getName() + "' FAILED");
+        postTestResult(tr, TestRail.Status.FAILED, "Test '" + tr.getName() + "' FAILED");
     }
 
 }

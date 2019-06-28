@@ -11,6 +11,7 @@ import pageobjects.common.LoginPagePOM;
 import utilities.common.*;
 
 @Listeners({TestRailListener.class})
+
 public class ExecuteReportTest {
 
     Browser browser;
@@ -56,9 +57,8 @@ public class ExecuteReportTest {
         browser.close();
     }
 
-
-    @TestRailReference(id=5781)
     @Test(priority = 1)
+    @TestRailReference(id=5781)
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
@@ -108,9 +108,9 @@ public class ExecuteReportTest {
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
-        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle+"HahAA!") );
+        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
 
-        tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
+        //tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
 
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);
