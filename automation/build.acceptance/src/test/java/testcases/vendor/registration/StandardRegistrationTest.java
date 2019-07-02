@@ -274,7 +274,7 @@ public class StandardRegistrationTest {
 
         vendor.vendorLogout();
 
-        rTrail.UpdateTestcase("3533", TestRail.Status.PASSED, "Vendor " + vendorNum.getNumber() + " created.");
+        rTrail.UpdateTestcase("3598", TestRail.Status.PASSED, "Vendor " + vendorNum.getNumber() + " created.");
 
     }
 

@@ -8,7 +8,10 @@ import org.testng.annotations.Test;
 import pageobjects.buyer.report.ExecuteReportPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
-import utilities.common.*;
+import utilities.common.Browser;
+import utilities.common.ResourceLoader;
+import utilities.common.TestRail;
+import utilities.common.TestRailListener;
 
 @Listeners({TestRailListener.class})
 
@@ -54,12 +57,17 @@ public class ExecuteReportTest {
     @AfterClass
     public void tearDown() {
         navbar.logout();
+
+        tRail.UpdateTestcase("3607", TestRail.Status.PASSED, "Buyer Logged out OK");
+
         browser.close();
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=5781)
+ //   @TestRailReference(id=5781)
     public void GoToReportTest() {
+
+        tRail.UpdateTestcase("3606", TestRail.Status.PASSED, "Buyer Logged in OK");
 
         // Navigate to Execute Reports
         navbar.selectDropDownItem("Analytics", "Execute Reports");
@@ -110,7 +118,8 @@ public class ExecuteReportTest {
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
         Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
 
-        //tRail.UpdateTestcase("5781", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
+        // temporarily update "Create a new Report" test case
+        tRail.UpdateTestcase("3599", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
 
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);

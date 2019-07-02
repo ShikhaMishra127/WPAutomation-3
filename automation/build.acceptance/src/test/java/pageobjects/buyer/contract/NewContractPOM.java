@@ -96,10 +96,11 @@ public class NewContractPOM {
     @FindBy(xpath="//input[@id='projectedFinalExpDate']")
     public WebElement headerProjectedDateEdit;
 
-
-
     @FindBy(xpath="//div[@id='distribpanel']/div/button")
     public WebElement headDistributorButton;
+
+    @FindBy(xpath="//div[@id='removeButton']")
+    public WebElement headPopupCloseButton;
 
 
 

@@ -35,7 +35,7 @@ public class SolicitationFlowTest {
         SolCreator creator = new SolCreator();
         sol = creator.CreateSolicitation("data/solicitation");
 
-        tRail.UpdateTestcase("3550", TestRail.Status.PASSED, sol.getSolName() + " Created");
+        tRail.UpdateTestcase("3608", TestRail.Status.PASSED, sol.getSolName() + " Created");
     }
 
     @Test(dependsOnMethods = {"CreateSolicitationTest"})
@@ -60,7 +60,7 @@ public class SolicitationFlowTest {
         // wait for our solicitation to show up. Check every 5 seconds, for at least 5 minutes
        sol.waitForSolToAppear(this.sol.getSolNumber());
 
-        tRail.UpdateTestcase("3551", TestRail.Status.PASSED, this.sol.getSolName() + " Viewed");
+        tRail.UpdateTestcase("3609", TestRail.Status.PASSED, this.sol.getSolName() + " Viewed");
 
         // get a list of WebElements we can use for our target solicitation (date, name, actions, etc.)
         Map<VendorSolResponsePOM.SolColumn, WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
@@ -105,7 +105,7 @@ public class SolicitationFlowTest {
         navbar.vendorLogout();
         browser.close();
 
-        tRail.UpdateTestcase("7060", TestRail.Status.PASSED, "Vendor bid on sol " + this.sol.getSolName());
+        tRail.UpdateTestcase("3605", TestRail.Status.PASSED, "Vendor bid on sol " + this.sol.getSolName());
 
     }
 
@@ -130,7 +130,7 @@ public class SolicitationFlowTest {
         Assert.assertTrue("Sol Number OK", board.summaryInfo.getText().contains(sol.getSolNumber()));
         Assert.assertTrue("Sol Long Description OK", board.summaryLongDesc.getText().contains(sol.getSolLongDesc()));
 
-        tRail.UpdateTestcase("11003", TestRail.Status.PASSED, sol.getSolName() + " confirmed on Bid Board");
+        tRail.UpdateTestcase("5870", TestRail.Status.PASSED, sol.getSolName() + " confirmed on Bid Board");
 
         browser.close();
 
