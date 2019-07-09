@@ -45,6 +45,16 @@ public class TestRail {
 	public String GetRun() { return RunID; }
 
 	/**
+	 * use System property -DTESTRAIL to allow posting to our testcase server, defaults to 'false'
+	 *
+	 * @return  whether to post results to TestRail repository
+	 */
+	private boolean postToTestRail() {
+		String val = System.getProperty("TESTRAIL", "false");
+		return Boolean.valueOf(val).booleanValue();
+	}
+
+	/**
 	 *
 	 * @param runName		Name of the test case run you want to create
 	 *                      Project, Suite
@@ -73,12 +83,15 @@ public class TestRail {
 	private JSONObject Get(String command, String RefID) {
 
 		JSONObject objectOut = new JSONObject();
-		String tc = command + "/" + RefID;
 
-		try {
-			objectOut = (JSONObject) API.sendGet( tc );
-		} catch (IOException | APIException e) {
-			e.printStackTrace();
+		if (postToTestRail()) {
+			String tc = command + "/" + RefID;
+
+			try {
+				objectOut = (JSONObject) API.sendGet(tc);
+			} catch (IOException | APIException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return objectOut;
@@ -87,12 +100,15 @@ public class TestRail {
 	private JSONObject Post(String command, String RefID, JSONObject objectIn) {
 
 		JSONObject objectOut = new JSONObject();
-		String tc = command + "/" + RefID;
 
-		try {
-			objectOut = (JSONObject) API.sendPost(tc, objectIn );
-		} catch (IOException | APIException e) {
-			e.printStackTrace();
+		if (postToTestRail()) {
+			String tc = command + "/" + RefID;
+
+			try {
+				objectOut = (JSONObject) API.sendPost(tc, objectIn);
+			} catch (IOException | APIException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return objectOut;
