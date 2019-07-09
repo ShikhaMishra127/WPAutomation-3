@@ -84,6 +84,11 @@ public class ContractCreator {
 
         contract.headLongDescEdit.sendKeys(longdesc);
 
+        // if a ridiculous pop-up comes up, telling us the contract is public, close it before continuing
+        if (browser.elementExists(contract.headPopupCloseButton)) {
+            contract.headPopupCloseButton.click();
+        }
+
         contract.headerContractNumber.sendKeys(contractNum.getNumber());
 
         // Add a list of comma-separated commodity codes to add to contract

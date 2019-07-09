@@ -6,7 +6,12 @@ import utilities.testrail.APIException;
 
 import java.io.IOException;
 
-
+/**
+ * The TestRail class allows users to interface with the Gurok TestRail API.
+ *
+ * The companyspecification is located at: http://docs.gurock.com/testrail-api2/start
+ *
+ */
 public class TestRail {
 
 	private APIClient API;
@@ -19,6 +24,7 @@ public class TestRail {
 
 	public TestRail() {
 
+		// load resources from env.properties file and connect to Test Rail server
 		env = new ResourceLoader("env");
 		API = new APIClient(env.getValue("testrail_url"));
 
@@ -29,6 +35,7 @@ public class TestRail {
 		RunID = env.getValue("testrail_runID");
 	}
 
+	// public Getters/Setters
 	public void SetProject(String id) { ProjectID = id; }
 	public void SetSuite(String id) { SuiteID = id; }
 	public void SetRun(String id) { RunID = id; }
@@ -37,23 +44,20 @@ public class TestRail {
 	public String GetSuite() { return SuiteID; }
 	public String GetRun() { return RunID; }
 
-	public String GetTestcase(String TCNumber) {
-
-		JSONObject object = this.Get("get_case", TCNumber);
-
-		return (object.get("title")).toString();
-
+	/**
+	 * use System property -DTESTRAIL to allow posting to our testcase server, defaults to 'false'
+	 *
+	 * @return  whether to post results to TestRail repository
+	 */
+	private boolean postToTestRail() {
+		String val = System.getProperty("TESTRAIL", "false");
+		return Boolean.valueOf(val).booleanValue();
 	}
 
-	public String GetTestRun(String RunID) {
-
-		return this.Get("get_run", RunID).toJSONString();
-
-	}
-
-	/*
-	String runName - Name of the test case run you want to create
-	String <return> - test run ID for the test run you just created
+	/**
+	 *
+	 * @param runName		Name of the test case run you want to create
+	 *                      Project, Suite
 	 */
 	public void AddTestRun(String runName) {
 
@@ -76,13 +80,14 @@ public class TestRail {
 	}
 
 
-	public JSONObject Get(String command, String RefID) {
+	private JSONObject Get(String command, String RefID) {
 
 		JSONObject objectOut = new JSONObject();
+
 		String tc = command + "/" + RefID;
 
 		try {
-			objectOut = (JSONObject) API.sendGet( tc );
+			objectOut = (JSONObject) API.sendGet(tc);
 		} catch (IOException | APIException e) {
 			e.printStackTrace();
 		}
@@ -90,21 +95,28 @@ public class TestRail {
 		return objectOut;
 	}
 
-	public JSONObject Post(String command, String RefID, JSONObject objectIn) {
+	private JSONObject Post(String command, String RefID, JSONObject objectIn) {
 
 		JSONObject objectOut = new JSONObject();
+
 		String tc = command + "/" + RefID;
 
 		try {
-			objectOut = (JSONObject) API.sendPost(tc, objectIn );
+			objectOut = (JSONObject) API.sendPost(tc, objectIn);
 		} catch (IOException | APIException e) {
 			e.printStackTrace();
 		}
 
 		return objectOut;
-
 	}
-	
+
+	/**
+	 * Update a test case with both a status and comments
+	 *
+	 * @param TCNumber	Test Case number - from "Test Suites and Cases"
+	 * @param TCStatus	Test Case status. Most common is PASSED/FAILED
+	 * @param TCComment String containing additional information included in result
+	 */
 	 public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
 
 		JSONObject object = new JSONObject();
@@ -116,9 +128,12 @@ public class TestRail {
 		 }
 		 object.put("comment", TCComment);
 
-		 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
-
+		 if (postToTestRail()) {
+			 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
+		 }
+		 else
+		 {
+		 	System.out.printf("Test case %s %s (%s)\n", TCNumber, TCStatus.toString(), TCComment);
+		 }
 	}
-	
-
 }

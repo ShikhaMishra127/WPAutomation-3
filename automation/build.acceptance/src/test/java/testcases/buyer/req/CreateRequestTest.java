@@ -55,7 +55,7 @@ public class CreateRequestTest {
         Assert.assertEquals(shoppingcart.reqConfirmationMsg(), "Request successfully submitted.");
         testreport.logger.log(LogStatus.PASS, "Created off-catalog request successfully");
 
-        trail.UpdateTestcase("3516", TestRail.Status.PASSED, "Created off-catalog request successfully");
+        trail.UpdateTestcase("3597", TestRail.Status.PASSED, "Created off-catalog request successfully");
 
     }
 
