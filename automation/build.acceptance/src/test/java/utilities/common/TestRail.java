@@ -84,14 +84,12 @@ public class TestRail {
 
 		JSONObject objectOut = new JSONObject();
 
-		if (postToTestRail()) {
-			String tc = command + "/" + RefID;
+		String tc = command + "/" + RefID;
 
-			try {
-				objectOut = (JSONObject) API.sendGet(tc);
-			} catch (IOException | APIException e) {
-				e.printStackTrace();
-			}
+		try {
+			objectOut = (JSONObject) API.sendGet(tc);
+		} catch (IOException | APIException e) {
+			e.printStackTrace();
 		}
 
 		return objectOut;
@@ -101,19 +99,17 @@ public class TestRail {
 
 		JSONObject objectOut = new JSONObject();
 
-		if (postToTestRail()) {
-			String tc = command + "/" + RefID;
+		String tc = command + "/" + RefID;
 
-			try {
-				objectOut = (JSONObject) API.sendPost(tc, objectIn);
-			} catch (IOException | APIException e) {
-				e.printStackTrace();
-			}
+		try {
+			objectOut = (JSONObject) API.sendPost(tc, objectIn);
+		} catch (IOException | APIException e) {
+			e.printStackTrace();
 		}
 
 		return objectOut;
-
 	}
+
 	/**
 	 * Update a test case with both a status and comments
 	 *
@@ -132,9 +128,12 @@ public class TestRail {
 		 }
 		 object.put("comment", TCComment);
 
-		 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
-
+		 if (postToTestRail()) {
+			 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
+		 }
+		 else
+		 {
+		 	System.out.printf("Test case %s %s (%s)\n", TCNumber, TCStatus.toString(), TCComment);
+		 }
 	}
-	
-
 }
