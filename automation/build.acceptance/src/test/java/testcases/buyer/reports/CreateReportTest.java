@@ -85,7 +85,7 @@ public class CreateReportTest {
         //step out of iFrame
         browser.switchTo().parentFrame();
 
-        tRail.UpdateTestcase("3599", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
+        tRail.UpdateTestcase("3599", TestRail.Status.PASSED, "Verified report "+reportName+ " runs.");
 
     }
 }
