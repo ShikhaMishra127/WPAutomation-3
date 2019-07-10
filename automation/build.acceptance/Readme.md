@@ -1,27 +1,35 @@
-# build.acceptance
+# WebProcure build.acceptance
 
 **Follow the steps below to run tests on your local machine:**
 
-1. Download Eclipse IDE for Java Developers 
- https://www.eclipse.org/
+### 1. Install
+* Download [IntelliJ IDE, Community Edition](https://www.jetbrains.com/idea/)
 
-2. Install the JDK 
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
+* Download [Github Desktop](https://desktop.github.com/)
 
-3. Install ChromeDriver and move it to the automation base directory
-http://chromedriver.chromium.org/downloads
+### 2. Configure
+* In Github Desktop, select File > Clone Repository > perfectcommerce/qatools
 
-4. Open Eclipse
+* Fully download source onto your target machine's hard drive
 
-5. Select the drop-down next to the Run icon on the top menu bar
+* In IntelliJ, select File > New > Project from Existing Sources...
 
-6. Select TestSuite and click Run as TestNG to run test
+* Select `POM.xml` file on local GIT folder and import project
+
+### 3. Run
+
+* From the Project tab, right-click on test case folder and select 'Run'
+
+### File Locations
+Please adhere to the standard directory structure when adding test cases:
+
+* Selenium Test Cases go in [src/test/java/testcases](src/test/java/testcases)
+* Page Objects go in [src/test/java/pageobjects](src/test/java/pageobjects)
+* Utilities and helpers go in  [src/test/java/utilities](src/test/java/utilities)
+* Data (Usernames/passwords, URLs, etc.) go in [src/test/resources](src/test/resources)
 
 ---
 
-Please adhere to the standard directory structure when adding test cases
+A Wiki containing more information about SQA Automation can be found [here](https://wiki.hubwoo.com/display/PR/QA+Automation)
 
-* Test Cases go in [src/test/java/testcases](src/test/java/testcases)
-* Page Objects go in [src/test/java/pageobjects](src/test/java/pageobjects)
-* Utilities and helpers go in  [src/test/java/utilities](src/test/java/utilities)
-* Data (Usernames, passwords, browser names, etc.) go in [src/test/resources](src/test/resources)
+---
