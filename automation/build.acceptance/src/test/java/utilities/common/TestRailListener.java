@@ -60,7 +60,7 @@ public class TestRailListener extends TestListenerAdapter {
 
         Browser browser = (Browser)tr.getTestContext().getAttribute("browser");
 
-        logData = comment + "\n" + browser.GetLog();
+        logData = comment + "\n=== LOG:\n" + browser.GetLog();
 
         // if we are given a valid test case number, add results to Test Rail
         if (tc != 0) {
@@ -85,6 +85,19 @@ public class TestRailListener extends TestListenerAdapter {
      */
     @Override
     public void onTestFailure(ITestResult tr) {
-        postTestResult(tr, TestRail.Status.FAILED, "Test '" + tr.getName() + "' FAILED");
+
+        String message = "Test '" + tr.getName() + "' FAILED";
+        String reason = null;
+
+        // look to see where the test failed, by getting the exception thrown
+        // It could be an assert error or some other reason the test could not be completed (missing element, etc)
+        if (tr.getThrowable() != null) {
+            Throwable testThrow = tr.getThrowable();
+            reason = testThrow.getMessage() != null ? testThrow.getMessage() : testThrow.getCause().getMessage();
+        }
+
+        if (reason == null) { reason = "FOR NO GOOD REASON"; }
+
+        postTestResult(tr, TestRail.Status.FAILED, message + "\n=== REASON:\n" + reason);
     }
 }
