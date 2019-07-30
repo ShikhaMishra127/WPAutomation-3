@@ -1,8 +1,11 @@
 package utilities.common;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -52,7 +55,7 @@ public class TestRailListener extends TestListenerAdapter {
      * @param status    Test Rail status; typically "PASSED/FAILED"
      * @param comment   String containing additional information included in result
      */
-    private void postTestResult(ITestResult tr, TestRail.Status status, String comment) {
+    private void postTestResult(ITestResult tr, TestRail.Status status, String comment, String ScreenshotURI) {
 
         int tc = getTestcase(tr);
 
@@ -64,8 +67,10 @@ public class TestRailListener extends TestListenerAdapter {
 
         // if we are given a valid test case number, add results to Test Rail
         if (tc != 0) {
-            tRail.UpdateTestcase(String.valueOf(tc), status, logData);
+            tRail.UpdateTestcase(String.valueOf(tc), status, logData, ScreenshotURI);
         }
+        
+        browser.ClearLog();
     }
 
     /**
@@ -75,7 +80,7 @@ public class TestRailListener extends TestListenerAdapter {
      */
     @Override
     public void onTestSuccess(ITestResult tr) {
-        postTestResult(tr, TestRail.Status.PASSED, "Test '" + tr.getName() + "' PASSED");
+        postTestResult(tr, TestRail.Status.PASSED, "Test '" + tr.getName() + "' PASSED", "");
     }
 
     /**
@@ -85,6 +90,13 @@ public class TestRailListener extends TestListenerAdapter {
      */
     @Override
     public void onTestFailure(ITestResult tr) {
+
+        Browser browser = (Browser)tr.getTestContext().getAttribute("browser");
+        TakesScreenshot screenshot = (TakesScreenshot)browser.driver;
+
+        File failPage = screenshot.getScreenshotAs(OutputType.FILE);
+
+        System.out.println("Screenshot taken: " + failPage.getAbsolutePath());
 
         String message = "Test '" + tr.getName() + "' FAILED";
         String reason = null;
@@ -98,6 +110,7 @@ public class TestRailListener extends TestListenerAdapter {
 
         if (reason == null) { reason = "FOR NO GOOD REASON"; }
 
-        postTestResult(tr, TestRail.Status.FAILED, message + "\n=== REASON:\n" + reason);
+        postTestResult(tr, TestRail.Status.FAILED, message + "\n=== REASON:\n" + reason, failPage.getAbsolutePath());
+
     }
 }
