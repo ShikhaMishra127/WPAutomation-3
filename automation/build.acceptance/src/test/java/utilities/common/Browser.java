@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -34,7 +35,12 @@ public class Browser implements WebDriver {
     public String buyerPassword = environment.getValue("buyerPassword");
     public String buyerTimeZone = environment.getValue("buyerTimeZone");
 
-    public Browser() {
+    private String reportBuffer = "";
+
+    // DELETE ME!!! - after everything works and you globally replace with new constructor
+    public Browser () {}
+
+    public Browser(ITestContext context) {
 
         if (driver == null) {
 
@@ -66,6 +72,8 @@ public class Browser implements WebDriver {
                     break;
             }
         }
+        // tell our listener how to access the browser (for screenshots, etc)
+        context.setAttribute("browser", this);
     }
 
     /**
@@ -81,6 +89,14 @@ public class Browser implements WebDriver {
     public WebDriver getDriver() {
         return driver;
     }
+
+    public void Log(String text) {
+        reportBuffer += text + "\n";
+    }
+
+    public String GetLog(){ return reportBuffer; }
+
+    public void ClearLog() { reportBuffer = ""; }
 
     public void waitForElementToBeClickable(WebElement element) {
         waitForElementToBeClickable(element, defaultWait);

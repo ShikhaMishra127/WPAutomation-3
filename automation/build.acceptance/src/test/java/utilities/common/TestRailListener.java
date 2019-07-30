@@ -56,9 +56,15 @@ public class TestRailListener extends TestListenerAdapter {
 
         int tc = getTestcase(tr);
 
+        String logData;
+
+        Browser browser = (Browser)tr.getTestContext().getAttribute("browser");
+
+        logData = comment + "\n" + browser.GetLog();
+
         // if we are given a valid test case number, add results to Test Rail
         if (tc != 0) {
-            tRail.UpdateTestcase(String.valueOf(tc), status, comment);
+            tRail.UpdateTestcase(String.valueOf(tc), status, logData);
         }
     }
 

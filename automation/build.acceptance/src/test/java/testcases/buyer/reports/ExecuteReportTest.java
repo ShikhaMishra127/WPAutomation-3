@@ -1,6 +1,7 @@
 package testcases.buyer.reports;
 
 import org.junit.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -10,8 +11,8 @@ import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRail;
 import utilities.common.TestRailListener;
+import utilities.common.TestRailReference;
 
 @Listeners({TestRailListener.class})
 
@@ -27,21 +28,19 @@ public class ExecuteReportTest {
     private String reportFromDate;
     private String reportToDate;
     private String reportSection;
-    TestRail tRail;
 
     public ExecuteReportTest() {
 
     }
 
     @BeforeClass
-    public void setup() {
+    public void setup(ITestContext testContext) {
 
         resource = new ResourceLoader("data/report");
-        browser = new Browser();
+        browser = new Browser(testContext);
         reports = new ExecuteReportPOM(browser);
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
-        tRail = new TestRail();
 
         reportSection = resource.getValue("report_section");
         reportName = resource.getValue("report_name");
@@ -55,19 +54,19 @@ public class ExecuteReportTest {
     }
 
     @AfterClass
+
+    @TestRailReference(id=3607)
     public void tearDown() {
         navbar.logout();
-
-        tRail.UpdateTestcase("3607", TestRail.Status.PASSED, "Buyer Logged out OK");
+        browser.Log("Buyer Logged out OK");
 
         browser.close();
     }
 
     @Test(priority = 1)
- //   @TestRailReference(id=5781)
+    @TestRailReference(id=5781)
     public void GoToReportTest() {
-
-        tRail.UpdateTestcase("3606", TestRail.Status.PASSED, "Buyer Logged in OK");
+        browser.Log("Buyer Logged in OK");
 
         // Navigate to Execute Reports
         navbar.selectDropDownItem("Analytics", "Execute Reports");
@@ -77,6 +76,7 @@ public class ExecuteReportTest {
 
         // verify the report title
         Assert.assertTrue("Report Title Header OK", reports.reportParameterHeader.getText().contains(reportName));
+        browser.Log("Report Title Header OK");
 
     }
 
@@ -105,6 +105,7 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 3)
+    @TestRailReference(id=3599)
     public void ReviewHTMLReportTest() {
         //Wait for popup and switch focus
         browser.waitForPopUpToOpen();
@@ -116,10 +117,13 @@ public class ExecuteReportTest {
 
         // verify the HTML pop-up report title
         Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
-        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
+        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle+"A") );
+
 
         // temporarily update "Create a new Report" test case
-        tRail.UpdateTestcase("3599", TestRail.Status.PASSED, "Verified report "+reportName+ "runs.");
+        browser.Log("Report Pop-up Name Header OK");
+        browser.Log("Report Pop-up Title Header OK");
+        browser.Log("Verified report '"+ reportName + "' runs.");
 
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);

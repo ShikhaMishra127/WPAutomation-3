@@ -133,7 +133,7 @@ public class TestRail {
 		 }
 		 else
 		 {
-		 	System.out.printf("Test case %s %s (%s)\n", TCNumber, TCStatus.toString(), TCComment);
+		 	System.out.printf("Test case %s %s\n--------------------------\n%s\n", TCNumber, TCStatus.toString(), TCComment);
 		 }
 	}
 }
