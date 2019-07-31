@@ -54,17 +54,12 @@ public class ExecuteReportTest {
     }
 
     @AfterClass
-
-    @TestRailReference(id=3607)
     public void tearDown() {
-        navbar.logout();
-        browser.Log("Buyer Logged out OK");
-
         browser.close();
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=5781)
+    @TestRailReference(id=3606)
     public void GoToReportTest() {
         browser.Log("Buyer Logged in OK");
 
@@ -75,8 +70,7 @@ public class ExecuteReportTest {
         reports.selectReportByName(reportSection, reportName);
 
         // verify the report title
-        Assert.assertTrue("Report Title Header OK", reports.reportParameterHeader.getText().contains(reportName));
-        browser.Log("Report Title Header OK");
+        Assert.assertTrue("Verify Report Title Header", reports.reportParameterHeader.getText().contains(reportName));
 
     }
 
@@ -116,18 +110,21 @@ public class ExecuteReportTest {
         browser.waitForElementToAppear(reports.HTMLReportHeader);
 
         // verify the HTML pop-up report title
-        Assert.assertTrue("Report Pop-up Name Header OK", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
-        Assert.assertTrue("Report Pop-up Title Header OK", reports.HTMLReportSubHeader.getText().contains(reportTitle+"A") );
+        Assert.assertTrue("Verify Report Pop-up Name Header", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
+        Assert.assertTrue("Verify Report Pop-up Title Header", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
 
-
-        // temporarily update "Create a new Report" test case
-        browser.Log("Report Pop-up Name Header OK");
-        browser.Log("Report Pop-up Title Header OK");
         browser.Log("Verified report '"+ reportName + "' runs.");
 
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);
       
         browser.clickWhenAvailable(reports.backButton);
+    }
+
+    @Test(priority = 4)
+    @TestRailReference(id=3607)
+    public void LogOutTest() {
+        navbar.logout();
+        browser.Log("Buyer Logged out OK");
     }
 }

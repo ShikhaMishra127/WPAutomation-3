@@ -37,9 +37,6 @@ public class Browser implements WebDriver {
 
     private String reportBuffer = "";
 
-    // DELETE ME!!! - after everything works and you globally replace with new constructor
-    public Browser () {}
-
     public Browser(ITestContext context) {
 
         if (driver == null) {

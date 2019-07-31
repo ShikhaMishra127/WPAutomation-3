@@ -54,6 +54,7 @@ public class TestRailListener extends TestListenerAdapter {
      * @param tr        Test result information from the method being tested
      * @param status    Test Rail status; typically "PASSED/FAILED"
      * @param comment   String containing additional information included in result
+     * @param ScreenshotURI Path to screenshot, showing where item failed
      */
     private void postTestResult(ITestResult tr, TestRail.Status status, String comment, String ScreenshotURI) {
 
@@ -69,7 +70,7 @@ public class TestRailListener extends TestListenerAdapter {
         if (tc != 0) {
             tRail.UpdateTestcase(String.valueOf(tc), status, logData, ScreenshotURI);
         }
-        
+
         browser.ClearLog();
     }
 

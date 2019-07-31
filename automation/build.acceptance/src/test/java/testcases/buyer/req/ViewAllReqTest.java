@@ -1,9 +1,8 @@
 package testcases.buyer.req;
 
 import com.relevantcodes.extentreports.LogStatus;
-import java.io.IOException;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -32,8 +31,8 @@ public class ViewAllReqTest {
     public ResourceLoader reqdata = new ResourceLoader("data/requisition");
 
     @BeforeClass
-    public void setup() {
-        browser = new Browser();
+    public void setup(ITestContext testContext) {
+        browser = new Browser(testContext);
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
         viewall = new ViewAllReqPOM(browser);

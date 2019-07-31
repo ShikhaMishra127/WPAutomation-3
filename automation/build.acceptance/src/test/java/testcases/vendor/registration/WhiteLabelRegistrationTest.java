@@ -2,17 +2,16 @@ package testcases.vendor.registration;
 
 import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
-
-import java.io.IOException;
 
 public class WhiteLabelRegistrationTest {
 
@@ -30,9 +29,9 @@ public class WhiteLabelRegistrationTest {
     UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup(ITestContext testContext) {
 
-        browser = new Browser();
+        browser = new Browser(testContext);
         String wlBaseURL = resource.getValue("wl_baseurl");
         reg = new RegWhiteLabelPOM(browser);
         login = new LoginPagePOM(browser);

@@ -126,42 +126,26 @@ public class TestRail {
         return objectOut;
     }
 
-    /**
+	/**
 	 * Update a test case with both a status and comments
 	 *
 	 * @param TCNumber	Test Case number - from "Test Suites and Cases"
 	 * @param TCStatus	Test Case status. Most common is PASSED/FAILED
 	 * @param TCComment String containing additional information included in result
+	 * @param screenShotURI Path to screenshot, showing where item failed
 	 */
-	 public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
-
-		JSONObject object = new JSONObject();
-		JSONObject returnObj;
-
-		 // fill up our object with test case result data
-		 if (TCStatus != Status.COMMENT) {
-			 object.put("status_id", TCStatus.ordinal());
-		 }
-		 object.put("comment", TCComment);
-
-		 if (postToTestRail()) {
-			 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
-		 }
-		 else
-		 {
-		 	System.out.printf("Test case %s %s\n--------------------------\n%s\n", TCNumber, TCStatus.toString(), TCComment);
-		 }
-	}
-
     public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment, String screenShotURI) {
 
         JSONObject object = new JSONObject();
         JSONObject returnObj;
 
-        // fill up our object with test case result data
-        object.put("status_id", TCStatus.ordinal());
-        object.put("comment", TCComment);
+		// fill up our object with test case result data
+		if (TCStatus != Status.COMMENT) {
+			object.put("status_id", TCStatus.ordinal());
+		}
+		object.put("comment", TCComment);
 
+		// Post results to either TestRail or StdOut
         if (postToTestRail()) {
 
             returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
@@ -181,5 +165,4 @@ public class TestRail {
             System.out.printf("Test case %s %s\n--------------------------\n%s\n", TCNumber, TCStatus.toString(), TCComment);
         }
     }
-
 }

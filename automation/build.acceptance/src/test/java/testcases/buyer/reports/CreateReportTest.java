@@ -3,17 +3,20 @@ package testcases.buyer.reports;
 import org.junit.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.buyer.report.CreateReportPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRail;
+import utilities.common.TestRailListener;
+import utilities.common.TestRailReference;
 
-import java.io.IOException;
+@Listeners({TestRailListener.class})
 
 public class CreateReportTest {
 
@@ -22,22 +25,20 @@ public class CreateReportTest {
     CreateReportPOM reports;
     LoginPagePOM login;
     BuyerNavBarPOM navbar;
-    TestRail tRail;
     String reportName;
 
-    public CreateReportTest() throws IOException {
+    public CreateReportTest() {
 
     }
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup(ITestContext testContext) {
 
         resource = new ResourceLoader("data/report");
-        browser = new Browser();
+        browser = new Browser(testContext);
         reports = new CreateReportPOM(browser);
         login = new LoginPagePOM(browser);
         navbar = new BuyerNavBarPOM(browser);
-        tRail = new TestRail();
 
         reportName = resource.getValue("create_report_name");
 
@@ -53,13 +54,14 @@ public class CreateReportTest {
     }
 
     @Test(priority = 1)
+    @TestRailReference(id=3599)
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
         navbar.selectDropDownItem("Analytics", "Create Report");
 
         // verify the page title
-        Assert.assertTrue("Report Page Header OK", reports.createReportPageHeader.getText().contains("Create Reports"));
+        Assert.assertTrue("Verify Report Page Header", reports.createReportPageHeader.getText().contains("Create Reports"));
 
         // get a report from the list
         reports.selectReportByName( reportName );
@@ -69,15 +71,18 @@ public class CreateReportTest {
     }
 
     @Test(priority = 2)
+    @TestRailReference(id=3599)
     public void CreateReportPageTest() {
 
         // wait until the report loads
         WebDriverWait wait = new WebDriverWait(browser.getDriver(), 10);
         wait.until(ExpectedConditions.textToBePresentInElement(reports.jasperReportTitle, reportName));
 
+        browser.waitForElementToAppear(reports.jasperReportTitle);
+
         // Assert report was loaded into content area and preview button available
-        Assert.assertTrue("Jasper Preview button OK", reports.jasperPreviewButton.getText().contains("Preview"));
-        Assert.assertTrue("Report Title OK", reports.jasperReportTitle.getText().contains(reportName));
+        Assert.assertTrue("Verify Jasper Preview button", reports.jasperPreviewButton.getText().contains("Preview"));
+        Assert.assertTrue("Verify Report Title", reports.jasperReportTitle.getText().contains(reportName));
 
         // click on the preview button for fun
         reports.jasperPreviewButton.click();
@@ -85,7 +90,6 @@ public class CreateReportTest {
         //step out of iFrame
         browser.switchTo().parentFrame();
 
-        tRail.UpdateTestcase("3599", TestRail.Status.PASSED, "Verified report "+reportName+ " runs.");
-
+        browser.Log("Verified report '"+ reportName + "' runs.");
     }
 }

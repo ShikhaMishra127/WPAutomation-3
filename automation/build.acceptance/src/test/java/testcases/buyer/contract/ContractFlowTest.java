@@ -3,10 +3,16 @@ package testcases.buyer.contract;
 import framework.Contract;
 import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
 import utilities.common.Browser;
+import utilities.common.TestRailListener;
+import utilities.common.TestRailReference;
+
+@Listeners({TestRailListener.class})
 
 public class ContractFlowTest {
 
@@ -18,19 +24,19 @@ public class ContractFlowTest {
     }
 
     @Test
-    public void CreateContractTest() {
+    @TestRailReference(id=3602)
+    public void CreateContractTest(ITestContext testContext) {
 
         ContractCreator creator = new ContractCreator();
-        contract = creator.CreateContract("data/contract");
-
-        System.out.format("Contract %s created.%n", contract.getContractNumber());
+        contract = creator.CreateContract("data/contract", testContext);
 
     }
 
     @Test(dependsOnMethods = {"CreateContractTest"})
-    public void IndexContractTest() {
+    @TestRailReference(id=5872)
+    public void IndexContractTest(ITestContext testContext) {
 
-        Browser browser = new Browser();
+        Browser browser = new Browser(testContext);
         ContractBidboardPOM board = new ContractBidboardPOM(browser);
 
         browser.getDriver().get(browser.contractUrl);

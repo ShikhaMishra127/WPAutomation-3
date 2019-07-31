@@ -2,6 +2,7 @@ package testcases.buyer.contract;
 
 import framework.Contract;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestContext;
 import pageobjects.buyer.contract.NewContractPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
@@ -11,6 +12,8 @@ import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
 
 import java.time.ZonedDateTime;
+
+
 
 public class ContractCreator {
 
@@ -23,9 +26,9 @@ public class ContractCreator {
     CommodityPickerPOM commodity;
 
 
-    public Contract CreateContract(String contractdata) {
+    public Contract CreateContract(String contractdata, ITestContext testContext) {
 
-        setup(contractdata);
+        setup(contractdata, testContext);
         browser.getDriver().get(browser.baseUrl);
 
         login.loginAsBuyer();
@@ -44,11 +47,9 @@ public class ContractCreator {
         return newcontract;
     }
 
+    private void setup(String contractdata, ITestContext testContext) {
 
-
-    private void setup(String contractdata) {
-
-        browser = new Browser();
+        browser = new Browser(testContext);
         resource = new ResourceLoader(contractdata);
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
@@ -191,6 +192,8 @@ public class ContractCreator {
     private void summaryStep() {
         // submit contract to workflow
         browser.clickWhenAvailable(contract.summarySubmitButton);
+
+        browser.Log("Contract '" + newcontract.getContractNumber() + "' created");
     }
 
 }
