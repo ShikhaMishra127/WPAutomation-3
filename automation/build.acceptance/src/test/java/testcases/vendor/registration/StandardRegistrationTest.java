@@ -2,18 +2,19 @@ package testcases.vendor.registration;
 
 import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
-import utilities.common.Browser;
-import utilities.common.ResourceLoader;
-import utilities.common.TestRail;
-import utilities.common.UniqueID;
+import utilities.common.*;
 
 import java.io.IOException;
+
+@Listeners({TestRailListener.class})
 
 public class StandardRegistrationTest {
 
@@ -23,7 +24,7 @@ public class StandardRegistrationTest {
     LoginPagePOM login;
     VendorNavBarPOM vendor;
     String vendorUsername;
-    TestRail rTrail;
+    TestRail tRail;
 
     UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
@@ -31,13 +32,13 @@ public class StandardRegistrationTest {
     }
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup(ITestContext testContext) {
 
-        browser = new Browser();
+        browser = new Browser(testContext);
         login = new LoginPagePOM(browser);
         reg = new RegStandardPOM(browser);
         vendor = new VendorNavBarPOM(browser);
-        rTrail = new TestRail();
+        tRail = new TestRail();
 
         browser.getDriver().get(browser.baseUrl);
     }
@@ -52,7 +53,7 @@ public class StandardRegistrationTest {
 
         String companyName = resource.getValue("vendor_base_name") + " " + vendorNum.getNumber();
         reg.orgCompanyName.sendKeys(companyName);
-        System.out.printf("Creating %s%n", companyName);
+        browser.Log("Creating Supplier '" + companyName + "'");
 
         reg.orgDBAEdit.sendKeys(resource.getValue("vendor_dba")+vendorNum.getNumber());
         reg.orgURLEdit.sendKeys(resource.getValue("vendor_website"));
@@ -88,36 +89,39 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 1)
+    @TestRailReference(id=3598)
     public void LoginPageTest() {
 
         // Click the standard registration link on the login page
         login.lnkRegister.click();
         browser.waitForPageLoad();
 
-        Assert.assertTrue("Welcome banner OK", reg.homeBanner.isDisplayed());
+        Assert.assertTrue("Verify Welcome banner", reg.homeBanner.isDisplayed());
 
     }
 
     @Test(priority = 2)
+    @TestRailReference(id=3598)
     public void TsAndCsTest() {
 
         // Start the registration by clicking Begin
         reg.startButton.click();
 
         // go to Terms & Conditions page
-        Assert.assertTrue("T&C Loaded OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_tc")));
+        Assert.assertTrue("Verify T&C Loaded", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_tc")));
 
         // initially decline terms and conditions
         reg.declineButton.click();
-        Assert.assertTrue("Terms Declined OK", reg.homeBanner.isDisplayed());
+        Assert.assertTrue("Verify Terms Declined", reg.homeBanner.isDisplayed());
 
         // now go back and accept Terms and Conditions
         reg.startButton.click();
         reg.acceptButton.click();
-        Assert.assertTrue("Terms Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_org")));
+        Assert.assertTrue("Verify Terms Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_org")));
     }
 
     @Test(priority = 3)
+    @TestRailReference(id=3598)
     public void DuplicateFEINTest() {
 
         // load standard vendor info on organization page
@@ -132,7 +136,7 @@ public class StandardRegistrationTest {
         reg.continueButton.click();
         reg.getOrgDuplicateCloseButton.click();  // close pesky pop-up
 
-        Assert.assertTrue("Duplicate FEIN message OK", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
+        Assert.assertTrue("Verify Duplicate FEIN message", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
 
         // reset FEIN
         reg.orgFein1Edit.clear();
@@ -141,6 +145,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 4)
+    @TestRailReference(id=3598)
     public void DuplicateSSNTest() {
 
         // set SSN to known duplicate value
@@ -152,7 +157,7 @@ public class StandardRegistrationTest {
         // click CONTINUE and verify fail message
         reg.continueButton.click();
 
-        Assert.assertTrue("Duplicate SSN message OK", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
+        Assert.assertTrue("Verify Duplicate SSN message", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
 
         // reset SSN
         reg.orgSsn1Edit.clear();
@@ -162,6 +167,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 5)
+    @TestRailReference(id=3598)
     public void ValidOrgInfoTest() {
 
         // enter valid SSN and click Continue
@@ -171,11 +177,12 @@ public class StandardRegistrationTest {
 
         reg.continueButton.click();
 
-        Assert.assertTrue("Org Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_con")));
+        Assert.assertTrue("Verify Org Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_con")));
 
     }
 
     @Test(priority = 6)
+    @TestRailReference(id=3598)
     public void ContactInformationTest() {
 
         new Select(reg.contactTitleDrop).selectByVisibleText(resource.getValue("vendor_title"));
@@ -194,10 +201,11 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Contact Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_dem")));
+        Assert.assertTrue("Verify Contact Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_dem")));
     }
 
     @Test(priority = 7)
+    @TestRailReference(id=3598)
     public void DemographicInfoTest() {
 
         // select minority assignments
@@ -209,10 +217,11 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Demographic Info Accepted OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_ebo")));
+        Assert.assertTrue("Verify Demographic Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_ebo")));
     }
 
     @Test(priority = 8)
+    @TestRailReference(id=3598)
     public void SelectBuyerTest() {
 
         // add new supplier to Perfect City
@@ -221,7 +230,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Select target buyer OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_btc")));
+        Assert.assertTrue("Verify Select target buyer", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_btc")));
 
         // if a T&C was included
         if (browser.elementExists(reg.buyerTandCAcceptRadio)) {
@@ -230,11 +239,12 @@ public class StandardRegistrationTest {
 
         browser.clickWhenAvailable(reg.continueButton);
 
-        Assert.assertTrue("Accept buyer T&Cs OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_usr")));
+        Assert.assertTrue("Verify Accept buyer T&Cs", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_usr")));
 
     }
 
     @Test(priority = 9)
+    @TestRailReference(id=3598)
     public void SelectUsernameTest() {
 
         // username is unique and set to our SSN/FEIN number for this test
@@ -248,7 +258,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Username/Password created OK", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_fin")));
+        Assert.assertTrue("Verify Username/Password created", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_fin")));
 
         // click Continue after summary page shown
         reg.continueButton.click();
@@ -260,6 +270,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 10)
+    @TestRailReference(id=3598)
     public void ConfirmVendorLogin() {
 
         // log in as the new vendor. Username is our SSN/FEIN number
@@ -270,12 +281,11 @@ public class StandardRegistrationTest {
 
         // If logged in properly, the username should be the top menu item
         String FullName = (resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
-        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(FullName));
+        Assert.assertTrue("Verify Vendor logged in", vendor.topUsername.getText().contains(FullName));
+
+        browser.Log("Logged in as Vendor '" + vendorNum.getNumber() + "'");
 
         vendor.vendorLogout();
-
-        rTrail.UpdateTestcase("3598", TestRail.Status.PASSED, "Vendor " + vendorNum.getNumber() + " created.");
-
     }
 
 }

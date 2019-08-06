@@ -6,6 +6,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.ITestContext;
 import pageobjects.buyer.sol.NewSolicitationPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
@@ -13,9 +14,6 @@ import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.UniqueID;
-
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class SolCreator {
 
@@ -30,9 +28,9 @@ public class SolCreator {
     SolCreator() {   }
 
 
-    public Solicitation CreateSolicitation(String soldata) {
+    public Solicitation CreateSolicitation(String soldata, ITestContext testContext) {
 
-        setup(soldata);
+        setup(soldata, testContext);
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
 
@@ -49,9 +47,9 @@ public class SolCreator {
         return newsol;
     }
 
-    private void setup(String soldata) {
+    private void setup(String soldata, ITestContext testContext) {
 
-        browser = new Browser();
+        browser = new Browser(testContext);
         resource = new ResourceLoader(soldata);
         commodity = new CommodityPickerPOM(browser);
         navbar = new BuyerNavBarPOM(browser);
@@ -71,7 +69,7 @@ public class SolCreator {
         String solName = resource.getValue("solname") + " " + solNum.getNumber();
         newsol.setSolName(solName);
 
-        Assert.assertTrue("Solicitation Step HEADER OK", sol.stepTitle.getText().contains(resource.getValue("solstep_header")));
+        Assert.assertTrue("Verify Solicitation Step HEADER", sol.stepTitle.getText().contains(resource.getValue("solstep_header")));
 
         sol.headBidTitleEdit.sendKeys(solName);
         sol.headBidNumberEdit.clear();
@@ -133,16 +131,16 @@ public class SolCreator {
 
     private void RequirementsAndQuestionnaireStep() {
 
-        Assert.assertTrue("Solicitation Step REQUIREMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_requirements")));
+        Assert.assertTrue("Verify Solicitation Step REQUIREMENTS", sol.stepTitle.getText().contains(resource.getValue("solstep_requirements")));
         browser.clickWhenAvailable(sol.requireNextButton);
 
-        Assert.assertTrue("Solicitation Step QUESTIONNAIRE OK", sol.stepTitle.getText().contains(resource.getValue("solstep_questionnaire")));
+        Assert.assertTrue("Verify Solicitation Step QUESTIONNAIRE", sol.stepTitle.getText().contains(resource.getValue("solstep_questionnaire")));
         browser.clickWhenAvailable(sol.nextButton);
     }
 
     private void AttachmentsStep() {
 
-        Assert.assertTrue("Solicitation Step ATTACHMENTS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_attachments")));
+        Assert.assertTrue("Verify Solicitation Step ATTACHMENTS", sol.stepTitle.getText().contains(resource.getValue("solstep_attachments")));
 
         // go to the Upload From Document library
         browser.clickWhenAvailable(sol.docsUploadFromLibButton);
@@ -170,13 +168,13 @@ public class SolCreator {
 
     private void ItemSpecStep() {
 
-        Assert.assertTrue("Solicitation Step ITEM SPECS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_itemspecs")));
+        Assert.assertTrue("Verify Solicitation Step ITEM SPECS", sol.stepTitle.getText().contains(resource.getValue("solstep_itemspecs")));
 
         // Add two groups to the solicitation, verify groups appear in drop-down
         sol.itemCreateGroup(resource.getValue("solgroupname1"));
         sol.itemCreateGroup(resource.getValue("solgroupname2"));
 
-        Assert.assertTrue("Group DropDown Exists OK", sol.itemGroupDropDown.isEnabled() );
+        Assert.assertTrue("Verify Group DropDown Exists", sol.itemGroupDropDown.isEnabled() );
 
         // add two items from resources. I know it's a terrible implementation - please improve
         String[] item1 = resource.getValue("solitem1").split(",");
@@ -191,7 +189,7 @@ public class SolCreator {
 
     private void SupplierSelectStep() {
 
-        Assert.assertTrue("Solicitation Step SELECT SUPPLIERS OK", sol.stepTitle.getText().contains(resource.getValue("solstep_suppliers")));
+        Assert.assertTrue("Verify Solicitation Step SELECT SUPPLIERS", sol.stepTitle.getText().contains(resource.getValue("solstep_suppliers")));
 
         // zip between tabs to clear out pre-selected commodities in search
         browser.clickWhenAvailable(sol.supplierSelectedTab);
@@ -222,7 +220,7 @@ public class SolCreator {
 
     private void SolicitationSummaryStep() {
 
-        Assert.assertTrue("Solicitation Step SUMMARY OK", sol.stepTitle.getText().contains(resource.getValue("solstep_summary")));
+        Assert.assertTrue("Verify Solicitation Step SUMMARY", sol.stepTitle.getText().contains(resource.getValue("solstep_summary")));
 
         // click on Submit Solicitation button
         browser.clickWhenAvailable(sol.summarySubmitButton);
@@ -234,5 +232,6 @@ public class SolCreator {
         // click OK button after sol submitted to return to sol list screen
         browser.clickWhenAvailable(sol.summaryOKAfterSubmitButton);
 
+        browser.Log("Solicitation '" + newsol.getSolName() + "' created");
     }
 }

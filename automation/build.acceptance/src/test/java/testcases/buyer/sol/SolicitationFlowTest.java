@@ -5,43 +5,46 @@ import junit.framework.Assert;
 import main.java.framework.Solicitation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.SolicitationBidboardPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
 import utilities.common.Browser;
-import utilities.common.TestRail;
+import utilities.common.TestRailListener;
+import utilities.common.TestRailReference;
 
-import java.io.IOException;
 import java.util.Map;
+
+@Listeners({TestRailListener.class})
 
 public class SolicitationFlowTest {
 
     Solicitation sol;
-    TestRail tRail;
 
     @BeforeClass
-    public void setup() throws IOException {
+    public void setup() {
         sol = new Solicitation();
-        tRail = new TestRail();
     }
 
     @Test
-    public void CreateSolicitationTest() {
+    @TestRailReference(id=3608)
+    public void CreateSolicitationTest(ITestContext testContext) {
 
         // create a solicitation and come back with the sol number
         SolCreator creator = new SolCreator();
-        sol = creator.CreateSolicitation("data/solicitation");
+        sol = creator.CreateSolicitation("data/solicitation", testContext);
 
-        tRail.UpdateTestcase("3608", TestRail.Status.PASSED, sol.getSolName() + " Created");
     }
 
     @Test(dependsOnMethods = {"CreateSolicitationTest"})
-    public void VendorBidOnSolTest() {
+    @TestRailReference(id=3605)
+    public void VendorBidOnSolTest(ITestContext testContext) {
 
-        Browser browser = new Browser();
+        Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
         VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
         VendorSolResponsePOM sol = new VendorSolResponsePOM(browser);
@@ -60,13 +63,13 @@ public class SolicitationFlowTest {
         // wait for our solicitation to show up. Check every 5 seconds, for at least 5 minutes
        sol.waitForSolToAppear(this.sol.getSolNumber());
 
-        tRail.UpdateTestcase("3609", TestRail.Status.PASSED, this.sol.getSolName() + " Viewed");
+       browser.Log("Solicitation '" + this.sol.getSolName() + "' viewed by vendor");
 
         // get a list of WebElements we can use for our target solicitation (date, name, actions, etc.)
         Map<VendorSolResponsePOM.SolColumn, WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
 
         // make sure target solicitation is Active (so we can bid on it)
-        Assert.assertTrue("Sol STATUS OK",  targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
+        Assert.assertTrue("Verify Sol STATUS OK",  targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
 
         // click Add Response from the Action bar (ellipsis icon)
         browser.clickSubElement(targetSolItem.get(VendorSolResponsePOM.SolColumn.ACTION), sol.viewActionButton);
@@ -102,16 +105,22 @@ public class SolicitationFlowTest {
         browser.clickWhenAvailable(sol.reviewMarkNoBidButton);
         browser.clickWhenAvailable(sol.reviewCloseButton);
 
+        browser.Log("Vendor bid on solicitation " + this.sol.getSolName());
+
         navbar.vendorLogout();
         browser.close();
+    }
 
-        tRail.UpdateTestcase("3605", TestRail.Status.PASSED, "Vendor bid on sol " + this.sol.getSolName());
-
+    @Test(dependsOnMethods = {"VendorBidOnSolTest"})
+    @TestRailReference(id=3609)
+    public void VendorViewSolTest() {
+        // If we bid on Solicitation, we obviously viewed it first. Each method should have only *one* test case
     }
 
     @Test(dependsOnMethods = {"CreateSolicitationTest"})
-    public void IndexSolicitationTest() {
-        Browser browser = new Browser();
+    @TestRailReference(id=5870)
+    public void IndexSolicitationTest(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
         SolicitationBidboardPOM board = new SolicitationBidboardPOM(browser);
 
         browser.getDriver().get(browser.solicitationUrl);
@@ -126,12 +135,11 @@ public class SolicitationFlowTest {
 
         browser.waitForElementToAppear(board.summaryTitle);
 
-        Assert.assertTrue("Sol Name OK", board.summaryTitle.getText().contains(sol.getSolName()));
-        Assert.assertTrue("Sol Number OK", board.summaryInfo.getText().contains(sol.getSolNumber()));
-        Assert.assertTrue("Sol Long Description OK", board.summaryLongDesc.getText().contains(sol.getSolLongDesc()));
+        Assert.assertTrue("Verify Sol Name", board.summaryTitle.getText().contains(sol.getSolName()));
+        Assert.assertTrue("Verify Sol Number", board.summaryInfo.getText().contains(sol.getSolNumber()));
+        Assert.assertTrue("Verify Sol Long Description", board.summaryLongDesc.getText().contains(sol.getSolLongDesc()));
 
-        tRail.UpdateTestcase("5870", TestRail.Status.PASSED, sol.getSolName() + " confirmed on Bid Board");
-
+        browser.Log(sol.getSolName() + " confirmed on Bid Board");
         browser.close();
 
     }

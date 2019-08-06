@@ -95,20 +95,36 @@ public class TestRail {
 		return objectOut;
 	}
 
-	private JSONObject Post(String command, String RefID, JSONObject objectIn) {
+    private JSONObject Post(String command, String RefID, JSONObject objectIn) {
 
-		JSONObject objectOut = new JSONObject();
+        JSONObject objectOut = new JSONObject();
 
-		String tc = command + "/" + RefID;
+        String tc = command + "/" + RefID;
 
-		try {
-			objectOut = (JSONObject) API.sendPost(tc, objectIn);
-		} catch (IOException | APIException e) {
-			e.printStackTrace();
-		}
+        try {
+            objectOut = (JSONObject) API.sendPost(tc, objectIn);
+        } catch (IOException | APIException e) {
+            e.printStackTrace();
+        }
 
-		return objectOut;
-	}
+        return objectOut;
+    }
+
+    // TestRail API specific for posting attachments
+    private JSONObject Post(String command, String RefID, String URI) {
+
+        JSONObject objectOut = new JSONObject();
+
+        String tc = command + "/" + RefID;
+
+        try {
+            objectOut = (JSONObject) API.sendPost(tc, URI);
+        } catch (IOException | APIException e) {
+            e.printStackTrace();
+        }
+
+        return objectOut;
+    }
 
 	/**
 	 * Update a test case with both a status and comments
@@ -116,24 +132,37 @@ public class TestRail {
 	 * @param TCNumber	Test Case number - from "Test Suites and Cases"
 	 * @param TCStatus	Test Case status. Most common is PASSED/FAILED
 	 * @param TCComment String containing additional information included in result
+	 * @param screenShotURI Path to screenshot, showing where item failed
 	 */
-	 public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment) {
+    public void UpdateTestcase(String TCNumber, Status TCStatus , String TCComment, String screenShotURI) {
 
-		JSONObject object = new JSONObject();
-		JSONObject returnObj;
+        JSONObject object = new JSONObject();
+        JSONObject returnObj;
 
-		 // fill up our object with test case result data
-		 if (TCStatus != Status.COMMENT) {
-			 object.put("status_id", TCStatus.ordinal());
-		 }
-		 object.put("comment", TCComment);
+		// fill up our object with test case result data
+		if (TCStatus != Status.COMMENT) {
+			object.put("status_id", TCStatus.ordinal());
+		}
+		object.put("comment", TCComment);
 
-		 if (postToTestRail()) {
-			 returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
-		 }
-		 else
-		 {
-		 	System.out.printf("Test case %s %s (%s)\n", TCNumber, TCStatus.toString(), TCComment);
-		 }
-	}
+		// Post results to either TestRail or StdOut
+        if (postToTestRail()) {
+
+            returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
+
+            // If we were given a screenshot, add it to the test case result
+            if (screenShotURI != "") {
+
+                //get resultID from test result we just posted, so we can add an attachment to it
+                String resultID = returnObj.get("id").toString();
+
+                returnObj = this.Post("add_attachment_to_result", resultID, screenShotURI);
+            }
+        }
+        else
+        {
+            // send log information to stdout
+            System.out.printf("Test case %s %s\n--------------------------\n%s\n", TCNumber, TCStatus.toString(), TCComment);
+        }
+    }
 }

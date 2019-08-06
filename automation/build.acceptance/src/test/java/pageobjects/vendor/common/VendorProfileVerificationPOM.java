@@ -6,13 +6,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
 
-import java.io.IOException;
-
 public class VendorProfileVerificationPOM {
 
     private final Browser browser;
 
-    public VendorProfileVerificationPOM(WebDriver browser) throws IOException {
+    public VendorProfileVerificationPOM(WebDriver browser) {
         this.browser = (Browser)browser;
         PageFactory.initElements(((Browser)browser).driver, this);
     }

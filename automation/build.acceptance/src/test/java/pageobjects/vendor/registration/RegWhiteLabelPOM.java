@@ -1,18 +1,17 @@
 package pageobjects.vendor.registration;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.common.Browser;
-
-import java.io.IOException;
-import java.util.List;
 
 public class RegWhiteLabelPOM {
 
     private final Browser browser;
 
-    public RegWhiteLabelPOM(WebDriver browser) throws IOException {
+    public RegWhiteLabelPOM(WebDriver browser) {
         this.browser = (Browser)browser;
         PageFactory.initElements(((Browser)browser).driver, this);
     }
