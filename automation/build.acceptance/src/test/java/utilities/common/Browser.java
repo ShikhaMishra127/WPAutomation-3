@@ -34,6 +34,8 @@ public class Browser implements WebDriver {
     public String buyerUsername = environment.getValue("buyerUsername");
     public String buyerPassword = environment.getValue("buyerPassword");
     public String buyerTimeZone = environment.getValue("buyerTimeZone");
+    public String supplierUsername = environment.getValue("supplierUsername");
+    public String supplierPassword = environment.getValue("supplierPassword");
 
     private String reportBuffer = "";
 
