@@ -52,7 +52,7 @@ public class SolicitationFlowTest {
         browser.getDriver().get(browser.baseUrl);
 
         // log in and go to list of current solicitations
-        login.loginAsUser("autosupplier","Automation123!");
+        login.loginAsUser(browser.supplierUsername, browser.supplierPassword);
         navbar.selectNavSolItemByBuyer("Perfect City", "Current");
 
         // Filter list, using our sol number from previous test

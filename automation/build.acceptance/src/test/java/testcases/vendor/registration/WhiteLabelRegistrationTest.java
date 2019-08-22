@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
@@ -11,7 +12,10 @@ import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
+import utilities.common.TestRailListener;
 import utilities.common.UniqueID;
+
+@Listeners({TestRailListener.class})
 
 public class WhiteLabelRegistrationTest {
 
