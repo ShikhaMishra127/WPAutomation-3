@@ -23,6 +23,9 @@ public class NewReqPOM {
     @FindBy(name = "C1ReqMain")
     public WebElement reqIFrame;
 
+    @FindBy(name = "reqcart")
+    public WebElement footerIFrame;
+
     // tab elements above new req container
     @FindBy(xpath = "//li[contains(@class,'paginate_button')]/a[contains(@href,'javascript:void')]")
     public WebElement catalogTab;
@@ -48,6 +51,9 @@ public class NewReqPOM {
 
     @FindBy(xpath="//button[@data-bb-handler='cancel']")
     public WebElement modalNoButton;
+
+    @FindBy(xpath="//input[@id='txtReqName']")
+    public WebElement reqNameEdit;
 
     //////////////////////////////////////////////////////////////////////// OFF CATALOG PAGE
 
@@ -101,5 +107,10 @@ public class NewReqPOM {
 
     @FindBy(xpath="//button[@id='btn-add-top']")
     public WebElement ocAddItemButton;
+
+    //////////////////////////////////////////////////////////////////////// VIEW REQUEST PAGE
+
+    @FindBy(xpath="//button[contains(@onclick,'javascript:ReqSubmit()')]")
+    public WebElement vrSubmitReqButton;
 
 }

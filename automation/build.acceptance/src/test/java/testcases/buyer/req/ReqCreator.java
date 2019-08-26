@@ -59,7 +59,7 @@ public class ReqCreator {
 
     }
 
-    private void enterOffCatalogData() {
+    private void enterOffCatalogData()  {
 
         browser.switchToFrame(req.reqIFrame);
 
@@ -70,7 +70,6 @@ public class ReqCreator {
         browser.sendKeysWhenAvailable(req.ocUnitPriceEdit, "2.89");
         browser.sendKeysWhenAvailable(req.ocSupplierPartNoEdit, "SPN02122391");
         browser.sendKeysWhenAvailable(req.ocMfrNameEdit, "ABC Corp.");
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", req.ocNeedByDateEdit, "08/20/2019");
 
         // if "Usage Code" feature enabled, select first item in list
         if (browser.elementExists(req.ocUsageCodeDrop)) {
@@ -86,23 +85,37 @@ public class ReqCreator {
         }
 
         // add commodity code
-        browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, "05240");
+        browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, "87010");
 
         // if a pesky "do you want a contract with that?" pop-up appears, close it
+        browser.waitForElementToBeClickable(req.modalNoButton, (long)3);
         if (req.modalDialog.getAttribute("class").contains("modal-open")) {
-            browser.clickWhenAvailable(req.modalNoButton);
+            req.modalNoButton.click();
         }
 
         // click "Add" button to add item to req
-        browser.clickWhenAvailable(req.ocAddItemButton);
+        browser.ClickWhenClickable(req.ocAddItemButton);
 
     }
 
     private void reviewSubmitReq() {
 
+        //
+        browser.driver.switchTo().defaultContent();
+        browser.switchToFrame(req.reqIFrame);
         browser.clickWhenAvailable(req.viewReqTab);
-        System.out.println("Done!");
 
+        browser.switchToFrame(req.footerIFrame);
+
+        browser.waitForElementToAppear(req.reqNameEdit);
+
+        String reqName = req.reqNameEdit.getAttribute("value");
+
+        browser.driver.switchTo().defaultContent();
+        browser.switchToFrame(req.reqIFrame);
+        browser.clickWhenAvailable(req.vrSubmitReqButton);
+
+        System.out.println(reqName + " Created");
     }
     /*
     steps:
