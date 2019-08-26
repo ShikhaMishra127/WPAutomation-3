@@ -104,7 +104,7 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(driver, i);
         try {
             wait.until(ExpectedConditions.elementToBeClickable(ele));
-            
+
             // if overlay is there, wait for it to leave before continuing
             waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
             waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));

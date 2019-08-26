@@ -19,10 +19,10 @@ public class ReqCreator {
     NewReqPOM req;
 
 
-    private void setup(String contractdata, ITestContext testContext) {
+    private void setup(String reqdata, ITestContext testContext) {
 
         browser = new Browser(testContext);
-        resource = new ResourceLoader(contractdata);
+        resource = new ResourceLoader(reqdata);
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
         req = new NewReqPOM(browser);
@@ -42,8 +42,8 @@ public class ReqCreator {
         enterOffCatalogData();
         reviewSubmitReq();
 
-       // navbar.logout();
-      //  browser.close();
+        navbar.logout();
+        browser.close();
 
         return newreq;
     }
@@ -51,6 +51,7 @@ public class ReqCreator {
 
     private void navigateToNewReq() {
 
+        // Go to Requests > Create New > Off-Catalog Request
         navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
 
         // in some EBOs, focus is given to the external catalog content. switch back to req frame
@@ -63,13 +64,11 @@ public class ReqCreator {
 
         browser.switchToFrame(req.reqIFrame);
 
-        browser.waitForElementToAppear(req.ocOrderQtyEdit);
-        req.ocOrderQtyEdit.sendKeys("5000");
-
-        browser.sendKeysWhenAvailable(req.ocOrderQtyEdit, "5000");
-        browser.sendKeysWhenAvailable(req.ocUnitPriceEdit, "2.89");
-        browser.sendKeysWhenAvailable(req.ocSupplierPartNoEdit, "SPN02122391");
-        browser.sendKeysWhenAvailable(req.ocMfrNameEdit, "ABC Corp.");
+        // Fill in all required fields for the Request
+        browser.sendKeysWhenAvailable(req.ocOrderQtyEdit, resource.getValue("Quantity"));
+        browser.sendKeysWhenAvailable(req.ocUnitPriceEdit, resource.getValue("UnitPrice"));
+        browser.sendKeysWhenAvailable(req.ocSupplierPartNoEdit, resource.getValue("SupplierPartNo"));
+        browser.sendKeysWhenAvailable(req.ocMfrNameEdit, resource.getValue("Manufacturer"));
 
         // if "Usage Code" feature enabled, select first item in list
         if (browser.elementExists(req.ocUsageCodeDrop)) {
@@ -77,7 +76,7 @@ public class ReqCreator {
             new Select(req.ocUsageCodeDrop).selectByIndex(1);
         }
 
-        browser.clickTypeAheadDropdownItem(req.ocVendorNameEdit, req.ocVendorList, "Auto");
+        browser.clickTypeAheadDropdownItem(req.ocVendorNameEdit, req.ocVendorList, resource.getValue("SupplierName"));
 
         // check "retain key info" radio, so it doesn't ask us later
         if (!req.ocRetainInfoCheck.isSelected()) {
@@ -85,7 +84,7 @@ public class ReqCreator {
         }
 
         // add commodity code
-        browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, "87010");
+        browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, resource.getValue("CommodityCode"));
 
         // if a pesky "do you want a contract with that?" pop-up appears, close it
         browser.waitForElementToBeClickable(req.modalNoButton, (long)3);
@@ -100,32 +99,25 @@ public class ReqCreator {
 
     private void reviewSubmitReq() {
 
-        //
+        // click View Request tab
         browser.driver.switchTo().defaultContent();
         browser.switchToFrame(req.reqIFrame);
         browser.clickWhenAvailable(req.viewReqTab);
 
+        // get the name/number of the newly created req
         browser.switchToFrame(req.footerIFrame);
-
         browser.waitForElementToAppear(req.reqNameEdit);
 
+        // save reqName and reqNumber for other tests
         String reqName = req.reqNameEdit.getAttribute("value");
+        newreq.setReqName(reqName);
+        newreq.setReqNumber(reqName.substring(reqName.indexOf("/")+1));
 
+        // click Submit Request button
         browser.driver.switchTo().defaultContent();
         browser.switchToFrame(req.reqIFrame);
         browser.clickWhenAvailable(req.vrSubmitReqButton);
 
-        System.out.println(reqName + " Created");
+        browser.Log(reqName + " Created");
     }
-    /*
-    steps:
-    login as a buyer
-    go to create new req > off-catalog page
-    enter data on page
-    click on review req
-    submit req
-     */
-
-
-
 }
