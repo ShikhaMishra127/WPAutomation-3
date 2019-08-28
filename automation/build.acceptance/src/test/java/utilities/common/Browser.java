@@ -104,15 +104,18 @@ public class Browser implements WebDriver {
     public void waitForElementToBeClickable(WebElement ele, Long i) {
 
         WebDriverWait wait = new WebDriverWait(driver, i);
-        wait.until(ExpectedConditions.elementToBeClickable(ele));
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(ele));
 
-        // if overlay is there, wait for it to leave before continuing
-        waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
-        waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
+            // if overlay is there, wait for it to leave before continuing
+            waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
+            waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
 
-        // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
-        // try to get element to scroll into view before we can click
-        InjectJavaScript("arguments[0].scrollIntoView()", ele);
+            // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
+            // try to get element to scroll into view before we can click
+            InjectJavaScript("arguments[0].scrollIntoView()", ele);
+        } catch (TimeoutException e) {
+        }
     }
 
     public void switchToDefaultWindow() {
@@ -181,6 +184,56 @@ public class Browser implements WebDriver {
         element.click();
     }
 
+    public void clickWhenAvailable(By locator) {
+        waitForElementToAppear(locator);
+        WebElement element = findElement(locator);
+        element.click();
+    }
+
+    public void waitForElementToContainText(WebElement element, String text) {
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+    }
+
+    /**
+     * Given an edit box and a list of return elements, will click on the first element that matches the search string
+     *
+     * @param editbox       - Element where user types in a value
+     * @param elementList   - Element where a drop-down list of results is displayed
+     * @param search        - String that the user types into the search box
+     */
+    public void clickTypeAheadDropdownItem(WebElement editbox, List<WebElement> elementList, String search) {
+
+        // type search term into type-ahead edit box
+        sendKeysWhenAvailable(editbox, search);
+
+        // come back with a list of elements that match search string
+        visibilityOfListLocated(elementList);
+
+        // go through list of returned items and select first one that matches search string
+        for (WebElement element : elementList) {
+            if (element.getText().contains(search)) {
+                waitForElementToBeClickable(element);
+                element.click();
+            }
+        }
+    }
+
+    /**
+     * @param element       - Element user types text info (usually an edit control)
+     * @param keystrokes    - String of text user will type
+     */
+    public void sendKeysWhenAvailable(WebElement element,  String keystrokes) {
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.visibilityOf(element));
+
+        // clear out existing value and type in new value
+        element.clear();
+        element.sendKeys(keystrokes);
+    }
+
     public void clickSubElement(WebElement parent, String subelement) {
 
         WebElement element = parent.findElement(By.xpath(subelement));
@@ -192,7 +245,6 @@ public class Browser implements WebDriver {
         waitForElementToAppear(parent);
         return parent.findElement(By.xpath(subelement));
     }
-
 
     public void visibilityOfListLocated(List<WebElement> ele) {
 
@@ -406,4 +458,5 @@ public class Browser implements WebDriver {
         ZoneId usersTimeZone = ZoneId.of(buyerTimeZone);
         return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
+
 }
