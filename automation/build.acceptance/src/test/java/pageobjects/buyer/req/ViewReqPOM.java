@@ -84,7 +84,6 @@ public class ViewReqPOM {
     public WebElement riHeaderData;
 
     //////////////////////////////////////////////////////////////////////// REQUISITION PRINT
-    // these are poorly defined, but there is no way for me to get better xpath info
 
     @FindBy(xpath="//body/table[@name='workspace_body']/tbody/tr[2]")
     public WebElement printReqHeader;
@@ -97,6 +96,19 @@ public class ViewReqPOM {
 
     @FindBy(xpath="(//font[contains(@class,'ReportFieldResult')])[2]")
     public WebElement printReqNumber;
+
+    //////////////////////////////////////////////////////////////////////// REQUISITION HISTORY
+
+    @FindBy(xpath="//tbody/tr[1]/td[1]")
+    public WebElement historyReqName;
+    @FindBy(xpath="//tbody/tr[1]/td[2]")
+    public WebElement historyReqNumber;
+
+    @FindBy(xpath="//tbody/tr[1]/td[3]")
+    public WebElement historyReqRequester;
+
+    @FindBy(xpath="//tbody/tr[1]/td[5]")
+    public WebElement historyReqTotal;
 
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
 

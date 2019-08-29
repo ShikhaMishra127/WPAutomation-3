@@ -122,7 +122,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -162,7 +162,41 @@ public class ReqFlowTest {
         browser.close();
     }
 
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id=3597)
+    public void ViewRequestHistoryTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewReqPOM view = new ViewReqPOM(browser);
+
+        navigateToReq(browser, login, navbar, view);
+
+        Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
+
+        // click on Action bar, then Copy Req item
+        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ACTION), view.riActionHistory);
+
+        browser.waitForElementToAppear(view.historyReqName);
+
+        // verify information in req history
+        Assert.assertTrue("Verify History Request Name", view.historyReqName.getText().contains(request.getReqName()));
+        Assert.assertTrue("Verify History Request Number", view.historyReqNumber.getText().contains(request.getReqNumber()));
+
+        // BUG WP-5071 - Req History does not show req total
+        // Assert.assertTrue("Verify History Request Total", view.historyReqTotal.getText().contains(request.getReqTotal()));
+
+        browser.Log("Viewed req history for #" + request.getReqNumber());
+
+        navbar.logout();
+        browser.close();
+    }
+
+
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
+
     private void navigateToReq(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewReqPOM view) {
         browser.getDriver().get(browser.baseUrl);
 
