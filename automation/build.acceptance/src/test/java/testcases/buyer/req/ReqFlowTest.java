@@ -44,7 +44,7 @@ public class ReqFlowTest {
         request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -76,7 +76,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -116,6 +116,10 @@ public class ReqFlowTest {
         browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
         browser.clickSubElement(reqLine.get(ACTION), view.riActionDelReq);
 */
+        browser.Log("Viewed copied request #" + request.getReqNumber());
+
+        navbar.logout();
+        browser.close();
     }
 
     @Test(dependsOnMethods = {"CreateRequestTest"})
