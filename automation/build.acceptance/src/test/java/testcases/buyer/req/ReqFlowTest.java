@@ -44,7 +44,7 @@ public class ReqFlowTest {
         request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -76,7 +76,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -122,7 +122,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -162,7 +162,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
