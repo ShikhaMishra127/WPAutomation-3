@@ -7,6 +7,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.req.ViewReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
@@ -28,19 +29,22 @@ public class ReqFlowTest {
 
     @BeforeClass
     public void setup() {
-        request = new Request();
-    }
 
+        request = new Request();
+        resource = new ResourceLoader("data/req");
+    }
 
     @Test
     @TestRailReference(id=3597)
     public void CreateRequestTest(ITestContext testContext) {
 
+        Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
-        request = creator.CreateRequest("data/req", testContext);
+
+        request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -49,16 +53,7 @@ public class ReqFlowTest {
         BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
         ViewReqPOM view = new ViewReqPOM(browser);
 
-        resource = new ResourceLoader("data/req");
-        browser.getDriver().get(browser.baseUrl);
-
-        login.loginAsBuyer();
-
-        // Go to Requests > Create New > Off-Catalog Request
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_viewreq"));
-
-        browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
-        browser.clickWhenAvailable(view.filterSubmitButton);
+        navigateToReq(browser, login, navbar, view);
 
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
@@ -79,6 +74,101 @@ public class ReqFlowTest {
 
         navbar.logout();
         browser.close();
+    }
+
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id=3597)
+    public void CopyRequestTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewReqPOM view = new ViewReqPOM(browser);
+        NewReqPOM req = new NewReqPOM(browser);
+
+        navigateToReq(browser, login, navbar, view);
+
+        Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
+
+        // click on Action bar, then Copy Req item
+        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ACTION), view.riActionCopyReq);
+/*
+        THIS CODE WOULD WORK GREAT - IF THE FOOTER WASN'T MISSING WHEN IN AUTOMATION! unblock when working
+
+        // wait for newly copied req to appear, then get the new req number
+        browser.waitForElementToAppear(req.footerIFrame);
+        browser.switchToFrame(req.footerIFrame);
+        browser.waitForElementToAppear(req.reqNameEdit);
+
+        String reqNum = req.reqNameEdit.getAttribute("value");
+        reqNum = reqNum.substring(reqNum.indexOf("/")+1);
+ */
+        // go back to the main content area and click the Close button
+        browser.driver.switchTo().defaultContent();
+        browser.switchToFrame(req.reqIFrame);
+        browser.clickWhenAvailable(req.vrCloseReqButton);
+/*
+        // go back to the list of reqs, find the newly copied one, and DELETE IT
+        browser.sendKeysWhenAvailable(view.filterReqNumEdit, reqNum);
+        browser.clickWhenAvailable(view.filterSubmitButton);
+
+        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ACTION), view.riActionDelReq);
+*/
+    }
+
+    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id=3597)
+    public void PrintRequestTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewReqPOM view = new ViewReqPOM(browser);
+
+        navigateToReq(browser, login, navbar, view);
+
+        Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
+
+        // click on Action bar, then Copy Req item
+        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ACTION), view.riActionPrint);
+
+        // Wait for popup and switch focus
+        browser.waitForPopUpToOpen();
+
+        // set focus to report details
+        String parentWindow = browser.driver.getWindowHandle();
+        browser.SwitchToPopUp(parentWindow);
+
+        browser.waitForElementToAppear(view.printReqHeader);
+
+        // verify information on printed req
+        Assert.assertTrue("Verify Print Request Name", view.printReqName.getText().contains(request.getReqName()));
+        Assert.assertTrue("Verify Print Request Number", view.printReqNumber.getText().contains(request.getReqNumber()));
+        Assert.assertTrue("Verify Request Total", view.printReqBody.getText().contains(request.getReqTotal()));
+
+        // close pop-up and return to parent window
+        browser.ClosePopUp(parentWindow);
+
+        browser.Log("Viewed printed request #" + request.getReqNumber());
+
+        navbar.logout();
+        browser.close();
+    }
+
+    //////////////////////////////////////////////////////////////////////// HELPER METHODS
+    private void navigateToReq(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewReqPOM view) {
+        browser.getDriver().get(browser.baseUrl);
+
+        login.loginAsBuyer();
+
+        // Go to Requests > Create New > Off-Catalog Request
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_viewreq"));
+
+        browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
+        browser.clickWhenAvailable(view.filterSubmitButton);
     }
 }
 

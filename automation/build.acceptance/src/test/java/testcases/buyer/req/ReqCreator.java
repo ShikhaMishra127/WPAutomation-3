@@ -2,7 +2,6 @@ package testcases.buyer.req;
 
 import framework.Request;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.ITestContext;
 import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
@@ -19,10 +18,10 @@ public class ReqCreator {
     NewReqPOM req;
 
 
-    private void setup(String reqdata, ITestContext testContext) {
+    private void setup(Browser inBrowser,  ResourceLoader reqdata) {
 
-        browser = new Browser(testContext);
-        resource = new ResourceLoader(reqdata);
+        browser = inBrowser;
+        resource = reqdata;
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
         req = new NewReqPOM(browser);
@@ -30,9 +29,9 @@ public class ReqCreator {
         newreq = new Request();
     }
 
-    public Request CreateRequest(String reqData, ITestContext testContext) {
+    public Request CreateRequest(Browser inBrowser,  ResourceLoader reqData) {
 
-        setup(reqData, testContext);
+        setup(inBrowser, reqData);
 
         browser.getDriver().get(browser.baseUrl);
 
