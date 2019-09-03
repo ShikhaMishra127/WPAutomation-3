@@ -113,4 +113,9 @@ public class NewReqPOM {
     @FindBy(xpath="//button[contains(@onclick,'javascript:ReqSubmit()')]")
     public WebElement vrSubmitReqButton;
 
+    @FindBy(xpath="//button[@name='btnClose']")
+    public WebElement vrCloseReqButton;
+
+
+
 }

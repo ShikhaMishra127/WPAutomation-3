@@ -69,6 +69,7 @@ public class ViewReqPOM {
     public String riActionCopyReq = "./span/ul/li/a[contains(@href,'javascript:ReqCopy')]";
     public String riActionHistory = "./span/ul/li/a[contains(@href,'javascript:ReqHistory')]";
     public String riActionApprovalMap = "./span/ul/li/a[contains(@href,'javascript:ReqApproval')]";
+    public String riActionDelReq = "./span/ul/li/a[contains(@href,'javascript:ReqDelete')]";
     public String riActionPrint = "./span/ul/li/a[contains(@href,'javascript:ReqPrint')]";
     public String riReqTotal = "./tbody/tr[3]";
 
@@ -81,6 +82,33 @@ public class ViewReqPOM {
 
     @FindBy(xpath="//img[@data-toggle='dropdown']/parent::*/parent::*/preceding-sibling::*/font[1]")
     public WebElement riHeaderData;
+
+    //////////////////////////////////////////////////////////////////////// REQUISITION PRINT
+
+    @FindBy(xpath="//body/table[@name='workspace_body']/tbody/tr[2]")
+    public WebElement printReqHeader;
+
+    @FindBy(xpath="/html/body/table[@class='Report']/tbody/tr[3]")
+    public WebElement printReqBody;
+
+    @FindBy(xpath="(//font[contains(@class,'ReportFieldResult')])[1]")
+    public WebElement printReqName;
+
+    @FindBy(xpath="(//font[contains(@class,'ReportFieldResult')])[2]")
+    public WebElement printReqNumber;
+
+    //////////////////////////////////////////////////////////////////////// REQUISITION HISTORY
+
+    @FindBy(xpath="//tbody/tr[1]/td[1]")
+    public WebElement historyReqName;
+    @FindBy(xpath="//tbody/tr[1]/td[2]")
+    public WebElement historyReqNumber;
+
+    @FindBy(xpath="//tbody/tr[1]/td[3]")
+    public WebElement historyReqRequester;
+
+    @FindBy(xpath="//tbody/tr[1]/td[5]")
+    public WebElement historyReqTotal;
 
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
