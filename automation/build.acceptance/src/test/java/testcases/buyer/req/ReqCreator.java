@@ -52,7 +52,7 @@ public class ReqCreator {
     private void navigateToNewReq() {
 
         // Go to Requests > Create New > Off-Catalog Request
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_newreq"));
 
         // in some EBOs, focus is given to the external catalog content. switch back to req frame
         browser.switchToFrame(req.reqIFrame);
@@ -94,7 +94,6 @@ public class ReqCreator {
 
         // click "Add" button to add item to req
         browser.ClickWhenClickable(req.ocAddItemButton);
-
     }
 
     private void reviewSubmitReq() {
@@ -108,10 +107,11 @@ public class ReqCreator {
         browser.switchToFrame(req.footerIFrame);
         browser.waitForElementToAppear(req.reqNameEdit);
 
-        // save reqName and reqNumber for other tests
+        // save reqName, reqNumber and reqTotal for other tests
         String reqName = req.reqNameEdit.getAttribute("value");
         newreq.setReqName(reqName);
         newreq.setReqNumber(reqName.substring(reqName.indexOf("/")+1));
+        newreq.setReqTotal(resource.getValue("ReqTotal"));
 
         // click Submit Request button
         browser.driver.switchTo().defaultContent();
