@@ -19,7 +19,6 @@
       <class name="testcases.buyer.contract.ContractFlowTest"/>
       <class name="testcases.buyer.reports.ExecuteReportTest"/>
       <class name="testcases.buyer.req.ReqFlowTest"/>
-
     </classes>
   </test> <!-- Test -->
 </suite> <!-- WebProcure Build Acceptance -->

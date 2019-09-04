@@ -6,7 +6,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.ITestContext;
 import pageobjects.buyer.sol.NewSolicitationPOM;
 import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
@@ -25,13 +24,25 @@ public class SolCreator {
     NewSolicitationPOM sol;
     Solicitation newsol;
 
-    SolCreator() {   }
+    private void setup(Browser inBrowser, ResourceLoader soldata) {
 
+        browser = inBrowser;
+        resource = soldata;
 
-    public Solicitation CreateSolicitation(String soldata, ITestContext testContext) {
+        commodity = new CommodityPickerPOM(browser);
+        navbar = new BuyerNavBarPOM(browser);
+        login = new LoginPagePOM(browser);
+        sol = new NewSolicitationPOM(browser);
 
-        setup(soldata, testContext);
+        newsol = new Solicitation();
+    }
+
+    public Solicitation CreateSolicitation(Browser inBrowser, ResourceLoader soldata) {
+
+        setup(inBrowser, soldata);
+
         browser.getDriver().get(browser.baseUrl);
+
         login.loginAsBuyer();
 
         HeaderStep();
@@ -47,17 +58,6 @@ public class SolCreator {
         return newsol;
     }
 
-    private void setup(String soldata, ITestContext testContext) {
-
-        browser = new Browser(testContext);
-        resource = new ResourceLoader(soldata);
-        commodity = new CommodityPickerPOM(browser);
-        navbar = new BuyerNavBarPOM(browser);
-        login = new LoginPagePOM(browser);
-        sol = new NewSolicitationPOM(browser);
-        newsol = new Solicitation();
-
-    }
 
     private void HeaderStep() {
 
