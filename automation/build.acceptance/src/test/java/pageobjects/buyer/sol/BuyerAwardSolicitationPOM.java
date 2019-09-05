@@ -48,7 +48,6 @@ public class BuyerAwardSolicitationPOM {
 
     //////////////////////////////////////////////////////////////////////// SOL AWARD ALL FOR ONE PAGE
 
-
     @FindBy(xpath="//button[@data-bb-handler='confirm']")
     public WebElement allPopupContinueButton;
 
@@ -57,6 +56,28 @@ public class BuyerAwardSolicitationPOM {
 
     @FindBy(xpath="//button[contains(@onclick,'javascript:Cancel')]")
     public WebElement allCloseButton;
+
+    //////////////////////////////////////////////////////////////////////// POST AWARD SUMMARY PAGE
+
+    @FindBy(xpath="//button[contains(@onclick,'AwardBid')]")
+    public WebElement summaryDoneButton;
+
+    @FindBy(xpath="//button[contains(@onclick,'Download')]")
+    public WebElement summaryDownloadButton;
+
+    //////////////////////////////////////////////////////////////////////// FINALIZE PAGE
+
+    @FindBy(xpath="//input[@name='p']")
+    public WebElement finalizeConfirmEdit;
+
+    @FindBy(xpath="//button[contains(@onclick,'javascript:checkAnswer')]")
+    public WebElement finalizeSubmitButton;
+
+    @FindBy(xpath="//button[contains(@onclick,'CreateReq')]")
+    public WebElement finalizeCreateReqButton;
+
+    @FindBy(xpath="//button[contains(@onclick,'AwardBid')]")
+    public WebElement finalizeCloseButton;
 
 
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
@@ -68,11 +89,7 @@ public class BuyerAwardSolicitationPOM {
         browser.waitForElementToAppear(By.xpath(xpath));
         WebElement element = browser.driver.findElement(By.xpath(xpath));
 
-        //        waitForElementToAppear(locator);
-        //        WebElement element = findElement(locator);
-
         // if the checkbox for our supplier is unchecked, check it
- //       if (element.getAttribute("checked").equals("false")) {
             if (!element.isSelected()) {
             element.click();
         }

@@ -52,6 +52,7 @@ public class BuyerViewSolicitationPOM {
     public WebElement searchSolResultsTable;
 
     ///// Sol View Action Bar sub-items
+    public String actionEllipsis = "./span/img[contains(@src,'24px.svg')]";
     public String actionAddendum = "./span/ul/li/a[contains(@href,'javascript:startAddendum')]";
     public String actionEvaluate = "./span/ul/li/a[contains(@href,'AwardStyle')]";
     public String actionFinalize = "./span/ul/li/a[contains(@href,'javascript:Finalize')]";
