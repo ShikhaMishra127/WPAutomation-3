@@ -1,16 +1,11 @@
 package pageobjects.common;
 
-import java.io.IOException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.Select;
-
 import utilities.common.Browser;
 
 public class BuyerNavBarPOM  {
@@ -181,7 +176,9 @@ public class BuyerNavBarPOM  {
 	    String headerXPath = "//ul[contains(@class,'navbar-left')]//*[@title='" + headerItem + "']";
 	    String subItemXPath = headerXPath + "/following-sibling::*//*[@title='" + subItem + "']";
 
-	    // click on the nav bar header item
+		browser.waitForElementToAppear(topNav);
+
+		// click on the nav bar header item
 	    WebElement header = topNav.findElement(By.xpath(headerXPath));
 	    header.click();
 
