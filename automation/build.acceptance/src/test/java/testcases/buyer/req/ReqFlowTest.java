@@ -41,10 +41,15 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        request = creator.CreateRequest(browser, resource);
+        // TEMP - put in canned REQ/PO
+        //request = creator.CreateRequest(browser, resource);
+        browser.close();
+        request.setReqNumber("23-56");
+        request.setReqName("Automation Lipinski/23-56");
+        request.setReqPONumber("PPRE2000014");
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -76,7 +81,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -122,7 +127,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -162,7 +167,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id=3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -195,6 +200,23 @@ public class ReqFlowTest {
     }
 
 
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id=3604)
+    public void ViewOrdersTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Requests > Order > View All
+        navbar.selectDropDownItem(resource.getValue("navbar_poheaditem"), resource.getValue("navbar_viewpo"));
+
+    }
+
+
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     private void navigateToReq(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewReqPOM view) {
@@ -203,7 +225,7 @@ public class ReqFlowTest {
         login.loginAsBuyer();
 
         // Go to Requests > Create New > Off-Catalog Request
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_viewreq"));
+        navbar.selectDropDownItem(resource.getValue("navbar_reqheaditem"), resource.getValue("navbar_viewreq"));
 
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
         browser.clickWhenAvailable(view.filterSubmitButton);
