@@ -1,6 +1,5 @@
 package pageobjects.common;
 
-import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -67,6 +66,9 @@ public class LoginPagePOM {
     @FindBy(xpath = "(//img[@src='/images/registration/arrow_decline.gif'])[1]")
     public WebElement vendorDeclineTermsButton;
 
+    @FindBy(xpath="//button[contains(@onclick,'closeFeaturePopup')]")
+    public WebElement vendorWhatsNewButton;
+    
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     public void setUsername(String str) {
@@ -103,16 +105,15 @@ public class LoginPagePOM {
         setPassword(password);
         clickOnLogin();
         browser.waitForPageLoad();
+
+        // handle if you're a vendor and get that ridiculous "What's New" overlay
+        if (browser.elementExists(vendorWhatsNewButton)) {
+            browser.clickWhenAvailable(vendorWhatsNewButton);
+        }
     }
 
     public void loginAsBuyer() {
-        // before starting our tests, first log into the system as a buyer
-        //normalizePassword();
-        handleCookie();
-        setUsername(browser.buyerUsername);
-        setPassword(browser.buyerPassword);
-        clickOnLogin();
-        browser.waitForPageLoad();
+        loginAsUser(browser.buyerUsername, browser.buyerPassword);
     }
 
 }

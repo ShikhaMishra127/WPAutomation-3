@@ -181,12 +181,19 @@ public class Browser implements WebDriver {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOf(element));
 
+        // try to get element to scroll into view before we can click
+        InjectJavaScript("arguments[0].scrollIntoView()", element);
+
         element.click();
     }
 
     public void clickWhenAvailable(By locator) {
         waitForElementToAppear(locator);
         WebElement element = findElement(locator);
+
+        // try to get element to scroll into view before we can click
+        InjectJavaScript("arguments[0].scrollIntoView()", element);
+
         element.click();
     }
 

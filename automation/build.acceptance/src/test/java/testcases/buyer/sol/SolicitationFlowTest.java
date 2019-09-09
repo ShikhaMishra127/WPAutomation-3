@@ -1,6 +1,5 @@
 package testcases.buyer.sol;
 
-
 import junit.framework.Assert;
 import main.java.framework.Solicitation;
 import org.openqa.selenium.By;
@@ -10,38 +9,48 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.SolicitationBidboardPOM;
+import pageobjects.buyer.sol.BuyerAwardSolicitationPOM;
+import pageobjects.buyer.sol.BuyerViewSolicitationPOM;
+import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
 import java.util.Map;
+
+import static pageobjects.buyer.sol.BuyerViewSolicitationPOM.SolListColumn;
+import static pageobjects.buyer.sol.BuyerViewSolicitationPOM.SolListColumn.ACTION;
 
 @Listeners({TestRailListener.class})
 
 public class SolicitationFlowTest {
 
     Solicitation sol;
+    ResourceLoader resource;
 
     @BeforeClass
     public void setup() {
+
         sol = new Solicitation();
+        resource = new ResourceLoader("data/solicitation");
     }
 
     @Test
-    @TestRailReference(id=3608)
+    @TestRailReference(id = 3608)
     public void CreateSolicitationTest(ITestContext testContext) {
 
-        // create a solicitation and come back with the sol number
+        Browser browser = new Browser(testContext);
         SolCreator creator = new SolCreator();
-        sol = creator.CreateSolicitation("data/solicitation", testContext);
 
+        sol = creator.CreateSolicitation(browser, resource);
     }
 
-    @Test(dependsOnMethods = {"CreateSolicitationTest"})
-    @TestRailReference(id=3605)
+    @Test(enabled = true, dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 3605)
     public void VendorBidOnSolTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -61,19 +70,19 @@ public class SolicitationFlowTest {
         sol.viewFilterSubmitButton.click();
 
         // wait for our solicitation to show up. Check every 5 seconds, for at least 5 minutes
-       sol.waitForSolToAppear(this.sol.getSolNumber());
+        sol.waitForSolToAppear(this.sol.getSolNumber());
 
-       browser.Log("Solicitation '" + this.sol.getSolName() + "' viewed by vendor");
+        browser.Log("Solicitation '" + this.sol.getSolName() + "' viewed by vendor");
 
         // get a list of WebElements we can use for our target solicitation (date, name, actions, etc.)
         Map<VendorSolResponsePOM.SolColumn, WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
 
         // make sure target solicitation is Active (so we can bid on it)
-        Assert.assertTrue("Verify Sol STATUS OK",  targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
+        Assert.assertTrue("Verify Sol STATUS OK", targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
 
         // click Add Response from the Action bar (ellipsis icon)
         browser.clickSubElement(targetSolItem.get(VendorSolResponsePOM.SolColumn.ACTION), sol.viewActionButton);
-        browser.clickSubElement(targetSolItem.get(VendorSolResponsePOM.SolColumn.ACTION), sol.viewActionAddResponseButton );
+        browser.clickSubElement(targetSolItem.get(VendorSolResponsePOM.SolColumn.ACTION), sol.viewActionAddResponseButton);
 
         // click OK when it suggests a quote name
         browser.clickWhenAvailable(sol.bidQuoteNameOkButton);
@@ -111,14 +120,14 @@ public class SolicitationFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"VendorBidOnSolTest"})
-    @TestRailReference(id=3609)
+    @Test(enabled = true, dependsOnMethods = {"VendorBidOnSolTest"})
+    @TestRailReference(id = 3609)
     public void VendorViewSolTest() {
         // If we bid on Solicitation, we obviously viewed it first. Each method should have only *one* test case
     }
 
-    @Test(dependsOnMethods = {"CreateSolicitationTest"})
-    @TestRailReference(id=5870)
+    @Test(enabled = true, dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 5870)
     public void IndexSolicitationTest(ITestContext testContext) {
         Browser browser = new Browser(testContext);
         SolicitationBidboardPOM board = new SolicitationBidboardPOM(browser);
@@ -144,5 +153,78 @@ public class SolicitationFlowTest {
 
     }
 
+    @Test(dependsOnMethods = {"VendorBidOnSolTest"})
+    @TestRailReference(id = 3610)
+    public void AwardSolTest(ITestContext testContext) {
 
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        BuyerViewSolicitationPOM view = new BuyerViewSolicitationPOM(browser);
+        BuyerAwardSolicitationPOM award = new BuyerAwardSolicitationPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        login.loginAsBuyer();
+
+        // Navigate to Solicitations > Review/Award Solicitations > Active Sols
+        navbar.selectDropDownItem("Solicitations", "Award Informal Solicitation");
+
+        // TEMP -remove when done
+        browser.clickWhenAvailable(view.searchActiveSolsTab);
+        browser.sendKeysWhenAvailable(view.searchSolNumberEdit, sol.getSolNumber());
+        browser.clickWhenAvailable(view.searchUpdateFilterButton);
+
+        Map<SolListColumn, WebElement> solLine = view.getElementsForSolLine(sol.getSolNumber());
+
+        browser.clickSubElement(solLine.get(ACTION), view.actionEllipsis);
+        browser.clickSubElement(solLine.get(ACTION), view.actionEvaluate);
+
+        // if that list of bidders is in the way, minimize it
+        browser.waitForElementToAppear(award.mainFooterArea);
+        if (browser.elementExists(award.mainFooterCollapseButton)) {
+            award.mainFooterCollapseButton.click();
+        }
+
+        // click Award All to One option
+        browser.clickWhenAvailable(award.mainAwardAllToOneRadio);
+        browser.clickWhenAvailable(award.mainContinueButton);
+
+        // click on checkbox for target vendor and award
+        award.ClickAwardSupplierCheckbox(resource.getValue("solsuppliername"));
+
+        // wait for the stupid pop-up to appear, if there is one
+        browser.waitForElementToBeClickable(award.allPopupContinueButton);
+
+        if (browser.elementExists(award.allPopupContinueButton)) {
+            browser.clickWhenAvailable(award.allPopupContinueButton);  // pop-up sometimes appears, warning of partial bid
+        }
+
+        // wait for overlay with "Saving" spinner to disappear before continuing
+        browser.waitForElementToBeClickable(award.allDoneButton);
+
+        browser.clickWhenAvailable(award.allDoneButton);
+        browser.clickWhenAvailable(award.summaryDoneButton);
+
+        browser.Log(sol.getSolName() + " awarded.");
+
+        // while back on the sol list page, click Finalize sol on action bar
+        solLine = view.getElementsForSolLine(sol.getSolNumber());
+
+        browser.clickSubElement(solLine.get(ACTION), view.actionEllipsis);
+        browser.clickSubElement(solLine.get(ACTION), view.actionFinalize);
+
+        // type 'YES' to confirm award and click Submit
+        browser.sendKeysWhenAvailable(award.finalizeConfirmEdit, "YES");
+        browser.clickWhenAvailable(award.finalizeSubmitButton);
+
+        // when asked to Create Req, click Close
+        browser.clickWhenAvailable(award.finalizeCloseButton);
+
+        browser.Log(sol.getSolName() + " finalized.");
+
+        navbar.logout();
+        browser.close();
+
+    }
 }
