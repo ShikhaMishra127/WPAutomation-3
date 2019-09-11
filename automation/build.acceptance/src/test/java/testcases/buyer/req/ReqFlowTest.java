@@ -3,10 +3,13 @@ package testcases.buyer.req;
 import framework.Request;
 import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pageobjects.buyer.orders.ReceiveOrderPOM;
+import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.req.ViewReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
@@ -18,7 +21,8 @@ import utilities.common.TestRailReference;
 
 import java.util.Map;
 
-import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn.*;
+import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
+import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 
 @Listeners({TestRailListener.class})
 
@@ -44,9 +48,9 @@ public class ReqFlowTest {
         // TEMP - put in canned REQ/PO
         //request = creator.CreateRequest(browser, resource);
         browser.close();
-        request.setReqNumber("23-56");
-        request.setReqName("Automation Lipinski/23-56");
-        request.setReqPONumber("PPRE2000014");
+        request.setReqNumber("16-9");
+        request.setReqName("Automation Lipinski/16-9");
+        request.setReqPONumber("PPRE2000001");
     }
 
     @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
@@ -63,11 +67,11 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // make sure req number and status are ok
-        Assert.assertTrue("Verify req number", reqLine.get(REQNUM).getText().contains(request.getReqNumber()));
-        Assert.assertTrue("Verify req status", reqLine.get(STATUS).getText().contains("PO Created"));
+        Assert.assertTrue("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText().contains(request.getReqNumber()));
+        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains("PO Created"));
 
         // expand req data and get PO number generated (For further tests)
-        browser.clickSubElement(reqLine.get(EXPAND), view.riDownArrow);
+        browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
         request.setReqPONumber(view.riPONumber.getText());
 
@@ -96,8 +100,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionCopyReq);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionCopyReq);
 /*
         THIS CODE WOULD WORK GREAT - IF THE FOOTER WASN'T MISSING WHEN IN AUTOMATION! unblock when working
 
@@ -141,8 +145,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionPrint);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionPrint);
 
         // Wait for popup and switch focus
         browser.waitForPopUpToOpen();
@@ -181,8 +185,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionHistory);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionHistory);
 
         browser.waitForElementToAppear(view.historyReqName);
 
@@ -207,12 +211,43 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
         BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewOrderPOM view = new ViewOrderPOM(browser);
+        ReceiveOrderPOM receive = new ReceiveOrderPOM(browser);
 
+        // go to default URL and log in as a buyer
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
 
         // Go to Requests > Order > View All
         navbar.selectDropDownItem(resource.getValue("navbar_poheaditem"), resource.getValue("navbar_viewpo"));
+
+        // search for target PO
+        browser.sendKeysWhenAvailable(view.mainSearchOrderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(view.mainSearchSubmitButton);
+
+        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
+
+        // verify PO is created and ready to be received
+        String status = poLine.get(POListColumn.STATUS).getText();
+        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
+        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
+
+        // click Receive on action bar
+        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
+        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piActionReceive);
+
+        // fill-in fields for receipt and click Submit
+        browser.clickWhenAvailable(receive.ReceiveAllButton);
+        browser.sendKeysWhenAvailable(receive.CarrierEdit, "FedEx");
+        browser.sendKeysWhenAvailable(receive.FreightEdit, "FBN0012-1213-131304");
+        browser.sendKeysWhenAvailable(receive.CartonCountEdit, "3");
+        browser.sendKeysWhenAvailable(receive.PackingSlipEdit, "PSN0023-12392923-01");
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", receive.DateReceivedEdit, "09/11/2019");
+        new Select(receive.ItemStatusDrop).selectByIndex(1);
+        browser.clickWhenAvailable(receive.SubmitButton);
+
+        // back on the PO list, click Receipt History and confirm receipt submitted
+
 
     }
 

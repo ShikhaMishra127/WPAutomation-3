@@ -40,10 +40,22 @@ public class ViewOrderPOM {
     @FindBy(xpath="//table[@id='poTable']")
     public WebElement searchPOResultsTable;
 
+    ////////// POItem Sub-Elements
+    public String piActionCopyToReq = "./span/ul/li/a[contains(@href,'Copy')]";
+    public String piActionPOHistory = "./span/ul/li/a[contains(@href,'PORevision')]";
+    public String piActionPOPrint = "./span/ul/li/a[contains(@href,'Print')]";
+    public String piActionSOPrint = "./span/ul/li/a[contains(@href,'SuppPrint')]";
+    public String piActionReceive = "./span/ul/li/a[contains(@href,'ReceiveReceipt')]";
+    public String piReceiptHistory = "./span/ul/li/a[contains(@href,'ReceiptHistory')]";
+    public String piActionCOCreate = "./span/ul/li/a[contains(@href,'CreateChangeOrder')]";
+    public String piActionWFMap = "./span/ul/li/a[contains(@href,'ReqApproval')]";
+    public String piActionPOCancel = "./span/ul/li/a[contains(@href,'CancelOrder')]";
+    public String piActionPODetails = "./span/ul/li/a[contains(@href,'ViewPODetails')]";
+
 
     //////////////////////////////////////////////////////////////////////// HELPFUL METHODS
 
-    public enum POListColumn {BOGUS, DETAILS, ORG, BUYER, ENDDATE, STATUS, ACTION}
+    public enum POListColumn {BOGUS, ARROW, ORG, ORDER, REQUESTER, BUYER, DATE, SUPPLIER, CONTRACT, TOTAL, STATUS, ACTION}
 
     public Map<POListColumn, WebElement> getElementsForPOLine(String ponum) {
 
