@@ -19,6 +19,7 @@ import utilities.common.ResourceLoader;
 import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
@@ -39,22 +40,17 @@ public class ReqFlowTest {
     }
 
     @Test
-    @TestRailReference(id=3597)
+    @TestRailReference(id = 3597)
     public void CreateRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        // TEMP - put in canned REQ/PO
-        //request = creator.CreateRequest(browser, resource);
-        browser.close();
-        request.setReqNumber("16-9");
-        request.setReqName("Automation Lipinski/16-9");
-        request.setReqPONumber("PPRE2000001");
+        request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -85,8 +81,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -131,8 +127,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -171,8 +167,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -205,7 +201,40 @@ public class ReqFlowTest {
 
 
     @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3604)
+    @TestRailReference(id = 3604)
+    public void ReceiveOrderTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewOrderPOM view = new ViewOrderPOM(browser);
+        ReceiveOrderPOM receive = new ReceiveOrderPOM(browser);
+
+        // go to the target PO
+        navigateToPO(browser, login, navbar, view);
+        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
+
+        // click Receive on action bar
+        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
+        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piActionReceive);
+
+        // fill-in fields for receipt and click Submit
+        browser.clickWhenAvailable(receive.ReceiveAllButton);
+        browser.sendKeysWhenAvailable(receive.CarrierEdit, resource.getValue("receipt_carrier"));
+        browser.sendKeysWhenAvailable(receive.FreightEdit, resource.getValue("receipt_freight"));
+        browser.sendKeysWhenAvailable(receive.CartonCountEdit, resource.getValue("receipt_cartoncount"));
+        browser.sendKeysWhenAvailable(receive.PackingSlipEdit, resource.getValue("receipt_packingslip"));
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", receive.DateReceivedEdit, todaysDate);
+        new Select(receive.ItemStatusDrop).selectByIndex(1);
+        browser.clickWhenAvailable(receive.SubmitButton);
+
+        navbar.logout();
+        browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -214,6 +243,31 @@ public class ReqFlowTest {
         ViewOrderPOM view = new ViewOrderPOM(browser);
         ReceiveOrderPOM receive = new ReceiveOrderPOM(browser);
 
+        // go to the target PO
+        navigateToPO(browser, login, navbar, view);
+        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
+
+        // verify PO is created and ready to be received
+        String status = poLine.get(POListColumn.STATUS).getText();
+        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
+        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
+
+        // back on the PO list, click Receipt History and confirm receipt submitted
+        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
+        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piReceiptHistory);
+
+        browser.waitForElementToAppear(receive.rhReceiptNumber);
+        request.setReceiptNumber(receive.rhReceiptNumber.getText());
+
+        browser.clickWhenAvailable(receive.rhCloseButton);
+
+        navbar.logout();
+        browser.close();
+    }
+
+    //////////////////////////////////////////////////////////////////////// HELPER METHODS
+
+    private void navigateToPO(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewOrderPOM view) {
         // go to default URL and log in as a buyer
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
@@ -224,35 +278,7 @@ public class ReqFlowTest {
         // search for target PO
         browser.sendKeysWhenAvailable(view.mainSearchOrderNumberEdit, request.getReqPONumber());
         browser.clickWhenAvailable(view.mainSearchSubmitButton);
-
-        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
-
-        // verify PO is created and ready to be received
-        String status = poLine.get(POListColumn.STATUS).getText();
-        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
-        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
-
-        // click Receive on action bar
-        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
-        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piActionReceive);
-
-        // fill-in fields for receipt and click Submit
-        browser.clickWhenAvailable(receive.ReceiveAllButton);
-        browser.sendKeysWhenAvailable(receive.CarrierEdit, "FedEx");
-        browser.sendKeysWhenAvailable(receive.FreightEdit, "FBN0012-1213-131304");
-        browser.sendKeysWhenAvailable(receive.CartonCountEdit, "3");
-        browser.sendKeysWhenAvailable(receive.PackingSlipEdit, "PSN0023-12392923-01");
-        browser.InjectJavaScript("arguments[0].value=arguments[1]", receive.DateReceivedEdit, "09/11/2019");
-        new Select(receive.ItemStatusDrop).selectByIndex(1);
-        browser.clickWhenAvailable(receive.SubmitButton);
-
-        // back on the PO list, click Receipt History and confirm receipt submitted
-
-
     }
-
-
-    //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     private void navigateToReq(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewReqPOM view) {
         browser.getDriver().get(browser.baseUrl);

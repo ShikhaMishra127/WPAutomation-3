@@ -15,7 +15,7 @@ public class ReceiveOrderPOM {
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
-    //////////////////////////////////////////////////////////////////////// COMMON CONTROLS
+    //////////////////////////////////////////////////////////////////////// CREATE RECEIPT PAGE
 
     @FindBy(xpath="//table[@class='overViewTable']/tbody/tr[1]/td[2]")
     public WebElement PONumberText;
@@ -61,5 +61,16 @@ public class ReceiveOrderPOM {
 
     @FindBy(xpath="//input[@id='fileupload']")
     public WebElement AttachmentUploadButton;
+
+    //////////////////////////////////////////////////////////////////////// RECEIPT HISTORY PAGE
+
+    @FindBy(xpath="//table[@role='grid']/tbody/tr/td[2]")
+    public WebElement rhReceiptNumber;
+
+    @FindBy(xpath="//button[@name='cmdClose']")
+    public WebElement rhCloseButton;
+
+    @FindBy(xpath="//button[@name='cmdPrint']")
+    public WebElement rhPrintButton;
 
 }
