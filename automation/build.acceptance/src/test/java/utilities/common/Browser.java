@@ -189,7 +189,8 @@ public class Browser implements WebDriver {
 
     public void clickWhenAvailable(By locator) {
         waitForElementToAppear(locator);
-        WebElement element = findElement(locator);
+
+        WebElement element = driver.findElement(locator);
 
         // try to get element to scroll into view before we can click
         InjectJavaScript("arguments[0].scrollIntoView()", element);
@@ -268,60 +269,30 @@ public class Browser implements WebDriver {
     public void get(String url) {
         driver.get(url);
     }
-
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
-
     public String getTitle() {
         return driver.getTitle();
     }
-
-    public List<WebElement> findElements(By by) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public WebElement findElement(By by) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getPageSource() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    public List<WebElement> findElements(By by) { return driver.findElements(by); }
+    public WebElement findElement(By by) { return driver.findElement(by); }
+    public String getPageSource() { return driver.getPageSource(); }
     public void close() {
         driver.close();
     }
-
-    public void quit() {
-        // TODO Auto-generated method stub
-
-    }
-
+    public void quit() { driver.quit(); }
     public Set<String> getWindowHandles() {
         return this.driver.getWindowHandles();
     }
-
     public String getWindowHandle() {
         return this.driver.getWindowHandle();
     }
-
     public TargetLocator switchTo() {
         return driver.switchTo();
     }
-
-    public Navigation navigate() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Options manage() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Navigation navigate() { return driver.navigate(); }
+    public Options manage() { return driver.manage(); }
 
     /*
         Allows us to inject JavaScript into a WebElement to change its properties

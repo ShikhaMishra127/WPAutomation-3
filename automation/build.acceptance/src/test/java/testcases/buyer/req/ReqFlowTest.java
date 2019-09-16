@@ -3,10 +3,13 @@ package testcases.buyer.req;
 import framework.Request;
 import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pageobjects.buyer.orders.ReceiveOrderPOM;
+import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.req.ViewReqPOM;
 import pageobjects.common.BuyerNavBarPOM;
@@ -16,9 +19,11 @@ import utilities.common.ResourceLoader;
 import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn.*;
+import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
+import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 
 @Listeners({TestRailListener.class})
 
@@ -35,7 +40,7 @@ public class ReqFlowTest {
     }
 
     @Test
-    @TestRailReference(id=3597)
+    @TestRailReference(id = 3597)
     public void CreateRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -44,8 +49,8 @@ public class ReqFlowTest {
         request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -58,11 +63,11 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // make sure req number and status are ok
-        Assert.assertTrue("Verify req number", reqLine.get(REQNUM).getText().contains(request.getReqNumber()));
-        Assert.assertTrue("Verify req status", reqLine.get(STATUS).getText().contains("PO Created"));
+        Assert.assertTrue("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText().contains(request.getReqNumber()));
+        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains("PO Created"));
 
         // expand req data and get PO number generated (For further tests)
-        browser.clickSubElement(reqLine.get(EXPAND), view.riDownArrow);
+        browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
         request.setReqPONumber(view.riPONumber.getText());
 
@@ -76,8 +81,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -91,8 +96,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionCopyReq);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionCopyReq);
 /*
         THIS CODE WOULD WORK GREAT - IF THE FOOTER WASN'T MISSING WHEN IN AUTOMATION! unblock when working
 
@@ -122,8 +127,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -136,8 +141,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionPrint);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionPrint);
 
         // Wait for popup and switch focus
         browser.waitForPopUpToOpen();
@@ -162,8 +167,8 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id=3597)
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -176,8 +181,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // click on Action bar, then Copy Req item
-        browser.clickSubElement(reqLine.get(ACTION), view.riEllipsis);
-        browser.clickSubElement(reqLine.get(ACTION), view.riActionHistory);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riActionHistory);
 
         browser.waitForElementToAppear(view.historyReqName);
 
@@ -195,7 +200,85 @@ public class ReqFlowTest {
     }
 
 
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3604)
+    public void ReceiveOrderTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewOrderPOM view = new ViewOrderPOM(browser);
+        ReceiveOrderPOM receive = new ReceiveOrderPOM(browser);
+
+        // go to the target PO
+        navigateToPO(browser, login, navbar, view);
+        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
+
+        // click Receive on action bar
+        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
+        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piActionReceive);
+
+        // fill-in fields for receipt and click Submit
+        browser.clickWhenAvailable(receive.ReceiveAllButton);
+        browser.sendKeysWhenAvailable(receive.CarrierEdit, resource.getValue("receipt_carrier"));
+        browser.sendKeysWhenAvailable(receive.FreightEdit, resource.getValue("receipt_freight"));
+        browser.sendKeysWhenAvailable(receive.CartonCountEdit, resource.getValue("receipt_cartoncount"));
+        browser.sendKeysWhenAvailable(receive.PackingSlipEdit, resource.getValue("receipt_packingslip"));
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        browser.InjectJavaScript("arguments[0].value=arguments[1]", receive.DateReceivedEdit, todaysDate);
+        new Select(receive.ItemStatusDrop).selectByIndex(1);
+        browser.clickWhenAvailable(receive.SubmitButton);
+
+        navbar.logout();
+        browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @TestRailReference(id = 3604)
+    public void ViewOrdersTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewOrderPOM view = new ViewOrderPOM(browser);
+        ReceiveOrderPOM receive = new ReceiveOrderPOM(browser);
+
+        // go to the target PO
+        navigateToPO(browser, login, navbar, view);
+        Map<ViewOrderPOM.POListColumn, WebElement> poLine = view.getElementsForPOLine(request.getReqPONumber());
+
+        // verify PO is created and ready to be received
+        String status = poLine.get(POListColumn.STATUS).getText();
+        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
+        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
+
+        // back on the PO list, click Receipt History and confirm receipt submitted
+        browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
+        browser.clickSubElement(poLine.get(POListColumn.ACTION), view.piReceiptHistory);
+
+        browser.waitForElementToAppear(receive.rhReceiptNumber);
+        request.setReceiptNumber(receive.rhReceiptNumber.getText());
+
+        browser.clickWhenAvailable(receive.rhCloseButton);
+
+        navbar.logout();
+        browser.close();
+    }
+
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
+
+    private void navigateToPO(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewOrderPOM view) {
+        // go to default URL and log in as a buyer
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Requests > Order > View All
+        navbar.selectDropDownItem(resource.getValue("navbar_poheaditem"), resource.getValue("navbar_viewpo"));
+
+        // search for target PO
+        browser.sendKeysWhenAvailable(view.mainSearchOrderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(view.mainSearchSubmitButton);
+    }
 
     private void navigateToReq(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewReqPOM view) {
         browser.getDriver().get(browser.baseUrl);
@@ -203,7 +286,7 @@ public class ReqFlowTest {
         login.loginAsBuyer();
 
         // Go to Requests > Create New > Off-Catalog Request
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_viewreq"));
+        navbar.selectDropDownItem(resource.getValue("navbar_reqheaditem"), resource.getValue("navbar_viewreq"));
 
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
         browser.clickWhenAvailable(view.filterSubmitButton);
