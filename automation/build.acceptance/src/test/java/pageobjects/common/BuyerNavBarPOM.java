@@ -52,13 +52,13 @@ public class BuyerNavBarPOM  {
 	    browser.waitForElementToAppear(topNav);
 
 	    // click on the nav bar header item
-		browser.clickWhenAvailable(By.xpath(headerXPath));
+		  browser.clickWhenAvailable(By.xpath(headerXPath));
 
 	    // click on the sub-item below the header item
-		browser.clickWhenAvailable(By.xpath(subItemXPath));
+		  browser.clickWhenAvailable(By.xpath(subItemXPath));
 
 	    // Wait for the page to load before leaving
-        browser.waitForPageLoad();
+      browser.waitForPageLoad();
 	}
 	
 }
