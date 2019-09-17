@@ -51,7 +51,7 @@ public class ReqCreator {
     private void navigateToNewReq() {
 
         // Go to Requests > Create New > Off-Catalog Request
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_newreq"));
+        navbar.selectDropDownItem(resource.getValue("navbar_reqheaditem"), resource.getValue("navbar_newreq"));
 
         // in some EBOs, focus is given to the external catalog content. switch back to req frame
         browser.switchToFrame(req.reqIFrame);
