@@ -200,7 +200,7 @@ public class ReqFlowTest {
     }
 
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 

@@ -82,6 +82,11 @@ public class ReqCreator {
             req.ocRetainInfoCheck.click();
         }
 
+        // click Contract Number toggle if set to "yes"; we do not want associated contracts
+        if (req.ocAssociateContractCheck.isSelected()) {
+            browser.clickSubElement(req.ocAssociateContractCheck, "./parent::*"); // only the parent element is clickable
+        }
+
         // add commodity code
         browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, resource.getValue("CommodityCode"));
 

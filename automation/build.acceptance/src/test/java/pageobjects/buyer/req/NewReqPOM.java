@@ -108,6 +108,13 @@ public class NewReqPOM {
     @FindBy(xpath="//button[@id='btn-add-top']")
     public WebElement ocAddItemButton;
 
+    @FindBy(xpath="//input[@id='contractNum_Toggle']")
+    public WebElement ocAssociateContractCheck;
+
+    @FindBy(xpath="//span[contains(@href,'resetCommoditySrch')]")
+    public WebElement ocResetCommoditySearchButton;
+
+    
     //////////////////////////////////////////////////////////////////////// VIEW REQUEST PAGE
 
     @FindBy(xpath="//button[contains(@onclick,'javascript:ReqSubmit()')]")
@@ -115,7 +122,5 @@ public class NewReqPOM {
 
     @FindBy(xpath="//button[@name='btnClose']")
     public WebElement vrCloseReqButton;
-
-
 
 }
