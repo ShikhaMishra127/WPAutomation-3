@@ -50,16 +50,19 @@ public class VendorContractViewPOM {
     @FindBy(xpath = "//button[@id='reset']")
     public WebElement ctResetButton;
 
-    @FindBy(xpath = "//th[contains(text(),'Title')]")
+    @FindBy(xpath = "//th[contains(@onclick, '1')]")
+    public WebElement ctNumber;
+
+    @FindBy(xpath = "//th[contains(@onclick, '2')]")
     public WebElement ctTitle;
 
-    @FindBy(xpath = "//th[contains(text(),'Organization')]")
+    @FindBy(xpath = "//th[contains(@onclick, '3')]")
     public WebElement ctOrg;
 
-    @FindBy(xpath = "//th[contains(text(),'Effective')]")
+    @FindBy(xpath = "//th[contains(@onclick, '4')]")
     public WebElement ctEffectiveDate;
 
-    @FindBy(xpath ="//th[contains(text(),'Expiration')]")
+    @FindBy(xpath ="//th[contains(@onclick, '5')]")
     public WebElement ctExpirationDate;
 
     @FindBy(xpath = "//ul[contains(@class,'navbar-left')]")
