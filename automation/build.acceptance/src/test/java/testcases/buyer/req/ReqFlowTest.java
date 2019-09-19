@@ -8,6 +8,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pageobjects.buyer.invoice.NewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
@@ -46,10 +47,13 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        request = creator.CreateRequest(browser, resource);
+        browser.close();
+        // request = creator.CreateRequest(browser, resource);
+        request.setReqPONumber("PPRE2000019");
+
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -81,7 +85,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -127,7 +131,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -167,7 +171,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -200,7 +204,7 @@ public class ReqFlowTest {
     }
 
 
-    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
@@ -233,7 +237,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
@@ -265,6 +269,64 @@ public class ReqFlowTest {
         browser.close();
     }
 
+
+    //    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3601)
+    public void CreateInvoiceTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        NewInvoicePOM invoice = new NewInvoicePOM(browser);
+
+        // go to default URL and log in as a buyer
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Invoices > Create New
+        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), resource.getValue("navbar_newinv"));
+
+        // save the invoice number for later
+        browser.waitForElementToAppear(invoice.headBuyerInvoiceNumberEdit);
+        request.setBuyerInvoiceNumber(invoice.headBuyerInvoiceNumberEdit.getAttribute("value"));
+
+        // set the supplier's invoice number to buyer's + "S"
+        browser.sendKeysWhenAvailable(invoice.headSupplierInvoiceNumberEdit, request.getBuyerInvoiceNumber() + "S");
+
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+
+        new Select(invoice.headEFTDrop).selectByValue("No");
+
+        browser.clickTypeAheadDropdownItem(invoice.headSupplierSearchEdit, invoice.headSupplierSearchList, "AutoSupplier");
+
+        // set required dates
+        browser.sendKeysWhenAvailable(invoice.headReceiveDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headPostDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headIssueDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headDueDateEdit, todaysDate);
+
+        browser.clickWhenAvailable(invoice.headNextButton);
+
+        // Look up target PO from the list of available POs for supplier
+        browser.clickWhenAvailable(invoice.itemsPOSearchButton);
+        browser.switchToFrame(invoice.itemsIFrame);
+
+        browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(invoice.itemsLookupSearchButton);
+
+        // when you find the PO, click the drop-arrow to the left to expand
+        invoice.clickPOExpand(request.getReqPONumber());
+
+        // then include all po items and click Add
+        browser.clickWhenAvailable(invoice.itemsPOIncludeAllCheck);
+        browser.clickWhenAvailable(invoice.itemsAddPOItemsButton);
+
+        //  browser.driver.switchTo().defaultContent();
+
+    }
+
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     private void navigateToPO(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewOrderPOM view) {
@@ -291,5 +353,6 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
         browser.clickWhenAvailable(view.filterSubmitButton);
     }
+
 }
 
