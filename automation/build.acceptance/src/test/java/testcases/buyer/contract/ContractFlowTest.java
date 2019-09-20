@@ -12,8 +12,6 @@ import utilities.common.Browser;
 import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
-@Listeners({TestRailListener.class})
-
 public class ContractFlowTest {
 
     Contract contract;

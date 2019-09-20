@@ -17,15 +17,12 @@ import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
 import java.util.Map;
 
 import static pageobjects.buyer.sol.BuyerViewSolicitationPOM.SolListColumn;
 import static pageobjects.buyer.sol.BuyerViewSolicitationPOM.SolListColumn.ACTION;
-
-@Listeners({TestRailListener.class})
 
 public class SolicitationFlowTest {
 
