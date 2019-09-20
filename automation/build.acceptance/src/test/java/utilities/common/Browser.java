@@ -72,7 +72,7 @@ public class Browser implements WebDriver {
             }
         }
         // tell our listener how to access the browser (for screenshots, etc)
-        context.setAttribute("browser", this);
+        context.setAttribute("browser" + Thread.currentThread().getId(), this);
     }
 
     /**
