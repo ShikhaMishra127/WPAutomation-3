@@ -1,6 +1,7 @@
 package pageobjects.buyer.invoice;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,9 @@ public class NewInvoicePOM {
     }
 
     //////////////////////////////////////////////////////////////////////// COMMON CONTROLS
+
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    public WebElement NextButton;
 
     //////////////////////////////////////////////////////////////////////// NEW INVOICE HEADER TAB
 
@@ -54,16 +58,16 @@ public class NewInvoicePOM {
 
     //////////////////////////////////////////////////////////////////////// NEW INVOICE ITEMS TAB
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:poSrchPopUp')][1]")
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:poSrchPopUp')]")
     public WebElement itemsPOSearchButton;
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:invoiceAllPO')][1]")
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:invoiceAllPO')]")
     public WebElement itemsInvoiceAllButton;
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:previousStep')][1]")
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:previousStep')]")
     public WebElement itemsPreviousButton;
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:submitPage')][1]")
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
     public WebElement itemsNextButton;
 
     ////////// PO Lookup dialog
@@ -89,4 +93,44 @@ public class NewInvoicePOM {
         String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + poNumber + "')]/parent::*/preceding-sibling::*";
         browser.clickWhenAvailable(By.xpath(arrowxpath));
     }
+
+    ////////// Invoice items main page (post PO selection)
+
+    @FindBy(xpath="//input[contains(@id,'invoiceQty')]")
+    public WebElement itemsInvoiceQtyEdit;
+
+    @FindBy(xpath="//textarea[not(contains(@name,'freight'))][contains(@name,'invoicecomments')]")
+    public WebElement itemsCommentEdit;
+
+    @FindBy(xpath="//tbody/tr/td/div/input[@name='invoiceAmt_freight']")
+    public WebElement itemsFreightEdit;
+
+    @FindBy(xpath="//textarea[contains(@name,'invoicecomments_freight')]")
+    public WebElement itemsFreightCommentEdit;
+
+    public void overwriteElementValue(WebElement element,  String keys) {
+        // wait for ele to exist
+        // select all and delete string
+        // sendkeys string
+        browser.waitForElementToAppear(element);
+        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
+        element.sendKeys(keys);
+    }
+
+    //////////////////////////////////////////////////////////////////////// MATCHING TAB
+
+    @FindBy(xpath="//button[contains(@onclick,'matchAll')]")
+    public WebElement matchMatchAllButton;
+
+    @FindBy(xpath="//button[contains(@onclick,'showSummaryPage')]")
+    public WebElement matchNextButton;
+
+    //////////////////////////////////////////////////////////////////////// MATCHING TAB
+
+    @FindBy(xpath="//table[@id='details']/tbody/tr//td[2]")
+    public WebElement summaryHeadDetails;
+
+    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    public WebElement summarySubmitInvoice;
+
 }
