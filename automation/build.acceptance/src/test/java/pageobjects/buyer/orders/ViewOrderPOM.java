@@ -60,7 +60,7 @@ public class ViewOrderPOM {
     public Map<POListColumn, WebElement> getElementsForPOLine(String ponum) {
 
         // Look for our row in the filtered list of items
-        String xpathrow = "//td[contains(text(),'" + ponum + "')]/parent::*";
+        String xpathrow = "//td[contains(text(),'" + ponum.trim() + "')]/parent::*";
 
         browser.waitForElementToAppear(By.xpath(xpathrow));
 

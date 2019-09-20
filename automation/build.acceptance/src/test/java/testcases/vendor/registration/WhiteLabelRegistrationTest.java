@@ -15,8 +15,6 @@ import utilities.common.ResourceLoader;
 import utilities.common.TestRailListener;
 import utilities.common.UniqueID;
 
-@Listeners({TestRailListener.class})
-
 public class WhiteLabelRegistrationTest {
 
     Browser browser;

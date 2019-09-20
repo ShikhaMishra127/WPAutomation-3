@@ -14,8 +14,6 @@ import utilities.common.ResourceLoader;
 import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
-@Listeners({TestRailListener.class})
-
 public class ExecuteReportTest {
 
     Browser browser;
