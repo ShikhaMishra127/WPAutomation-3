@@ -66,7 +66,7 @@ public class ReqFlowTest {
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
-        request.setReqPONumber(view.riPONumber.getText());
+        request.setReqPONumber(view.riPONumber.getText().trim());
 
         // make sure total cost is ok
 //        Assert.assertTrue("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText().contains(request.getReqTotal()));
