@@ -1,7 +1,6 @@
 package pageobjects.buyer.invoice;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -108,14 +107,6 @@ public class NewInvoicePOM {
     @FindBy(xpath="//textarea[contains(@name,'invoicecomments_freight')]")
     public WebElement itemsFreightCommentEdit;
 
-    public void overwriteElementValue(WebElement element,  String keys) {
-        // wait for ele to exist
-        // select all and delete string
-        // sendkeys string
-        browser.waitForElementToAppear(element);
-        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));
-        element.sendKeys(keys);
-    }
 
     //////////////////////////////////////////////////////////////////////// MATCHING TAB
 
