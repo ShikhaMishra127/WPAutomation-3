@@ -111,11 +111,12 @@ public class ReqCreator {
         browser.switchToFrame(req.footerIFrame);
         browser.waitForElementToAppear(req.reqNameEdit);
 
-        // save reqName, reqNumber and reqTotal for other tests
+        // save reqName, reqNumber, supplierName and reqTotal for other tests
         String reqName = req.reqNameEdit.getAttribute("value");
         newreq.setReqName(reqName);
         newreq.setReqNumber(reqName.substring(reqName.indexOf("/")+1));
         newreq.setReqTotal(resource.getValue("ReqTotal"));
+        newreq.setReqSupplierName(resource.getValue("SupplierName"));
 
         // click Submit Request button
         browser.driver.switchTo().defaultContent();

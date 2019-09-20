@@ -47,16 +47,10 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        browser.close();
-        // request = creator.CreateRequest(browser, resource);
-        //PPRE2000001
-//        request.setReqPONumber("PPRE2000019");
-        request.setReqPONumber("PPRE2000001");
-        request.setReqSupplierName("AutoSupplier");
-
+        request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -76,7 +70,7 @@ public class ReqFlowTest {
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
-        request.setReqPONumber(view.riPONumber.getText());
+        request.setReqPONumber(view.riPONumber.getText().trim());  // PO number has a trailing space, dammit!
 
         // make sure total cost is ok
 //        Assert.assertTrue("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText().contains(request.getReqTotal()));
@@ -88,7 +82,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -134,7 +128,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -174,7 +168,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -207,7 +201,7 @@ public class ReqFlowTest {
     }
 
 
-    @Test(enabled = false, dependsOnMethods = {"ViewRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
@@ -240,7 +234,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
@@ -273,8 +267,7 @@ public class ReqFlowTest {
     }
 
 
-    //    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3601)
     public void CreateInvoiceTest(ITestContext testContext) {
 
@@ -297,19 +290,19 @@ public class ReqFlowTest {
         // set the supplier's invoice number to buyer's + "S"
         browser.sendKeysWhenAvailable(invoice.headSupplierInvoiceNumberEdit, request.getBuyerInvoiceNumber() + "S");
 
-        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-
-
+        // select supplier and EFT
+        browser.clickTypeAheadDropdownItem(invoice.headSupplierSearchEdit, invoice.headSupplierSearchList, request.getReqSupplierName());
         new Select(invoice.headEFTDrop).selectByValue("No");
 
-        browser.clickTypeAheadDropdownItem(invoice.headSupplierSearchEdit, invoice.headSupplierSearchList, request.getReqSupplierName());
-
         // set required dates
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
         browser.sendKeysWhenAvailable(invoice.headReceiveDateEdit, todaysDate);
         browser.sendKeysWhenAvailable(invoice.headPostDateEdit, todaysDate);
         browser.sendKeysWhenAvailable(invoice.headIssueDateEdit, todaysDate);
         browser.sendKeysWhenAvailable(invoice.headDueDateEdit, todaysDate);
 
+        // done with this page, go to next
         browser.clickWhenAvailable(invoice.headNextButton);
 
         // Look up target PO from the list of available POs for supplier
@@ -327,10 +320,10 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(invoice.itemsAddPOItemsButton);
 
         // back on the main invoice page, invoice one item, add comments and go to next step
-        browser.sendKeysWhenAvailable(invoice.itemsInvoiceQtyEdit, "1.00");
-        browser.sendKeysWhenAvailable(invoice.itemsCommentEdit, "Comment generated by automated testing. This is an invoice for a single item.");
-        browser.sendKeysWhenAvailable(invoice.itemsFreightEdit, "3.99");
-        browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, "Freight not applicable to APO / FPO Military addresses.");
+        browser.sendKeysWhenAvailable(invoice.itemsInvoiceQtyEdit, resource.getValue("invoice_qty"));
+        browser.sendKeysWhenAvailable(invoice.itemsCommentEdit, resource.getValue("invoice_comment"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightEdit, resource.getValue("invoice_freight"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, resource.getValue("invoice_freightcomment"));
         browser.clickWhenAvailable(invoice.NextButton);
 
         // keep going after reaching the Attachments tab (future expanded test)
