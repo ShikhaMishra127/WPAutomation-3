@@ -67,7 +67,11 @@ public class ReqFlowTest {
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
+<<<<<<< HEAD
         request.setReqPONumber(view.riPONumber.getText().trim());  // PO number has a trailing space, dammit!
+=======
+        request.setReqPONumber(view.riPONumber.getText().trim());
+>>>>>>> WP-5151 - Fix the Receive Test.
 
         // make sure total cost is ok
 //        Assert.assertTrue("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText().contains(request.getReqTotal()));
