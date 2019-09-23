@@ -62,7 +62,7 @@ public class TestRailListener extends TestListenerAdapter {
 
         String logData;
 
-        Browser browser = (Browser)tr.getTestContext().getAttribute("browser");
+        Browser browser = (Browser)tr.getTestContext().getAttribute("browser" + Thread.currentThread().getId());
 
         logData = comment + "\n=== LOG:\n" + browser.GetLog();
 
@@ -92,7 +92,7 @@ public class TestRailListener extends TestListenerAdapter {
     @Override
     public void onTestFailure(ITestResult tr) {
 
-        Browser browser = (Browser)tr.getTestContext().getAttribute("browser");
+        Browser browser = (Browser)tr.getTestContext().getAttribute("browser" + Thread.currentThread().getId());
         TakesScreenshot screenshot = (TakesScreenshot)browser.driver;
 
         File failPage = screenshot.getScreenshotAs(OutputType.FILE);

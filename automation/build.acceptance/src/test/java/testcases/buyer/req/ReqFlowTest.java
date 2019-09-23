@@ -17,7 +17,6 @@ import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
 import java.time.format.DateTimeFormatter;
@@ -25,8 +24,6 @@ import java.util.Map;
 
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
-
-@Listeners({TestRailListener.class})
 
 public class ReqFlowTest {
 

@@ -59,6 +59,7 @@ public class Browser implements WebDriver {
                         options.addArguments("--start-maximized");
                     } else {
                         options.addArguments("headless");
+                        options.addArguments("window-size=1920,1080");
                     }
                     options.addArguments("--lang=" + language);
                     WebDriverManager.chromedriver().setup();
@@ -72,7 +73,7 @@ public class Browser implements WebDriver {
             }
         }
         // tell our listener how to access the browser (for screenshots, etc)
-        context.setAttribute("browser", this);
+        context.setAttribute("browser" + Thread.currentThread().getId(), this);
     }
 
     /**

@@ -14,8 +14,6 @@ import utilities.common.*;
 
 import java.io.IOException;
 
-@Listeners({TestRailListener.class})
-
 public class StandardRegistrationTest {
 
     Browser browser;
