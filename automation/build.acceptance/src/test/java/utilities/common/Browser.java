@@ -235,6 +235,7 @@ public class Browser implements WebDriver {
 
         // clear out existing value and type in new value
         element.clear();
+        element.sendKeys(Keys.chord(Keys.CONTROL,"a",Keys.DELETE));  // in case clear does not work - select all and delete value
         element.sendKeys(keystrokes);
     }
 

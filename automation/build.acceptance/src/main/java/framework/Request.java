@@ -9,6 +9,7 @@ public class Request {
     private String reqStatus;
     private String reqPONumber;
     private String reqReceiptNumber;
+    private String buyerInvoiceNumber;
 
     // Setters
     public void setReqName(String name) { this.reqName = name; }
@@ -18,6 +19,7 @@ public class Request {
     public void setReqPONumber(String reqPONumber) { this.reqPONumber = reqPONumber; }
     public void setReqTotal(String reqTotal) { this.reqTotal = reqTotal; }
     public void setReceiptNumber(String reqReceiptNumber) { this.reqReceiptNumber = reqReceiptNumber; }
+    public void setBuyerInvoiceNumber(String invoiceNumber) { this.buyerInvoiceNumber= invoiceNumber; }
 
     // Getters
     public String getReqName() { return reqName; }
@@ -27,6 +29,6 @@ public class Request {
     public String getReqPONumber() { return reqPONumber; }
     public String getReqTotal() { return reqTotal; }
     public String getReqReceiptNumber() { return reqReceiptNumber; }
-
+    public String getBuyerInvoiceNumber() { return buyerInvoiceNumber; }
 
 }

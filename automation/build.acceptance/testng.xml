@@ -7,7 +7,6 @@
   <test name="Test">
     <classes>
       <!-- Disabled until these tests can be cleaned up
-      <class name="testcases.buyer.inv.InvoiceCreationTest"/>
       <class name="testcases.vendor.registration.WhiteLabelRegistrationTest" />
                    -->
       <class name="testcases.vendor.registration.StandardRegistrationTest" />
