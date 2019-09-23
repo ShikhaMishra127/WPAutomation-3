@@ -8,6 +8,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import pageobjects.buyer.invoice.NewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
@@ -69,7 +70,7 @@ public class ReqFlowTest {
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
-        request.setReqPONumber(view.riPONumber.getText());
+        request.setReqPONumber(view.riPONumber.getText().trim());  // PO number has a trailing space, dammit!
 
         // make sure total cost is ok
 //        Assert.assertTrue("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText().contains(request.getReqTotal()));
@@ -265,6 +266,84 @@ public class ReqFlowTest {
         browser.close();
     }
 
+
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @TestRailReference(id = 3601)
+    public void CreateInvoiceTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        NewInvoicePOM invoice = new NewInvoicePOM(browser);
+
+        // go to default URL and log in as a buyer
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Invoices > Create New
+        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), resource.getValue("navbar_newinv"));
+
+        // save the invoice number for later
+        browser.waitForElementToAppear(invoice.headBuyerInvoiceNumberEdit);
+        request.setBuyerInvoiceNumber(invoice.headBuyerInvoiceNumberEdit.getAttribute("value"));
+
+        // set the supplier's invoice number to buyer's + "S"
+        browser.sendKeysWhenAvailable(invoice.headSupplierInvoiceNumberEdit, request.getBuyerInvoiceNumber() + "S");
+
+        // select supplier and EFT
+        browser.clickTypeAheadDropdownItem(invoice.headSupplierSearchEdit, invoice.headSupplierSearchList, request.getReqSupplierName());
+        new Select(invoice.headEFTDrop).selectByValue("No");
+
+        // set required dates
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+        browser.sendKeysWhenAvailable(invoice.headReceiveDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headPostDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headIssueDateEdit, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headDueDateEdit, todaysDate);
+
+        // done with this page, go to next
+        browser.clickWhenAvailable(invoice.headNextButton);
+
+        // Look up target PO from the list of available POs for supplier
+        browser.clickWhenAvailable(invoice.itemsPOSearchButton);
+        browser.switchToFrame(invoice.itemsIFrame);
+
+        browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(invoice.itemsLookupSearchButton);
+
+        // when you find the PO, click the drop-arrow to the left to expand
+        invoice.clickPOExpand(request.getReqPONumber());
+
+        // then include all po items and click Add
+        browser.clickWhenAvailable(invoice.itemsPOIncludeAllCheck);
+        browser.clickWhenAvailable(invoice.itemsAddPOItemsButton);
+
+        // back on the main invoice page, invoice one item, add comments and go to next step
+        browser.sendKeysWhenAvailable(invoice.itemsInvoiceQtyEdit, resource.getValue("invoice_qty"));
+        browser.sendKeysWhenAvailable(invoice.itemsCommentEdit, resource.getValue("invoice_comment"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightEdit, resource.getValue("invoice_freight"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, resource.getValue("invoice_freightcomment"));
+        browser.clickWhenAvailable(invoice.NextButton);
+
+        // keep going after reaching the Attachments tab (future expanded test)
+        browser.clickWhenAvailable(invoice.NextButton);
+
+        // Click Match All for items we invoiced, then go to summary page
+        browser.clickWhenAvailable(invoice.matchMatchAllButton);
+        browser.clickWhenAvailable(invoice.matchNextButton);
+
+        // Verify info on summary page and submit invoice
+        Assert.assertTrue("Verify Buyer Invoice #", invoice.summaryHeadDetails.getText().contains(request.getBuyerInvoiceNumber()));
+
+        browser.clickWhenAvailable(invoice.summarySubmitInvoice);
+
+        browser.Log("Invoice " + request.getBuyerInvoiceNumber() + " created.");
+
+        navbar.logout();
+        browser.close();
+    }
+
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     private void navigateToPO(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewOrderPOM view) {
@@ -291,5 +370,6 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
         browser.clickWhenAvailable(view.filterSubmitButton);
     }
+
 }
 
