@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.SolicitationBidboardPOM;
 import pageobjects.buyer.sol.BuyerAwardSolicitationPOM;
@@ -59,7 +58,7 @@ public class SolicitationFlowTest {
 
         // log in and go to list of current solicitations
         login.loginAsUser(browser.supplierUsername, browser.supplierPassword);
-        navbar.selectNavSolItemByBuyer("Perfect City", "Current");
+        navbar.selectNavSolItemByBuyer(browser.buyerName, "Current");
 
         // Filter list, using our sol number from previous test
         browser.waitForElementToAppear(sol.viewBidNumberFilterEdit);
@@ -150,7 +149,7 @@ public class SolicitationFlowTest {
 
     }
 
-    @Test(dependsOnMethods = {"VendorBidOnSolTest"})
+    @Test(enabled = true, dependsOnMethods = {"VendorBidOnSolTest"})
     @TestRailReference(id = 3610)
     public void AwardSolTest(ITestContext testContext) {
 

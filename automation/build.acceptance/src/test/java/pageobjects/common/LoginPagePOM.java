@@ -11,10 +11,6 @@ public class LoginPagePOM {
 
     private Browser browser;
 
-    /**
-     * Constructor called by PageFactory.instantiatePage
-     * @param browser WebDriver (as required by PageFactory) will be cast back to Browser.
-     */
     public LoginPagePOM(WebDriver browser) {
         this.browser = (Browser) browser;
         PageFactory.initElements(((Browser) browser).driver, this);
@@ -66,9 +62,34 @@ public class LoginPagePOM {
     @FindBy(xpath = "(//img[@src='/images/registration/arrow_decline.gif'])[1]")
     public WebElement vendorDeclineTermsButton;
 
+    @FindBy(xpath="//footer[@id='footerRow']")  // both buyer an supplier have the same footer
+    public WebElement homePageFooter;
+
+
+
+    //////////////////////////////////////////////////////////////////////// "WHAT'S NEW" FEATURE
+
+    @FindBy(xpath="//div[contains(@class,'modal-body')]")
+    public WebElement whatsnewModal;
+
+    @FindBy(xpath="//input[@id='featureShowCheckbox']")
+    public WebElement whatsnewShowAtLoginCheckbox;
+
     @FindBy(xpath="//button[contains(@onclick,'closeFeaturePopup')]")
-    public WebElement vendorWhatsNewButton;
-    
+    public WebElement whatsnewGotItButton;
+
+    private void checkWhatsNew() {
+
+        browser.waitForElementToAppear(homePageFooter);
+        browser.waitForElementToBeClickable(whatsnewGotItButton, (long)3);
+
+        // If that ridiculous "What's New" modal shows up, check box and close
+        if (browser.elementExists(whatsnewGotItButton)) {
+            browser.clickWhenAvailable(whatsnewShowAtLoginCheckbox);
+            browser.clickWhenAvailable(whatsnewGotItButton);
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     public void setUsername(String str) {
@@ -104,12 +125,10 @@ public class LoginPagePOM {
         setUsername(username);
         setPassword(password);
         clickOnLogin();
+        checkWhatsNew();
+
         browser.waitForPageLoad();
 
-        // handle if you're a vendor and get that ridiculous "What's New" overlay
-        if (browser.elementExists(vendorWhatsNewButton)) {
-            browser.clickWhenAvailable(vendorWhatsNewButton);
-        }
     }
 
     public void loginAsBuyer() {
