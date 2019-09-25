@@ -36,6 +36,7 @@ public class Browser implements WebDriver {
     public String buyerTimeZone = environment.getValue("buyerTimeZone");
     public String supplierUsername = environment.getValue("supplierUsername");
     public String supplierPassword = environment.getValue("supplierPassword");
+    public String buyerName = environment.getValue("buyerCompanyName");
 
     private String reportBuffer = "";
 

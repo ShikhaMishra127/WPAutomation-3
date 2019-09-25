@@ -1,5 +1,6 @@
 package testcases.vendor.contract;
 
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.vendor.common.VendorNavBarPOM;
@@ -16,18 +17,21 @@ public class ViewCurrentTest {
     VendorContractViewPOM ctNavBar;
 
     @BeforeClass
-    public void setup() {
-        browser = new Browser();
+    public void setup(ITestContext testContext) {
+        browser = new Browser(testContext);
         login = new LoginPagePOM(browser);
         navbar = new VendorNavBarPOM(browser);
         ctNavBar = new VendorContractViewPOM(browser);
 
         // before starting our tests, first log into the system as a vendor
         browser.getDriver().get(browser.baseUrl);
-        login.loginAsUser("autosupplier", "Automation123!");
+        login.loginAsUser(browser.supplierUsername, browser.supplierPassword);
     }
     @Test()
     public void viewCurrentContracts() {
-        ctNavBar.selectNavContractByBuyer("Perfect City", "View Contracts");
+        ctNavBar.selectNavContractByBuyer(browser.buyerName, "View Contracts");
+
+        navbar.vendorLogout();
+        browser.close();
     }
 }

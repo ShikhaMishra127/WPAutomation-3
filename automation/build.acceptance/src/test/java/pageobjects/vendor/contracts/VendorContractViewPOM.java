@@ -3,11 +3,10 @@ package pageobjects.vendor.contracts;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import utilities.common.Browser;
-import org.openqa.selenium.support.PageFactory;
-import utilities.common.ResourceLoader;
-import pageobjects.vendor.common.VendorNavBarPOM;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 
 
 public class VendorContractViewPOM {
@@ -29,8 +28,6 @@ public class VendorContractViewPOM {
         menulink.findElement(By.xpath("./following-sibling::*/a[contains(text(),'"+ subitem +"')]")).click();
 
     }
-
-    String contractNumber = resource.getValue("contract_number");
 
     @FindBy(xpath ="//span[@id='select2-deptfilter-container']")
     public WebElement ctDepartmentList;
