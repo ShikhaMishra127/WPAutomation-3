@@ -170,7 +170,7 @@ public class Browser implements WebDriver {
 
     public void waitForElementToAppear(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOf(element));
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitForElementToAppear(By locator) {
