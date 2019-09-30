@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.buyer.invoice.NewInvoicePOM;
+import pageobjects.buyer.invoice.ViewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
@@ -44,10 +44,12 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        request = creator.CreateRequest(browser, resource);
+        //request = creator.CreateRequest(browser, resource);
+        request.setBuyerInvoiceNumber("IAU0000154");
+        browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -79,7 +81,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -125,7 +127,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -165,7 +167,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -197,8 +199,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-
-    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
@@ -231,7 +232,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
@@ -263,8 +264,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-
-    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3601)
     public void CreateInvoiceTest(ITestContext testContext) {
 
@@ -339,6 +339,28 @@ public class ReqFlowTest {
 
         navbar.logout();
         browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+//    @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
+    @TestRailReference(id = 3601)
+    public void ViewInvoiceTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewInvoicePOM invoice = new ViewInvoicePOM(browser);
+
+        // go to default URL and log in as a buyer
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Invoices > Create New
+        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), "View All");
+
+        browser.sendKeysWhenAvailable(invoice.mainBuyerInvoiceNumberFilterEdit, request.getBuyerInvoiceNumber());
+        browser.clickWhenAvailable(invoice.mainApplyFilterButton);
+
     }
 
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
