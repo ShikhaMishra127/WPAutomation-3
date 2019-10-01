@@ -2,6 +2,7 @@ package testcases.buyer.req;
 
 import framework.Request;
 import junit.framework.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
@@ -39,6 +40,8 @@ public class ReqFlowTest {
     }
 
     @Test
+
+
     @TestRailReference(id = 3597)
     public void CreateRequestTest(ITestContext testContext) {
 
@@ -304,10 +307,11 @@ public class ReqFlowTest {
         // Look up target PO from the list of available POs for supplier
         browser.clickWhenAvailable(invoice.itemsPOSearchButton);
         browser.waitForPageLoad();
-        browser.switchToFrame(invoice.itemsIFrame);
 
         // wait for the PO search page to load. Apparently this is a big problem
         browser.waitForElementToBeClickable(invoice.itemsLookupOrderNumberEdit,(long)5);
+        browser.switchToFrame(invoice.itemsIFrame);
+        browser.waitForPageLoad();
 
         // enter target PO and click Search
         browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
