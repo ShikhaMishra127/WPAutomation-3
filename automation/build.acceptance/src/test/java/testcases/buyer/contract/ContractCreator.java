@@ -105,7 +105,7 @@ public class ContractCreator {
         commodity.commodityCloseButton.click();
 
         // Add contractor
-        browser.ClickWhenClickable(contract.headerContractorSearchButton);
+        browser.clickWhenAvailable(contract.headerContractorSearchButton);
 
         // set focus to pop-up
         String parentWindow = browser.driver.getWindowHandle();
@@ -115,7 +115,7 @@ public class ContractCreator {
 
         contract.headerSupplierSearchEdit.sendKeys(newcontract.getContractSupplier());
         contract.headerSupplierSearchButton.click();
-        browser.ClickWhenClickable(contract.headerSupplierSearchCheck);
+        browser.clickWhenAvailable(contract.headerSupplierSearchCheck);
 
         // switch focus back to main window
         browser.switchTo().window(parentWindow);
@@ -142,19 +142,19 @@ public class ContractCreator {
         newcontract.setContractDateExpiration(endDate);
         newcontract.setContractDateProjected(endDate);
 
-        browser.ClickWhenClickable(contract.nextStepButton);
+        browser.clickWhenAvailable(contract.nextStepButton);
     }
 
     private void notificationStep() {
-        browser.ClickWhenClickable(contract.nextStepButton);
+        browser.clickWhenAvailable(contract.nextStepButton);
     }
 
     private void clausesStep() {
-        browser.ClickWhenClickable(contract.clausesNextButton);
+        browser.clickWhenAvailable(contract.clausesNextButton);
     }
 
     private void catalogItemsStep() {
-        browser.ClickWhenClickable(contract.nextStepButton);
+        browser.clickWhenAvailable(contract.nextStepButton);
     }
 
     private void documentsStep() {
@@ -174,7 +174,7 @@ public class ContractCreator {
 
         contract.setFileVisibility(resource.getValue("contract_attachments"));
 
-        browser.ClickWhenClickable(contract.nextStepButton);
+        browser.clickWhenAvailable(contract.nextStepButton);
     }
 
     private void authorizationStep() {
@@ -186,7 +186,7 @@ public class ContractCreator {
         //browser.clickWhenAvailable(contract.authSelectAllOrgsButton);
 
         // click 'Finished'
-        browser.ClickWhenClickable(contract.authFinishedButton);
+        browser.clickWhenAvailable(contract.authFinishedButton);
     }
 
     private void summaryStep() {

@@ -24,6 +24,7 @@ import java.util.Map;
 
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
+import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 
 public class ReqFlowTest {
 
@@ -44,12 +45,10 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        //request = creator.CreateRequest(browser, resource);
-        request.setBuyerInvoiceNumber("IAU0000154");
-        browser.close();
+        request = creator.CreateRequest(browser, resource);
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -199,7 +198,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ViewRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
@@ -264,7 +263,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3601)
     public void CreateInvoiceTest(ITestContext testContext) {
 
@@ -304,8 +303,13 @@ public class ReqFlowTest {
 
         // Look up target PO from the list of available POs for supplier
         browser.clickWhenAvailable(invoice.itemsPOSearchButton);
+        browser.waitForPageLoad();
         browser.switchToFrame(invoice.itemsIFrame);
 
+        // wait for the PO search page to load. Apparently this is a big problem
+        browser.waitForElementToBeClickable(invoice.itemsLookupOrderNumberEdit,(long)5);
+
+        // enter target PO and click Search
         browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
         browser.clickWhenAvailable(invoice.itemsLookupSearchButton);
 
@@ -341,25 +345,37 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-//    @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
     @TestRailReference(id = 3601)
     public void ViewInvoiceTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
         BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
-        ViewInvoicePOM invoice = new ViewInvoicePOM(browser);
+        ViewInvoicePOM view = new ViewInvoicePOM(browser);
 
         // go to default URL and log in as a buyer
         browser.getDriver().get(browser.baseUrl);
         login.loginAsBuyer();
 
-        // Go to Invoices > Create New
-        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), "View All");
+        // Go to Invoices > View All
+        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), resource.getValue("navbar_viewinv"));
 
-        browser.sendKeysWhenAvailable(invoice.mainBuyerInvoiceNumberFilterEdit, request.getBuyerInvoiceNumber());
-        browser.clickWhenAvailable(invoice.mainApplyFilterButton);
+        // Look up the target invoice
+        browser.sendKeysWhenAvailable(view.mainBuyerInvoiceNumberFilterEdit, request.getBuyerInvoiceNumber());
+        browser.clickWhenAvailable(view.mainApplyFilterButton);
+
+        // Click the down-arrow on the target invoice to bring up details
+        Map<ViewInvoicePOM.InvListColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
+        browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
+
+        // Verify PO associated with invoice exists
+        Assert.assertTrue("Verify PO attached to Invoice", view.ExpandedPOExists(request.getReqPONumber()));
+
+        browser.Log("PO " + request.getReqPONumber() + " attached to invoice " + request.getBuyerInvoiceNumber() + ".");
+
+        navbar.logout();
+        browser.close();
 
     }
 
