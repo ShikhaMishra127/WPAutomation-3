@@ -89,8 +89,14 @@ public class NewInvoicePOM {
     public WebElement itemsAddPOItemsButton;
 
     public void clickPOExpand(String poNumber) {
-        String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + poNumber + "')]/parent::*/preceding-sibling::*";
-        browser.clickWhenAvailable(By.xpath(arrowxpath));
+
+        // TEMPORARY! DELETE ME. sleep for a little - we need to wait for onclick event handler to be loaded before clicking icon
+        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + poNumber + "')]/parent::*/preceding-sibling::*//i[contains(@class,'hand-pointer')]";
+        WebElement element = browser.driver.findElement(By.xpath(arrowxpath));
+
+        browser.clickWhenAvailable(element);
     }
 
     ////////// Invoice items main page (post PO selection)

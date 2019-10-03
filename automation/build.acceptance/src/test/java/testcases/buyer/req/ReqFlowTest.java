@@ -2,7 +2,6 @@ package testcases.buyer.req;
 
 import framework.Request;
 import junit.framework.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
@@ -23,9 +22,9 @@ import utilities.common.TestRailReference;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
-import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 
 public class ReqFlowTest {
 
@@ -129,7 +128,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -169,7 +168,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -234,7 +233,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
