@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pageobjects.buyer.approval.ApprovalInboxPOM;
 import pageobjects.buyer.invoice.NewInvoicePOM;
 import pageobjects.buyer.invoice.ViewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
@@ -39,8 +40,6 @@ public class ReqFlowTest {
     }
 
     @Test
-
-
     @TestRailReference(id = 3597)
     public void CreateRequestTest(ITestContext testContext) {
 
@@ -50,7 +49,41 @@ public class ReqFlowTest {
         request = creator.CreateRequest(browser, resource);
     }
 
+
     @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @TestRailReference(id = 3600)
+    public void ApproveRequestTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ApprovalInboxPOM inbox = new ApprovalInboxPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        login.loginAsApprover();
+
+        // Go to Approval > Approval Inbox
+        navbar.selectDropDownItem(resource.getValue("navbar_approval"), resource.getValue("navbar_inbox"));
+
+        // Look up document type "Request"
+        new Select(inbox.documentTypeDrop).selectByVisibleText(resource.getValue("inbox_doctype"));
+
+        // Enter req number and click Search
+        browser.sendKeysWhenAvailable(inbox.documentNumberEdit, request.getReqNumber());
+        browser.clickWhenAvailable(inbox.submitButton);
+
+        // Enter comment and click Approve
+       browser.sendKeysWhenAvailable(inbox.reqApprovalComment, resource.getValue("inbox_approval_comment"));
+       browser.clickWhenAvailable(inbox.approveButton);
+
+       browser.Log(request.getReqName() + " approved in workflow");
+
+        navbar.logout();
+        browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"ApproveRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -70,6 +103,7 @@ public class ReqFlowTest {
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
         browser.waitForElementToAppear(view.riPONumber);
+
         request.setReqPONumber(view.riPONumber.getText().trim());  // PO number has a trailing space, dammit!
 
         // make sure total cost is ok
@@ -200,7 +234,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"}) // ViewRequestTest records the PO number we need to receive
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
