@@ -98,6 +98,12 @@ public class ReqCreator {
 
         // click "Add" button to add item to req
         browser.clickWhenAvailable(req.ocAddItemButton);
+
+        // now wait for line item to be added to req before continuing to Review tab
+        browser.driver.switchTo().defaultContent();
+        browser.switchToFrame(req.footerIFrame);
+        browser.waitForElementToAppear(req.reqNameEdit);
+        browser.waitForElementToContainText(req.footerItemCount, "1");
     }
 
     private void reviewSubmitReq() {

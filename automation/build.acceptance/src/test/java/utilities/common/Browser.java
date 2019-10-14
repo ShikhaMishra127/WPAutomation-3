@@ -37,6 +37,8 @@ public class Browser implements WebDriver {
     public String supplierUsername = environment.getValue("supplierUsername");
     public String supplierPassword = environment.getValue("supplierPassword");
     public String buyerName = environment.getValue("buyerCompanyName");
+    public String approverUsername = environment.getValue("approverUsername");
+    public String approverPassword = environment.getValue("approverPassword");
 
     private String reportBuffer = "";
 
@@ -151,6 +153,10 @@ public class Browser implements WebDriver {
         new Select(ele).selectByVisibleText(value);
     }
 
+    public void waitForElementToDisappear(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.invisibilityOf(element));
+    }
     public void waitForElementToDisappear(By id) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.invisibilityOfElementLocated(id));

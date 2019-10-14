@@ -135,4 +135,8 @@ public class LoginPagePOM {
         loginAsUser(browser.buyerUsername, browser.buyerPassword);
     }
 
+    public void loginAsApprover() {
+        loginAsUser(browser.approverUsername, browser.approverPassword);
+    }
+
 }
