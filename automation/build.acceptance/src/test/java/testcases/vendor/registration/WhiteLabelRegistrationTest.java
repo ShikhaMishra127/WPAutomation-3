@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
@@ -12,7 +11,6 @@ import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRailListener;
 import utilities.common.UniqueID;
 
 public class WhiteLabelRegistrationTest {
@@ -139,13 +137,13 @@ public class WhiteLabelRegistrationTest {
         reg.orgZipEdit.sendKeys(resource.getValue("vendor_zip"));
         new Select(reg.orgBusinessTypeDrop).selectByVisibleText(resource.getValue("vendor_wl_business_type"));
 
-        browser.ClickWhenClickable(reg.orgValidateAddressLink);
+        browser.clickWhenAvailable(reg.orgValidateAddressLink);
 
-        browser.ClickWhenClickable(reg.orgDiversitySectionRadio);
-        browser.ClickWhenClickable(reg.orgDiversityWbeRadio);
-        browser.ClickWhenClickable(reg.orgDiversityDbeCheckbox);
+        browser.clickWhenAvailable(reg.orgDiversitySectionRadio);
+        browser.clickWhenAvailable(reg.orgDiversityWbeRadio);
+        browser.clickWhenAvailable(reg.orgDiversityDbeCheckbox);
 
-        browser.ClickWhenClickable(reg.orgEmergencySectionRadio);
+        browser.clickWhenAvailable(reg.orgEmergencySectionRadio);
 
         reg.orgEmergencyNameEdit.sendKeys(resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
         reg.orgEmergencyEmailEdit.sendKeys(resource.getValue("vendor_email"));
@@ -187,7 +185,7 @@ public class WhiteLabelRegistrationTest {
         browser.waitForElementToAppear(reg.paymentInfoTitle);
         Assert.assertTrue("Payment Type banner OK", reg.paymentInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_pay")));
 
-        browser.ClickWhenClickable(reg.nextButton);
+        browser.clickWhenAvailable(reg.nextButton);
 
     }
 

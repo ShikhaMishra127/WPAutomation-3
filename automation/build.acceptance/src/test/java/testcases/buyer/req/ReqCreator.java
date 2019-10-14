@@ -97,7 +97,7 @@ public class ReqCreator {
         }
 
         // click "Add" button to add item to req
-        browser.ClickWhenClickable(req.ocAddItemButton);
+        browser.clickWhenAvailable(req.ocAddItemButton);
     }
 
     private void reviewSubmitReq() {

@@ -99,6 +99,12 @@ public class Browser implements WebDriver {
 
     public void ClearLog() { reportBuffer = ""; }
 
+    public void ScrollElementIntoView(WebElement element) {
+        // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
+        // try to get element to scroll into view
+        InjectJavaScript("arguments[0].scrollIntoView()", element);
+    }
+
     public void waitForElementToBeClickable(WebElement element) {
         waitForElementToBeClickable(element, defaultWait);
     }
@@ -113,17 +119,19 @@ public class Browser implements WebDriver {
             waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
             waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
 
-            // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
             // try to get element to scroll into view before we can click
-            InjectJavaScript("arguments[0].scrollIntoView()", ele);
+            ScrollElementIntoView(ele);
+            highlightElement(ele);
+
         } catch (TimeoutException e) { }
     }
 
-    public void switchToDefaultWindow() {
-		driver.switchTo().defaultContent();
-	}
+    private void highlightElement(WebElement element) {
+        InjectJavaScript("arguments[0].setAttribute('style', arguments[1]);",element, "color: red; border: 2px solid red;");
+    }
 
     public void waitForPageLoad() {
+
         ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver driver) {
                 return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
@@ -131,7 +139,6 @@ public class Browser implements WebDriver {
         };
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(pageLoadCondition);
-
     }
 
     public void switchToFrame(WebElement frame) {
@@ -163,11 +170,6 @@ public class Browser implements WebDriver {
         }
     }
 
-    public void WaitTillElementIsPresent(WebElement retainkeyinfo) {
-        // TODO Auto-generated method stub
-
-    }
-
     public void waitForElementToAppear(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOf(element));
@@ -189,9 +191,7 @@ public class Browser implements WebDriver {
 
         WebElement element = driver.findElement(locator);
 
-        // try to get element to scroll into view before we can click
-        InjectJavaScript("arguments[0].scrollIntoView()", element);
-
+        ScrollElementIntoView(element);
         element.click();
     }
 
@@ -231,8 +231,7 @@ public class Browser implements WebDriver {
      */
     public void sendKeysWhenAvailable(WebElement element,  String keystrokes) {
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOf(element));
+        waitForElementToAppear(element);
 
         // clear out existing value and type in new value
         element.clear();
@@ -370,12 +369,6 @@ public class Browser implements WebDriver {
         if (!element.isSelected()) {
             element.click();
         }
-    }
-    
-    public void ClickWhenClickable(WebElement element) {
-        waitForElementToBeClickable(element);
-        waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
-        element.click();
     }
 
     public void waitForPopUpToOpen()

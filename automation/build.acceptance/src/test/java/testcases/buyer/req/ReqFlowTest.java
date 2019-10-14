@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.buyer.invoice.NewInvoicePOM;
+import pageobjects.buyer.invoice.ViewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
@@ -22,6 +22,7 @@ import utilities.common.TestRailReference;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 
@@ -38,6 +39,8 @@ public class ReqFlowTest {
     }
 
     @Test
+
+
     @TestRailReference(id = 3597)
     public void CreateRequestTest(ITestContext testContext) {
 
@@ -79,7 +82,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -197,7 +200,6 @@ public class ReqFlowTest {
         browser.close();
     }
 
-
     @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"})
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
@@ -263,7 +265,6 @@ public class ReqFlowTest {
         browser.close();
     }
 
-
     @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3601)
     public void CreateInvoiceTest(ITestContext testContext) {
@@ -304,8 +305,14 @@ public class ReqFlowTest {
 
         // Look up target PO from the list of available POs for supplier
         browser.clickWhenAvailable(invoice.itemsPOSearchButton);
-        browser.switchToFrame(invoice.itemsIFrame);
+        browser.waitForPageLoad();
 
+        // wait for the PO search page to load. Apparently this is a big problem
+        browser.waitForElementToBeClickable(invoice.itemsLookupOrderNumberEdit,(long)5);
+        browser.switchToFrame(invoice.itemsIFrame);
+        browser.waitForPageLoad();
+
+        // enter target PO and click Search
         browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
         browser.clickWhenAvailable(invoice.itemsLookupSearchButton);
 
@@ -339,6 +346,40 @@ public class ReqFlowTest {
 
         navbar.logout();
         browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
+    @TestRailReference(id = 3601)
+    public void ViewInvoiceTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewInvoicePOM view = new ViewInvoicePOM(browser);
+
+        // go to default URL and log in as a buyer
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Invoices > View All
+        navbar.selectDropDownItem(resource.getValue("navbar_invheaditem"), resource.getValue("navbar_viewinv"));
+
+        // Look up the target invoice
+        browser.sendKeysWhenAvailable(view.mainBuyerInvoiceNumberFilterEdit, request.getBuyerInvoiceNumber());
+        browser.clickWhenAvailable(view.mainApplyFilterButton);
+
+        // Click the down-arrow on the target invoice to bring up details
+        Map<ViewInvoicePOM.InvListColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
+        browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
+
+        // Verify PO associated with invoice exists
+        Assert.assertTrue("Verify PO attached to Invoice", view.ExpandedPOExists(request.getReqPONumber()));
+
+        browser.Log("PO " + request.getReqPONumber() + " attached to invoice " + request.getBuyerInvoiceNumber() + ".");
+
+        navbar.logout();
+        browser.close();
+
     }
 
     //////////////////////////////////////////////////////////////////////// HELPER METHODS
