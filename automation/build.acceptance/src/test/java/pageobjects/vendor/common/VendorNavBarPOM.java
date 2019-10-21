@@ -35,36 +35,23 @@ public class VendorNavBarPOM {
         WebElement item = topUserList.findElement(By.xpath(itemXPath));
 
         // click on the user menu item
-        topUsername.click();  // click on user's name to drop list
-        item.click();
+        browser.clickWhenAvailable(topUsername);  // click on user's name to drop list
+        browser.clickWhenAvailable(item);
     }
 
-    public void selectNavDropDownItem(String headerItem, String subItem) {
+    // selects list item by buyer company name (ex. "Perfect City", "Solicitations", "Current Solicitations")
+    public void selectNavDropByBuyer(String buyername, String item, String subitem) {
 
-        String headerXPath = "//ul[contains(@class,'navbar-left')]//*[@title='" + headerItem + "']";
-        String subItemXPath = headerXPath + "/following-sibling::*//*[@title='" + subItem + "']";
+        WebElement header = topNav.findElement(By.xpath("//a[@title='"+ item +"']"));
+        browser.clickWhenAvailable(header);
 
-        // click on the nav bar header item
-        WebElement header = topNav.findElement(By.xpath(headerXPath));
-        header.click();
+        WebElement buyerheader = topNav.findElement(By.xpath("//li[@class='dropdown open']//li[contains(text(),'"+ buyername +"')]"));
+        String actiontoclick = "./following-sibling::*/a[contains(text(),'"+ subitem +"')]";
 
-        // click on the sub-item below the header item
-        WebElement sub = header.findElement(By.xpath(subItemXPath));
-        sub.click();
+        browser.clickSubElement(buyerheader, actiontoclick);
 
         // Wait for the page to load before leaving
         browser.waitForPageLoad();
-    }
-
-    // Specifically for Solicitation menu item - selects list item by buyer company name (ex. "Perfect City", "Current Solicitations")
-    public void selectNavSolItemByBuyer(String buyername, String subitem) {
-
-        WebElement header = topNav.findElement(By.xpath("//ul[contains(@class,'navbar-left')]//*[@title='Solicitations']"));
-        browser.clickWhenAvailable(header);
-
-        WebElement menulink = topNav.findElement(By.xpath("//li[@class='dropdown open']//li[contains(text(),'"+ buyername +"')]"));
-        menulink.findElement(By.xpath("./following-sibling::*/a[contains(text(),'"+ subitem +"')]")).click();
-
     }
 
     public void vendorLogout() {

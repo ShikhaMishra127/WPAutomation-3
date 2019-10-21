@@ -4,7 +4,7 @@ import framework.Contract;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import pageobjects.buyer.contract.NewContractPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;

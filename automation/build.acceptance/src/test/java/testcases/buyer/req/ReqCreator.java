@@ -3,7 +3,7 @@ package testcases.buyer.req;
 import framework.Request;
 import org.openqa.selenium.support.ui.Select;
 import pageobjects.buyer.req.NewReqPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;

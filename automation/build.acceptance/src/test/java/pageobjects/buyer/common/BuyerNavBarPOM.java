@@ -1,4 +1,4 @@
-package pageobjects.common;
+package pageobjects.buyer.common;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
