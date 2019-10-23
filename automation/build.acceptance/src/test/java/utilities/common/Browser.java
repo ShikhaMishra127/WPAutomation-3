@@ -437,21 +437,19 @@ public class Browser implements WebDriver {
         return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
 
-    public Map<HTMLTableColumn, WebElement> buildTableMap(String rowXPath, String columnXPathPrefix,
-                                                                  String columnXpathSuffix, HTMLTableColumn[] columns) {
-        return buildTableMap(null, rowXPath, columnXPathPrefix, columnXpathSuffix, columns);
+    public Map<HTMLTableColumn, WebElement> buildTableMap(String rowXPath, HTMLTableColumn[] columns) {
+        return buildTableMap(null, rowXPath, columns);
     }
 
     public Map<HTMLTableColumn, WebElement> buildTableMap(WebElement baseElement, String rowXPath,
-                                                                  String columnXPathPrefix, String columnXpathSuffix,
-                                                                  HTMLTableColumn[] columns) {
+                                                          HTMLTableColumn[] columns) {
         this.waitForElementToAppear(By.xpath(rowXPath));
         HashMap<HTMLTableColumn, WebElement> elements = new HashMap<>();
 
         // build a list of WebElements that reference each column (name, number, status, etc)
         for (int i = 1; i < columns.length; i++) {
             //build the column xpath
-            String columnxpath = rowXPath + columnXPathPrefix + String.valueOf(i) +  columnXpathSuffix;
+            String columnxpath = rowXPath + "/td[" + String.valueOf(i) + "]";
             this.waitForElementToAppear(By.xpath(columnxpath));
             //Check if a base Element was passed or if we are only searching by xpath.
             if(baseElement != null) {

@@ -69,8 +69,6 @@ public class ViewInvoicePOM {
 
     public Map<Browser.HTMLTableColumn, WebElement> getElementsForInvLine(String invnumber) {
         String rowXPath = "//td[contains(text(),'" + invnumber + "')]/parent::*";
-        String columnXPathPrefix = "/td[";
-        String columnXPathSuffix = "]";
-        return browser.buildTableMap(invTable, rowXPath, columnXPathPrefix, columnXPathSuffix, InvListColumn.values());
+        return browser.buildTableMap(invTable, rowXPath, InvListColumn.values());
     }
 }
