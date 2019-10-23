@@ -119,6 +119,7 @@ public class Browser implements WebDriver {
             // if overlay is there, wait for it to leave before continuing
             waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
             waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
+            waitForElementToDisappear(By.xpath("//div[contains(@id,'cboxOverlay')]"));
 
             // try to get element to scroll into view before we can click
             ScrollElementIntoView(ele);

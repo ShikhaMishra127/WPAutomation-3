@@ -28,6 +28,7 @@ import java.util.Map;
 import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
+import static pageobjects.vendor.orders.VendorOrderViewPOM.VendorPOListColumn;
 
 public class ReqFlowTest {
 
@@ -49,7 +50,7 @@ public class ReqFlowTest {
         ReqCreator creator = new ReqCreator();
 
         //request = creator.CreateRequest(browser, resource);
-        request.setReqPONumber("PPRE2000065");
+        request.setReqPONumber("PPRE2000069");
         browser.close();
     }
 
@@ -427,7 +428,7 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
         VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
-        VendorOrderViewPOM popage = new VendorOrderViewPOM(browser);
+        VendorOrderViewPOM vendorpo = new VendorOrderViewPOM(browser);
 
         // go to default URL and log in as a supplier
         browser.getDriver().get(browser.baseUrl);
@@ -435,14 +436,39 @@ public class ReqFlowTest {
 
         navbar.selectNavDropByBuyer("Perfect City", "Purchase Orders", "View Orders");
 
-        browser.sendKeysWhenAvailable(popage.orderNumberEdit, request.getReqPONumber());
-        browser.clickWhenAvailable(popage.orderFilterListButton);
+        // look up target PO and click on PO Number to get a summary page
+        browser.sendKeysWhenAvailable(vendorpo.orderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(vendorpo.orderFilterListButton);
 
-        Map<VendorOrderViewPOM.POListColumn, WebElement> poLine = popage.getElementsForPOLine(request.getReqPONumber());
+        Map<Browser.HTMLTableColumn, WebElement> poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
 
-        System.out.println("STATUS is " + poLine.get(VendorOrderViewPOM.POListColumn.STATUS).getText());
-        browser.clickSubElement(poLine.get(VendorOrderViewPOM.POListColumn.NUMBER), "./a");
+        browser.clickSubElement(poLine.get(VendorPOListColumn.NUMBER), "./a");
 
+        // verify PO summary is the one we're looking for
+        browser.waitForElementToAppear(vendorpo.summaryOrderTitle);
+        Assert.assertTrue("Verify PO title matches", vendorpo.summaryOrderTitle.getText().contains(request.getReqPONumber()));
+
+        // click Acknowledge button, fill in comments and submit
+        browser.clickWhenAvailable(vendorpo.summaryAcknowledgeButton);
+        browser.sendKeysWhenAvailable(vendorpo.summaryCommentsEdit, "Here is a bunch of text to represent adding comments " +
+                "to the acknowledgement. So there.");
+        vendorpo.summaryCommentsContinueButton.click();
+        browser.clickWhenAvailable(vendorpo.orderCloseButton);
+
+        // look up order again and verify status has changed to "ACKNOWLEDGED"
+        browser.sendKeysWhenAvailable(vendorpo.orderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(vendorpo.orderFilterListButton);
+
+        poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
+        System.out.println("STATUS is " + poLine.get(VendorPOListColumn.STATUS).getText());
+
+        Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
+                poLine.get(VendorPOListColumn.STATUS).getText().contains("ACKNOWLEDGED"));
+
+        browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
+        
+        navbar.vendorLogout();
+        browser.close();
     }
 
 
