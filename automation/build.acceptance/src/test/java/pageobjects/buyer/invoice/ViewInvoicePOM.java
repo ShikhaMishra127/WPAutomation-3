@@ -65,27 +65,12 @@ public class ViewInvoicePOM {
     }
 
 
-    public enum InvListColumn { BOGUS, EXPAND, ORG, BUYERNUM, SUPPLIERNUM, TOTAL, POSTDATE, SUPPLIER, STATUS, ACTION }
+    public enum InvListColumn implements Browser.HTMLTableColumn { BOGUS, EXPAND, ORG, BUYERNUM, SUPPLIERNUM, TOTAL, POSTDATE, SUPPLIER, STATUS, ACTION }
 
-    public Map<InvListColumn, WebElement> getElementsForInvLine(String invnumber) {
-
-        // Look for our req row in the filtered list of invoices
-        String xpathrow = "//td[contains(text(),'" + invnumber + "')]/parent::*";
-        browser.waitForElementToAppear(By.xpath(xpathrow));
-
-        HashMap<InvListColumn, WebElement> elements = new HashMap<>();
-
-        // build a list of WebElements that reference each column (name, number, status, etc)
-        for (int i = 1; i < ViewReqPOM.ReqListColumn.values().length; i++) {
-
-            String columnxpath = xpathrow + "/td[" + String.valueOf(i) +  "]";
-
-            browser.waitForElementToAppear(By.xpath(columnxpath));
-            elements.put(InvListColumn.values()[i], invTable.findElement(By.xpath(columnxpath)));
-        }
-
-        return elements;
+    public Map<Browser.HTMLTableColumn, WebElement> getElementsForInvLine(String invnumber) {
+        String rowXPath = "//td[contains(text(),'" + invnumber + "')]/parent::*";
+        String columnXPathPrefix = "/td[";
+        String columnXPathSuffix = "]";
+        return browser.buildTableMap(invTable, rowXPath, columnXPathPrefix, columnXPathSuffix, InvListColumn.values());
     }
-
-
 }

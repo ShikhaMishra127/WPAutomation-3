@@ -407,7 +407,7 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(view.mainApplyFilterButton);
 
         // Click the down-arrow on the target invoice to bring up details
-        Map<ViewInvoicePOM.InvListColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
+        Map<Browser.HTMLTableColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
         browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
 
         // Verify PO associated with invoice exists
