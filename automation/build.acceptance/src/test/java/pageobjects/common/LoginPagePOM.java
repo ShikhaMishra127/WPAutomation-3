@@ -88,14 +88,11 @@ public class LoginPagePOM {
             browser.clickWhenAvailable(whatsnewShowAtLoginCheckbox);
             browser.clickWhenAvailable(whatsnewGotItButton);
         }
+
+        browser.waitForPageLoad();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-
-    public void setUsername(String str) {
-        browser.waitForElementToBeClickable(txtUsername);
-        txtUsername.sendKeys(str);
-    }
 
     public void handleCookie() {
         try {
@@ -106,37 +103,20 @@ public class LoginPagePOM {
         }
     }
 
-    public void setPassword(String str) {
-        txtPassword.sendKeys(str);
-    }
-
-    public void clickOnLogin() {
-        btnLogin.click();
-
-    }
-
-    public void clickOnRegisterLink() {
-        browser.waitForElementToBeClickable(lnkRegister);
-        lnkRegister.click();
-    }
-
     public void loginAsUser(String username, String password) {
+
         handleCookie();
-        setUsername(username);
-        setPassword(password);
-        clickOnLogin();
+
+        browser.sendKeysWhenAvailable(txtUsername, username);
+        browser.sendKeysWhenAvailable(txtPassword, password);
+        browser.clickWhenAvailable(btnLogin);
+
         checkWhatsNew();
-
-        browser.waitForPageLoad();
-
     }
 
-    public void loginAsBuyer() {
-        loginAsUser(browser.buyerUsername, browser.buyerPassword);
-    }
-
+    public void loginAsBuyer()    { loginAsUser(browser.buyerUsername,    browser.buyerPassword); }
     public void loginAsApprover() {
         loginAsUser(browser.approverUsername, browser.approverPassword);
     }
-
+    public void loginAsSupplier() { loginAsUser(browser.supplierUsername, browser.supplierPassword); }
 }

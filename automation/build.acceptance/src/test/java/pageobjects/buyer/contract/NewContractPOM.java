@@ -138,7 +138,7 @@ public class NewContractPOM {
 
     ////////// contract document sub-elements
     String attachLineVisibleToContractorCheckbox = "./td/span/label/input[@type='checkbox']";
-    String attachLinePrivateToggle="./td/div/div[@class='bootstrap-switch-container']";
+    String attachLinePrivateToggleCheckbox ="./td/div/div[@class='bootstrap-switch-container']/parent::*";
 
     ////////// helper methods
 
@@ -181,7 +181,7 @@ public class NewContractPOM {
 
             if (!markPrivate) {
                 // click toggle switch
-                browser.clickSubElement(ourline, attachLinePrivateToggle);
+                browser.clickSubElement(ourline, attachLinePrivateToggleCheckbox);
 
             } else if (markVisible) {
                 // click visible to contractor checkbox
