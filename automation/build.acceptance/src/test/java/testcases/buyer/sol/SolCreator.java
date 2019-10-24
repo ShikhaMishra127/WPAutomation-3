@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageobjects.buyer.sol.NewSolicitationPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;

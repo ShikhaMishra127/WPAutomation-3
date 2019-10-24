@@ -4,14 +4,12 @@ import org.junit.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.buyer.report.ExecuteReportPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
-import utilities.common.TestRailListener;
 import utilities.common.TestRailReference;
 
 public class ExecuteReportTest {

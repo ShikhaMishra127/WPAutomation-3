@@ -8,14 +8,16 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.buyer.approval.ApprovalInboxPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.buyer.invoice.NewInvoicePOM;
 import pageobjects.buyer.invoice.ViewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.req.ViewReqPOM;
-import pageobjects.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
+import pageobjects.vendor.common.VendorNavBarPOM;
+import pageobjects.vendor.orders.VendorOrderViewPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.TestRailReference;
@@ -26,6 +28,9 @@ import java.util.Map;
 import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
+import static pageobjects.vendor.orders.VendorOrderViewPOM.VendorPOListColumn;
+
+//@Listeners({TestRailListener.class})
 
 public class ReqFlowTest {
 
@@ -403,7 +408,7 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(view.mainApplyFilterButton);
 
         // Click the down-arrow on the target invoice to bring up details
-        Map<ViewInvoicePOM.InvListColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
+        Map<Browser.HTMLTableColumn, WebElement> invLine = view.getElementsForInvLine(request.getBuyerInvoiceNumber()+"S");
         browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
 
         // Verify PO associated with invoice exists
@@ -416,7 +421,56 @@ public class ReqFlowTest {
 
     }
 
-    //////////////////////////////////////////////////////////////////////// HELPER METHODS
+    @Test(enabled = true, dependsOnMethods = {"ViewOrdersTest"})
+    @TestRailReference(id = 3597)
+    public void VendorViewPO(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
+        VendorOrderViewPOM vendorpo = new VendorOrderViewPOM(browser);
+
+        // go to default URL and log in as a supplier
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsSupplier();
+
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_vendor_po"), resource.getValue("navbar_vendor_view"));
+
+        // look up target PO and click on PO Number to get a summary page
+        browser.sendKeysWhenAvailable(vendorpo.orderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(vendorpo.orderFilterListButton);
+
+        Map<Browser.HTMLTableColumn, WebElement> poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
+
+        browser.clickSubElement(poLine.get(VendorPOListColumn.NUMBER), "./a");
+
+        // verify PO summary is the one we're looking for
+        browser.waitForElementToAppear(vendorpo.summaryOrderTitle);
+        Assert.assertTrue("Verify PO title matches", vendorpo.summaryOrderTitle.getText().contains(request.getReqPONumber()));
+
+        // click Acknowledge button, fill in comments and submit
+        browser.clickWhenAvailable(vendorpo.summaryAcknowledgeButton);
+        browser.sendKeysWhenAvailable(vendorpo.summaryCommentsEdit, resource.getValue("vendor_comment"));
+        vendorpo.summaryCommentsContinueButton.click();
+        browser.clickWhenAvailable(vendorpo.orderCloseButton);
+
+        // look up order again and verify status has changed to "ACKNOWLEDGED"
+        browser.sendKeysWhenAvailable(vendorpo.orderNumberEdit, request.getReqPONumber());
+        browser.clickWhenAvailable(vendorpo.orderFilterListButton);
+
+        poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
+
+        Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
+                poLine.get(VendorPOListColumn.STATUS).getText().contains("ACKNOWLEDGED"));
+
+        browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
+
+        navbar.vendorLogout();
+        browser.close();
+    }
+
+
+        //////////////////////////////////////////////////////////////////////// HELPER METHODS
 
     private void navigateToPO(Browser browser, LoginPagePOM login, BuyerNavBarPOM navbar, ViewOrderPOM view) {
         // go to default URL and log in as a buyer

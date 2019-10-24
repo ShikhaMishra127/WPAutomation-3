@@ -2,6 +2,7 @@ package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -15,9 +16,7 @@ import org.testng.ITestContext;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Browser implements WebDriver {
 
@@ -120,10 +119,10 @@ public class Browser implements WebDriver {
             // if overlay is there, wait for it to leave before continuing
             waitForElementToDisappear(By.xpath("//div[contains(@class,'blockOverlay')]"));
             waitForElementToDisappear(By.xpath("//div[contains(@class,'modal-body')]"));
+            waitForElementToDisappear(By.xpath("//div[contains(@id,'cboxOverlay')]"));
 
             // try to get element to scroll into view before we can click
             ScrollElementIntoView(ele);
-            highlightElement(ele);
 
         } catch (TimeoutException e) { }
     }
@@ -202,7 +201,6 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToContainText(WebElement element, String text) {
-
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
@@ -433,5 +431,31 @@ public class Browser implements WebDriver {
         ZoneId usersTimeZone = ZoneId.of(buyerTimeZone);
         return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
+
+    public Map<HTMLTableColumn, WebElement> buildTableMap(String rowXPath, HTMLTableColumn[] columns) {
+        return buildTableMap(null, rowXPath, columns);
+    }
+
+    public Map<HTMLTableColumn, WebElement> buildTableMap(WebElement baseElement, String rowXPath,
+                                                          HTMLTableColumn[] columns) {
+        this.waitForElementToAppear(By.xpath(rowXPath));
+        HashMap<HTMLTableColumn, WebElement> elements = new HashMap<>();
+
+        // build a list of WebElements that reference each column (name, number, status, etc)
+        for (int i = 1; i < columns.length; i++) {
+            //build the column xpath
+            String columnxpath = rowXPath + "/td[" + String.valueOf(i) + "]";
+            this.waitForElementToAppear(By.xpath(columnxpath));
+            //Check if a base Element was passed or if we are only searching by xpath.
+            if(baseElement != null) {
+                elements.put(columns[i], this.findElement(By.xpath(columnxpath)));
+            } else {
+                elements.put(columns[i], baseElement.findElement(By.xpath(columnxpath)));
+            }
+        }
+        return elements;
+    }
+
+    public interface HTMLTableColumn {}
 
 }

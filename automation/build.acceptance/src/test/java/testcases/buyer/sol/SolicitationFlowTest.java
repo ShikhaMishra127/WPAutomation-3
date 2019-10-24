@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import pageobjects.bidboard.SolicitationBidboardPOM;
 import pageobjects.buyer.sol.BuyerAwardSolicitationPOM;
 import pageobjects.buyer.sol.BuyerViewSolicitationPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
@@ -58,7 +58,7 @@ public class SolicitationFlowTest {
 
         // log in and go to list of current solicitations
         login.loginAsUser(browser.supplierUsername, browser.supplierPassword);
-        navbar.selectNavSolItemByBuyer(browser.buyerName, "Current");
+        navbar.selectNavDropByBuyer(browser.buyerName, "Solicitations","Current");
 
         // Filter list, using our sol number from previous test
         browser.waitForElementToAppear(sol.viewBidNumberFilterEdit);

@@ -4,7 +4,7 @@ import framework.Contract;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import pageobjects.buyer.contract.NewContractPOM;
-import pageobjects.common.BuyerNavBarPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
@@ -79,21 +79,22 @@ public class ContractCreator {
         newcontract.setContractTotalValue(resource.getValue("contract_totalvalue"));
         newcontract.setContractValueFormatted(resource.getValue("contract_totalvalueformatted"));
 
-        contract.headContractTitleEdit.sendKeys(title);
+        browser.sendKeysWhenAvailable(contract.headContractTitleEdit, title);
+//        new Select(contract.headContractTypeDrop).selectByVisibleText(newcontract.getContractType());
+        new Select(contract.headContractTypeDrop).selectByIndex(1);
         new Select(contract.headContractVisibilityDrop).selectByVisibleText(newcontract.getContractVisibility());
-        new Select(contract.headContractTypeDrop).selectByVisibleText(newcontract.getContractType());
 
-        contract.headLongDescEdit.sendKeys(longdesc);
+        browser.sendKeysWhenAvailable(contract.headLongDescEdit, longdesc);
 
         // if a ridiculous pop-up comes up, telling us the contract is public, close it before continuing
         if (browser.elementExists(contract.headPopupCloseButton)) {
             contract.headPopupCloseButton.click();
         }
 
-        contract.headerContractNumber.sendKeys(contractNum.getNumber());
+        browser.sendKeysWhenAvailable(contract.headerContractNumber, contractNum.getNumber());
 
         // Add a list of comma-separated commodity codes to add to contract
-        contract.headerCommoditiesButton.click();
+        browser.clickWhenAvailable(contract.headerCommoditiesButton);
 
         String[] values = resource.getValue("contract_commodities").split(",");
 
@@ -102,7 +103,7 @@ public class ContractCreator {
             commodity.selectCommodityByCode(code);
         }
 
-        commodity.commodityCloseButton.click();
+        browser.clickWhenAvailable(commodity.commodityCloseButton);
 
         // Add contractor
         browser.clickWhenAvailable(contract.headerContractorSearchButton);
@@ -134,7 +135,6 @@ public class ContractCreator {
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerAwardDateEdit, startDate.format(newcontract.inputBoxFormatter) );
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerEffectiveDateEdit, startDate.format(newcontract.inputBoxFormatter) );
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerExpirationDateEdit, endDate.format(newcontract.inputBoxFormatter) );
- // included in 11.3
         browser.InjectJavaScript("arguments[0].value=arguments[1]", contract.headerProjectedDateEdit, endDate.format(newcontract.inputBoxFormatter) );
 
         newcontract.setContractDateAward(startDate);
@@ -167,7 +167,7 @@ public class ContractCreator {
 
         contract.addFilesFromLibrary(resource.getValue("contract_attachments"));
 
-        contract.attachLibSaveButton.click();
+        browser.clickWhenAvailable(contract.attachLibSaveButton);
 
         // switch focus back to main window
         browser.switchTo().window(parentWindow);
