@@ -30,6 +30,8 @@ import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 import static pageobjects.vendor.orders.VendorOrderViewPOM.VendorPOListColumn;
 
+//@Listeners({TestRailListener.class})
+
 public class ReqFlowTest {
 
     Request request;
@@ -49,13 +51,11 @@ public class ReqFlowTest {
         Browser browser = new Browser(testContext);
         ReqCreator creator = new ReqCreator();
 
-        //request = creator.CreateRequest(browser, resource);
-        request.setReqPONumber("PPRE2000069");
-        browser.close();
+        request = creator.CreateRequest(browser, resource);
     }
 
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3600)
     public void ApproveRequestTest(ITestContext testContext) {
 
@@ -88,7 +88,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ApproveRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ApproveRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestTest(ITestContext testContext) {
 
@@ -167,7 +167,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void PrintRequestTest(ITestContext testContext) {
 
@@ -207,7 +207,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3597)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
@@ -239,7 +239,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ViewRequestTest"}) // ViewRequestTest records the PO number we need to receive
+    @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"}) // ViewRequestTest records the PO number we need to receive
     @TestRailReference(id = 3604)
     public void ReceiveOrderTest(ITestContext testContext) {
 
@@ -272,7 +272,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3604)
     public void ViewOrdersTest(ITestContext testContext) {
 
@@ -304,7 +304,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"ReceiveOrderTest"})
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3601)
     public void CreateInvoiceTest(ITestContext testContext) {
 
@@ -387,7 +387,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateInvoiceTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
     @TestRailReference(id = 3601)
     public void ViewInvoiceTest(ITestContext testContext) {
 
@@ -421,7 +421,7 @@ public class ReqFlowTest {
 
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"ViewOrdersTest"})
     @TestRailReference(id = 3597)
     public void VendorViewPO(ITestContext testContext) {
 
@@ -434,7 +434,7 @@ public class ReqFlowTest {
         browser.getDriver().get(browser.baseUrl);
         login.loginAsSupplier();
 
-        navbar.selectNavDropByBuyer("Perfect City", "Purchase Orders", "View Orders");
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_vendor_po"), resource.getValue("navbar_vendor_view"));
 
         // look up target PO and click on PO Number to get a summary page
         browser.sendKeysWhenAvailable(vendorpo.orderNumberEdit, request.getReqPONumber());
@@ -450,8 +450,7 @@ public class ReqFlowTest {
 
         // click Acknowledge button, fill in comments and submit
         browser.clickWhenAvailable(vendorpo.summaryAcknowledgeButton);
-        browser.sendKeysWhenAvailable(vendorpo.summaryCommentsEdit, "Here is a bunch of text to represent adding comments " +
-                "to the acknowledgement. So there.");
+        browser.sendKeysWhenAvailable(vendorpo.summaryCommentsEdit, resource.getValue("vendor_comment"));
         vendorpo.summaryCommentsContinueButton.click();
         browser.clickWhenAvailable(vendorpo.orderCloseButton);
 
@@ -460,13 +459,12 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(vendorpo.orderFilterListButton);
 
         poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
-        System.out.println("STATUS is " + poLine.get(VendorPOListColumn.STATUS).getText());
 
         Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
                 poLine.get(VendorPOListColumn.STATUS).getText().contains("ACKNOWLEDGED"));
 
         browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
-        
+
         navbar.vendorLogout();
         browser.close();
     }

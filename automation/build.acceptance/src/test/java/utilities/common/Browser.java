@@ -123,7 +123,6 @@ public class Browser implements WebDriver {
 
             // try to get element to scroll into view before we can click
             ScrollElementIntoView(ele);
-            highlightElement(ele);
 
         } catch (TimeoutException e) { }
     }
@@ -144,19 +143,16 @@ public class Browser implements WebDriver {
     }
 
     public void switchToFrame(WebElement frame) {
-        highlightElement(frame);
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
 
     public void selectFromDropDownByVisibleText(WebElement ele, String value) {
-        highlightElement(ele);
         waitForElementToBeClickable(ele);
         new Select(ele).selectByVisibleText(value);
     }
 
     public void waitForElementToDisappear(WebElement element) {
-        highlightElement(element);
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.invisibilityOf(element));
     }
@@ -180,7 +176,6 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(WebElement element) {
-        highlightElement(element);
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOf(element));
     }
@@ -206,7 +201,6 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToContainText(WebElement element, String text) {
-        highlightElement(element);
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
