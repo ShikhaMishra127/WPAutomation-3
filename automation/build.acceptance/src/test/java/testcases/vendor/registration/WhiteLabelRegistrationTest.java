@@ -241,8 +241,7 @@ public class WhiteLabelRegistrationTest {
         // If logged in properly, the username should be the top menu item
         browser.waitForElementToAppear(vendor.topNav);
 
-        String FullName = (resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
-        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(FullName));
+        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(vendor_fullname));
 
         browser.Log("Vendor logged into supplier portal.");
 
