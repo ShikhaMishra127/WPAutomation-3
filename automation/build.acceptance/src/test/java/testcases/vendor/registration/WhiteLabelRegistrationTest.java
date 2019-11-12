@@ -11,6 +11,7 @@ import pageobjects.vendor.common.VendorProfileVerificationPOM;
 import pageobjects.vendor.registration.RegWhiteLabelPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
+import utilities.common.TestRailReference;
 import utilities.common.UniqueID;
 
 public class WhiteLabelRegistrationTest {
@@ -22,6 +23,8 @@ public class WhiteLabelRegistrationTest {
     VendorProfileVerificationPOM profile;
     VendorNavBarPOM vendor;
 
+    String vendor_name;
+    String vendor_fullname;
     String vendor_username;
     String vendor_fullphonenum;
     String vendor_fullfaxnum;
@@ -44,18 +47,20 @@ public class WhiteLabelRegistrationTest {
         vendor_fullphonenum=resource.getValue("vendor_phone_pt1") + resource.getValue("vendor_phone_pt2") +
                 resource.getValue("vendor_phone_pt3");
 
-        vendor_fullfaxnum=resource.getValue("vendor_fax_pt1") + resource.getValue("vendor_fax_pt2") +
+        vendor_fullfaxnum = resource.getValue("vendor_fax_pt1") + resource.getValue("vendor_fax_pt2") +
                 resource.getValue("vendor_fax_pt3");
+
+        vendor_fullname = resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname");
 
         browser.getDriver().get(wlBaseURL);
 
     }
 
     @Test(priority = 1)
-    public void startTest() {
+    public void BannerTest() {
 
         browser.switchToFrame(reg.regFrame);
-        browser.waitForPageLoad();
+        browser.waitForElementToAppear(reg.stepHeader);
         Assert.assertTrue("Doing Business with MO banner OK", reg.stepHeader.getText().contains(resource.getValue("vendor_wl_title_step_tcs")));
 
     }
@@ -65,13 +70,13 @@ public class WhiteLabelRegistrationTest {
 
         // initially decline terms and conditions
         browser.UncheckCheckbox(reg.termsCheckbox);
-        reg.nextButton.click();
+        browser.clickWhenAvailable(reg.nextButton);
         browser.waitForElementToAppear(reg.termsErrorMessage);
         Assert.assertTrue("Terms Declined OK", reg.termsErrorMessage.isDisplayed());
 
         // now accept T&Cs and continue
         browser.CheckCheckbox(reg.termsCheckbox);
-        reg.nextButton.click();
+        browser.clickWhenAvailable(reg.nextButton);
 
         browser.waitForElementToAppear(reg.orgInfoTitle);
         Assert.assertTrue("Org Info banner OK", reg.orgInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_org")));
@@ -83,12 +88,12 @@ public class WhiteLabelRegistrationTest {
         // set FEIN to known duplicate value
         UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
 
-        reg.orgFeinEdit1.click();
-        reg.orgFeinEdit1.sendKeys(existingVendor.getFeinPt1());
-        reg.orgFeinEdit2.sendKeys(existingVendor.getFeinPt2());
-        reg.orgFeinConfirmEdit1.click();
-        browser.waitForElementToAppear(reg.orgDuplicateFeinError);
+        browser.clickWhenAvailable(reg.orgFeinEdit1);
+        browser.sendKeysWhenAvailable(reg.orgFeinEdit1, existingVendor.getFeinPt1());
+        browser.sendKeysWhenAvailable(reg.orgFeinEdit2, existingVendor.getFeinPt2());
+        browser.clickWhenAvailable(reg.orgFeinConfirmEdit1);
 
+        browser.waitForElementToAppear(reg.orgDuplicateFeinError);
         Assert.assertTrue("Duplicate FEIN message OK", reg.orgDuplicateFeinError.isDisplayed());
 
         // reset FEIN
@@ -102,13 +107,13 @@ public class WhiteLabelRegistrationTest {
         // set SSN to known duplicate value
         UniqueID existingVendor = new UniqueID(resource.getValue("duplicate_ssnfein"));
 
-        reg.orgSsnEdit1.click();
-        reg.orgSsnEdit1.sendKeys(existingVendor.getSSNPt1());
-        reg.orgSsnEdit2.sendKeys(existingVendor.getSSNPt2());
-        reg.orgSsnEdit3.sendKeys(existingVendor.getSSNPt3());
-        reg.orgSsnConfirmEdit1.click();
-        browser.waitForElementToAppear(reg.orgDuplicateSsnError);
+        browser.clickWhenAvailable(reg.orgSsnEdit1);
+        browser.sendKeysWhenAvailable(reg.orgSsnEdit1, existingVendor.getSSNPt1());
+        browser.sendKeysWhenAvailable(reg.orgSsnEdit2, existingVendor.getSSNPt2());
+        browser.sendKeysWhenAvailable(reg.orgSsnEdit3, existingVendor.getSSNPt3());
+        browser.clickWhenAvailable(reg.orgSsnConfirmEdit1);
 
+        browser.waitForElementToAppear(reg.orgDuplicateSsnError);
         Assert.assertTrue("Duplicate SSN message OK", reg.orgDuplicateSsnError.isDisplayed());
 
         //reset SSN
@@ -123,36 +128,34 @@ public class WhiteLabelRegistrationTest {
         browser.waitForElementToAppear(reg.orgInfoTitle);
         Assert.assertTrue("Organization Info banner OK", reg.orgInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_org")));
 
-        reg.orgFeinEdit1.sendKeys(vendorNum.getFeinPt1());
-        reg.orgFeinEdit2.sendKeys(vendorNum.getFeinPt2());
-        reg.orgFeinConfirmEdit1.sendKeys(vendorNum.getFeinPt1());
-        reg.orgFeinConfirmEdit2.sendKeys(vendorNum.getFeinPt2());
+        browser.sendKeysWhenAvailable(reg.orgFeinEdit1, vendorNum.getFeinPt1());
+        browser.sendKeysWhenAvailable(reg.orgFeinEdit2, vendorNum.getFeinPt2());
+        browser.sendKeysWhenAvailable(reg.orgFeinConfirmEdit1, vendorNum.getFeinPt1());
+        browser.sendKeysWhenAvailable(reg.orgFeinConfirmEdit2, vendorNum.getFeinPt2());
 
-        //reg.orgCompanyName.sendKeys("Automated Supplier " + vendorNum.getNumber());
-        reg.orgCompanyName.sendKeys(resource.getValue("vendor_base_name")+" "+vendorNum.getNumber());
-        reg.orgAddressEdit1.sendKeys(resource.getValue("vendor_address1"));
-        reg.orgAddressEdit2.sendKeys(resource.getValue("vendor_address2"));
-        reg.orgCityEdit.sendKeys(resource.getValue("vendor_city"));
+        vendor_name = resource.getValue("vendor_base_name") + " " + vendorNum.getNumber();
+        browser.sendKeysWhenAvailable(reg.orgCompanyName, vendor_name);
+        browser.sendKeysWhenAvailable(reg.orgAddressEdit1, resource.getValue("vendor_address1"));
+        browser.sendKeysWhenAvailable(reg.orgAddressEdit2, resource.getValue("vendor_address2"));
+        browser.sendKeysWhenAvailable(reg.orgCityEdit, resource.getValue("vendor_city"));
         new Select(reg.orgStateDrop).selectByVisibleText(resource.getValue("vendor_state"));
-        reg.orgZipEdit.sendKeys(resource.getValue("vendor_zip"));
+        browser.sendKeysWhenAvailable(reg.orgZipEdit, resource.getValue("vendor_zip"));
         new Select(reg.orgBusinessTypeDrop).selectByVisibleText(resource.getValue("vendor_wl_business_type"));
 
         browser.clickWhenAvailable(reg.orgValidateAddressLink);
-
         browser.clickWhenAvailable(reg.orgDiversitySectionRadio);
         browser.clickWhenAvailable(reg.orgDiversityWbeRadio);
         browser.clickWhenAvailable(reg.orgDiversityDbeCheckbox);
-
         browser.clickWhenAvailable(reg.orgEmergencySectionRadio);
 
-        reg.orgEmergencyNameEdit.sendKeys(resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
-        reg.orgEmergencyEmailEdit.sendKeys(resource.getValue("vendor_email"));
-        reg.orgEmergencyEmailConfirmEdit.sendKeys(resource.getValue("vendor_email"));
+        browser.sendKeysWhenAvailable(reg.orgEmergencyNameEdit, vendor_fullname);
+        browser.sendKeysWhenAvailable(reg.orgEmergencyEmailEdit, resource.getValue("vendor_email"));
+        browser.sendKeysWhenAvailable(reg.orgEmergencyEmailConfirmEdit, resource.getValue("vendor_email"));
 
-        reg.orgEmergencyPhoneEdit.sendKeys(vendor_fullphonenum);
-        reg.orgEmergencyPhoneConfirmEdit.sendKeys(vendor_fullphonenum);
+        browser.sendKeysWhenAvailable(reg.orgEmergencyPhoneEdit, vendor_fullphonenum);
+        browser.sendKeysWhenAvailable(reg.orgEmergencyPhoneConfirmEdit, vendor_fullphonenum);
 
-        reg.nextButton.click();
+        browser.clickWhenAvailable(reg.nextButton);
 
     }
 
@@ -161,21 +164,23 @@ public class WhiteLabelRegistrationTest {
 
         browser.waitForElementToAppear(reg.contactInfoTitle);
         Assert.assertTrue("Contact Info banner OK", reg.contactInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_con")));
-        browser.waitForPageLoad();
-        reg.contactFirstNameEdit.sendKeys(resource.getValue("vendor_firstname"));
-        reg.contactLastNameEdit.sendKeys(resource.getValue("vendor_lastname"));
-        reg.contactJobEdit.sendKeys(resource.getValue("vendor_base_name"));
-        reg.contactPhoneEdit.sendKeys(vendor_fullphonenum);
-        reg.contactPhoneConfirmEdit.sendKeys(vendor_fullphonenum);
-        reg.contactFaxEdit.sendKeys(vendor_fullfaxnum);
-        reg.contactFaxConfirmEdit.sendKeys(vendor_fullfaxnum);
-        reg.contactEmailEdit.sendKeys(resource.getValue("vendor_email"));
-        reg.contactEmailConfirmEdit.sendKeys(resource.getValue("vendor_email"));
-        reg.contactUsernameEdit.sendKeys(vendor_username);
-        reg.contactPasswordEdit.sendKeys(resource.getValue("vendor_password"));
-        reg.contactPasswordConfirmEdit.sendKeys(resource.getValue("vendor_password"));
 
-        reg.nextButton.click();
+        browser.waitForPageLoad();
+
+        browser.sendKeysWhenAvailable(reg.contactFirstNameEdit, resource.getValue("vendor_firstname"));
+        browser.sendKeysWhenAvailable(reg.contactLastNameEdit, resource.getValue("vendor_lastname"));
+        browser.sendKeysWhenAvailable(reg.contactJobEdit, resource.getValue("vendor_base_name"));
+        browser.sendKeysWhenAvailable(reg.contactPhoneEdit, vendor_fullphonenum);
+        browser.sendKeysWhenAvailable(reg.contactPhoneConfirmEdit, vendor_fullphonenum);
+        browser.sendKeysWhenAvailable(reg.contactFaxEdit, vendor_fullfaxnum);
+        browser.sendKeysWhenAvailable(reg.contactFaxConfirmEdit, vendor_fullfaxnum);
+        browser.sendKeysWhenAvailable(reg.contactEmailEdit, resource.getValue("vendor_email"));
+        browser.sendKeysWhenAvailable(reg.contactEmailConfirmEdit, resource.getValue("vendor_email"));
+        browser.sendKeysWhenAvailable(reg.contactUsernameEdit, vendor_username);
+        browser.sendKeysWhenAvailable(reg.contactPasswordEdit, resource.getValue("vendor_password"));
+        browser.sendKeysWhenAvailable(reg.contactPasswordConfirmEdit, resource.getValue("vendor_password"));
+
+        browser.clickWhenAvailable(reg.nextButton);
 
     }
 
@@ -204,46 +209,44 @@ public class WhiteLabelRegistrationTest {
         }
 
         // submit registration
-        reg.nextButton.click();
+        browser.clickWhenAvailable(reg.nextButton);
     }
 
     @Test(priority = 9)
+    @TestRailReference(id = 3598)
     public void RegistrationCompleteTest() {
 
         browser.waitForElementToAppear(reg.finalTakeMeToWPButton);
 
         Assert.assertTrue("Username displayed OK", reg.finalUsername.getText().contains(vendor_username));
 
-        // click button to take us to the Webprocure Login page
-        //reg.finalTakeMeToWPButton.click();
-
-        // to save time, load the login page directly.
-        // come back some day and 1) step out of iFrame, 2) switch to new window, 3) close both when test done
-        browser.get(browser.baseUrl);
-
+        browser.Log("Supplier " + vendor_name + " created.");
+        browser.Log("Supplier username is " + vendor_username);
     }
 
     @Test(priority = 10)
+    @TestRailReference(id = 3598)
     public void ConfirmVendorLogin() {
 
+        browser.get(browser.baseUrl);
         browser.waitForElementToAppear(login.btnLogin);
         login.loginAsUser(vendor_username, resource.getValue("vendor_password"));
 
         // First-time vendors must accept terms and conditions before logging in
-        browser.waitForElementToAppear(login.vendorAcceptTermsButton);
-        login.vendorAcceptTermsButton.click();
+        browser.clickWhenAvailable(login.vendorAcceptTermsButton);
 
         // First time vendors also get a confirmation page for FEIN, etc.
-        browser.waitForElementToAppear(profile.okButton);
-        profile.okButton.click();
-
-        browser.waitForElementToAppear(vendor.topNav);
+        browser.clickWhenAvailable(profile.okButton);
 
         // If logged in properly, the username should be the top menu item
-        String FullName = (resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
-        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(FullName));
+        browser.waitForElementToAppear(vendor.topNav);
+
+        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(vendor_fullname));
+
+        browser.Log("Vendor logged into supplier portal.");
 
         vendor.vendorLogout();
+        browser.close();
 
     }
 

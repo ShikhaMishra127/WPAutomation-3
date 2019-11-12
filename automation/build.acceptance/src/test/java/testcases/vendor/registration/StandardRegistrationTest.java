@@ -5,7 +5,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
@@ -184,20 +183,20 @@ public class StandardRegistrationTest {
     public void ContactInformationTest() {
 
         new Select(reg.contactTitleDrop).selectByVisibleText(resource.getValue("vendor_title"));
-        reg.contactFirstNameEdit.sendKeys(resource.getValue("vendor_firstname"));
-        reg.contactLastNameEdit.sendKeys(resource.getValue("vendor_lastname"));
+        browser.sendKeysWhenAvailable(reg.contactFirstNameEdit, resource.getValue("vendor_firstname"));
+        browser.sendKeysWhenAvailable(reg.contactLastNameEdit, resource.getValue("vendor_lastname"));
 
         // auto-copy all fields from main contact info
-        reg.contactSameAsOrgCheckbox.click();
-        reg.contactPOContactSameAsCheckbox.click();
-        reg.contactPOAddressSameAsCheckbox.click();
-        reg.contactSolContactSameAsCheckbox.click();
-        reg.contactSolAddressSameAsCheckbox.click();
-        reg.contactRemitContactSameAsCheckbox.click();
-        reg.contactRemitAddressSameAsCheckbox.click();
+        browser.clickWhenAvailable(reg.contactSameAsOrgCheckbox);
+        browser.clickWhenAvailable(reg.contactPOContactSameAsCheckbox);
+        browser.clickWhenAvailable(reg.contactPOAddressSameAsCheckbox);
+        browser.clickWhenAvailable(reg.contactSolContactSameAsCheckbox);
+        browser.clickWhenAvailable(reg.contactSolAddressSameAsCheckbox);
+        browser.clickWhenAvailable(reg.contactRemitContactSameAsCheckbox);
+        browser.clickWhenAvailable(reg.contactRemitAddressSameAsCheckbox);
 
         // click Continue after all fields populated
-        reg.continueButton.click();
+        browser.clickWhenAvailable(reg.continueButton);
 
         Assert.assertTrue("Verify Contact Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_dem")));
     }
