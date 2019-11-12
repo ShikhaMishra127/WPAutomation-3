@@ -15,8 +15,10 @@ import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.req.ViewReqPOM;
+import pageobjects.common.InvoicePOPicker;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
+import pageobjects.vendor.invoice.VendorNewInvoicePOM;
 import pageobjects.vendor.orders.VendorOrderViewPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
@@ -312,6 +314,7 @@ public class ReqFlowTest {
         LoginPagePOM login = new LoginPagePOM(browser);
         BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
         NewInvoicePOM invoice = new NewInvoicePOM(browser);
+        InvoicePOPicker poPicker = new InvoicePOPicker(browser);
 
         // go to default URL and log in as a buyer
         browser.getDriver().get(browser.baseUrl);
@@ -344,23 +347,9 @@ public class ReqFlowTest {
 
         // Look up target PO from the list of available POs for supplier
         browser.clickWhenAvailable(invoice.itemsPOSearchButton);
-        browser.waitForPageLoad();
 
-        // wait for the PO search page to load. Apparently this is a big problem
-        browser.waitForElementToBeClickable(invoice.itemsLookupOrderNumberEdit,(long)5);
-        browser.switchToFrame(invoice.itemsIFrame);
-        browser.waitForPageLoad();
-
-        // enter target PO and click Search
-        browser.sendKeysWhenAvailable(invoice.itemsLookupOrderNumberEdit, request.getReqPONumber());
-        browser.clickWhenAvailable(invoice.itemsLookupSearchButton);
-
-        // when you find the PO, click the drop-arrow to the left to expand
-        invoice.clickPOExpand(request.getReqPONumber());
-
-        // then include all po items and click Add
-        browser.clickWhenAvailable(invoice.itemsPOIncludeAllCheck);
-        browser.clickWhenAvailable(invoice.itemsAddPOItemsButton);
+        // add all items contained within target PO to invoice
+        poPicker.addAllPOItems(request.getReqPONumber());
 
         // back on the main invoice page, invoice one item, add comments and go to next step
         browser.sendKeysWhenAvailable(invoice.itemsInvoiceQtyEdit, resource.getValue("invoice_qty"));
@@ -467,6 +456,68 @@ public class ReqFlowTest {
 
         navbar.vendorLogout();
         browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
+    @TestRailReference(id = 3597)
+    public void VendorCreateInvoice(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
+        VendorNewInvoicePOM invoice = new VendorNewInvoicePOM(browser);
+        InvoicePOPicker poPicker = new InvoicePOPicker(browser);
+
+        // go to default URL and log in as a supplier
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsSupplier();
+
+        // go to Create new Invoice
+        navbar.selectNavDropByBuyer(browser.buyerName, "Invoice", "Create New");
+
+        String vendorInvoiceNumber = request.getBuyerInvoiceNumber()+"V";
+
+        // fill out header page
+        browser.sendKeysWhenAvailable(invoice.headerInvoiceNumberEdit, vendorInvoiceNumber);
+        browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, "This contains a bunch of comments some stupid " +
+                "person felt like they HAD to include with their god-forsaken invoice test. What an idiot.");
+
+        // add all items in target PO
+        browser.clickWhenAvailable(invoice.headerFindPOButton);
+        poPicker.addAllPOItems(request.getReqPONumber());
+
+        // invoice one item, add comments and go to next step
+        browser.sendKeysWhenAvailable(invoice.itemsInvoiceQtyEdit, resource.getValue("invoice_qty"));
+        browser.sendKeysWhenAvailable(invoice.itemsCommentEdit, resource.getValue("invoice_comment"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightEdit, resource.getValue("invoice_freight"));
+        browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, resource.getValue("invoice_freightcomment"));
+        browser.clickWhenAvailable(invoice.itemsNextButton);
+
+        // keep going after reaching the Attachments tab - modal asking to continue
+        browser.clickWhenAvailable(invoice.attachNextButton);
+        browser.waitForElementToAppear(invoice.attachConfirmationModal);
+        browser.clickWhenAvailable(invoice.attachYesContinueButton);
+
+        // Verify information on Summary page
+        browser.waitForPageLoad();
+        browser.waitForElementToAppear(invoice.summaryOverViewText);
+
+        Assert.assertTrue("Invoice Number OK", invoice.summaryOverViewText.getText().contains(vendorInvoiceNumber));
+        Assert.assertTrue("PO Number OK", invoice.summaryPONumberText.getText().contains(request.getReqPONumber()));
+        Assert.assertTrue("Freight Charge OK", invoice.summaryMiscChargesText.getText().contains(resource.getValue("invoice_freight")));
+
+        // submit invoice
+        browser.clickWhenAvailable(invoice.summarySubmitInvoiceButton);
+
+        // keep going after sumbitting invoice - more pesky modals asking if it's ok to submit, then close
+        browser.clickWhenAvailable(invoice.summaryYesContinueButton);
+        browser.clickWhenAvailable(invoice.summaryClosePostSubmitButton);
+
+        browser.Log("Invoice " + vendorInvoiceNumber + " created by vendor");
+
+        navbar.vendorLogout();
+        browser.close();
+
     }
 
 
