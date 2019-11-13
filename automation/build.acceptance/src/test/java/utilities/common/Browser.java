@@ -127,7 +127,7 @@ public class Browser implements WebDriver {
         } catch (TimeoutException e) { }
     }
 
-    private void highlightElement(WebElement element) {
+    public void highlightElement(WebElement element) {
         InjectJavaScript("arguments[0].setAttribute('style', arguments[1]);",element, "color: red; border: 2px solid red;");
     }
 
