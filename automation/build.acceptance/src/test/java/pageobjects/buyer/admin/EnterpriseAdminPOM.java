@@ -16,15 +16,18 @@ public class EnterpriseAdminPOM {
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
-    ////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////// COMMON
+
+    @FindBy(xpath="//iframe[@id='dataframe']")
+    public WebElement dataFrame;
+
+    //////////////////////////////////////////////////////////////////////// ORGANIZATION / ADMIN LEFT FRAME
 
     @FindBy(xpath="//iframe[@id='orgframe']")
     public WebElement menuOrgFrame;
 
     @FindBy(xpath="//a[contains(@href,'listvieworgs')]")
     public WebElement menuListViewLink;
-
-
 
     @FindBy(xpath="//div[@id='navigation']")
     public WebElement menuAdminDiv;
@@ -55,6 +58,23 @@ public class EnterpriseAdminPOM {
         browser.waitForPageLoad();
 
     }
+
+    //////////////////////////////////////////////////////////////////////// EDIT GENERAL ORG INFO PAGE
+
+    @FindBy(xpath="//input[@id='allow_attachment_download_on_bidboard']")
+    public WebElement oiBidBoardAllowDownloadCheckbox;
+
+    @FindBy(xpath="//input[@id='remove_type_dd_bidboard']")
+    public WebElement oiBidBoardRemoveTypeFilterCheckbox;
+
+    @FindBy(xpath="//input[@id='remove_commodity_bidboard']")
+    public WebElement oiBidBoardRemoveCommodityFilterCheckbox;
+
+    @FindBy(xpath="//input[@id='remove_solsummary_print_bidboard']")
+    public WebElement oiBidBoardRemovePrintButtonCheckbox;
+
+    @FindBy(xpath="(//button[contains(@onclick,'SaveOrg')])[1]")
+    public WebElement oiSaveButton;
 
 
 }

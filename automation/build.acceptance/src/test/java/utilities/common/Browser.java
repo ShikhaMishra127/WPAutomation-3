@@ -1,8 +1,8 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -147,6 +147,10 @@ public class Browser implements WebDriver {
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
 
+    public void switchBackToTopFrame() {
+        driver.switchTo().defaultContent();
+    }
+
     public void selectFromDropDownByVisibleText(WebElement ele, String value) {
         waitForElementToBeClickable(ele);
         new Select(ele).selectByVisibleText(value);
@@ -200,10 +204,39 @@ public class Browser implements WebDriver {
         element.click();
     }
 
+    /**
+     * Sets the proper state of a checkbox, based on what the current
+     * @param element - checkbox element
+     * @param checked - send TRUE if you want box checked, FALSE otherwise
+     */
+    public void clickSetCheckbox(WebElement element,  Boolean checked) {
+
+        waitForElementToBeClickable(element);
+
+        // if you want it checked and its not, or if you don't want it checked and it is...
+        if ( (checked && !element.isSelected()) || (!checked && element.isSelected())) {
+            clickWhenAvailable(element);
+        }
+    }
+
+    /**
+     *  Sets the proper state of a checkbox, without requiring an existing WebElement
+     * @param locator - xpath of the checkbox element
+     * @param checked - send TRUE if you want box checked, FALSE otherwise
+     */
+    public void clickSetCheckbox(By locator, Boolean checked) {
+
+        waitForElementToAppear(locator);
+        WebElement element = driver.findElement(locator);
+
+        clickSetCheckbox(element, checked);
+    }
+
     public void waitForElementToContainText(WebElement element, String text) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
+
 
     /**
      * Given an edit box and a list of return elements, will click on the first element that matches the search string

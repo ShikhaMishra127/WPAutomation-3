@@ -36,16 +36,42 @@ public class EnterpriseAdminTest {
 
     @AfterClass
     public void tearDown() {
+        browser.clickWhenAvailable(navbar.homePageButton);
         navbar.logout();
         browser.close();
     }
 
-    @Test(priority = 1)
+    @Test(enabled = true, priority = 1)
     @TestRailReference(id=3599)
     public void GeneralOrgInfoTest() {
 
         admin.SelectFromMenu("Organization Information", "Edit General Org Info");
 
+        browser.switchToFrame(admin.dataFrame);
+
+        browser.clickSetCheckbox(admin.oiBidBoardAllowDownloadCheckbox, true);
+        browser.clickSetCheckbox(admin.oiBidBoardRemoveTypeFilterCheckbox, false);
+        browser.clickSetCheckbox(admin.oiBidBoardRemoveCommodityFilterCheckbox, false);
+        browser.clickSetCheckbox(admin.oiBidBoardRemovePrintButtonCheckbox, false);
+
+        browser.clickWhenAvailable(admin.oiSaveButton);
+
+        browser.switchBackToTopFrame();
+
+        browser.Log("Solicitation Bid Board settings updated");
+    }
+
+    @Test(enabled = true, priority = 2)
+    @TestRailReference(id=3599)
+    public void WorkflowTest() {
+
+        admin.SelectFromMenu("Workflow", "Request Workflow");
+
+        browser.switchToFrame(admin.dataFrame);
+
+        browser.switchBackToTopFrame();
+
+        browser.Log("Request Workflow settings updated");
     }
 
 }
