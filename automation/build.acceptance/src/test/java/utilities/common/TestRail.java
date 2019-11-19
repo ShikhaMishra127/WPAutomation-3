@@ -25,7 +25,7 @@ public class TestRail {
 	public TestRail() {
 
 		// load resources from env.properties file and connect to Test Rail server
-		env = new ResourceLoader("env");
+		env = new ResourceLoader("testrail");
 		API = new APIClient(env.getValue("testrail_url"));
 
 		API.setUser(env.getValue("testrail_username"));

@@ -187,7 +187,7 @@ public class SolicitationFlowTest {
         browser.clickWhenAvailable(award.mainContinueButton);
 
         // click on checkbox for target vendor and award
-        award.ClickAwardSupplierCheckbox(resource.getValue("solsuppliername"));
+        award.ClickAwardSupplierCheckbox(browser.supplierName);
 
         // wait for the stupid pop-up to appear, if there is one
         browser.waitForElementToBeClickable(award.allPopupContinueButton);

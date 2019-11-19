@@ -197,7 +197,7 @@ public class SolCreator {
         browser.clickWhenAvailable(sol.supplierSelectedTab);
         browser.clickWhenAvailable(sol.supplierSearchButton);
 
-        sol.supplierSearchName.sendKeys(resource.getValue("solsuppliername"));
+        sol.supplierSearchName.sendKeys(browser.supplierName);
 
         sol.supplierLookupButton.click();
 

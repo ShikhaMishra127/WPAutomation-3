@@ -12,7 +12,7 @@ public class OracleQuery {
 	private Statement st;
 	private ResultSet rs;
 	
-	private ResourceLoader environment = new ResourceLoader("env");
+	private ResourceLoader environment = new ResourceLoader("qa");
 	private String connection;
 	private String username;
 	private String password;
