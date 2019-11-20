@@ -6,6 +6,8 @@ import utilities.testrail.APIException;
 
 import java.io.IOException;
 
+import static utilities.common.UniqueID.IDType;
+
 /**
  * The TestRail class allows users to interface with the Gurok TestRail API.
  *
@@ -19,6 +21,9 @@ public class TestRail {
 	private String ProjectID;
 	private String SuiteID;
 	private String RunID;
+	private String RunName;
+	private String RunDesc;
+	private Boolean postToTestRail;
 
 	public enum Status{ COMMENT, PASSED, BLOCKED, UNTESTED, RETEST, FAILED }
 
@@ -30,48 +35,52 @@ public class TestRail {
 
 		API.setUser(env.getValue("testrail_username"));
 		API.setPassword(env.getValue("testrail_password"));
+
 		ProjectID = env.getValue("testrail_projectID");
 		SuiteID = env.getValue("testrail_suiteID");
-		RunID = env.getValue("testrail_runID");
+		RunName = env.getValue("testrail_runName");
+		RunDesc = env.getValue("testrail_runDesc");
+
+		// load TestRail setting from command-line
+		postToTestRail = true;
+		String runNum = System.getProperty("TESTRAIL", "none");
+
+		switch (runNum) {
+
+			case "none":	// do not run TestRail
+				postToTestRail = false;
+				break;
+
+			case "auto":	// create a new test run in TestRail (ex. "Automated Build Acceptance (191120.103951)")
+				UniqueID id = new UniqueID(IDType.DATE);
+				RunID = AddTestRun( (RunName + " (" + id.getNumber() + ")") );
+				break;
+
+			default:		// otherwise, set user-specified run number
+				RunID = runNum;
+				break;
+		}
+
 	}
 
-	// public Getters/Setters
-	public void SetProject(String id) { ProjectID = id; }
-	public void SetSuite(String id) { SuiteID = id; }
-	public void SetRun(String id) { RunID = id; }
-
-	public String GetProject() { return ProjectID; }
-	public String GetSuite() { return SuiteID; }
-	public String GetRun() { return RunID; }
-
-	/**
-	 * use System property -DTESTRAIL to allow posting to our testcase server, defaults to 'false'
-	 *
-	 * @return  whether to post results to TestRail repository
-	 */
-	private boolean postToTestRail() {
-		String val = System.getProperty("TESTRAIL", "false");
-		return Boolean.valueOf(val).booleanValue();
-	}
-
 	/**
 	 *
-	 * @param runName		Name of the test case run you want to create
-	 *                      Project, Suite
+	 * @param runName       Title of the test case run you want to create
+	 * @return				The newly created run number
 	 */
-	public void AddTestRun(String runName) {
+	public String AddTestRun(String runName) {
 
 		JSONObject object = new JSONObject();
 		JSONObject returnObj;
 
 		object.put("name", runName);
-		object.put("description", "Automated test run created for use by Selenium Build Acceptance");
+		object.put("description", RunDesc);
 		object.put("suite_id", Integer.parseInt(SuiteID) );
 		object.put("include_all", Boolean.TRUE);
 
 		returnObj = this.Post("add_run", ProjectID, object);
 
-		SetRun(returnObj.get("id").toString());
+		return returnObj.get("id").toString();
 	}
 
 	public void CloseTestRun() {
@@ -146,7 +155,7 @@ public class TestRail {
 		object.put("comment", TCComment);
 
 		// Post results to either TestRail or StdOut
-        if (postToTestRail()) {
+        if (postToTestRail) {
 
             returnObj = this.Post("add_result_for_case", RunID + "/" + TCNumber, object);
 
