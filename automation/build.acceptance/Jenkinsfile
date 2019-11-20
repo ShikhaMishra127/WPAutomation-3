@@ -28,7 +28,7 @@ node {
     }
     stage('Run Tests') {
         dir('automation/build.acceptance') {
-            sh 'mvn -DVISIBLE=false -DTESTRAIL=true clean compile test'
+            sh 'mvn -DVISIBLE=false -DTESTRAIL=auto clean compile test'
         }
     }
     slackSend message: "finished ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
