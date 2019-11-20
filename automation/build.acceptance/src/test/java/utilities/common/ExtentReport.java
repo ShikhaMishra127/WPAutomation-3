@@ -1,23 +1,20 @@
 package utilities.common;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestResult;
-import org.testng.ISuite;
-import org.testng.ISuiteListener;
 import com.google.common.io.Files;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.testng.*;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ExtentReport implements ITestListener,ISuiteListener {
-    ResourceLoader environment = new ResourceLoader("env");
+    ResourceLoader environment = new ResourceLoader("qa");
     public static ExtentReports report;
     public static ExtentTest logger;
 

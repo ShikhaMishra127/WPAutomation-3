@@ -74,7 +74,7 @@ public class ContractCreator {
         newcontract.setContractLongDesc(longdesc);
         newcontract.setVisibility(resource.getValue("contract_visibility"));
         newcontract.setContractType(resource.getValue("contract_type"));
-        newcontract.setContractSupplier(resource.getValue("contract_suppliername"));
+        newcontract.setContractSupplier(browser.supplierName);
         newcontract.setContractPricingType(resource.getValue("contract_pricingtype"));
         newcontract.setContractTotalValue(resource.getValue("contract_totalvalue"));
         newcontract.setContractValueFormatted(resource.getValue("contract_totalvalueformatted"));

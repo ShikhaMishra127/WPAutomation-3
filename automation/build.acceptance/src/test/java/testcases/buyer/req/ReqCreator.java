@@ -75,7 +75,7 @@ public class ReqCreator {
             new Select(req.ocUsageCodeDrop).selectByIndex(1);
         }
 
-        browser.clickTypeAheadDropdownItem(req.ocVendorNameEdit, req.ocVendorList, resource.getValue("SupplierName"));
+        browser.clickTypeAheadDropdownItem(req.ocVendorNameEdit, req.ocVendorList, browser.supplierName);
 
         // check "retain key info" radio, so it doesn't ask us later
         if (!req.ocRetainInfoCheck.isSelected()) {
@@ -122,7 +122,7 @@ public class ReqCreator {
         newreq.setReqName(reqName);
         newreq.setReqNumber(reqName.substring(reqName.indexOf("/")+1));
         newreq.setReqTotal(resource.getValue("ReqTotal"));
-        newreq.setReqSupplierName(resource.getValue("SupplierName"));
+        newreq.setReqSupplierName(browser.supplierName);
 
         // click Submit Request button
         browser.driver.switchTo().defaultContent();

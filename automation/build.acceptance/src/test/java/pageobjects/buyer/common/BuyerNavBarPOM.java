@@ -21,27 +21,25 @@ public class BuyerNavBarPOM  {
 	@FindBy(id="userMenu")
 	public WebElement drpDownUserMenu;
 	
-	@FindBy(xpath="//a[text()='Logout']")
+	@FindBy(xpath="//a[contains(@title,'Logout')]")
 	public WebElement lnkLogout;
 
 	@FindBy(xpath = "//ul[contains(@class,'navbar-left')]")
 	public WebElement topNav;
 
-	// HELPFUL METHODS
-	public void selectTopNavDropDown(String navName) {
+	@FindBy(xpath="(//a[contains(@class,'navbar-brand')]/span)[1]")
+	public WebElement homePageButton;
 
-		browser.waitForElementToBeClickable(topNav);
-		topNav.findElement(By.xpath("//a[contains(text(),'" + navName + "')]")).click();
-	}
-	
+
+	// HELPFUL METHODS
 	public void logout() {
 		browser.waitForPageLoad();
-		browser.waitForElementToBeClickable(drpDownUserMenu);
-		drpDownUserMenu.click();
-		browser.waitForElementToBeClickable(lnkLogout);
+		browser.clickWhenAvailable(drpDownUserMenu);
+
 		 ((JavascriptExecutor)browser.getDriver()).executeScript("window.confirm = function(msg){return true;}");
-		lnkLogout.click();
-		browser.waitForPageLoad();
+
+		 browser.clickWhenAvailable(lnkLogout);
+
 	}
 
 	public void selectDropDownItem(String headerItem, String subItem) {

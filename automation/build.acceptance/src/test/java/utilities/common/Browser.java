@@ -1,8 +1,8 @@
 package utilities.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -22,26 +22,33 @@ public class Browser implements WebDriver {
 
     public WebDriver driver;
 
-    public ResourceLoader environment = new ResourceLoader("env");
-    public String browser = environment.getValue("browser");
-    public String baseUrl = environment.getValue("baseURL");
-    public String contractUrl = environment.getValue("contractBB_URL");
-    public String solicitationUrl = environment.getValue("solicitationBB_URL");
-    public String language = environment.getValue("Language");
-    public Long defaultWait = Long.valueOf(environment.getValue("defaultWait"));
-    public Long defaultPopupWaitSeconds = Long.valueOf(environment.getValue("defaultPopupWaitSeconds"));
-    public String buyerUsername = environment.getValue("buyerUsername");
-    public String buyerPassword = environment.getValue("buyerPassword");
-    public String buyerTimeZone = environment.getValue("buyerTimeZone");
-    public String supplierUsername = environment.getValue("supplierUsername");
-    public String supplierPassword = environment.getValue("supplierPassword");
-    public String buyerName = environment.getValue("buyerCompanyName");
-    public String approverUsername = environment.getValue("approverUsername");
-    public String approverPassword = environment.getValue("approverPassword");
+    public String browser;
+    public String baseUrl;
+    public String contractUrl;;
+    public String solicitationUrl;
+    public String language;
+    public Long defaultWait;
+    public Long defaultPopupWaitSeconds;
+    public String buyerUsername;
+    public String buyerPassword;
+    public String buyerTimeZone;
+    public String supplierUsername;
+    public String supplierPassword;
+    public String supplierName;
+    public String buyerName;
+    public String approverUsername;
+    public String approverPassword;
+    public String approverName;
+    public String environment;
+
 
     private String reportBuffer = "";
 
+
     public Browser(ITestContext context) {
+
+        // set up global variables based on environment
+        LoadProperties();
 
         if (driver == null) {
 
@@ -76,7 +83,33 @@ public class Browser implements WebDriver {
         }
         // tell our listener how to access the browser (for screenshots, etc)
         context.setAttribute("browser" + Thread.currentThread().getId(), this);
+
     }
+
+    private void LoadProperties() {
+
+        environment = System.getProperty("ENV", "qa");
+        ResourceLoader resource = new ResourceLoader(environment);
+
+        browser = resource.getValue("browser");
+        baseUrl = resource.getValue("baseURL");
+        contractUrl = resource.getValue("contractBB_URL");
+        solicitationUrl = resource.getValue("solicitationBB_URL");
+        language = resource.getValue("Language");
+        defaultWait = Long.valueOf(resource.getValue("defaultWait"));
+        defaultPopupWaitSeconds = Long.valueOf(resource.getValue("defaultPopupWaitSeconds"));
+        buyerUsername = resource.getValue("buyerUsername");
+        buyerPassword = resource.getValue("buyerPassword");
+        buyerTimeZone = resource.getValue("buyerTimeZone");
+        supplierUsername = resource.getValue("supplierUsername");
+        supplierPassword = resource.getValue("supplierPassword");
+        supplierName = resource.getValue("supplierName");
+        buyerName = resource.getValue("buyerCompanyName");
+        approverUsername = resource.getValue("approverUsername");
+        approverPassword = resource.getValue("approverPassword");
+        approverName = resource.getValue("approverName");
+    }
+
 
     /**
      * use System property -DVISIBLE to determine if headless or not, defaults to 'true'
@@ -99,6 +132,15 @@ public class Browser implements WebDriver {
     public String GetLog(){ return reportBuffer; }
 
     public void ClearLog() { reportBuffer = ""; }
+
+    public void HideElement(WebElement element) {
+        InjectJavaScript("arguments[0].style.visibility='hidden'", element);
+    }
+
+    public void HideElement(String xpath) {
+        waitForElementToAppear(By.xpath(xpath));
+        InjectJavaScript("arguments[0].style.visibility='hidden'", driver.findElement(By.xpath(xpath)));
+    }
 
     public void ScrollElementIntoView(WebElement element) {
         // Chrome-specific issue (https://github.com/angular/protractor/issues/4589)
@@ -127,7 +169,7 @@ public class Browser implements WebDriver {
         } catch (TimeoutException e) { }
     }
 
-    private void highlightElement(WebElement element) {
+    public void highlightElement(WebElement element) {
         InjectJavaScript("arguments[0].setAttribute('style', arguments[1]);",element, "color: red; border: 2px solid red;");
     }
 
@@ -145,6 +187,10 @@ public class Browser implements WebDriver {
     public void switchToFrame(WebElement frame) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
+    }
+
+    public void switchBackToTopFrame() {
+        driver.switchTo().defaultContent();
     }
 
     public void selectFromDropDownByVisibleText(WebElement ele, String value) {
@@ -200,10 +246,39 @@ public class Browser implements WebDriver {
         element.click();
     }
 
+    /**
+     * Sets the proper state of a checkbox, based on what the current
+     * @param element - checkbox element
+     * @param checked - send TRUE if you want box checked, FALSE otherwise
+     */
+    public void clickSetCheckbox(WebElement element,  Boolean checked) {
+
+        waitForElementToBeClickable(element);
+
+        // if you want it checked and its not, or if you don't want it checked and it is...
+        if ( (checked && !element.isSelected()) || (!checked && element.isSelected())) {
+            clickWhenAvailable(element);
+        }
+    }
+
+    /**
+     *  Sets the proper state of a checkbox, without requiring an existing WebElement
+     * @param locator - xpath of the checkbox element
+     * @param checked - send TRUE if you want box checked, FALSE otherwise
+     */
+    public void clickSetCheckbox(By locator, Boolean checked) {
+
+        waitForElementToAppear(locator);
+        WebElement element = driver.findElement(locator);
+
+        clickSetCheckbox(element, checked);
+    }
+
     public void waitForElementToContainText(WebElement element, String text) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
+
 
     /**
      * Given an edit box and a list of return elements, will click on the first element that matches the search string
