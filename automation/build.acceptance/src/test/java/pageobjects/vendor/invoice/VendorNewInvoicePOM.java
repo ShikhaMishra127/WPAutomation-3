@@ -18,13 +18,19 @@ public class VendorNewInvoicePOM {
 
     //////////////////////////////////////////////////////////////////////// COMMON CONTROLS
 
-    @FindBy(xpath="//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    @FindBy(xpath="(//button[contains(@onclick,'submitPage')])[1]")
     public WebElement nextButton;
 
     //////////////////////////////////////////////////////////////////////// INVOICE HEADER PAGE
 
     @FindBy(xpath="//input[@id='invoicenum']")
     public WebElement headerInvoiceNumberEdit;
+
+    @FindBy(xpath="//input[@id='issue_date']")
+    public WebElement headerIssueDate;
+
+    @FindBy(xpath="//input[@id='due_date']")
+    public WebElement headerDueDate;
 
     @FindBy(xpath="//textarea[@id='invoicecomments']")
     public WebElement headerInvoiceComments;

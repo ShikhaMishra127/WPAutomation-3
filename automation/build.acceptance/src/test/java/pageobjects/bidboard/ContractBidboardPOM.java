@@ -91,19 +91,6 @@ public class ContractBidboardPOM {
 	public WebElement left_chev_first_button;
 
 	//////////////////////////////////////////////////////////////////////// HELPFUL METHODS
-
-	public int numberOfContracts() {
-		int numberFound = 0;
-		// sleep for a little - assume we are waiting for page to reload contract result count
-		try { Thread.sleep(browser.defaultWait); } catch (InterruptedException e) { e.printStackTrace(); }
-
-		if (contractCount.getClass() != null) {
-			String numberReturned = contractCount.getText().split(" ")[0];
-			numberFound = Integer.parseInt(numberReturned);
-		}
-
-		return numberFound;
-	}
 	
 	public void clickReset() {
 		browser.waitForElementToBeClickable(resetFacetLink);

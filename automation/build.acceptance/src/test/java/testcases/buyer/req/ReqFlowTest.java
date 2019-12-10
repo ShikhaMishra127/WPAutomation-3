@@ -84,6 +84,8 @@ public class ReqFlowTest {
        browser.sendKeysWhenAvailable(inbox.reqApprovalComment, resource.getValue("inbox_approval_comment"));
        browser.clickWhenAvailable(inbox.approveButton);
 
+       browser.HardWait();
+
        browser.Log(request.getReqName() + " approved in workflow");
 
         navbar.logout();
@@ -482,6 +484,11 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, "This contains a bunch of comments some stupid " +
                 "person felt like they HAD to include with their god-forsaken invoice test. What an idiot.");
 
+        String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+        browser.sendKeysWhenAvailable(invoice.headerIssueDate, todaysDate);
+        browser.sendKeysWhenAvailable(invoice.headerDueDate, todaysDate);
+
         // add all items in target PO
         browser.clickWhenAvailable(invoice.headerFindPOButton);
         poPicker.addAllPOItems(request.getReqPONumber());
@@ -492,6 +499,8 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(invoice.itemsFreightEdit, resource.getValue("invoice_freight"));
         browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, resource.getValue("invoice_freightcomment"));
         browser.clickWhenAvailable(invoice.itemsNextButton);
+
+        browser.HardWait();
 
         // keep going after reaching the Attachments tab - modal asking to continue
         browser.clickWhenAvailable(invoice.attachNextButton);

@@ -531,6 +531,11 @@ public class Browser implements WebDriver {
         return elements;
     }
 
+    public void HardWait() {
+        // a terrible necessity - some times we just need to wait for browser to catch up. Use Sparingly!
+        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+    }
+
     public interface HTMLTableColumn {}
 
 }
