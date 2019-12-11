@@ -57,7 +57,7 @@ public class EnterpriseAdminTest {
     }
 
     @Test(enabled = false, dependsOnMethods = {"GoToEnterpriseAdmin"})
-    @TestRailReference(id = 3603)
+    @TestRailReference(id = 3527)
     public void GeneralOrgInfoTest() {
 
         admin.SelectFromMenu(resource.getValue("navbar_orginfo"), resource.getValue("navbar_editorginfo"));
@@ -77,7 +77,7 @@ public class EnterpriseAdminTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"GoToEnterpriseAdmin"})
-    @TestRailReference(id = 3603)
+    @TestRailReference(id = 3527)
     public void WorkflowTest() {
 
         // go to Request Workflow and shut off all workflows *except* Off-Catalog Requests
@@ -134,7 +134,7 @@ public class EnterpriseAdminTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"GoToEnterpriseAdmin"})
-    @TestRailReference(id = 3603)
+    @TestRailReference(id = 3524)
     public void SuppliersTest() {
 
         // go to Edit Suppliers and look up our target supplier

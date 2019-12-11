@@ -55,7 +55,7 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=3606)
+    @TestRailReference(id=3553)
     public void GoToReportTest() {
         browser.Log("Buyer Logged in OK");
 
@@ -95,7 +95,7 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 3)
-    @TestRailReference(id=3599)
+    @TestRailReference(id=5781)
     public void ReviewHTMLReportTest() {
         //Wait for popup and switch focus
         browser.waitForPopUpToOpen();
@@ -118,7 +118,7 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 4)
-    @TestRailReference(id=3607)
+    @TestRailReference(id=3554)
     public void LogOutTest() {
         navbar.logout();
         browser.Log("Buyer Logged out OK");

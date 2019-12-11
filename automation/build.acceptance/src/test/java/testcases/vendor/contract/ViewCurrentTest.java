@@ -7,6 +7,7 @@ import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.contracts.VendorContractViewPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
+import utilities.common.TestRailReference;
 
 
 public class ViewCurrentTest {
@@ -27,7 +28,9 @@ public class ViewCurrentTest {
         browser.getDriver().get(browser.baseUrl);
         login.loginAsUser(browser.supplierUsername, browser.supplierPassword);
     }
-    @Test()
+
+    @Test
+    @TestRailReference(id = 12467)
     public void viewCurrentContracts() {
         ctNavBar.selectNavContractByBuyer(browser.buyerName, "View Contracts");
 

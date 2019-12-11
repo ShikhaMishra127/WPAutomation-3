@@ -86,7 +86,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void LoginPageTest() {
 
         // Click the standard registration link on the login page
@@ -98,7 +98,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 2)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void TsAndCsTest() {
 
         // Start the registration by clicking Begin
@@ -118,7 +118,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 3)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void DuplicateFEINTest() {
 
         // load standard vendor info on organization page
@@ -142,7 +142,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 4)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void DuplicateSSNTest() {
 
         // set SSN to known duplicate value
@@ -164,7 +164,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 5)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void ValidOrgInfoTest() {
 
         // enter valid SSN and click Continue
@@ -179,7 +179,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 6)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void ContactInformationTest() {
 
         new Select(reg.contactTitleDrop).selectByVisibleText(resource.getValue("vendor_title"));
@@ -202,7 +202,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 7)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void DemographicInfoTest() {
 
         // select minority assignments
@@ -218,7 +218,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 8)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void SelectBuyerTest() {
 
         // add new supplier to Perfect City
@@ -241,7 +241,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 9)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void SelectUsernameTest() {
 
         // username is unique and set to our SSN/FEIN number for this test
@@ -267,7 +267,7 @@ public class StandardRegistrationTest {
     }
 
     @Test(priority = 10)
-    @TestRailReference(id=3598)
+    @TestRailReference(id=3533)
     public void ConfirmVendorLogin() {
 
         // log in as the new vendor. Username is our SSN/FEIN number

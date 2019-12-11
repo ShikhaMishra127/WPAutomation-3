@@ -20,7 +20,7 @@ public class ContractFlowTest {
     }
 
     @Test
-    @TestRailReference(id=3602)
+    @TestRailReference(id=3543)
     public void CreateContractTest(ITestContext testContext) {
 
         ContractCreator creator = new ContractCreator();
@@ -29,7 +29,7 @@ public class ContractFlowTest {
     }
 
     @Test(dependsOnMethods = {"CreateContractTest"})
-    @TestRailReference(id=5872)
+    @TestRailReference(id=4661)
     public void IndexContractTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);

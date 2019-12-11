@@ -355,6 +355,7 @@ public class Browser implements WebDriver {
     public WebElement findElement(By by) { return driver.findElement(by); }
     public String getPageSource() { return driver.getPageSource(); }
     public void close() {
+        System.out.println(GetLog());
         driver.close();
     }
     public void quit() { driver.quit(); }
@@ -384,6 +385,12 @@ public class Browser implements WebDriver {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(script, element);
+    }
+
+    public void forceSendKeysWhenAvailable(WebElement element, String keystrokes) {
+        // make WebElement editable, then send keys
+        InjectJavaScript("arguments[0].value=arguments[1]", element);
+        sendKeysWhenAvailable(element, keystrokes);
     }
 
 

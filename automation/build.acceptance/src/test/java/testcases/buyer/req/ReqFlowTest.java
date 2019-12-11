@@ -47,7 +47,7 @@ public class ReqFlowTest {
     }
 
     @Test
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3516)
     public void CreateRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -58,7 +58,7 @@ public class ReqFlowTest {
 
 
     @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id = 3600)
+    @TestRailReference(id = 3522)
     public void ApproveRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -91,7 +91,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ApproveRequestTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3518)
     public void ViewRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -124,7 +124,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3519)
     public void CopyRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -170,7 +170,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3520)
     public void PrintRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -210,7 +210,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3521)
     public void ViewRequestHistoryTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -242,7 +242,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ViewRequestTest"}) // ViewRequestTest records the PO number we need to receive
-    @TestRailReference(id = 3604)
+    @TestRailReference(id = 3546)
     public void ReceiveOrderTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -275,7 +275,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
-    @TestRailReference(id = 3604)
+    @TestRailReference(id = 3545)
     public void ViewOrdersTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -307,7 +307,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
-    @TestRailReference(id = 3601)
+    @TestRailReference(id = 3541)
     public void CreateInvoiceTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -377,7 +377,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"CreateInvoiceTest"})
-    @TestRailReference(id = 3601)
+    @TestRailReference(id = 3542)
     public void ViewInvoiceTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -411,7 +411,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ViewOrdersTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 13416)
     public void VendorViewPO(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -459,7 +459,7 @@ public class ReqFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
-    @TestRailReference(id = 3597)
+    @TestRailReference(id = 3539)
     public void VendorCreateInvoice(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);

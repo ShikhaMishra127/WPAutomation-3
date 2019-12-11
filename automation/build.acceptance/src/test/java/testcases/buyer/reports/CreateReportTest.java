@@ -50,7 +50,7 @@ public class CreateReportTest {
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=3599)
+    @TestRailReference(id=3523)
     public void GoToReportTest() {
 
         // Navigate to Execute Reports
@@ -67,7 +67,7 @@ public class CreateReportTest {
     }
 
     @Test(priority = 2)
-    @TestRailReference(id=3599)
+    @TestRailReference(id=3523)
     public void CreateReportPageTest() {
 
         // wait until the report loads

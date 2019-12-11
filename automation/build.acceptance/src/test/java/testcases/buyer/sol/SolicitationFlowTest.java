@@ -36,7 +36,7 @@ public class SolicitationFlowTest {
     }
 
     @Test
-    @TestRailReference(id = 3608)
+    @TestRailReference(id = 3550)
     public void CreateSolicitationTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -46,7 +46,7 @@ public class SolicitationFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"CreateSolicitationTest"})
-    @TestRailReference(id = 3605)
+    @TestRailReference(id = 7060)
     public void VendorBidOnSolTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -123,7 +123,7 @@ public class SolicitationFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"CreateSolicitationTest"})
-    @TestRailReference(id = 5870)
+    @TestRailReference(id = 11003)
     public void IndexSolicitationTest(ITestContext testContext) {
         Browser browser = new Browser(testContext);
         SolicitationBidboardPOM board = new SolicitationBidboardPOM(browser);
@@ -150,7 +150,7 @@ public class SolicitationFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"VendorBidOnSolTest"})
-    @TestRailReference(id = 3610)
+    @TestRailReference(id = 3552)
     public void AwardSolTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
