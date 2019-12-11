@@ -57,7 +57,7 @@ public class InvoicePOPicker {
         browser.clickWhenAvailable(lookupSearchButton);
 
         // when you find the PO, click the drop-arrow to the left to expand
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+        browser.HardWait();
 
         String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + ponum + "')]/parent::*/preceding-sibling::*//i[contains(@class,'hand-pointer')]";
         WebElement element = browser.driver.findElement(By.xpath(arrowxpath));

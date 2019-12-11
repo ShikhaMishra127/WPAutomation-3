@@ -20,7 +20,7 @@ public class NewInvoicePOM {
 
     //////////////////////////////////////////////////////////////////////// COMMON CONTROLS
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    @FindBy(xpath = "(//div[@id='bottonButtons']//button[contains(@onclick,'submitPage')])[1]")
     public WebElement NextButton;
 
     //////////////////////////////////////////////////////////////////////// NEW INVOICE HEADER TAB
@@ -52,21 +52,21 @@ public class NewInvoicePOM {
     @FindBy(xpath = "//select[@id='eft']")
     public WebElement headEFTDrop;
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:submitPage')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'submitPage')])[1]")
     public WebElement headNextButton;
 
     //////////////////////////////////////////////////////////////////////// NEW INVOICE ITEMS TAB
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:poSrchPopUp')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'poSrchPopUp')])[1]")
     public WebElement itemsPOSearchButton;
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:invoiceAllPO')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'invoiceAllPO')])[1]")
     public WebElement itemsInvoiceAllButton;
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:previousStep')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'previousStep')])[1]")
     public WebElement itemsPreviousButton;
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'submitPage')])[1]")
     public WebElement itemsNextButton;
 
     ////////// PO Lookup dialog
@@ -76,7 +76,7 @@ public class NewInvoicePOM {
     @FindBy(xpath = "//input[@id='ponum_filter']")
     public WebElement itemsLookupOrderNumberEdit;
 
-    @FindBy(xpath = "//button[contains(@onclick,'javascript:submitSearch')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'submitSearch')])[1]")
     public WebElement itemsLookupSearchButton;
 
     @FindBy(xpath = "//section[@id='cont-search']")
@@ -90,8 +90,8 @@ public class NewInvoicePOM {
 
     public void clickPOExpand(String poNumber) {
 
-        // TEMPORARY! DELETE ME. sleep for a little - we need to wait for onclick event handler to be loaded before clicking icon
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+        // sleep for a little - we need to wait for onclick event handler to be loaded before clicking icon
+        browser.HardWait();
 
         String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + poNumber + "')]/parent::*/preceding-sibling::*//i[contains(@class,'hand-pointer')]";
         WebElement element = browser.driver.findElement(By.xpath(arrowxpath));
@@ -127,7 +127,7 @@ public class NewInvoicePOM {
     @FindBy(xpath="//table[@id='details']/tbody/tr//td[2]")
     public WebElement summaryHeadDetails;
 
-    @FindBy(xpath = "//div[@id='bottonButtons']//button[contains(@onclick,'javascript:submitPage')]")
+    @FindBy(xpath = "(//button[contains(@onclick,'submitPage')])[1]")
     public WebElement summarySubmitInvoice;
 
 }
