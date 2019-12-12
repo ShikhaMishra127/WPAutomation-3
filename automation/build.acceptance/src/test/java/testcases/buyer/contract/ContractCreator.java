@@ -26,9 +26,10 @@ public class ContractCreator {
     CommodityPickerPOM commodity;
 
 
-    public Contract CreateContract(String contractdata, ITestContext testContext) {
+    public Contract CreateContract(Browser inBrowser, ResourceLoader contractData) {
 
-        setup(contractdata, testContext);
+        setup(inBrowser, contractData);
+
         browser.getDriver().get(browser.baseUrl);
 
         login.loginAsBuyer();
@@ -47,10 +48,10 @@ public class ContractCreator {
         return newcontract;
     }
 
-    private void setup(String contractdata, ITestContext testContext) {
+    private void setup(Browser inBrowser, ResourceLoader contractdata) {
 
-        browser = new Browser(testContext);
-        resource = new ResourceLoader(contractdata);
+        browser = inBrowser;
+        resource = contractdata;
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
         contract = new NewContractPOM(browser);

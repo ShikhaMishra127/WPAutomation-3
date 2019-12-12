@@ -7,28 +7,43 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
+import pageobjects.buyer.contract.ViewContractPOM;
+import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 import utilities.common.TestRailReference;
+
+import java.util.Map;
+
+import static pageobjects.buyer.contract.ViewContractPOM.ListColumn;
 
 public class ContractFlowTest {
 
     Contract contract;
+    ResourceLoader resource;
 
     @BeforeClass
     public void setup() {
+
         contract = new Contract();
+        resource = new ResourceLoader("data/contract");
     }
 
     @Test
     @TestRailReference(id=3543)
     public void CreateContractTest(ITestContext testContext) {
 
-        ContractCreator creator = new ContractCreator();
-        contract = creator.CreateContract("data/contract", testContext);
+         Browser browser = new Browser(testContext);
+         ContractCreator creator = new ContractCreator();
+         contract = creator.CreateContract(browser, resource);
 
+        // TEMP - delete me!
+        //contract.setContractNumber("190516.040722");
+        //contract.setContractName("Automated Contract 190516.040722");
     }
 
-    @Test(dependsOnMethods = {"CreateContractTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateContractTest"})
     @TestRailReference(id=4661)
     public void IndexContractTest(ITestContext testContext) {
 
@@ -72,6 +87,28 @@ public class ContractFlowTest {
 //        Assert.assertTrue("Contract has Total Value", board.summaryPricing.getText().contains(contract.getContractValueFormatted()));
 //        Assert.assertTrue("Contract has Contract Type", board.summaryPricing.getText().contains(contract.getContractType()));
 
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"CreateContractTest"})
+    @TestRailReference(id=3544)
+    public void ViewContractTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewContractPOM view = new ViewContractPOM(browser);
+
+        browser.get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        navbar.selectDropDownItem("Contracts","View Current Contracts");
+
+        browser.sendKeysWhenAvailable(view.contractNumberEdit, contract.getContractNumber());
+        browser.clickWhenAvailable(view.submitButton);
+
+        Map<Browser.HTMLTableColumn, WebElement> contractLine = view.getElementsForContractLine(contract.getContractNumber());
+
+        System.out.println("STATUS: " + contractLine.get(ListColumn.STATUS).getText());
     }
 
 }
