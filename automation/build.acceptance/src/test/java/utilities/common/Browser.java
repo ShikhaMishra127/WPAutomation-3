@@ -484,26 +484,24 @@ public class Browser implements WebDriver {
         int         totalLimitSeconds       - Total amount of time to wait for item to appear
 
      */
-    public void waitForElementWithRefresh(String searchPath, int refreshIntervalSeconds, int totalLimitSeconds ) {
+    public void waitForElementWithRefresh(String searchPath, int refreshIntervalSeconds, int totalLimitSeconds) {
 
         int timeout = 0;
 
-        while ( timeout < (totalLimitSeconds / refreshIntervalSeconds)) {
+        while (timeout < (totalLimitSeconds / refreshIntervalSeconds)) {
+
+            // wait for item to show up on page
+            HardWait(refreshIntervalSeconds);
+
             // if we find what we're looking for, leave
             if (elementExists(By.xpath(searchPath))) {
                 System.out.printf("Found.%n");
                 break;
             } else {
-                // otherwise, sleep for (refreshIntervalSeconds) seconds and click refresh results to try again
-                try {
-                    // wait for X seconds, then refresh the page
-                    Thread.sleep((refreshIntervalSeconds * 1000));
-                    driver.navigate().refresh();
-                    timeout++;
-                    System.out.printf("Waiting for %d sec%n", (timeout * refreshIntervalSeconds));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                // refresh the page and try again
+                driver.navigate().refresh();
+                timeout++;
+                System.out.printf("Waiting for %d sec%n", (timeout * refreshIntervalSeconds));
             }
         }
     }
@@ -538,9 +536,9 @@ public class Browser implements WebDriver {
         return elements;
     }
 
-    public void HardWait() {
+    public void HardWait(int seconds) {
         // a terrible necessity - some times we just need to wait for browser to catch up. Use Sparingly!
-        try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+        try { Thread.sleep(1000 * seconds); } catch (InterruptedException e) { e.printStackTrace(); }
     }
 
     public interface HTMLTableColumn {}

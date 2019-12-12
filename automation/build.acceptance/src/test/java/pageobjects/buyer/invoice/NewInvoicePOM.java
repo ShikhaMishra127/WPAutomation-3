@@ -91,7 +91,7 @@ public class NewInvoicePOM {
     public void clickPOExpand(String poNumber) {
 
         // sleep for a little - we need to wait for onclick event handler to be loaded before clicking icon
-        browser.HardWait();
+        browser.HardWait(3);
 
         String arrowxpath = "//table/tbody/tr/td/a[contains(text(),'" + poNumber + "')]/parent::*/preceding-sibling::*//i[contains(@class,'hand-pointer')]";
         WebElement element = browser.driver.findElement(By.xpath(arrowxpath));

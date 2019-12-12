@@ -80,11 +80,13 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(inbox.documentNumberEdit, request.getReqNumber());
         browser.clickWhenAvailable(inbox.submitButton);
 
+        browser.HardWait(3);
+
         // Enter comment and click Approve
        browser.sendKeysWhenAvailable(inbox.reqApprovalComment, resource.getValue("inbox_approval_comment"));
        browser.clickWhenAvailable(inbox.approveButton);
 
-       browser.HardWait();
+       browser.HardWait(3);
 
        browser.Log(request.getReqName() + " approved in workflow");
 
@@ -500,7 +502,7 @@ public class ReqFlowTest {
         browser.sendKeysWhenAvailable(invoice.itemsFreightCommentEdit, resource.getValue("invoice_freightcomment"));
         browser.clickWhenAvailable(invoice.itemsNextButton);
 
-        browser.HardWait();
+        browser.HardWait(3);
 
         // keep going after reaching the Attachments tab - modal asking to continue
         browser.clickWhenAvailable(invoice.attachNextButton);

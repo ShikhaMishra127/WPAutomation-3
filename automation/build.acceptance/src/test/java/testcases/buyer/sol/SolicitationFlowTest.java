@@ -117,7 +117,7 @@ public class SolicitationFlowTest {
     }
 
     @Test(enabled = true, dependsOnMethods = {"VendorBidOnSolTest"})
-    @TestRailReference(id = 3609)
+    @TestRailReference(id = 3551)
     public void VendorViewSolTest() {
         // If we bid on Solicitation, we obviously viewed it first. Each method should have only *one* test case
     }
