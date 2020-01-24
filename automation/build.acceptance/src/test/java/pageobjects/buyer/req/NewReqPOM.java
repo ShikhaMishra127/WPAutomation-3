@@ -78,7 +78,7 @@ public class NewReqPOM {
     @FindBy(xpath="//div[@id='grp_needbydate']//input[@id='dateNeedBy']")
     public WebElement ocNeedByDateEdit;
 
-    @FindBy(xpath="//*[@id='input_catcode']")
+    @FindBy(xpath="//input[@id='input_catcode']")
     public WebElement ocCommodityEdit;
 
     @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
