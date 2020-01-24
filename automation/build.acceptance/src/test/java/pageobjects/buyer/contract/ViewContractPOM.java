@@ -1,5 +1,6 @@
 package pageobjects.buyer.contract;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +18,7 @@ public class ViewContractPOM {
         PageFactory.initElements(((Browser) browser).driver, this);
     }
 
-    ////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////// SEARCH PAGE
 
     @FindBy(xpath="//input[@id='contractNumber']")
     public WebElement contractNumberEdit;
@@ -28,10 +29,24 @@ public class ViewContractPOM {
     @FindBy(xpath="//table[@id='contTable']")
     public WebElement contractListTable;
 
+    //////////////////////////////////////////////////////////////////////// SUMMARY PAGE
 
+    @FindBy(xpath="(//table[@class='overViewTable'])[1]//td[contains(.,'Access')]/following-sibling::*")
+    public WebElement summaryPrivacyLabel;
+
+    @FindBy(xpath="(//table[@class='overViewTable'])[1]")
+    public WebElement summaryGeneralInfoSection;
+
+
+    public WebElement GetGeneralInfoElement(String columnname) {
+
+        String xpath = "//td[contains(.,'" + columnname + "')]/following-sibling::*";
+
+        return browser.getSubElement(summaryGeneralInfoSection, xpath);
+    }
 
     public enum ListColumn implements Browser.HTMLTableColumn
-    { BOGUS, NUMBER, TITLE, CONTRACTOR, ORG, BUYER, EFFECTIVEDATE, EXPIRATIONDATE, STATUS, ACTION }
+    { BOGUS, CONTRACTNUM, TITLE, CONTRACTOR, ORG, BUYER, EFFECTIVEDATE, EXPIRATIONDATE, STATUS, ACTION }
 
     public Map<Browser.HTMLTableColumn, WebElement> getElementsForContractLine(String contractnum) {
 

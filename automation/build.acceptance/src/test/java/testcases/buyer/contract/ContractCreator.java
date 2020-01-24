@@ -26,6 +26,18 @@ public class ContractCreator {
     CommodityPickerPOM commodity;
 
 
+    private void setup(Browser inBrowser, ResourceLoader contractdata) {
+
+        browser = inBrowser;
+        resource = contractdata;
+        navbar = new BuyerNavBarPOM(browser);
+        login = new LoginPagePOM(browser);
+        contract = new NewContractPOM(browser);
+        commodity = new CommodityPickerPOM(browser);
+
+        newcontract = new Contract();
+    }
+
     public Contract CreateContract(Browser inBrowser, ResourceLoader contractData) {
 
         setup(inBrowser, contractData);
@@ -48,17 +60,6 @@ public class ContractCreator {
         return newcontract;
     }
 
-    private void setup(Browser inBrowser, ResourceLoader contractdata) {
-
-        browser = inBrowser;
-        resource = contractdata;
-        navbar = new BuyerNavBarPOM(browser);
-        login = new LoginPagePOM(browser);
-        contract = new NewContractPOM(browser);
-        commodity = new CommodityPickerPOM(browser);
-        newcontract = new Contract();
-
-    }
 
     private void headerStep() {
 
