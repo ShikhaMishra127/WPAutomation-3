@@ -7,29 +7,43 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
+import pageobjects.buyer.common.BuyerNavBarPOM;
+import pageobjects.buyer.contract.ViewContractPOM;
+import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
+import utilities.common.ResourceLoader;
 import utilities.common.TestRailReference;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Map;
+
+import static pageobjects.buyer.contract.ViewContractPOM.ListColumn;
 
 public class ContractFlowTest {
 
     Contract contract;
+    ResourceLoader resource;
 
     @BeforeClass
     public void setup() {
+
         contract = new Contract();
+        resource = new ResourceLoader("data/contract");
     }
 
     @Test
-    @TestRailReference(id=3543)
+    @TestRailReference(id = 3543)
     public void CreateContractTest(ITestContext testContext) {
 
+        Browser browser = new Browser(testContext);
         ContractCreator creator = new ContractCreator();
-        contract = creator.CreateContract("data/contract", testContext);
+        contract = creator.CreateContract(browser, resource);
 
     }
 
-    @Test(dependsOnMethods = {"CreateContractTest"})
-    @TestRailReference(id=4661)
+    @Test(enabled = true, dependsOnMethods = {"CreateContractTest"})
+    @TestRailReference(id = 4661)
     public void IndexContractTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
@@ -48,9 +62,9 @@ public class ContractFlowTest {
         Assert.assertTrue("Number OK", ourline.getText().contains(contract.getContractNumber()));
         Assert.assertTrue("LongDesc OK", ourline.getText().contains(contract.getContractLongDesc()));
 
-        // commented-out failed assert until JIRA ticket WP-4510 is fixed
-        //Assert.assertTrue("Start Date OK", contract.getContractDateAwardBidboardFormatted().contains(browser.getSubElement(ourline, board.itemStartDate).getText()));
-        //Assert.assertTrue("End Date OK", contract.getContractDateExpirationBidboardFormatted().contains(browser.getSubElement(ourline, board.itemEndDate).getText()));
+        Assert.assertTrue("Start Date OK", contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemStartDate).getText()));
+        Assert.assertTrue("End Date OK", contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemEndDate).getText()));
+
         Assert.assertTrue("Supplier OK", ourline.getText().contains(contract.getContractSupplier()));
 
         browser.getSubElement(ourline, board.itemTitle).click();
@@ -59,9 +73,8 @@ public class ContractFlowTest {
         browser.waitForElementToAppear(board.summaryPeriod);
         browser.waitForElementToAppear(board.summaryPricing);
 
-        // BUG: https://proactis.atlassian.net/browse/WP-4095
-        Assert.assertTrue("ExpirationDate OK", board.summaryPeriod.getText().contains("Expiration Date:" + contract.getContractDateExpirationBidboardFormatted()));
-        Assert.assertTrue("Issue Date OK", board.summaryPeriod.getText().contains("Issue Date:" + contract.getContractDateAwardBidboardFormatted()));
+        Assert.assertTrue("ExpirationDate OK", board.summaryPeriod.getText().contains("Expiration Date:" + contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter)));
+        Assert.assertTrue("Issue Date OK", board.summaryPeriod.getText().contains("Issue Date:" + contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter)));
 
         // verify PUBLIC attachments are visible and PRIVATE attachments are NOT
         Assert.assertTrue("Contract contains public attachment", board.summaryAttachments.getText().contains("public"));
@@ -72,6 +85,47 @@ public class ContractFlowTest {
 //        Assert.assertTrue("Contract has Total Value", board.summaryPricing.getText().contains(contract.getContractValueFormatted()));
 //        Assert.assertTrue("Contract has Contract Type", board.summaryPricing.getText().contains(contract.getContractType()));
 
+        browser.Log("Verified contract " + contract.getContractName() + " indexed on Contract Board");
+
+        browser.close();
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"CreateContractTest"})
+    @TestRailReference(id = 3544)
+    public void ViewContractTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        ViewContractPOM view = new ViewContractPOM(browser);
+
+        browser.get(browser.baseUrl);
+        login.loginAsBuyer();
+
+        // Go to Contracts > View Current > Configure a search criteria
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_view"));
+
+        // Search for target contract and click on contract number to get summary screen
+        browser.sendKeysWhenAvailable(view.contractNumberEdit, contract.getContractNumber());
+        browser.clickWhenAvailable(view.submitButton);
+
+        Map<Browser.HTMLTableColumn, WebElement> contractLine = view.getElementsForContractLine(contract.getContractNumber());
+
+        browser.clickSubElement(contractLine.get(ListColumn.CONTRACTNUM), "./a");
+
+        // view summary and make sure data is correct
+        Assert.assertTrue("Verify Privacy Setting",
+                view.GetGeneralInfoElement(resource.getValue("summary_access")).contains(contract.getContractVisibility()));
+        Assert.assertTrue("Verify Contract Title",
+                view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
+        Assert.assertTrue("Verify Contract Issue Date",
+                view.GetGeneralInfoElement(resource.getValue("summary_issuedate")).contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
+
+        browser.Log("Verified contract " + contract.getContractName() + " details on summary page");
+
+        // close up and log out
+        navbar.logout();
+        browser.close();
     }
 
 }

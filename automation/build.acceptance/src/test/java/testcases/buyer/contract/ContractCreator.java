@@ -26,9 +26,22 @@ public class ContractCreator {
     CommodityPickerPOM commodity;
 
 
-    public Contract CreateContract(String contractdata, ITestContext testContext) {
+    private void setup(Browser inBrowser, ResourceLoader contractdata) {
 
-        setup(contractdata, testContext);
+        browser = inBrowser;
+        resource = contractdata;
+        navbar = new BuyerNavBarPOM(browser);
+        login = new LoginPagePOM(browser);
+        contract = new NewContractPOM(browser);
+        commodity = new CommodityPickerPOM(browser);
+
+        newcontract = new Contract();
+    }
+
+    public Contract CreateContract(Browser inBrowser, ResourceLoader contractData) {
+
+        setup(inBrowser, contractData);
+
         browser.getDriver().get(browser.baseUrl);
 
         login.loginAsBuyer();
@@ -47,21 +60,10 @@ public class ContractCreator {
         return newcontract;
     }
 
-    private void setup(String contractdata, ITestContext testContext) {
-
-        browser = new Browser(testContext);
-        resource = new ResourceLoader(contractdata);
-        navbar = new BuyerNavBarPOM(browser);
-        login = new LoginPagePOM(browser);
-        contract = new NewContractPOM(browser);
-        commodity = new CommodityPickerPOM(browser);
-        newcontract = new Contract();
-
-    }
 
     private void headerStep() {
 
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_create"));
 
         UniqueID contractNum = new UniqueID(UniqueID.IDType.DATE);
 

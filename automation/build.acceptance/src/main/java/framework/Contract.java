@@ -21,6 +21,7 @@ public class Contract {
 
     public DateTimeFormatter inputBoxFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     public DateTimeFormatter bidboardFormatter = DateTimeFormatter.ofPattern("LLL d, yyyy");
+    public DateTimeFormatter summaryFormatter  = DateTimeFormatter.ofPattern("LLLL d, yyyy");
 
     // Setters
     public void setContractNumber(String number) { contractNumber = number; }
@@ -43,13 +44,11 @@ public class Contract {
     public String getContractLongDesc() { return contractLongDesc; }
     public String getContractSupplier() { return contractSupplier; }
     public String getContractTotalValue() { return contractTotalValue; }
-    public String getContractDateAwardFormatted() { return this.formatDateWithInputBoxFormatter(this.contractDateAward); }
-    public String getContractDateEffectiveFormatted() { return this.formatDateWithInputBoxFormatter(this.contractDateEffective); }
-    public String getContractDateExpirationFormatted() { return this.formatDateWithInputBoxFormatter(this.contractDateExpiration); }
-    public String getContractDateProjectedFormatted() { return this.formatDateWithInputBoxFormatter(this.contractDateProjected); }
 
-    public String getContractDateAwardBidboardFormatted() { return this.formatDateWithBidboardFormatter(this.contractDateAward); }
-    public String getContractDateExpirationBidboardFormatted() { return this.formatDateWithBidboardFormatter(this.contractDateExpiration); }
+    public ZonedDateTime getContractDateAward() { return this.contractDateAward; }
+    public ZonedDateTime getContractDateEffective() { return this.contractDateEffective; }
+    public ZonedDateTime getContractDateExpiration() { return this.contractDateExpiration; }
+    public ZonedDateTime getContractDateProjected() { return this.contractDateProjected; }
 
     public String getContractVisibility() { return this.contractVisibility; }
     public String getContractType() { return this.contractType; }
@@ -57,15 +56,7 @@ public class Contract {
     public String getContractValueFormatted() { return this.contractValueFormatted; }
 
     // Helpers
-    private String formatDateWithInputBoxFormatter(ZonedDateTime dateTime){
-        return dateTime.format(inputBoxFormatter);
-    }
-    private String formatDateWithBidboardFormatter(ZonedDateTime dateTime){
-        return dateTime.format(bidboardFormatter);
-    }
-
-    // eventually, optimize formatter for getter so that it's taken as a parameter
-    private String formatDate(ZonedDateTime dateTime, DateTimeFormatter textFormat ){
+    public String formatDate(ZonedDateTime dateTime, DateTimeFormatter textFormat ){
         return dateTime.format(textFormat);
     }
 
@@ -74,10 +65,10 @@ public class Contract {
         System.out.printf(" contractName: %s%n", contractName );
         System.out.printf(" contractLongDesc: %s%n", contractLongDesc);
         System.out.printf(" contractTotalValue: %s%n", contractTotalValue);
-        System.out.printf(" DateAward: %s%n", getContractDateAwardFormatted());
-        System.out.printf(" DateEffective: %s%n", getContractDateEffectiveFormatted());
-        System.out.printf(" DateExpiration: %s%n", getContractDateExpirationFormatted());
-        System.out.printf(" DateProjected: %s%n", getContractDateProjectedFormatted());
+        System.out.printf(" DateAward: %s%n", formatDate(contractDateAward, inputBoxFormatter));
+        System.out.printf(" DateEffective: %s%n", formatDate(contractDateEffective, inputBoxFormatter));
+        System.out.printf(" DateExpiration: %s%n", formatDate(contractDateExpiration, inputBoxFormatter));
+        System.out.printf(" DateProjected: %s%n", formatDate(contractDateProjected, inputBoxFormatter));
     }
 
 }
