@@ -38,11 +38,11 @@ public class ViewContractPOM {
     public WebElement summaryGeneralInfoSection;
 
 
-    public WebElement GetGeneralInfoElement(String columnname) {
+    public String GetGeneralInfoElement(String columnname) {
 
         String xpath = "//td[contains(.,'" + columnname + "')]/following-sibling::*";
 
-        return browser.getSubElement(summaryGeneralInfoSection, xpath);
+        return browser.getSubElement(summaryGeneralInfoSection, xpath).getText();
     }
 
     public enum ListColumn implements Browser.HTMLTableColumn

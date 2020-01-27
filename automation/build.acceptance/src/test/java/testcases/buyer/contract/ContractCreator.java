@@ -63,7 +63,7 @@ public class ContractCreator {
 
     private void headerStep() {
 
-        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_create"));
 
         UniqueID contractNum = new UniqueID(UniqueID.IDType.DATE);
 

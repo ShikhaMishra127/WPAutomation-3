@@ -103,7 +103,7 @@ public class ContractFlowTest {
         login.loginAsBuyer();
 
         // Go to Contracts > View Current > Configure a search criteria
-        navbar.selectDropDownItem("Contracts", "View Current Contracts");
+        navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_view"));
 
         // Search for target contract and click on contract number to get summary screen
         browser.sendKeysWhenAvailable(view.contractNumberEdit, contract.getContractNumber());
@@ -114,9 +114,12 @@ public class ContractFlowTest {
         browser.clickSubElement(contractLine.get(ListColumn.CONTRACTNUM), "./a");
 
         // view summary and make sure data is correct
-        Assert.assertTrue("Verify Privacy Setting", view.GetGeneralInfoElement("Access").getText().contains(contract.getContractVisibility()));
-        Assert.assertTrue("Verify Contract Title", view.GetGeneralInfoElement("Title").getText().contains(contract.getContractName()));
-        Assert.assertTrue("Verify Contract Issue Date", view.GetGeneralInfoElement("Issue Date").getText().contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
+        Assert.assertTrue("Verify Privacy Setting",
+                view.GetGeneralInfoElement(resource.getValue("summary_access")).contains(contract.getContractVisibility()));
+        Assert.assertTrue("Verify Contract Title",
+                view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
+        Assert.assertTrue("Verify Contract Issue Date",
+                view.GetGeneralInfoElement(resource.getValue("summary_issuedate")).contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
 
         browser.Log("Verified contract " + contract.getContractName() + " details on summary page");
 
