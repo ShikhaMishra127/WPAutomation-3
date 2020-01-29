@@ -10,6 +10,8 @@ import pageobjects.bidboard.ContractBidboardPOM;
 import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.buyer.contract.ViewContractPOM;
 import pageobjects.common.LoginPagePOM;
+import pageobjects.vendor.common.VendorNavBarPOM;
+import pageobjects.vendor.contracts.VendorViewContractPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.TestRailReference;
@@ -17,8 +19,6 @@ import utilities.common.TestRailReference;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Map;
-
-import static pageobjects.buyer.contract.ViewContractPOM.ListColumn;
 
 public class ContractFlowTest {
 
@@ -58,14 +58,16 @@ public class ContractFlowTest {
         WebElement ourline = board.getContractLineItem(contract.getContractNumber());
 
         // ensure contract list line item contains valid data
-        Assert.assertTrue("Title OK", ourline.getText().contains(contract.getContractName()));
-        Assert.assertTrue("Number OK", ourline.getText().contains(contract.getContractNumber()));
-        Assert.assertTrue("LongDesc OK", ourline.getText().contains(contract.getContractLongDesc()));
+        Assert.assertTrue("Verify Contract Title", ourline.getText().contains(contract.getContractName()));
+        Assert.assertTrue("Verify Contract Number", ourline.getText().contains(contract.getContractNumber()));
+        Assert.assertTrue("Verify Contract Long Description", ourline.getText().contains(contract.getContractLongDesc()));
 
-        Assert.assertTrue("Start Date OK", contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemStartDate).getText()));
-        Assert.assertTrue("End Date OK", contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemEndDate).getText()));
+        Assert.assertTrue("Verify Contract Start Date",
+                contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemStartDate).getText()));
+        Assert.assertTrue("Verify Contract End Date",
+                contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemEndDate).getText()));
 
-        Assert.assertTrue("Supplier OK", ourline.getText().contains(contract.getContractSupplier()));
+        Assert.assertTrue("Verify Contract Supplier Name", ourline.getText().contains(contract.getContractSupplier()));
 
         browser.getSubElement(ourline, board.itemTitle).click();
 
@@ -73,8 +75,10 @@ public class ContractFlowTest {
         browser.waitForElementToAppear(board.summaryPeriod);
         browser.waitForElementToAppear(board.summaryPricing);
 
-        Assert.assertTrue("ExpirationDate OK", board.summaryPeriod.getText().contains("Expiration Date:" + contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter)));
-        Assert.assertTrue("Issue Date OK", board.summaryPeriod.getText().contains("Issue Date:" + contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter)));
+        Assert.assertTrue("Verify Contract Expiration Date",
+                board.summaryPeriod.getText().contains("Expiration Date:" + contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter)));
+        Assert.assertTrue("Verify Contract Issue Date",
+                board.summaryPeriod.getText().contains("Issue Date:" + contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter)));
 
         // verify PUBLIC attachments are visible and PRIVATE attachments are NOT
         Assert.assertTrue("Contract contains public attachment", board.summaryAttachments.getText().contains("public"));
@@ -111,7 +115,7 @@ public class ContractFlowTest {
 
         Map<Browser.HTMLTableColumn, WebElement> contractLine = view.getElementsForContractLine(contract.getContractNumber());
 
-        browser.clickSubElement(contractLine.get(ListColumn.CONTRACTNUM), "./a");
+        browser.clickSubElement(contractLine.get(ViewContractPOM.ListColumn.CONTRACTNUM), "./a");
 
         // view summary and make sure data is correct
         Assert.assertTrue("Verify Privacy Setting",
@@ -128,4 +132,38 @@ public class ContractFlowTest {
         browser.close();
     }
 
+    @Test(enabled = true, dependsOnMethods = {"CreateContractTest"})
+    @TestRailReference(id = 12467)
+    public void VendorViewContractTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
+        VendorViewContractPOM view = new VendorViewContractPOM(browser);
+
+        browser.get(browser.baseUrl);
+        login.loginAsSupplier();
+
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_headitem"), resource.getValue("navbar_vendor_view"));
+
+        // go to Contracts > View Contracts and look up target contract, then click number to get summary screen
+        browser.sendKeysWhenAvailable(view.contractNumberEdit, contract.getContractNumber());
+        browser.clickWhenAvailable(view.submitButton);
+
+        Map<Browser.HTMLTableColumn, WebElement> contractLine = view.getElementsForContractLine(contract.getContractNumber());
+        browser.clickSubElement(contractLine.get(VendorViewContractPOM.ListColumn.CONTRACTNUM), "./a");
+
+        // view summary and make sure data is correct
+        Assert.assertTrue("Verify Contract Title",
+                view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
+        Assert.assertTrue("Verify Contract Issue Date",
+                view.GetGeneralInfoElement(resource.getValue("summary_issuedate")).contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
+
+        browser.Log("Verified contract " + contract.getContractName() + " details on vendor summary page");
+
+        // close up and log out
+        navbar.vendorLogout();
+        browser.close();
+
+    }
 }
