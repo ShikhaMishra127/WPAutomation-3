@@ -163,7 +163,44 @@ public class EnterpriseAdminPOM {
     @FindBy(xpath="//button[contains(@onclick,'saveSupplier')]")
     public WebElement esSaveButton;
 
+    //////////////////////////////////////////////////////////////////////// EDIT USERS PAGE
 
+    ///// user search page
 
+    @FindBy(xpath="//input[@name='un']")
+    public WebElement euUsernameEdit;
+
+    @FindBy(xpath="//input[@name='em']")
+    public WebElement euEmailEdit;
+
+    @FindBy(xpath="//input[@name='ln']")
+    public WebElement euLastNameEdit;
+
+    @FindBy(xpath="//input[contains(@onclick,'finduserid')]")
+    public WebElement euFindButton;
+
+    public void euClickEditIconForUser(String username) {
+
+        String xpath = "//td[contains(text(),'" + username + "')]/parent::*/td/a/img[contains(@src,'edit')]/parent::*";
+
+        browser.clickWhenAvailable(By.xpath(xpath));
+    }
+
+    ///// user information page
+
+    @FindBy(xpath="(//td[@class='WELCOME'])[1]/parent::*/parent::*")
+    public WebElement euUserInfoTable;
+
+    @FindBy(xpath="(//td[@class='WELCOME'])[1]/parent::*/parent::*//span[@class='badge']")
+    public WebElement euUserStatus;
+
+    @FindBy(xpath="//button[@name='onclick']")
+    public WebElement euSelectAllButton;
+
+    @FindBy(xpath="(//button[contains(@onclick,'SaveUser')])[1]")
+    public WebElement euSaveUserButton;
+
+    @FindBy(xpath="(//button[contains(@onclick,'CloseUser')])[1]")
+    public WebElement euCloseButton;
 
 }
