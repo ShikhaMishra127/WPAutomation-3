@@ -1,5 +1,6 @@
 package testcases.buyer.admin;
 
+import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -56,7 +57,7 @@ public class EnterpriseAdminTest {
 
     }
 
-    @Test(enabled = false, dependsOnMethods = {"GoToEnterpriseAdmin"})
+    @Test(enabled = true, dependsOnMethods = {"GoToEnterpriseAdmin"})
     @TestRailReference(id = 3527)
     public void GeneralOrgInfoTest() {
 
@@ -165,4 +166,35 @@ public class EnterpriseAdminTest {
 
         browser.Log("Searched for Supplier and verified status");
     }
+
+    @Test(enabled = true, dependsOnMethods = {"GoToEnterpriseAdmin"})
+    @TestRailReference(id = 3531)
+    public void EditUserTest() {
+
+        // go to Edit Users and look up our target user
+        admin.SelectFromMenu(resource.getValue("navbar_user"), resource.getValue("navbar_edituser"));
+        browser.switchToFrame(admin.dataFrame);
+
+        browser.sendKeysWhenAvailable(admin.euUsernameEdit, browser.buyerUsername);
+        browser.clickWhenAvailable(admin.euFindButton);
+
+        admin.euClickEditIconForUser(browser.buyerUsername);
+
+        // wait for user summary page to appear
+        browser.waitForElementToAppear(admin.euUserInfoTable);
+
+        // click on Select All to give our user all rights, then save
+        browser.clickWhenAvailable(admin.euSelectAllButton);
+        browser.clickWhenAvailable(admin.euSaveUserButton);
+
+        // verify user is active
+        Assert.assertTrue("Verify user is Active", admin.euUserStatus.getText().contains(resource.getValue("buyer_user_status")));
+
+        browser.clickWhenAvailable(admin.euCloseButton);
+
+        browser.Log("User (" + browser.buyerUsername + ") is Active and has been given all permissions");
+
+        browser.switchBackToTopFrame();
+    }
+
 }
