@@ -10,6 +10,9 @@ public class Request {
     private String reqPONumber;
     private String reqReceiptNumber;
     private String buyerInvoiceNumber;
+    private String supplierInvoiceNumber;
+    private String supplierMiscCharges;
+    private String supplierMiscChargeComments;
 
     // Setters
     public void setReqName(String name) { this.reqName = name; }
@@ -20,6 +23,9 @@ public class Request {
     public void setReqTotal(String reqTotal) { this.reqTotal = reqTotal; }
     public void setReceiptNumber(String reqReceiptNumber) { this.reqReceiptNumber = reqReceiptNumber; }
     public void setBuyerInvoiceNumber(String invoiceNumber) { this.buyerInvoiceNumber= invoiceNumber; }
+    public void setSupplierInvoiceNumber(String invoiceNumber) { this.supplierInvoiceNumber = invoiceNumber; }
+    public void setSupplierMiscCharges(String amount) { this.supplierMiscCharges = amount; }
+    public void setSupplierMiscChargeComments(String comments) { this.supplierMiscChargeComments = comments; }
 
     // Getters
     public String getReqName() { return reqName; }
@@ -30,5 +36,8 @@ public class Request {
     public String getReqTotal() { return reqTotal; }
     public String getReqReceiptNumber() { return reqReceiptNumber; }
     public String getBuyerInvoiceNumber() { return buyerInvoiceNumber; }
+    public String getSupplierInvoiceNumber() { return supplierInvoiceNumber; }
+    public String getSupplierMiscCharges() { return supplierMiscCharges; }
+    public String getSupplierMiscChargeComments() { return supplierMiscChargeComments; }
 
 }
