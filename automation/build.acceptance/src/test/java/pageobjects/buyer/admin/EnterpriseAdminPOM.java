@@ -127,14 +127,6 @@ public class EnterpriseAdminPOM {
     @FindBy(xpath = "//input[@id='searchbtn']")
     public WebElement esSearchButton;
 
-    /*
-        public enum InvListColumn implements Browser.HTMLTableColumn { BOGUS, EXPAND, ORG, BUYERNUM, SUPPLIERNUM, TOTAL, POSTDATE, SUPPLIER, STATUS, ACTION }
-
-        public Map<Browser.HTMLTableColumn, WebElement> getElementsForInvLine(String invnumber) {
-            String rowXPath = "//td[contains(text(),'" + invnumber + "')]/parent::*";
-            return browser.buildTableMap(invTable, rowXPath, InvListColumn.values());
-        }
-     */
     @FindBy(xpath = "//tbody//table")
     public WebElement esSupplierResultTable;
 

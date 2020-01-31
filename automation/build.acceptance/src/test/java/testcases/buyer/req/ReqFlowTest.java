@@ -19,6 +19,7 @@ import pageobjects.common.InvoicePOPicker;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.invoice.VendorNewInvoicePOM;
+import pageobjects.vendor.invoice.VendorViewInvoicePOM;
 import pageobjects.vendor.orders.VendorOrderViewPOM;
 import utilities.common.Browser;
 import utilities.common.ResourceLoader;
@@ -31,6 +32,7 @@ import static pageobjects.buyer.invoice.ViewInvoicePOM.InvListColumn;
 import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 import static pageobjects.vendor.orders.VendorOrderViewPOM.VendorPOListColumn;
+import static pageobjects.vendor.invoice.VendorViewInvoicePOM.VendorInvListColumn;
 
 //@Listeners({TestRailListener.class})
 
@@ -109,7 +111,7 @@ public class ReqFlowTest {
 
         // make sure req number and status are ok
         Assert.assertTrue("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText().contains(request.getReqNumber()));
-        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains("PO Created"));
+        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains(resource.getValue("request_status")));
 
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
@@ -294,8 +296,8 @@ public class ReqFlowTest {
 
         // verify PO is created and ready to be received
         String status = poLine.get(POListColumn.STATUS).getText();
-        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
-        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
+        Assert.assertTrue("Verify PO Approved", status.contains(resource.getValue("po_status")));
+        Assert.assertTrue("Verify PO Transmitted", status.contains(resource.getValue("po_buyer_transmission")));
 
         // back on the PO list, click Receipt History and confirm receipt submitted
         browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
@@ -416,7 +418,7 @@ public class ReqFlowTest {
 
     @Test(enabled = true, dependsOnMethods = {"ViewOrdersTest"})
     @TestRailReference(id = 13416)
-    public void VendorViewPO(ITestContext testContext) {
+    public void VendorViewPOTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
@@ -454,7 +456,7 @@ public class ReqFlowTest {
         poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
 
         Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
-                poLine.get(VendorPOListColumn.STATUS).getText().contains("ACKNOWLEDGED"));
+                poLine.get(VendorPOListColumn.STATUS).getText().contains(resource.getValue("po_vendor_transmission")));
 
         browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
 
@@ -464,7 +466,7 @@ public class ReqFlowTest {
 
     @Test(enabled = true, dependsOnMethods = {"ReceiveOrderTest"})
     @TestRailReference(id = 3539)
-    public void VendorCreateInvoice(ITestContext testContext) {
+    public void VendorCreateInvoiceTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
@@ -477,14 +479,15 @@ public class ReqFlowTest {
         login.loginAsSupplier();
 
         // go to Create new Invoice
-        navbar.selectNavDropByBuyer(browser.buyerName, "Invoice", "Create New");
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_invheaditem"), resource.getValue("navbar_newinv"));
 
         String vendorInvoiceNumber = request.getBuyerInvoiceNumber()+"V";
 
+        request.setSupplierInvoiceNumber( vendorInvoiceNumber );
+
         // fill out header page
         browser.sendKeysWhenAvailable(invoice.headerInvoiceNumberEdit, vendorInvoiceNumber);
-        browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, "This contains a bunch of comments some stupid " +
-                "person felt like they HAD to include with their god-forsaken invoice test. What an idiot.");
+        browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, resource.getValue("vendor_comment"));
 
         String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
@@ -529,6 +532,48 @@ public class ReqFlowTest {
         navbar.vendorLogout();
         browser.close();
 
+    }
+
+    @Test(enabled = true, dependsOnMethods = {"VendorCreateInvoiceTest"})
+    @TestRailReference(id = 3540)
+    public void VendorViewInvoiceTest(ITestContext testContext) {
+
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        VendorNavBarPOM navbar = new VendorNavBarPOM(browser);
+        VendorViewInvoicePOM view = new VendorViewInvoicePOM(browser);
+
+        // go to default URL and log in as a supplier
+        browser.getDriver().get(browser.baseUrl);
+        login.loginAsSupplier();
+
+        String targetInvoiceNumber = request.getSupplierInvoiceNumber();
+
+        // go to View Invoices and search for target supplier invoice
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_invheaditem"), resource.getValue("navbar_viewinv"));
+
+        browser.sendKeysWhenAvailable(view.searchInvoiceNumberEdit, targetInvoiceNumber);
+        browser.clickWhenAvailable(view.searchSubmitButton);
+
+        // click on action icon, then view invoice (to bring up invoice summary)
+        Map<Browser.HTMLTableColumn,WebElement> invLine = view.getElementsForInvoiceLine(targetInvoiceNumber);
+
+        browser.clickWhenAvailable(invLine.get(VendorInvListColumn.ACTION));
+        browser.clickSubElement(invLine.get(VendorInvListColumn.ACTION), view.submenuViewIcon);
+
+        browser.waitForElementToAppear(view.summaryInvoiceNumber);
+
+        // verify some lines on the invoice summary page
+        Assert.assertTrue("Verify Invoice Number", view.summaryInvoiceNumber.getText().contains(targetInvoiceNumber));
+        Assert.assertTrue("Verify Misc Charges", view.summaryMiscFreightAmount.getText().contains(request.getSupplierMiscCharges()));
+        Assert.assertTrue("Verify Misc Charge Comments", view.summaryMiscFreightComments.getText().contains(request.getSupplierMiscChargeComments()));
+
+        browser.clickWhenAvailable(view.summaryCloseButton);
+
+        browser.Log("Summary for invoice " + targetInvoiceNumber + " viewed by vendor");
+
+        navbar.vendorLogout();
+        browser.close();
     }
 
 
