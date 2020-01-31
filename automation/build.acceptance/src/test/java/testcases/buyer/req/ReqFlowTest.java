@@ -111,7 +111,7 @@ public class ReqFlowTest {
 
         // make sure req number and status are ok
         Assert.assertTrue("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText().contains(request.getReqNumber()));
-        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains("PO Created"));
+        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains(resource.getValue("request_status")));
 
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
@@ -296,8 +296,8 @@ public class ReqFlowTest {
 
         // verify PO is created and ready to be received
         String status = poLine.get(POListColumn.STATUS).getText();
-        Assert.assertTrue("Verify PO Approved", status.contains("Approved"));
-        Assert.assertTrue("Verify PO Transmitted", status.contains("Sent to Email"));
+        Assert.assertTrue("Verify PO Approved", status.contains(resource.getValue("po_status")));
+        Assert.assertTrue("Verify PO Transmitted", status.contains(resource.getValue("po_buyer_transmission")));
 
         // back on the PO list, click Receipt History and confirm receipt submitted
         browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
@@ -456,7 +456,7 @@ public class ReqFlowTest {
         poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
 
         Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
-                poLine.get(VendorPOListColumn.STATUS).getText().contains("ACKNOWLEDGED"));
+                poLine.get(VendorPOListColumn.STATUS).getText().contains(resource.getValue("po_vendor_transmission")));
 
         browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
 
@@ -479,7 +479,7 @@ public class ReqFlowTest {
         login.loginAsSupplier();
 
         // go to Create new Invoice
-        navbar.selectNavDropByBuyer(browser.buyerName, "Invoice", "Create New");
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_invheaditem"), resource.getValue("navbar_newinv"));
 
         String vendorInvoiceNumber = request.getBuyerInvoiceNumber()+"V";
 
@@ -487,8 +487,7 @@ public class ReqFlowTest {
 
         // fill out header page
         browser.sendKeysWhenAvailable(invoice.headerInvoiceNumberEdit, vendorInvoiceNumber);
-        browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, "This contains a bunch of comments some stupid " +
-                "person felt like they HAD to include with their god-forsaken invoice test. What an idiot.");
+        browser.sendKeysWhenAvailable(invoice.headerInvoiceComments, resource.getValue("vendor_comment"));
 
         String todaysDate = browser.getDateTimeNowInUsersTimezone().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
@@ -551,7 +550,7 @@ public class ReqFlowTest {
         String targetInvoiceNumber = request.getSupplierInvoiceNumber();
 
         // go to View Invoices and search for target supplier invoice
-        navbar.selectNavDropByBuyer(browser.buyerName, "Invoice", "View All");
+        navbar.selectNavDropByBuyer(browser.buyerName, resource.getValue("navbar_invheaditem"), resource.getValue("navbar_viewinv"));
 
         browser.sendKeysWhenAvailable(view.searchInvoiceNumberEdit, targetInvoiceNumber);
         browser.clickWhenAvailable(view.searchSubmitButton);
