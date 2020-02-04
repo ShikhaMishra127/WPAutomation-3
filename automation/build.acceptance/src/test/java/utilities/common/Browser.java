@@ -227,8 +227,11 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 30);
+            wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+        catch (TimeoutException ignored) { return; }
     }
 
     public void clickWhenAvailable(WebElement element) {
@@ -512,6 +515,8 @@ public class Browser implements WebDriver {
         return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
 
+    public interface HTMLTableColumn {}
+
     public Map<HTMLTableColumn, WebElement> buildTableMap(String rowXPath, HTMLTableColumn[] columns) {
         return buildTableMap(null, rowXPath, columns);
     }
@@ -541,6 +546,14 @@ public class Browser implements WebDriver {
         try { Thread.sleep(1000 * seconds); } catch (InterruptedException e) { e.printStackTrace(); }
     }
 
-    public interface HTMLTableColumn {}
+    public void confirmAlert() {
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.alertIsPresent());
+
+        Alert alert = switchTo().alert();
+        alert.accept();
+    }
+
 
 }
