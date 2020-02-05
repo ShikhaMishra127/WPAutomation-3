@@ -548,11 +548,16 @@ public class Browser implements WebDriver {
 
     public void confirmAlert() {
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.alertIsPresent());
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 5);
+            wait.until(ExpectedConditions.alertIsPresent());
 
-        Alert alert = switchTo().alert();
-        alert.accept();
+            Alert alert = switchTo().alert();
+            alert.accept();
+        }
+        catch (NoAlertPresentException ignored) { return; }
+        catch (TimeoutException ignored) { return; }
+
     }
 
 

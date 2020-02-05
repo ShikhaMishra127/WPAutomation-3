@@ -62,7 +62,6 @@ public class FormBuilderAdminPOM {
     @FindBy(xpath="//button[@type='submit']")
     public WebElement newProjectSubmitButton;
 
-
     public void CreateOrUseProject(String categoryname, String projectname) {
 
         String categoryxpath = "//div[@class='col-xs-3 pm0 h100']/div/div/ul/li/a[contains(text(),'" + categoryname + "')]";
@@ -96,4 +95,53 @@ public class FormBuilderAdminPOM {
         WebElement projectLink = browser.findElement(By.xpath(projectxpath));
         browser.clickSubElement(projectLink, openProjectLink);
     }
+
+    //////////////////////////////////////////////////////////////////////// EDITOR PAGE
+
+    @FindBy(xpath="//button[contains(.,'Add New Page')]")
+    public WebElement editAddNewPageButton;
+
+    @FindBy(xpath="(//input[@name='name'])[2]")
+    public WebElement editNewPageNameEdit;
+
+    @FindBy(xpath="//button[contains(.,'Create')]")
+    public WebElement editNewPageCreateButton;
+
+    @FindBy(xpath="//table[@class='table table-bordered table-striped']/tbody/tr/td")
+    public WebElement editPagesTable;
+
+    @FindBy(xpath="//label[contains(.,'Show JSON')]/input")
+    public WebElement editShowJSONCheckbox;
+
+
+    public void RemoveExistingPages() {
+
+        String xpathDelIcons = "(//a/i[@class='fa fa-trash'])";
+
+        browser.HardWait(2);
+
+        // go through all "Delete" page icons until there are no pages left
+        int i = browser.findElements(By.xpath(xpathDelIcons)).size();
+        while (i > 0) {
+            browser.clickWhenAvailable(By.xpath(xpathDelIcons + "[" + i + "]"));
+            browser.confirmAlert();
+            i--;
+        }
+    }
+
+    public void OpenFormBuilderEditor(String projectname) {
+
+        String xpath = "//a[contains(.,'" + projectname + "')]/parent::*/following-sibling::*//i[contains(@class,'fa fa-wrench')]//parent::*";
+        browser.clickWhenAvailable(By.xpath(xpath));
+    }
+
+
+
+
+
+
+
+
+
+
 }

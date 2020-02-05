@@ -1,5 +1,6 @@
 package testcases.vendor.registration;
 
+import org.openqa.selenium.interactions.Actions;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 import pageobjects.buyer.admin.FormBuilderAdminPOM;
@@ -34,6 +35,19 @@ public class FormBuilderRegistrationTest {
 
         browser.HardWait(3);
         form.CreateOrUseProject("Automation", "BOOM");
+
+        form.RemoveExistingPages();
+        browser.clickWhenAvailable(form.editAddNewPageButton);
+        browser.sendKeysWhenAvailable(form.editNewPageNameEdit, "SPOOFY");
+        browser.clickWhenAvailable(form.editNewPageCreateButton);
+
+        form.OpenFormBuilderEditor("SPOOFY");
+        browser.clickWhenAvailable(form.editShowJSONCheckbox);
+
+        Actions actions = new Actions(browser.driver);
+
+        actions.dragAndDrop()
+
     }
 
 }
