@@ -18,6 +18,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 public class Browser implements WebDriver {
 
     public WebDriver driver;
@@ -560,5 +562,11 @@ public class Browser implements WebDriver {
 
     }
 
+    public void Assert(String message, String value1, String value2) {
 
+        String output = "TEST: " + message + "\nACTUAL: " + value1 + "\nEXPECTED: " + value2 + "\n\n";
+        Log(output);
+
+        assertTrue(value1.contains(value2));
+    }
 }

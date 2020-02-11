@@ -122,8 +122,6 @@ public class ContractFlowTest {
                 view.GetGeneralInfoElement(resource.getValue("summary_access")).contains(contract.getContractVisibility()));
         Assert.assertTrue("Verify Contract Title",
                 view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
-        Assert.assertTrue("Verify Contract Issue Date",
-                view.GetGeneralInfoElement(resource.getValue("summary_issuedate")).contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
 
         browser.Log("Verified contract " + contract.getContractName() + " details on summary page");
 
@@ -156,8 +154,6 @@ public class ContractFlowTest {
         // view summary and make sure data is correct
         Assert.assertTrue("Verify Contract Title",
                 view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
-        Assert.assertTrue("Verify Contract Issue Date",
-                view.GetGeneralInfoElement(resource.getValue("summary_issuedate")).contains(contract.formatDate(contract.getContractDateEffective(), contract.summaryFormatter)));
 
         browser.Log("Verified contract " + contract.getContractName() + " details on vendor summary page");
 

@@ -123,6 +123,7 @@ public class FormBuilderAdminPOM {
         // go through all "Delete" page icons until there are no pages left
         int i = browser.findElements(By.xpath(xpathDelIcons)).size();
         while (i > 0) {
+            browser.HardWait(1);
             browser.clickWhenAvailable(By.xpath(xpathDelIcons + "[" + i + "]"));
             browser.confirmAlert();
             i--;
@@ -133,7 +134,31 @@ public class FormBuilderAdminPOM {
 
         String xpath = "//a[contains(.,'" + projectname + "')]/parent::*/following-sibling::*//i[contains(@class,'fa fa-wrench')]//parent::*";
         browser.clickWhenAvailable(By.xpath(xpath));
+        browser.HardWait(2);
     }
+
+    @FindBy(xpath="(//b[contains(.,'Layouts')])[1]/parent::*/parent::*/following-sibling::*")
+    public WebElement dragLayouts;
+
+    public String dragDiv = "./div/div/div[contains(@class,'drag-handle')][contains(.,'Div')]";
+    public String drag1x2 = "./div/div/div[contains(.,'1x2 Grid')]";
+    public String drag1x3 = "./div/div/div[contains(.,'1x3 Grid')]";
+    public String drag1x4 = "./div/div/div[contains(.,'1x4 Grid')]";
+
+    @FindBy(xpath="(//b[contains(.,'Webprocure Components')])[1]/parent::*/parent::*/following-sibling::*")
+    public WebElement dragWebProcure;
+
+    public String dragFEIN = "./div/div/div[contains(@class,'drag-handle')][contains(.,'FEIN')]";
+
+    //b[contains(.,'Layouts')])[1]/parent::*/parent::*/following-sibling::*/div/div/div[contains(@class,'drag-handle')][contains(.,'Div')]
+
+    @FindBy(xpath="//div[contains(@class,'droppable')]")
+    public WebElement dropArea;
+
+
+
+
+
 
 
 

@@ -96,16 +96,7 @@ public class ContractCreator {
         browser.sendKeysWhenAvailable(contract.headerContractNumber, contractNum.getNumber());
 
         // Add a list of comma-separated commodity codes to add to contract
-        browser.clickWhenAvailable(contract.headerCommoditiesButton);
-
-        String[] values = resource.getValue("contract_commodities").split(",");
-
-        // for each code, search for and then add code to solicitation header
-        for (String code : values) {
-            commodity.selectCommodityByCode(code);
-        }
-
-        browser.clickWhenAvailable(commodity.commodityCloseButton);
+        commodity.addCodes(resource.getValue("contract_commodities"));
 
         // Add contractor
         browser.clickWhenAvailable(contract.headerContractorSearchButton);

@@ -221,27 +221,6 @@ public class RegWhiteLabelPOM {
     @FindBy(xpath = "//div[@id='catTreeDiv']")
     public WebElement commoditySearchResults;
 
-    /////
-
-    public void selectCommodityByCode(String code) {
-
-        String checkboxpath = "//span[contains(@class, 'fancytree-title') and contains(text(), '" + code + "')]/preceding-sibling::*[1]";
-
-        // search by code
-        browser.clickWhenAvailable(commoditySearchClearButton);
-        browser.sendKeysWhenAvailable(commoditySearchEdit, code);
-        browser.clickWhenAvailable(commoditySearchButton);
-
-        // wait for tree to be updated with results
-        browser.waitForElementToAppear(By.xpath(checkboxpath));
-
-        // find the checkbox of the found code
-        WebElement checkbox = commoditySearchResults.findElement(By.xpath(checkboxpath));
-
-        // click the correct code
-        browser.clickWhenAvailable(checkbox);
-    }
-
     //////////////////////////////////////////////////////////////////////// REGISTRATION COMPLETE PAGE
 
     @FindBy(xpath = "//div[@id='confirmmsg']//p[contains(text(),'Your username')]/b")
