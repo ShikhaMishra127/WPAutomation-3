@@ -19,7 +19,6 @@ import utilities.common.UniqueID;
 public class FormBuilderRegistrationTest {
 
     ResourceLoader resource = new ResourceLoader("data/formbuilder");
-    String registrationURL = "";
 
     @Test(enabled = false)
     @TestRailReference(id = 12469)
@@ -63,7 +62,6 @@ public class FormBuilderRegistrationTest {
     }
 
     @Test(enabled = true)
-    //    @Test(enabled = true, dependsOnMethods = {"CreateRegistrationTest"})
     @TestRailReference(id = 12468)
     public void RegisterSupplierTest(ITestContext testContext) {
 
@@ -71,29 +69,28 @@ public class FormBuilderRegistrationTest {
         RegFormBuilderPOM form = new RegFormBuilderPOM(browser);
         CommodityPickerPOM picker = new CommodityPickerPOM(browser);
 
+        // build a unique supplier name (used for SSN/FEIN as well)
         UniqueID supplierID = new UniqueID(UniqueID.IDType.SSNFEIN);
-        String supplierName = "Test Supplier " + supplierID.getNumber();
+        String supplierName = resource.getValue("supplier_name") + " " + supplierID.getNumber();
 
-        // DEL ME - Assume that we've set the registration URL in the previous test
-        registrationURL = "https://internalwpqa.perfect.com/wp-form-builder/#/form/bff3fb33-1a25-4817-a9b2-040bf3f15b07";
-
-        browser.getDriver().get(registrationURL);
+        // Go to FormBuilder registration page
+        browser.getDriver().get(browser.formbuilderUrl);
 
         // Fill out Company Info page
         browser.sendKeysWhenAvailable(form.supplierNameEdit, supplierName);
-        new Select(form.countryDrop).selectByValue("US");
-        new Select(form.businessTypeDrop).selectByVisibleText("Individual/Sole Proprietor");
+        new Select(form.countryDrop).selectByValue(resource.getValue("country_code"));
+        new Select(form.businessTypeDrop).selectByVisibleText(resource.getValue("business_type"));
 
         browser.sendKeysWhenAvailable(browser.getSubElement(form.feinSection, form.feinPt1), supplierID.getFeinPt1());
         browser.sendKeysWhenAvailable(browser.getSubElement(form.feinSection, form.feinPt2), supplierID.getFeinPt2());
         browser.sendKeysWhenAvailable(browser.getSubElement(form.feinSection, form.feinConfirmPt1), supplierID.getFeinPt1());
         browser.sendKeysWhenAvailable(browser.getSubElement(form.feinSection, form.feinConfirmPt2), supplierID.getFeinPt2());
 
-        browser.sendKeysWhenAvailable(form.compAddrLine1Edit, "1 Mayberry Place");
-        browser.sendKeysWhenAvailable(form.compAddrLine2Edit, "Suite 120");
-        browser.sendKeysWhenAvailable(form.compAddrCityEdit, "Williamsburg");
-        new Select(form.compAddrStateDrop).selectByValue("VA");
-        browser.sendKeysWhenAvailable(form.compAddrZipEdit, "23606");
+        browser.sendKeysWhenAvailable(form.compAddrLine1Edit, resource.getValue("addr1"));
+        browser.sendKeysWhenAvailable(form.compAddrLine2Edit, resource.getValue("addr2"));
+        browser.sendKeysWhenAvailable(form.compAddrCityEdit, resource.getValue("city"));
+        new Select(form.compAddrStateDrop).selectByValue(resource.getValue("state_code"));
+        browser.sendKeysWhenAvailable(form.compAddrZipEdit, resource.getValue("zipcode"));
 
         // Automatically click "here" if error message appears, "We could not find this address."
         form.VerifyIfInvalidAddress();
@@ -101,15 +98,15 @@ public class FormBuilderRegistrationTest {
         browser.waitForPageLoad();
 
         // Fill out User Info page
-        browser.sendKeysWhenAvailable(form.userFirstNameEdit, "Andrew");
-        browser.sendKeysWhenAvailable(form.userLastNameEdit, "Lipinski");
-        browser.sendKeysWhenAvailable(form.userJobTitleEdit, "Lord Master QA");
-        browser.sendKeysWhenAvailable(form.userPhoneEdit, "8005551212");
-        browser.sendKeysWhenAvailable(form.userFaxEdit, "8664443334");
-        browser.sendKeysWhenAvailable(form.userEmailAddressEdit, "andrew.comenzo@proactis.com");
+        browser.sendKeysWhenAvailable(form.userFirstNameEdit, resource.getValue("first_name"));
+        browser.sendKeysWhenAvailable(form.userLastNameEdit, resource.getValue("last_name"));
+        browser.sendKeysWhenAvailable(form.userJobTitleEdit, resource.getValue("job_title"));
+        browser.sendKeysWhenAvailable(form.userPhoneEdit, resource.getValue("phone_number"));
+        browser.sendKeysWhenAvailable(form.userFaxEdit, resource.getValue("fax_number"));
+        browser.sendKeysWhenAvailable(form.userEmailAddressEdit, resource.getValue("email"));
         browser.sendKeysWhenAvailable(form.userUsernameEdit, supplierID.getNumber());
-        browser.sendKeysWhenAvailable(form.userPasswordEdit, "Xxxxxxx1!");
-        browser.sendKeysWhenAvailable(form.userConfirmPasswordEdit, "Xxxxxxx1!");
+        browser.sendKeysWhenAvailable(form.userPasswordEdit, resource.getValue("password"));
+        browser.sendKeysWhenAvailable(form.userConfirmPasswordEdit, resource.getValue("password"));
 
         browser.clickWhenAvailable(form.nextButton);
 
@@ -117,17 +114,19 @@ public class FormBuilderRegistrationTest {
         browser.waitForElementToAppear(form.commFrame);
         browser.switchToFrame(form.commFrame);
 
-        picker.addCodes("05200,18030,06505");
+        picker.addCodes(resource.getValue("commodity_codes"));
 
         browser.switchBackToTopFrame();
 
         // Finish Registration
         browser.clickWhenAvailable(form.submitButton);
 
+        // Verify summary page contains our new supplier
         browser.waitForElementToAppear(form.summarySupplierName);
 
         browser.Assert("Verify New Supplier Name", form.summarySupplierName.getText(), supplierName);
-
         browser.Log("Supplier (" + supplierName +") created using FormBuilder");
+
+        browser.close();
     }
 }

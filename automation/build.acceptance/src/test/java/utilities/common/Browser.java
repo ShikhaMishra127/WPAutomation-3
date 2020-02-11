@@ -28,6 +28,7 @@ public class Browser implements WebDriver {
     public String baseUrl;
     public String contractUrl;;
     public String solicitationUrl;
+    public String formbuilderUrl;
     public String language;
     public Long defaultWait;
     public Long defaultPopupWaitSeconds;
@@ -97,6 +98,7 @@ public class Browser implements WebDriver {
         baseUrl = resource.getValue("baseURL");
         contractUrl = resource.getValue("contractBB_URL");
         solicitationUrl = resource.getValue("solicitationBB_URL");
+        formbuilderUrl = resource.getValue("formbuilder_URL");
         language = resource.getValue("Language");
         defaultWait = Long.valueOf(resource.getValue("defaultWait"));
         defaultPopupWaitSeconds = Long.valueOf(resource.getValue("defaultPopupWaitSeconds"));
