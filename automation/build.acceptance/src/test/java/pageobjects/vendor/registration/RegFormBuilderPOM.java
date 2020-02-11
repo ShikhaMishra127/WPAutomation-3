@@ -69,7 +69,7 @@ public class RegFormBuilderPOM {
         String xpath = "//span/a[contains(.,'here')]";
 
         browser.clickWhenAvailable(nextButton);
-        browser.HardWait(2);
+        browser.HardWait(4);
 
         if (browser.elementExists(By.xpath(xpath))) {
             browser.clickWhenAvailable(By.xpath(xpath));
