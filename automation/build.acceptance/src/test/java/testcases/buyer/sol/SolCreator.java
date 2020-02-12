@@ -86,17 +86,8 @@ public class SolCreator {
 
         sol.headSelectCatButton.click();
 
-        browser.waitForElementToAppear(commodity.commoditySearchButton);
-
         // Add a list of comma-separated commodity codes to add to sol header
-        String[] values = resource.getValue("solheadcommodities").split(",");
-
-        // for each code, search for and then add code to solicitation header
-        for (String code : values) {
-            commodity.selectCommodityByCode(code);
-        }
-
-        commodity.commodityCloseButton.click();
+        commodity.addCodes(resource.getValue("solheadcommodities"));
 
         // wait until we load the page after picking commodities
         browser.waitForElementToAppear(sol.headStartDateEdit);

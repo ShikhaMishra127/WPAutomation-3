@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import pageobjects.common.CommodityPickerPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.common.VendorProfileVerificationPOM;
@@ -22,6 +23,7 @@ public class WhiteLabelRegistrationTest {
     LoginPagePOM login;
     VendorProfileVerificationPOM profile;
     VendorNavBarPOM vendor;
+    CommodityPickerPOM commodity;
 
     String vendor_name;
     String vendor_fullname;
@@ -40,6 +42,7 @@ public class WhiteLabelRegistrationTest {
         login = new LoginPagePOM(browser);
         profile = new VendorProfileVerificationPOM(browser);
         vendor = new VendorNavBarPOM(browser);
+        commodity = new CommodityPickerPOM(browser);
 
         // username is always the FEIN/SSN number we generated for the test
         vendor_username = vendorNum.getNumber();
@@ -201,12 +204,7 @@ public class WhiteLabelRegistrationTest {
         Assert.assertTrue("Commodity banner OK", reg.commodityInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_com")));
 
         // Add a list of comma-separated commodity codes to profile
-        String[] values = resource.getValue("vendor_wl_commodity_codes").split(",");
-
-        // for each code, search for and then add code to vendor's profile
-        for (String code : values) {
-            reg.selectCommodityByCode(code);
-        }
+        commodity.addCodes(resource.getValue("vendor_wl_commodity_codes"));
 
         // submit registration
         browser.clickWhenAvailable(reg.nextButton);

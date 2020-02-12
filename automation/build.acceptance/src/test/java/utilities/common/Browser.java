@@ -18,6 +18,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import static org.testng.AssertJUnit.assertTrue;
+
 public class Browser implements WebDriver {
 
     public WebDriver driver;
@@ -26,6 +28,7 @@ public class Browser implements WebDriver {
     public String baseUrl;
     public String contractUrl;;
     public String solicitationUrl;
+    public String formbuilderUrl;
     public String language;
     public Long defaultWait;
     public Long defaultPopupWaitSeconds;
@@ -95,6 +98,7 @@ public class Browser implements WebDriver {
         baseUrl = resource.getValue("baseURL");
         contractUrl = resource.getValue("contractBB_URL");
         solicitationUrl = resource.getValue("solicitationBB_URL");
+        formbuilderUrl = resource.getValue("formbuilder_URL");
         language = resource.getValue("Language");
         defaultWait = Long.valueOf(resource.getValue("defaultWait"));
         defaultPopupWaitSeconds = Long.valueOf(resource.getValue("defaultPopupWaitSeconds"));
@@ -227,8 +231,11 @@ public class Browser implements WebDriver {
     }
 
     public void waitForElementToAppear(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 30);
+            wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+        catch (TimeoutException ignored) { return; }
     }
 
     public void clickWhenAvailable(WebElement element) {
@@ -512,6 +519,8 @@ public class Browser implements WebDriver {
         return ZonedDateTime.ofInstant(nowUtc, usersTimeZone);
     }
 
+    public interface HTMLTableColumn {}
+
     public Map<HTMLTableColumn, WebElement> buildTableMap(String rowXPath, HTMLTableColumn[] columns) {
         return buildTableMap(null, rowXPath, columns);
     }
@@ -541,6 +550,25 @@ public class Browser implements WebDriver {
         try { Thread.sleep(1000 * seconds); } catch (InterruptedException e) { e.printStackTrace(); }
     }
 
-    public interface HTMLTableColumn {}
+    public void confirmAlert() {
 
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, 5);
+            wait.until(ExpectedConditions.alertIsPresent());
+
+            Alert alert = switchTo().alert();
+            alert.accept();
+        }
+        catch (NoAlertPresentException ignored) { return; }
+        catch (TimeoutException ignored) { return; }
+
+    }
+
+    public void Assert(String message, String value1, String value2) {
+
+        String output = "TEST: " + message + "\nACTUAL: " + value1 + "\nEXPECTED: " + value2 + "\n\n";
+        Log(output);
+
+        assertTrue(value1.contains(value2));
+    }
 }

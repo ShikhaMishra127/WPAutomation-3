@@ -82,7 +82,7 @@ public class ContractCreator {
         newcontract.setContractValueFormatted(resource.getValue("contract_totalvalueformatted"));
 
         browser.sendKeysWhenAvailable(contract.headContractTitleEdit, title);
-//        new Select(contract.headContractTypeDrop).selectByVisibleText(newcontract.getContractType());
+
         new Select(contract.headContractTypeDrop).selectByIndex(1);
         new Select(contract.headContractVisibilityDrop).selectByVisibleText(newcontract.getContractVisibility());
 
@@ -97,15 +97,7 @@ public class ContractCreator {
 
         // Add a list of comma-separated commodity codes to add to contract
         browser.clickWhenAvailable(contract.headerCommoditiesButton);
-
-        String[] values = resource.getValue("contract_commodities").split(",");
-
-        // for each code, search for and then add code to solicitation header
-        for (String code : values) {
-            commodity.selectCommodityByCode(code);
-        }
-
-        browser.clickWhenAvailable(commodity.commodityCloseButton);
+        commodity.addCodes(resource.getValue("contract_commodities"));
 
         // Add contractor
         browser.clickWhenAvailable(contract.headerContractorSearchButton);
