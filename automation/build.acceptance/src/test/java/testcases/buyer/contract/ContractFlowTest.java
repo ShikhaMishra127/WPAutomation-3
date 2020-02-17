@@ -58,16 +58,16 @@ public class ContractFlowTest {
         WebElement ourline = board.getContractLineItem(contract.getContractNumber());
 
         // ensure contract list line item contains valid data
-        Assert.assertTrue("Verify Contract Title", ourline.getText().contains(contract.getContractName()));
-        Assert.assertTrue("Verify Contract Number", ourline.getText().contains(contract.getContractNumber()));
-        Assert.assertTrue("Verify Contract Long Description", ourline.getText().contains(contract.getContractLongDesc()));
+        browser.Assert("Verify Contract Title", ourline.getText(), contract.getContractName());
+        browser.Assert("Verify Contract Number", ourline.getText(), contract.getContractNumber());
+        browser.Assert("Verify Contract Long Description", ourline.getText(), contract.getContractLongDesc());
 
-        Assert.assertTrue("Verify Contract Start Date",
-                contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemStartDate).getText()));
-        Assert.assertTrue("Verify Contract End Date",
-                contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter).contains(browser.getSubElement(ourline, board.itemEndDate).getText()));
+        browser.Assert("Verify Contract Start Date",
+                contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter), browser.getSubElement(ourline, board.itemStartDate).getText());
+        browser.Assert("Verify Contract End Date",
+                contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter), browser.getSubElement(ourline, board.itemEndDate).getText());
 
-        Assert.assertTrue("Verify Contract Supplier Name", ourline.getText().contains(contract.getContractSupplier()));
+        browser.Assert("Verify Contract Supplier Name", ourline.getText(), contract.getContractSupplier());
 
         browser.getSubElement(ourline, board.itemTitle).click();
 
@@ -75,19 +75,19 @@ public class ContractFlowTest {
         browser.waitForElementToAppear(board.summaryPeriod);
         browser.waitForElementToAppear(board.summaryPricing);
 
-        Assert.assertTrue("Verify Contract Expiration Date",
-                board.summaryPeriod.getText().contains("Expiration Date:" + contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter)));
-        Assert.assertTrue("Verify Contract Issue Date",
-                board.summaryPeriod.getText().contains("Issue Date:" + contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter)));
+        browser.Assert("Verify Contract Expiration Date",
+                board.summaryPeriod.getText(), "Expiration Date:" + contract.formatDate(contract.getContractDateExpiration(), contract.bidboardFormatter));
+        browser.Assert("Verify Contract Issue Date",
+                board.summaryPeriod.getText(), "Issue Date:" + contract.formatDate(contract.getContractDateAward(), contract.bidboardFormatter));
 
         // verify PUBLIC attachments are visible and PRIVATE attachments are NOT
-        Assert.assertTrue("Contract contains public attachment", board.summaryAttachments.getText().contains("public"));
-        Assert.assertTrue("Contract DOES NOT contain private attachment", !board.summaryAttachments.getText().contains("private"));
+        browser.Assert("Contract contains public attachment", board.summaryAttachments.getText(), "public");
+        browser.Assert("Contract DOES NOT contain private attachment", !board.summaryAttachments.getText().contains("private"));
 
         // verify Contract Pricing
-        Assert.assertTrue("Contract has Pricing Type", board.summaryPricing.getText().contains(contract.getContractPricingType()));
-//        Assert.assertTrue("Contract has Total Value", board.summaryPricing.getText().contains(contract.getContractValueFormatted()));
-//        Assert.assertTrue("Contract has Contract Type", board.summaryPricing.getText().contains(contract.getContractType()));
+        browser.Assert("Contract has Pricing Type", board.summaryPricing.getText(), contract.getContractPricingType());
+//        browser.Assert("Contract has Total Value", board.summaryPricing.getText(), contract.getContractValueFormatted()));
+//        browser.Assert("Contract has Contract Type", board.summaryPricing.getText(), contract.getContractType()));
 
         browser.Log("Verified contract " + contract.getContractName() + " indexed on Contract Board");
 
@@ -118,10 +118,10 @@ public class ContractFlowTest {
         browser.clickSubElement(contractLine.get(ViewContractPOM.ListColumn.CONTRACTNUM), "./a");
 
         // view summary and make sure data is correct
-        Assert.assertTrue("Verify Privacy Setting",
-                view.GetGeneralInfoElement(resource.getValue("summary_access")).contains(contract.getContractVisibility()));
-        Assert.assertTrue("Verify Contract Title",
-                view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
+        browser.Assert("Verify Privacy Setting",
+                view.GetGeneralInfoElement(resource.getValue("summary_access")), contract.getContractVisibility());
+        browser.Assert("Verify Contract Title",
+                view.GetGeneralInfoElement(resource.getValue("summary_title")), contract.getContractName());
 
         browser.Log("Verified contract " + contract.getContractName() + " details on summary page");
 
@@ -152,8 +152,8 @@ public class ContractFlowTest {
         browser.clickSubElement(contractLine.get(VendorViewContractPOM.ListColumn.CONTRACTNUM), "./a");
 
         // view summary and make sure data is correct
-        Assert.assertTrue("Verify Contract Title",
-                view.GetGeneralInfoElement(resource.getValue("summary_title")).contains(contract.getContractName()));
+        browser.Assert("Verify Contract Title",
+                view.GetGeneralInfoElement(resource.getValue("summary_title")), contract.getContractName());
 
         browser.Log("Verified contract " + contract.getContractName() + " details on vendor summary page");
 

@@ -566,9 +566,20 @@ public class Browser implements WebDriver {
 
     public void Assert(String message, String value1, String value2) {
 
-        String output = "TEST: " + message + "\nACTUAL: " + value1 + "\nEXPECTED: " + value2 + "\n\n";
+        String output = "*******\n" + "**TEST:** ***" + message + "***\n**ACTUAL:** " + value1 + "\n**EXPECTED:** " + value2 + "\n\n";
         Log(output);
 
         assertTrue(value1.contains(value2));
+    }
+
+    public void Assert(String message, boolean value) {
+
+        String output = "*******\n" + "**TEST:** ***" + message + "***\n**";
+
+        output += (value) ? "CONFIRMED" : "FAILED";
+        output += "** \n\n";
+        Log(output);
+
+        assertTrue(value);
     }
 }

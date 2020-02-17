@@ -74,7 +74,7 @@ public class SolicitationFlowTest {
         Map<VendorSolResponsePOM.SolColumn, WebElement> targetSolItem = sol.getWebElementsBySol(this.sol.getSolNumber());
 
         // make sure target solicitation is Active (so we can bid on it)
-        Assert.assertTrue("Verify Sol STATUS OK", targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText().contains("Active"));
+        browser.Assert("Verify Sol STATUS OK", targetSolItem.get(VendorSolResponsePOM.SolColumn.STATUS).getText(), "Active");
 
         // click Add Response from the Action bar (ellipsis icon)
         browser.clickSubElement(targetSolItem.get(VendorSolResponsePOM.SolColumn.ACTION), sol.viewActionButton);
@@ -140,9 +140,9 @@ public class SolicitationFlowTest {
 
         browser.waitForElementToAppear(board.summaryTitle);
 
-        Assert.assertTrue("Verify Sol Name", board.summaryTitle.getText().contains(sol.getSolName()));
-        Assert.assertTrue("Verify Sol Number", board.summaryInfo.getText().contains(sol.getSolNumber()));
-        Assert.assertTrue("Verify Sol Long Description", board.summaryLongDesc.getText().contains(sol.getSolLongDesc()));
+        browser.Assert("Verify Sol Name", board.summaryTitle.getText(), sol.getSolName());
+        browser.Assert("Verify Sol Number", board.summaryInfo.getText(), sol.getSolNumber());
+        browser.Assert("Verify Sol Long Description", board.summaryLongDesc.getText(), sol.getSolLongDesc());
 
         browser.Log(sol.getSolName() + " confirmed on Bid Board");
         browser.close();

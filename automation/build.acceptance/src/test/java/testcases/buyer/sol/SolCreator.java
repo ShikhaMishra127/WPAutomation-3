@@ -69,7 +69,7 @@ public class SolCreator {
         String solName = resource.getValue("solname") + " " + solNum.getNumber();
         newsol.setSolName(solName);
 
-        Assert.assertTrue("Verify Solicitation Step HEADER", sol.stepTitle.getText().contains(resource.getValue("solstep_header")));
+        browser.Assert("Verify Solicitation Step HEADER", sol.stepTitle.getText(), resource.getValue("solstep_header"));
 
         sol.headBidTitleEdit.sendKeys(solName);
         sol.headBidNumberEdit.clear();
@@ -122,16 +122,16 @@ public class SolCreator {
 
     private void RequirementsAndQuestionnaireStep() {
 
-        Assert.assertTrue("Verify Solicitation Step REQUIREMENTS", sol.stepTitle.getText().contains(resource.getValue("solstep_requirements")));
+        browser.Assert("Verify Solicitation Step REQUIREMENTS", sol.stepTitle.getText(), resource.getValue("solstep_requirements"));
         browser.clickWhenAvailable(sol.requireNextButton);
 
-        Assert.assertTrue("Verify Solicitation Step QUESTIONNAIRE", sol.stepTitle.getText().contains(resource.getValue("solstep_questionnaire")));
+        browser.Assert("Verify Solicitation Step QUESTIONNAIRE", sol.stepTitle.getText(), resource.getValue("solstep_questionnaire"));
         browser.clickWhenAvailable(sol.nextButton);
     }
 
     private void AttachmentsStep() {
 
-        Assert.assertTrue("Verify Solicitation Step ATTACHMENTS", sol.stepTitle.getText().contains(resource.getValue("solstep_attachments")));
+        browser.Assert("Verify Solicitation Step ATTACHMENTS", sol.stepTitle.getText(), resource.getValue("solstep_attachments"));
 
         // go to the Upload From Document library
         browser.clickWhenAvailable(sol.docsUploadFromLibButton);
@@ -159,13 +159,13 @@ public class SolCreator {
 
     private void ItemSpecStep() {
 
-        Assert.assertTrue("Verify Solicitation Step ITEM SPECS", sol.stepTitle.getText().contains(resource.getValue("solstep_itemspecs")));
+        browser.Assert("Verify Solicitation Step ITEM SPECS", sol.stepTitle.getText(), resource.getValue("solstep_itemspecs"));
 
         // Add two groups to the solicitation, verify groups appear in drop-down
         sol.itemCreateGroup(resource.getValue("solgroupname1"));
         sol.itemCreateGroup(resource.getValue("solgroupname2"));
 
-        Assert.assertTrue("Verify Group DropDown Exists", sol.itemGroupDropDown.isEnabled() );
+        browser.Assert("Verify Group DropDown Exists", sol.itemGroupDropDown.isEnabled() );
 
         // add two items from resources. I know it's a terrible implementation - please improve
         String[] item1 = resource.getValue("solitem1").split(",");
@@ -180,7 +180,7 @@ public class SolCreator {
 
     private void SupplierSelectStep() {
 
-        Assert.assertTrue("Verify Solicitation Step SELECT SUPPLIERS", sol.stepTitle.getText().contains(resource.getValue("solstep_suppliers")));
+        browser.Assert("Verify Solicitation Step SELECT SUPPLIERS", sol.stepTitle.getText(), resource.getValue("solstep_suppliers"));
 
         // zip between tabs to clear out pre-selected commodities in search
         browser.clickWhenAvailable(sol.supplierSelectedTab);
@@ -211,7 +211,7 @@ public class SolCreator {
 
     private void SolicitationSummaryStep() {
 
-        Assert.assertTrue("Verify Solicitation Step SUMMARY", sol.stepTitle.getText().contains(resource.getValue("solstep_summary")));
+        browser.Assert("Verify Solicitation Step SUMMARY", sol.stepTitle.getText(), resource.getValue("solstep_summary"));
 
         // click on Submit Solicitation button
         browser.clickWhenAvailable(sol.summarySubmitButton);

@@ -110,8 +110,8 @@ public class ReqFlowTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
 
         // make sure req number and status are ok
-        Assert.assertTrue("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText().contains(request.getReqNumber()));
-        Assert.assertTrue("Verify req status", reqLine.get(ReqListColumn.STATUS).getText().contains(resource.getValue("request_status")));
+        browser.Assert("Verify req number", reqLine.get(ReqListColumn.REQNUM).getText(), request.getReqNumber());
+        browser.Assert("Verify req status", reqLine.get(ReqListColumn.STATUS).getText(), resource.getValue("request_status"));
 
         // expand req data and get PO number generated (For further tests)
         browser.clickSubElement(reqLine.get(ReqListColumn.EXPAND), view.riDownArrow);
@@ -120,7 +120,7 @@ public class ReqFlowTest {
         request.setReqPONumber(view.riPONumber.getText().trim());  // PO number has a trailing space, dammit!
 
         // make sure total cost is ok
-//        Assert.assertTrue("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText().contains(request.getReqTotal()));
+//        browser.Assert("Verify req total", browser.getSubElement(view.reqTable, view.riReqTotal).getText(), request.getReqTotal()));
 
         browser.Log("PO " + request.getReqPONumber() + " created");
         browser.Log(request.getReqName() + " viewed as a buyer");
@@ -202,9 +202,9 @@ public class ReqFlowTest {
         browser.waitForElementToAppear(view.printReqHeader);
 
         // verify information on printed req
-        Assert.assertTrue("Verify Print Request Name", view.printReqName.getText().contains(request.getReqName()));
-        Assert.assertTrue("Verify Print Request Number", view.printReqNumber.getText().contains(request.getReqNumber()));
-//        Assert.assertTrue("Verify Request Total", view.printReqBody.getText().contains(request.getReqTotal()));
+        browser.Assert("Verify Print Request Name", view.printReqName.getText(), request.getReqName());
+        browser.Assert("Verify Print Request Number", view.printReqNumber.getText(), request.getReqNumber());
+//        browser.Assert("Verify Request Total", view.printReqBody.getText(), request.getReqTotal()));
 
         // close pop-up and return to parent window
         browser.ClosePopUp(parentWindow);
@@ -235,11 +235,11 @@ public class ReqFlowTest {
         browser.waitForElementToAppear(view.historyReqName);
 
         // verify information in req history
-        Assert.assertTrue("Verify History Request Name", view.historyReqName.getText().contains(request.getReqName()));
-        Assert.assertTrue("Verify History Request Number", view.historyReqNumber.getText().contains(request.getReqNumber()));
+        browser.Assert("Verify History Request Name", view.historyReqName.getText(), request.getReqName());
+        browser.Assert("Verify History Request Number", view.historyReqNumber.getText(), request.getReqNumber());
 
         // BUG WP-5071 - Req History does not show req total
-        // Assert.assertTrue("Verify History Request Total", view.historyReqTotal.getText().contains(request.getReqTotal()));
+        // browser.Assert("Verify History Request Total", view.historyReqTotal.getText(), request.getReqTotal());
 
         browser.Log("Viewed req history for #" + request.getReqNumber());
 
@@ -296,8 +296,8 @@ public class ReqFlowTest {
 
         // verify PO is created and ready to be received
         String status = poLine.get(POListColumn.STATUS).getText();
-        Assert.assertTrue("Verify PO Approved", status.contains(resource.getValue("po_status")));
-        Assert.assertTrue("Verify PO Transmitted", status.contains(resource.getValue("po_buyer_transmission")));
+        browser.Assert("Verify PO Approved", status, resource.getValue("po_status"));
+        browser.Assert("Verify PO Transmitted", status, resource.getValue("po_buyer_transmission"));
 
         // back on the PO list, click Receipt History and confirm receipt submitted
         browser.clickWhenAvailable(poLine.get(POListColumn.ACTION));
@@ -372,7 +372,7 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(invoice.matchNextButton);
 
         // Verify info on summary page and submit invoice
-        Assert.assertTrue("Verify Buyer Invoice #", invoice.summaryHeadDetails.getText().contains(request.getBuyerInvoiceNumber()));
+        browser.Assert("Verify Buyer Invoice #", invoice.summaryHeadDetails.getText(), request.getBuyerInvoiceNumber());
 
         browser.clickWhenAvailable(invoice.summarySubmitInvoice);
 
@@ -407,7 +407,7 @@ public class ReqFlowTest {
         browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
 
         // Verify PO associated with invoice exists
-        Assert.assertTrue("Verify PO attached to Invoice", view.ExpandedPOExists(request.getReqPONumber()));
+        browser.Assert("Verify PO attached to Invoice", view.ExpandedPOExists(request.getReqPONumber()));
 
         browser.Log("PO " + request.getReqPONumber() + " attached to invoice " + request.getBuyerInvoiceNumber() + ".");
 
@@ -441,7 +441,7 @@ public class ReqFlowTest {
 
         // verify PO summary is the one we're looking for
         browser.waitForElementToAppear(vendorpo.summaryOrderTitle);
-        Assert.assertTrue("Verify PO title matches", vendorpo.summaryOrderTitle.getText().contains(request.getReqPONumber()));
+        browser.Assert("Verify PO title matches", vendorpo.summaryOrderTitle.getText(), request.getReqPONumber());
 
         // click Acknowledge button, fill in comments and submit
         browser.clickWhenAvailable(vendorpo.summaryAcknowledgeButton);
@@ -455,8 +455,8 @@ public class ReqFlowTest {
 
         poLine = vendorpo.getElementsForPOLine(request.getReqPONumber());
 
-        Assert.assertTrue("Verify PO status is 'ACKNOWLEDGED'",
-                poLine.get(VendorPOListColumn.STATUS).getText().contains(resource.getValue("po_vendor_transmission")));
+        browser.Assert("Verify PO status is 'ACKNOWLEDGED'",
+                poLine.get(VendorPOListColumn.STATUS).getText(), resource.getValue("po_vendor_transmission"));
 
         browser.Log("PO " + request.getReqPONumber() + " viewed and acknowledged by vendor");
 
@@ -516,9 +516,9 @@ public class ReqFlowTest {
         browser.waitForPageLoad();
         browser.waitForElementToAppear(invoice.summaryOverViewText);
 
-        Assert.assertTrue("Invoice Number OK", invoice.summaryOverViewText.getText().contains(vendorInvoiceNumber));
-        Assert.assertTrue("PO Number OK", invoice.summaryPONumberText.getText().contains(request.getReqPONumber()));
-        Assert.assertTrue("Freight Charge OK", invoice.summaryMiscChargesText.getText().contains(resource.getValue("invoice_freight")));
+        browser.Assert("Invoice Number OK", invoice.summaryOverViewText.getText(), vendorInvoiceNumber);
+        browser.Assert("PO Number OK", invoice.summaryPONumberText.getText(), request.getReqPONumber());
+        browser.Assert("Freight Charge OK", invoice.summaryMiscChargesText.getText(), resource.getValue("invoice_freight"));
 
         // submit invoice
         browser.clickWhenAvailable(invoice.summarySubmitInvoiceButton);
@@ -564,9 +564,9 @@ public class ReqFlowTest {
         browser.waitForElementToAppear(view.summaryInvoiceNumber);
 
         // verify some lines on the invoice summary page
-        Assert.assertTrue("Verify Invoice Number", view.summaryInvoiceNumber.getText().contains(targetInvoiceNumber));
-       // Assert.assertTrue("Verify Misc Charges", view.summaryMiscFreightAmount.getText().contains(request.getSupplierMiscCharges()));
-       // Assert.assertTrue("Verify Misc Charge Comments", view.summaryMiscFreightComments.getText().contains(request.getSupplierMiscChargeComments()));
+        browser.Assert("Verify Invoice Number", view.summaryInvoiceNumber.getText(), targetInvoiceNumber);
+       // browser.Assert("Verify Misc Charges", view.summaryMiscFreightAmount.getText(), request.getSupplierMiscCharges());
+       // browser.Assert("Verify Misc Charge Comments", view.summaryMiscFreightComments.getText(), request.getSupplierMiscChargeComments());
 
         browser.clickWhenAvailable(view.summaryCloseButton);
 

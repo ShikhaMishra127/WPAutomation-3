@@ -93,7 +93,7 @@ public class StandardRegistrationTest {
         login.lnkRegister.click();
         browser.waitForPageLoad();
 
-        Assert.assertTrue("Verify Welcome banner", reg.homeBanner.isDisplayed());
+        browser.Assert("Verify Welcome banner", reg.homeBanner.isDisplayed());
 
     }
 
@@ -105,16 +105,16 @@ public class StandardRegistrationTest {
         reg.startButton.click();
 
         // go to Terms & Conditions page
-        Assert.assertTrue("Verify T&C Loaded", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_tc")));
+        browser.Assert("Verify T&C Loaded", reg.stepTitle.getText(), resource.getValue("vendor_title_step_tc"));
 
         // initially decline terms and conditions
         reg.declineButton.click();
-        Assert.assertTrue("Verify Terms Declined", reg.homeBanner.isDisplayed());
+        browser.Assert("Verify Terms Declined", reg.homeBanner.isDisplayed());
 
         // now go back and accept Terms and Conditions
         reg.startButton.click();
         reg.acceptButton.click();
-        Assert.assertTrue("Verify Terms Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_org")));
+        browser.Assert("Verify Terms Accepted", reg.stepTitle.getText(), resource.getValue("vendor_title_step_org"));
     }
 
     @Test(priority = 3)
@@ -133,7 +133,7 @@ public class StandardRegistrationTest {
         reg.continueButton.click();
         reg.getOrgDuplicateCloseButton.click();  // close pesky pop-up
 
-        Assert.assertTrue("Verify Duplicate FEIN message", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
+        browser.Assert("Verify Duplicate FEIN message", reg.orgErrorMessage.getText(), resource.getValue("vendor_error_msg"));
 
         // reset FEIN
         reg.orgFein1Edit.clear();
@@ -154,7 +154,7 @@ public class StandardRegistrationTest {
         // click CONTINUE and verify fail message
         reg.continueButton.click();
 
-        Assert.assertTrue("Verify Duplicate SSN message", reg.orgErrorMessage.getText().contains(resource.getValue("vendor_error_msg")));
+        browser.Assert("Verify Duplicate SSN message", reg.orgErrorMessage.getText(), resource.getValue("vendor_error_msg"));
 
         // reset SSN
         reg.orgSsn1Edit.clear();
@@ -174,7 +174,7 @@ public class StandardRegistrationTest {
 
         reg.continueButton.click();
 
-        Assert.assertTrue("Verify Org Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_con")));
+        browser.Assert("Verify Org Info Accepted", reg.stepTitle.getText(), resource.getValue("vendor_title_step_con"));
 
     }
 
@@ -198,7 +198,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         browser.clickWhenAvailable(reg.continueButton);
 
-        Assert.assertTrue("Verify Contact Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_dem")));
+        browser.Assert("Verify Contact Info Accepted", reg.stepTitle.getText(), resource.getValue("vendor_title_step_dem"));
     }
 
     @Test(priority = 7)
@@ -214,7 +214,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Verify Demographic Info Accepted", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_ebo")));
+        browser.Assert("Verify Demographic Info Accepted", reg.stepTitle.getText(), resource.getValue("vendor_title_step_ebo"));
     }
 
     @Test(priority = 8)
@@ -227,7 +227,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Verify Select target buyer", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_btc")));
+        browser.Assert("Verify Select target buyer", reg.stepTitle.getText(), resource.getValue("vendor_title_step_btc"));
 
         // if a T&C was included
         if (browser.elementExists(reg.buyerTandCAcceptRadio)) {
@@ -236,7 +236,7 @@ public class StandardRegistrationTest {
 
         browser.clickWhenAvailable(reg.continueButton);
 
-        Assert.assertTrue("Verify Accept buyer T&Cs", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_usr")));
+        browser.Assert("Verify Accept buyer T&Cs", reg.stepTitle.getText(), resource.getValue("vendor_title_step_usr"));
 
     }
 
@@ -255,7 +255,7 @@ public class StandardRegistrationTest {
         // click Continue after all fields populated
         reg.continueButton.click();
 
-        Assert.assertTrue("Verify Username/Password created", reg.stepTitle.getText().contains(resource.getValue("vendor_title_step_fin")));
+        browser.Assert("Verify Username/Password created", reg.stepTitle.getText(), resource.getValue("vendor_title_step_fin"));
 
         // click Continue after summary page shown
         reg.continueButton.click();
@@ -278,7 +278,7 @@ public class StandardRegistrationTest {
 
         // If logged in properly, the username should be the top menu item
         String FullName = (resource.getValue("vendor_firstname") + " " + resource.getValue("vendor_lastname"));
-        Assert.assertTrue("Verify Vendor logged in", vendor.topUsername.getText().contains(FullName));
+        browser.Assert("Verify Vendor logged in", vendor.topUsername.getText(), FullName);
 
         browser.Log("Logged in as Vendor '" + vendorNum.getNumber() + "'");
 

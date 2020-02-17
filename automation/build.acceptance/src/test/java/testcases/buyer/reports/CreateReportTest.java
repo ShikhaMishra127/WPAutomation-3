@@ -57,7 +57,7 @@ public class CreateReportTest {
         navbar.selectDropDownItem("Analytics", "Create Report");
 
         // verify the page title
-        Assert.assertTrue("Verify Report Page Header", reports.createReportPageHeader.getText().contains("Create Reports"));
+        browser.Assert("Verify Report Page Header", reports.createReportPageHeader.getText(), "Create Reports");
 
         // get a report from the list
         reports.selectReportByName( reportName );
@@ -77,8 +77,8 @@ public class CreateReportTest {
         browser.waitForElementToAppear(reports.jasperReportTitle);
 
         // Assert report was loaded into content area and preview button available
-        Assert.assertTrue("Verify Jasper Preview button", reports.jasperPreviewButton.getText().contains("Preview"));
-        Assert.assertTrue("Verify Report Title", reports.jasperReportTitle.getText().contains(reportName));
+        browser.Assert("Verify Jasper Preview button", reports.jasperPreviewButton.getText(), "Preview");
+        browser.Assert("Verify Report Title", reports.jasperReportTitle.getText(), reportName);
 
         // click on the preview button for fun
         reports.jasperPreviewButton.click();

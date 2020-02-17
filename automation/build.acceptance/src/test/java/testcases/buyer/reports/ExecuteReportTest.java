@@ -66,7 +66,7 @@ public class ExecuteReportTest {
         reports.selectReportByName(reportSection, reportName);
 
         // verify the report title
-        Assert.assertTrue("Verify Report Title Header", reports.reportParameterHeader.getText().contains(reportName));
+        browser.Assert("Verify Report Title Header", reports.reportParameterHeader.getText(), reportName);
 
     }
 
@@ -106,8 +106,8 @@ public class ExecuteReportTest {
         browser.waitForElementToAppear(reports.HTMLReportHeader);
 
         // verify the HTML pop-up report title
-        Assert.assertTrue("Verify Report Pop-up Name Header", reports.HTMLReportHeader.getText().contains(reportName.toUpperCase()) );
-        Assert.assertTrue("Verify Report Pop-up Title Header", reports.HTMLReportSubHeader.getText().contains(reportTitle) );
+        browser.Assert("Verify Report Pop-up Name Header", reports.HTMLReportHeader.getText(), reportName.toUpperCase());
+        browser.Assert("Verify Report Pop-up Title Header", reports.HTMLReportSubHeader.getText(), reportTitle);
 
         browser.Log("Verified report '"+ reportName + "' runs.");
 

@@ -64,7 +64,7 @@ public class WhiteLabelRegistrationTest {
 
         browser.switchToFrame(reg.regFrame);
         browser.waitForElementToAppear(reg.stepHeader);
-        Assert.assertTrue("Doing Business with MO banner OK", reg.stepHeader.getText().contains(resource.getValue("vendor_wl_title_step_tcs")));
+        browser.Assert("Doing Business with MO banner OK", reg.stepHeader.getText(), resource.getValue("vendor_wl_title_step_tcs"));
 
     }
 
@@ -75,14 +75,14 @@ public class WhiteLabelRegistrationTest {
         browser.UncheckCheckbox(reg.termsCheckbox);
         browser.clickWhenAvailable(reg.nextButton);
         browser.waitForElementToAppear(reg.termsErrorMessage);
-        Assert.assertTrue("Terms Declined OK", reg.termsErrorMessage.isDisplayed());
+        browser.Assert("Terms Declined OK", reg.termsErrorMessage.isDisplayed());
 
         // now accept T&Cs and continue
         browser.CheckCheckbox(reg.termsCheckbox);
         browser.clickWhenAvailable(reg.nextButton);
 
         browser.waitForElementToAppear(reg.orgInfoTitle);
-        Assert.assertTrue("Org Info banner OK", reg.orgInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_org")));
+        browser.Assert("Org Info banner OK", reg.orgInfoTitle.getText(), resource.getValue("vendor_wl_title_step_org"));
     }
 
     @Test(priority = 3)
@@ -97,7 +97,7 @@ public class WhiteLabelRegistrationTest {
         browser.clickWhenAvailable(reg.orgFeinConfirmEdit1);
 
         browser.waitForElementToAppear(reg.orgDuplicateFeinError);
-        Assert.assertTrue("Duplicate FEIN message OK", reg.orgDuplicateFeinError.isDisplayed());
+        browser.Assert("Duplicate FEIN message OK", reg.orgDuplicateFeinError.isDisplayed());
 
         // reset FEIN
         reg.orgFeinEdit1.clear();
@@ -117,7 +117,7 @@ public class WhiteLabelRegistrationTest {
         browser.clickWhenAvailable(reg.orgSsnConfirmEdit1);
 
         browser.waitForElementToAppear(reg.orgDuplicateSsnError);
-        Assert.assertTrue("Duplicate SSN message OK", reg.orgDuplicateSsnError.isDisplayed());
+        browser.Assert("Duplicate SSN message OK", reg.orgDuplicateSsnError.isDisplayed());
 
         //reset SSN
         reg.orgSsnEdit1.clear();
@@ -129,7 +129,7 @@ public class WhiteLabelRegistrationTest {
     public void OrgInfoPageTest() {
 
         browser.waitForElementToAppear(reg.orgInfoTitle);
-        Assert.assertTrue("Organization Info banner OK", reg.orgInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_org")));
+        browser.Assert("Organization Info banner OK", reg.orgInfoTitle.getText(), resource.getValue("vendor_wl_title_step_org"));
 
         browser.sendKeysWhenAvailable(reg.orgFeinEdit1, vendorNum.getFeinPt1());
         browser.sendKeysWhenAvailable(reg.orgFeinEdit2, vendorNum.getFeinPt2());
@@ -166,7 +166,7 @@ public class WhiteLabelRegistrationTest {
     public void ContactInfoPageTest() {
 
         browser.waitForElementToAppear(reg.contactInfoTitle);
-        Assert.assertTrue("Contact Info banner OK", reg.contactInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_con")));
+        browser.Assert("Contact Info banner OK", reg.contactInfoTitle.getText(), resource.getValue("vendor_wl_title_step_con"));
 
         browser.waitForPageLoad();
 
@@ -191,7 +191,7 @@ public class WhiteLabelRegistrationTest {
     public void PaymentTypePageTest() {
 
         browser.waitForElementToAppear(reg.paymentInfoTitle);
-        Assert.assertTrue("Payment Type banner OK", reg.paymentInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_pay")));
+        browser.Assert("Payment Type banner OK", reg.paymentInfoTitle.getText(), resource.getValue("vendor_wl_title_step_pay"));
 
         browser.clickWhenAvailable(reg.nextButton);
 
@@ -201,7 +201,7 @@ public class WhiteLabelRegistrationTest {
     public void CommodityPageTest() {
 
         browser.waitForElementToAppear(reg.commodityInfoTitle);
-        Assert.assertTrue("Commodity banner OK", reg.commodityInfoTitle.getText().contains(resource.getValue("vendor_wl_title_step_com")));
+        browser.Assert("Commodity banner OK", reg.commodityInfoTitle.getText(), resource.getValue("vendor_wl_title_step_com"));
 
         // Add a list of comma-separated commodity codes to profile
         commodity.addCodes(resource.getValue("vendor_wl_commodity_codes"));
@@ -216,7 +216,7 @@ public class WhiteLabelRegistrationTest {
 
         browser.waitForElementToAppear(reg.finalTakeMeToWPButton);
 
-        Assert.assertTrue("Username displayed OK", reg.finalUsername.getText().contains(vendor_username));
+        browser.Assert("Username displayed OK", reg.finalUsername.getText(), vendor_username);
 
         browser.Log("Supplier " + vendor_name + " created.");
         browser.Log("Supplier username is " + vendor_username);
@@ -239,7 +239,7 @@ public class WhiteLabelRegistrationTest {
         // If logged in properly, the username should be the top menu item
         browser.waitForElementToAppear(vendor.topNav);
 
-        Assert.assertTrue("Vendor logged in OK", vendor.topUsername.getText().contains(vendor_fullname));
+        browser.Assert("Vendor logged in OK", vendor.topUsername.getText(), vendor_fullname);
 
         browser.Log("Vendor logged into supplier portal.");
 

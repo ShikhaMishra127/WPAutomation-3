@@ -188,7 +188,7 @@ public class EnterpriseAdminTest {
         browser.clickWhenAvailable(admin.euSaveUserButton);
 
         // verify user is active
-        Assert.assertTrue("Verify user is Active", admin.euUserStatus.getText().contains(resource.getValue("buyer_user_status")));
+        browser.Assert("Verify user is Active", admin.euUserStatus.getText(), resource.getValue("buyer_user_status"));
 
         browser.clickWhenAvailable(admin.euCloseButton);
 
