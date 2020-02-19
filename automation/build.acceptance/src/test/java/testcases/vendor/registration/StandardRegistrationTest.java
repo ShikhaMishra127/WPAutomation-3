@@ -8,8 +8,10 @@ import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
-
-import java.io.IOException;
+import utilities.common.Browser;
+import utilities.common.ResourceLoader;
+import utilities.common.TestRail;
+import utilities.common.UniqueID;
 
 public class StandardRegistrationTest {
 
@@ -22,9 +24,6 @@ public class StandardRegistrationTest {
     TestRail tRail;
 
     UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
-
-    public StandardRegistrationTest() throws IOException {
-    }
 
     @BeforeClass
     public void setup(ITestContext testContext) {
