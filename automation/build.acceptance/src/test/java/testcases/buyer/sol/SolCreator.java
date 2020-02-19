@@ -1,7 +1,6 @@
 package testcases.buyer.sol;
 
 import main.java.framework.Solicitation;
-import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

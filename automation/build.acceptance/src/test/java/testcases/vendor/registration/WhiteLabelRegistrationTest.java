@@ -1,6 +1,5 @@
 package testcases.vendor.registration;
 
-import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;

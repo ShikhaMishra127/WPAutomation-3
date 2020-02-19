@@ -1,7 +1,6 @@
 package testcases.buyer.contract;
 
 import framework.Contract;
-import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
@@ -16,8 +15,6 @@ import utilities.common.Browser;
 import utilities.common.ResourceLoader;
 import utilities.common.TestRailReference;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Map;
 
 public class ContractFlowTest {

@@ -1,6 +1,5 @@
 package testcases.vendor.registration;
 
-import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -9,7 +8,6 @@ import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
-import utilities.common.*;
 
 import java.io.IOException;
 

@@ -1,6 +1,5 @@
 package testcases.buyer.reports;
 
-import org.junit.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;

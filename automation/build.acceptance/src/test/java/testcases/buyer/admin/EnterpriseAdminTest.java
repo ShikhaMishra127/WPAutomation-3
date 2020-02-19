@@ -1,6 +1,5 @@
 package testcases.buyer.admin;
 
-import junit.framework.Assert;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;

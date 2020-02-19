@@ -1,7 +1,5 @@
 package testcases.vendor.registration;
 
-import junit.framework.Assert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;

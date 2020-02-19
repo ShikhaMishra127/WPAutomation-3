@@ -1,6 +1,5 @@
 package testcases.buyer.reports;
 
-import org.junit.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
