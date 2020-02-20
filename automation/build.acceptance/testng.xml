@@ -4,19 +4,20 @@
   <listeners>
     <listener class-name="utilities.common.TestRailListener" />
   </listeners>
-  <test name="Test">
+  <test name="Build Acceptance">
     <classes>
       <!-- Disabled until these tests can be cleaned up
-      <class name="testcases.vendor.registration.WhiteLabelRegistrationTest" />
+      <class name="acceptance.vendor.registration.WhiteLabelRegistrationTest" />
+      <class name="acceptance.vendor.registration.StandardRegistrationTest" />
+      <class name="acceptance.vendor.registration.FormBuilderRegistrationTest"/>
+      <class name="acceptance.buyer.reports.CreateReportTest"/>
+      <class name="acceptance.buyer.sol.SolicitationFlowTest"/>
+      <class name="acceptance.buyer.contract.ContractFlowTest"/>
+      <class name="acceptance.buyer.reports.ExecuteReportTest"/>
+      <class name="acceptance.buyer.req.ReqFlowTest"/>
                    -->
-      <class name="testcases.vendor.registration.StandardRegistrationTest" />
-      <class name="testcases.vendor.registration.FormBuilderRegistrationTest"/>
-      <class name="testcases.buyer.reports.CreateReportTest"/>
-      <class name="testcases.buyer.sol.SolicitationFlowTest"/>
-      <class name="testcases.buyer.contract.ContractFlowTest"/>
-      <class name="testcases.buyer.reports.ExecuteReportTest"/>
-      <class name="testcases.buyer.req.ReqFlowTest"/>
-      <class name="testcases.buyer.admin.EnterpriseAdminTest"/>
+
+      <class name="acceptance.buyer.admin.EnterpriseAdminTest"/>
     </classes>
-  </test> <!-- Test -->
-</suite> <!-- WebProcure Build Acceptance -->
+  </test> <!-- WebProcure Build Acceptance -->
+</suite>

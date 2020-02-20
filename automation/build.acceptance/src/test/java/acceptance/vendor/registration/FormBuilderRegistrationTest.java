@@ -1,4 +1,4 @@
-package testcases.vendor.registration;
+package acceptance.vendor.registration;
 
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;

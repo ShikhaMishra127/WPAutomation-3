@@ -1,4 +1,4 @@
-package testcases.buyer.contract;
+package acceptance.buyer.contract;
 
 import framework.Contract;
 import org.openqa.selenium.WebElement;

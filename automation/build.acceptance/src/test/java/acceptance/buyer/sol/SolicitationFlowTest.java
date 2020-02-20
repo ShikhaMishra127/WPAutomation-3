@@ -1,4 +1,4 @@
-package testcases.buyer.sol;
+package acceptance.buyer.sol;
 
 import main.java.framework.Solicitation;
 import org.openqa.selenium.By;

@@ -1,4 +1,4 @@
-package testcases.buyer.req;
+package acceptance.buyer.req;
 
 import framework.Request;
 import org.openqa.selenium.support.ui.Select;

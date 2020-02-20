@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="WebProcure Build Acceptance" parallel="classes" thread-count="1">
+  <listeners>
+    <listener class-name="utilities.common.TestRailListener" />
+  </listeners>
+  <test name="ERP Interface">
+    <classes>
+      <class name="api.ERPResponseTest"/>
+    </classes>
+  </test>
+</suite>

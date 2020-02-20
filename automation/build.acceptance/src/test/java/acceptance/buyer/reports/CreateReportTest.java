@@ -1,4 +1,4 @@
-package testcases.buyer.reports;
+package acceptance.buyer.reports;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

@@ -1,4 +1,4 @@
-package testcases.buyer.reports;
+package acceptance.buyer.reports;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;

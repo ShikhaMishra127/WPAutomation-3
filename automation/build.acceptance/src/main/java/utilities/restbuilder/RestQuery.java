@@ -1,4 +1,4 @@
-package utilities.common;
+package utilities.restbuilder;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

@@ -1,4 +1,4 @@
-package testcases.buyer.admin;
+package acceptance.buyer.admin;
 
 import org.openqa.selenium.WebElement;
 import org.testng.ITestContext;

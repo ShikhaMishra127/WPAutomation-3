@@ -1,4 +1,4 @@
-package testcases.vendor.registration;
+package acceptance.vendor.registration;
 
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestContext;
@@ -8,10 +8,7 @@ import org.testng.annotations.Test;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.registration.RegStandardPOM;
-import utilities.common.Browser;
-import utilities.common.ResourceLoader;
-import utilities.common.TestRail;
-import utilities.common.UniqueID;
+import utilities.common.*;
 
 public class StandardRegistrationTest {
 
