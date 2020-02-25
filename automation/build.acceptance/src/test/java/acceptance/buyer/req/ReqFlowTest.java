@@ -13,6 +13,7 @@ import pageobjects.buyer.invoice.ViewInvoicePOM;
 import pageobjects.buyer.orders.ReceiveOrderPOM;
 import pageobjects.buyer.orders.ViewOrderPOM;
 import pageobjects.buyer.req.NewReqPOM;
+import pageobjects.buyer.req.ReqCreator;
 import pageobjects.buyer.req.ViewReqPOM;
 import pageobjects.common.InvoicePOPicker;
 import pageobjects.common.LoginPagePOM;
@@ -32,8 +33,6 @@ import static pageobjects.buyer.orders.ViewOrderPOM.POListColumn;
 import static pageobjects.buyer.req.ViewReqPOM.ReqListColumn;
 import static pageobjects.vendor.orders.VendorOrderViewPOM.VendorPOListColumn;
 import static pageobjects.vendor.invoice.VendorViewInvoicePOM.VendorInvListColumn;
-
-//@Listeners({TestRailListener.class})
 
 public class ReqFlowTest {
 

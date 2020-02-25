@@ -1,8 +1,7 @@
-package acceptance.buyer.req;
+package pageobjects.buyer.req;
 
 import framework.Request;
 import org.openqa.selenium.support.ui.Select;
-import pageobjects.buyer.req.NewReqPOM;
 import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
@@ -35,7 +34,7 @@ public class ReqCreator {
 
         browser.getDriver().get(browser.baseUrl);
 
-        login.loginAsBuyer();
+        login.loginAsUser(reqData.getValue("req_buyer_username"), reqData.getValue("req_buyer_password"));
 
         navigateToNewReq();
         enterOffCatalogData();
@@ -128,6 +127,13 @@ public class ReqCreator {
         browser.driver.switchTo().defaultContent();
         browser.switchToFrame(req.reqIFrame);
         browser.clickWhenAvailable(req.vrSubmitReqButton);
+
+        // some EBOs have a summary page with an addtional submit button
+        browser.HardWait(5);
+
+        if (browser.elementExists(req.vrConfirmSubmitReqButton)) {
+            browser.clickWhenAvailable(req.vrConfirmSubmitReqButton);
+        }
 
         browser.Log(reqName + " Created");
     }

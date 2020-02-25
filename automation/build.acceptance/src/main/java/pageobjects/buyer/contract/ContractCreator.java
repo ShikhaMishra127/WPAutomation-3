@@ -1,8 +1,7 @@
-package acceptance.buyer.contract;
+package pageobjects.buyer.contract;
 
 import framework.Contract;
 import org.openqa.selenium.support.ui.Select;
-import pageobjects.buyer.contract.NewContractPOM;
 import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.common.CommodityPickerPOM;
 import pageobjects.common.LoginPagePOM;

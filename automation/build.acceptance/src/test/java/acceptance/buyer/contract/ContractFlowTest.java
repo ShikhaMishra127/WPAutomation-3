@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.ContractBidboardPOM;
 import pageobjects.buyer.common.BuyerNavBarPOM;
+import pageobjects.buyer.contract.ContractCreator;
 import pageobjects.buyer.contract.ViewContractPOM;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;

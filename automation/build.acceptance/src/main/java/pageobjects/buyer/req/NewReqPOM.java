@@ -123,8 +123,11 @@ public class NewReqPOM {
     
     //////////////////////////////////////////////////////////////////////// VIEW REQUEST PAGE
 
-    @FindBy(xpath="//button[contains(@onclick,'javascript:ReqSubmit()')]")
+    @FindBy(xpath="//button[contains(@onclick,'ReqSubmit')]")
     public WebElement vrSubmitReqButton;
+
+    @FindBy(xpath="//button[contains(@onclick,'OrderSubmit')]")
+    public WebElement vrConfirmSubmitReqButton;
 
     @FindBy(xpath="//button[@name='btnClose']")
     public WebElement vrCloseReqButton;

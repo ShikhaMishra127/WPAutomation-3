@@ -78,6 +78,11 @@ public class LoginPagePOM {
     @FindBy(xpath="//button[contains(@onclick,'closeFeaturePopup')]")
     public WebElement whatsnewGotItButton;
 
+    @FindBy(xpath="//button[contains(@onlclick,'killOtherSessions')]")
+    public WebElement otherSessionsButton;
+
+
+
     private void checkWhatsNew() {
 
         browser.waitForElementToAppear(homePageFooter);
@@ -87,6 +92,11 @@ public class LoginPagePOM {
         if (browser.elementExists(whatsnewGotItButton)) {
             browser.clickWhenAvailable(whatsnewShowAtLoginCheckbox);
             browser.clickWhenAvailable(whatsnewGotItButton);
+        }
+
+        // multi-session modal is also a problem. Close other sessions
+        if (browser.elementExists(otherSessionsButton)) {
+            browser.clickWhenAvailable(otherSessionsButton);
         }
 
         browser.waitForPageLoad();
@@ -114,9 +124,7 @@ public class LoginPagePOM {
         checkWhatsNew();
     }
 
-    public void loginAsBuyer()    { loginAsUser(browser.buyerUsername,    browser.buyerPassword); }
-    public void loginAsApprover() {
-        loginAsUser(browser.approverUsername, browser.approverPassword);
-    }
+    public void loginAsBuyer()    { loginAsUser(browser.buyerUsername,    browser.buyerPassword);    }
+    public void loginAsApprover() { loginAsUser(browser.approverUsername, browser.approverPassword); }
     public void loginAsSupplier() { loginAsUser(browser.supplierUsername, browser.supplierPassword); }
 }

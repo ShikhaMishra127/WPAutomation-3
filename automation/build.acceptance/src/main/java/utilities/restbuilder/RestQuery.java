@@ -15,16 +15,20 @@ public class RestQuery {
         request.header("Content-Type", "application/json");
     }
 
-    public void LoadJSON(String inputTxt) {
-    	request.body(inputTxt);
-    }
+    public void sendRequest(Object inputObj) {
 
-    public void  Execute() {
+        // load up the object (will be converted to JSON)
+        request.body(inputObj);
+
+        // post object to REST interface
         try {
-			response = request.post();		
-		} catch (Exception e) {
-			throw new RuntimeException("Error posting JSON", e);
-		}
+            response = request.post();
+            System.out.println("RESPONSE:\n" + ResponseToString());
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error posting JSON", e);
+        }
+
     }
 
     public String ResponseToString() {

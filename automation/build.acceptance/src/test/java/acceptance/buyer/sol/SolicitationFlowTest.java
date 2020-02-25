@@ -10,6 +10,7 @@ import pageobjects.bidboard.SolicitationBidboardPOM;
 import pageobjects.buyer.sol.BuyerAwardSolicitationPOM;
 import pageobjects.buyer.sol.BuyerViewSolicitationPOM;
 import pageobjects.buyer.common.BuyerNavBarPOM;
+import pageobjects.buyer.sol.SolCreator;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
