@@ -62,7 +62,7 @@ public class MOIntegrationTest {
         request.setReqStatus(reqLine.get(ReqListColumn.STATUS).getText());
 
         // Request status set to Financial System Pending
-        browser.Assert("Verify New Request Status", request.getReqStatus(), "Financial System Pending");
+        browser.Assert("Verify New Request Status", request.getReqStatus(), resource.getValue("erp_pending"));
 
         // Send ERP Response for Request to REJECT and send
         ERPInput reqObj = new ERPInput(request.getReqNumber(), "REQUEST", "0");
@@ -74,8 +74,7 @@ public class MOIntegrationTest {
         reqLine = view.getElementsForReqLine(request.getReqName());
 
         // The Request status set to Rejected
-        browser.Assert("Verify REJECT Status",
-                reqLine.get(ReqListColumn.STATUS).getText(), "Financial System Status : Rejected");
+        browser.Assert("Verify REJECT Status", reqLine.get(ReqListColumn.STATUS).getText(), resource.getValue("erp_rejected"));
 
         // click on Action bar, then edit the rejected Req
         browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
@@ -95,10 +94,8 @@ public class MOIntegrationTest {
         reqLine = view.getElementsForReqLine(request.getReqName());
 
         // The Request status set to PO Created / Accepted
-        browser.Assert("Verify ACCEPT Status",
-                reqLine.get(ReqListColumn.STATUS).getText(), "Financial System Status : Accepted");
-        browser.Assert("Verify PO Created Status",
-                reqLine.get(ReqListColumn.STATUS).getText(), "PO Created");
+        browser.Assert("Verify ACCEPT Status", reqLine.get(ReqListColumn.STATUS).getText(), resource.getValue("erp_accepted"));
+        browser.Assert("Verify PO Created Status", reqLine.get(ReqListColumn.STATUS).getText(), resource.getValue("erp_pocreated"));
 
         navbar.logout();
         browser.close();

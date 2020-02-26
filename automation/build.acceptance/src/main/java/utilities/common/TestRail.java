@@ -41,9 +41,13 @@ public class TestRail {
 		RunName = env.getValue("testrail_runName");
 		RunDesc = env.getValue("testrail_runDesc");
 
-		// load TestRail setting from command-line
+		// load TestRail settings from command-line
 		postToTestRail = true;
 		String runNum = System.getProperty("TESTRAIL", "none");
+
+		String suiteNum = System.getProperty("RUN", "");
+		if (!suiteNum.isEmpty()) {  SuiteID = suiteNum; }
+
 
 		switch (runNum) {
 

@@ -18,7 +18,6 @@ public class StandardRegistrationTest {
     LoginPagePOM login;
     VendorNavBarPOM vendor;
     String vendorUsername;
-    TestRail tRail;
 
     UniqueID vendorNum = new UniqueID(UniqueID.IDType.SSNFEIN);
 
@@ -29,7 +28,6 @@ public class StandardRegistrationTest {
         login = new LoginPagePOM(browser);
         reg = new RegStandardPOM(browser);
         vendor = new VendorNavBarPOM(browser);
-        tRail = new TestRail();
 
         browser.getDriver().get(browser.baseUrl);
     }
