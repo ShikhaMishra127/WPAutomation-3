@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="WebProcure API Testing" parallel="classes" thread-count="1">
+  <listeners>
+    <listener class-name="utilities.common.TestRailListener" />
+  </listeners>
+  <test name="ERP Interface">
+    <classes>
+      <!-- Disabled until these tests can be cleaned up
+      <class name="api.ERPResponseTest" />
+
+     -->
+      <class name="api.MOIntegrationTest" />
+    </classes>
+  </test>
+</suite>

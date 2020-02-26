@@ -5,3 +5,6 @@ WPAutomation/.recommenders/
 automation/build.acceptance/.idea
 *.iml
 automation/build.acceptance/BuildReport.html
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml

@@ -23,10 +23,10 @@
 ### File Locations
 Please adhere to the standard directory structure when adding test cases:
 
-* Selenium Test Cases go in [src/test/java/testcases](src/test/java/testcases)
-* Page Objects go in [src/test/java/pageobjects](src/test/java/pageobjects)
-* Utilities and helpers go in  [src/test/java/utilities](src/test/java/utilities)
+* Selenium Test Cases go in [src/test/java/acceptance](src/test/java/acceptance)
 * Data (Usernames/passwords, URLs, etc.) go in [src/test/resources](src/test/resources)
+* Page Objects go in [src/main/java/pageobjects](src/main/java/pageobjects)
+* Utilities and helpers go in  [src/main/java/utilities](src/main/java/utilities)
 
 ---
 
