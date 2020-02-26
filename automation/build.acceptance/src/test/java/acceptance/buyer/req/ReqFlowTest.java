@@ -51,9 +51,11 @@ public class ReqFlowTest {
     public void CreateRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
-        ReqCreator creator = new ReqCreator();
+        ReqCreator creator = new ReqCreator(browser, resource);
 
-        request = creator.CreateRequest(browser, resource);
+        request = creator.CreateRequest();
+
+        browser.Log(request.getReqName() + " Created");
     }
 
 

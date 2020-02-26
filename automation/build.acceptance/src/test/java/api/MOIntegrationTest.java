@@ -6,6 +6,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import pageobjects.buyer.common.BuyerNavBarPOM;
+import pageobjects.buyer.req.ReqCreator;
 import pageobjects.buyer.req.ViewReqPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
@@ -28,35 +29,30 @@ public class MOIntegrationTest {
         request = new Request();
         resource = new ResourceLoader("data/api");
     }
-/* TEMP - REMOVE ME
+
     @Test
     public void CreateRequestTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
-        ReqCreator creator = new ReqCreator();
+        ReqCreator creator = new ReqCreator(browser, resource);
 
-        request = creator.CreateRequest(browser, resource);
-                browser.Log(request.toString());
+        // Go to create a Request > Fill in all required fields and submit the Request
+        request = creator.CreateRequest();
+        browser.Log(request.toString());
     }
-*/
 
-    @Test
+    @Test(enabled = true, dependsOnMethods = "CreateRequestTest")
     @TestRailReference(id = 5559)
-//    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
-    public void RejectRequestTest(ITestContext testContext) {
+    public void RequestResponseTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);
         LoginPagePOM login = new LoginPagePOM(browser);
         BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
         ViewReqPOM view = new ViewReqPOM(browser);
 
-        request.setReqNumber("402-7");
-        request.setReqName("Automation Lipinski/402-7");
-
+        // log in and go to view target request
         browser.getDriver().get(browser.baseUrl);
-
         login.loginAsUser(resource.getValue("req_buyer_username"), resource.getValue("req_buyer_password"));
-
         navbar.selectDropDownItem(resource.getValue("navbar_reqheaditem"), resource.getValue("navbar_viewreq"));
 
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
@@ -65,10 +61,11 @@ public class MOIntegrationTest {
         Map<ViewReqPOM.ReqListColumn, WebElement> reqLine = view.getElementsForReqLine(request.getReqName());
         request.setReqStatus(reqLine.get(ReqListColumn.STATUS).getText());
 
-        browser.Log("NEWLY CREATED: " + reqLine.get(ReqListColumn.STATUS).getText());
-       // browser.Assert("Verify Initial Status", request.getReqStatus(), "Financial System Pending" );
+        // Request status set to Financial System Pending
+        browser.Assert("Verify New Request Status", request.getReqStatus(), "Financial System Pending");
 
-        ERPInput reqObj = new ERPInput( request.getReqNumber(), "REQUEST", "0");
+        // Send ERP Response for Request to REJECT and send
+        ERPInput reqObj = new ERPInput(request.getReqNumber(), "REQUEST", "0");
         reqObj.Send();
 
         browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
@@ -76,8 +73,34 @@ public class MOIntegrationTest {
 
         reqLine = view.getElementsForReqLine(request.getReqName());
 
-        browser.Log("AFTER REJECT: " + reqLine.get(ReqListColumn.STATUS).getText());
+        // The Request status set to Rejected
+        browser.Assert("Verify REJECT Status",
+                reqLine.get(ReqListColumn.STATUS).getText(), "Financial System Status : Rejected");
 
+        // click on Action bar, then edit the rejected Req
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEllipsis);
+        browser.clickSubElement(reqLine.get(ReqListColumn.ACTION), view.riEdit);
 
+        // resubmit the rejected Req, so that it is once again in Financial System Pending
+        ReqCreator edit = new ReqCreator(browser, resource);
+        edit.reviewSubmitReq();
+
+        // Send ERP Response for Request to ACCEPT and send
+        reqObj.Replace("success", "1");
+        reqObj.Send();
+
+        browser.sendKeysWhenAvailable(view.filterReqNumEdit, request.getReqNumber());
+        browser.clickWhenAvailable(view.filterSubmitButton);
+
+        reqLine = view.getElementsForReqLine(request.getReqName());
+
+        // The Request status set to PO Created / Accepted
+        browser.Assert("Verify ACCEPT Status",
+                reqLine.get(ReqListColumn.STATUS).getText(), "Financial System Status : Accepted");
+        browser.Assert("Verify PO Created Status",
+                reqLine.get(ReqListColumn.STATUS).getText(), "PO Created");
+
+        navbar.logout();
+        browser.close();
     }
 }

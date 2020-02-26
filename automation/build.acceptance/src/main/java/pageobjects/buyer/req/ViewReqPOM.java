@@ -66,11 +66,12 @@ public class ViewReqPOM {
     ////////// ReqItem top-row Sub-Elements
     public String riDownArrow = "./a[contains(@href, 'ExpandReq')]";
     public String riEllipsis = "./span/button";
-    public String riActionCopyReq = "./span/ul/li/a[contains(@href,'javascript:ReqCopy')]";
-    public String riActionHistory = "./span/ul/li/a[contains(@href,'javascript:ReqHistory')]";
-    public String riActionApprovalMap = "./span/ul/li/a[contains(@href,'javascript:ReqApproval')]";
-    public String riActionDelReq = "./span/ul/li/a[contains(@href,'javascript:ReqDelete')]";
-    public String riActionPrint = "./span/ul/li/a[contains(@href,'javascript:ReqPrint')]";
+    public String riEdit = "./span/ul/li/a[contains(@href,'ReqCheckout')]";
+    public String riActionCopyReq = "./span/ul/li/a[contains(@href,'ReqCopy')]";
+    public String riActionHistory = "./span/ul/li/a[contains(@href,'ReqHistory')]";
+    public String riActionApprovalMap = "./span/ul/li/a[contains(@href,'ReqApproval')]";
+    public String riActionDelReq = "./span/ul/li/a[contains(@href,'ReqDelete')]";
+    public String riActionPrint = "./span/ul/li/a[contains(@href,'ReqPrint')]";
     public String riReqTotal = "./tbody/tr[3]";
 
     ////////// ReqItem Expanded detail Elements

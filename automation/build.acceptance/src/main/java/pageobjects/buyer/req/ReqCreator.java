@@ -16,25 +16,28 @@ public class ReqCreator {
     LoginPagePOM login;
     NewReqPOM req;
 
-
-    private void setup(Browser inBrowser,  ResourceLoader reqdata) {
-
+    public ReqCreator(Browser inBrowser, ResourceLoader reqdata) {
         browser = inBrowser;
         resource = reqdata;
+
+        setup();
+    }
+
+    private void setup() {
         navbar = new BuyerNavBarPOM(browser);
         login = new LoginPagePOM(browser);
         req = new NewReqPOM(browser);
-
         newreq = new Request();
     }
 
-    public Request CreateRequest(Browser inBrowser,  ResourceLoader reqData) {
+    public Request CreateRequest() {
 
-        setup(inBrowser, reqData);
+        setup();
+
 
         browser.getDriver().get(browser.baseUrl);
 
-        login.loginAsUser(reqData.getValue("req_buyer_username"), reqData.getValue("req_buyer_password"));
+        login.loginAsUser(resource.getValue("req_buyer_username"), resource.getValue("req_buyer_password"));
 
         navigateToNewReq();
         enterOffCatalogData();
@@ -103,14 +106,14 @@ public class ReqCreator {
         browser.switchToFrame(req.footerIFrame);
         browser.waitForElementToAppear(req.reqNameEdit);
         browser.waitForElementToContainText(req.footerItemCount, "1");
-    }
-
-    private void reviewSubmitReq() {
 
         // click View Request tab
         browser.driver.switchTo().defaultContent();
         browser.switchToFrame(req.reqIFrame);
         browser.clickWhenAvailable(req.viewReqTab);
+    }
+
+    public void reviewSubmitReq() {
 
         // get the name/number of the newly created req
         browser.switchToFrame(req.footerIFrame);
@@ -129,12 +132,11 @@ public class ReqCreator {
         browser.clickWhenAvailable(req.vrSubmitReqButton);
 
         // some EBOs have a summary page with an addtional submit button
-        browser.HardWait(5);
+        browser.HardWait(10);
 
         if (browser.elementExists(req.vrConfirmSubmitReqButton)) {
             browser.clickWhenAvailable(req.vrConfirmSubmitReqButton);
         }
 
-        browser.Log(reqName + " Created");
     }
 }

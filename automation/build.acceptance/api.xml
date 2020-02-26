@@ -7,11 +7,11 @@
   <test name="ERP Interface">
     <classes>
       <!-- Disabled until these tests can be cleaned up
-      <class name="api.ERPResponseTest"/>
+      <class name="api.ERPResponseTest" />
 
      -->
 
-      <class name="api.MOIntegrationTest"/>
+      <class name="api.MOIntegrationTest" />
     </classes>
   </test>
 </suite>

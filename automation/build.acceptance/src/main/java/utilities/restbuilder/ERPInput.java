@@ -22,7 +22,7 @@ public class ERPInput {
 
         object.put("docNum", docNum);
         object.put("docType", docType);
-        object.put("message", (success.contains("0") ? "REJECTED" : "ACCEPTED") + " by Automation");
+        object.put("message", (success.equals("0") ? "REJECTED" : "ACCEPTED") + " by Automation");
         object.put("success", success);
 
         if (docType.contains("CHECK")) {
@@ -36,6 +36,9 @@ public class ERPInput {
 
     public void Replace(String key, String newvalue) {
         object.replace(key, newvalue);
+        if (key.equals("success")) {
+            object.replace("message", (newvalue.equals("0") ? "REJECTED" : "ACCEPTED") + " by Automation");
+        }
     }
 
     public String Send() {
