@@ -43,9 +43,8 @@ public class TestRail {
 
 		// load TestRail settings from command-line
 		postToTestRail = true;
-		String runNum = System.getProperty("TESTRAIL", "none");
-
-		String suiteNum = System.getProperty("RUN", "");
+		String runNum = System.getProperty("RUN", "none").toLowerCase();
+		String suiteNum = System.getProperty("SUITE", "70");
 		if (!suiteNum.isEmpty()) {  SuiteID = suiteNum; }
 
 

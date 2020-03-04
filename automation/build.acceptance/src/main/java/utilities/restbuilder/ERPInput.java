@@ -11,13 +11,12 @@ public class ERPInput {
     private RequestSpecification request;
     private Response response;
     private JSONObject object;
+    ResourceLoader resource = new ResourceLoader("data/api");
 
     public ERPInput(String docNum, String docType, String success) {
 
-        ResourceLoader resource = new ResourceLoader("data/api");
         object = new JSONObject();
 
-        object.put("apiKey", resource.getValue("erp_apiKey"));
         object.put("receiverID", resource.getValue("erp_receiverID"));
 
         object.put("docNum", docNum);
@@ -46,14 +45,21 @@ public class ERPInput {
         request = RestAssured.given();
         String result;
 
-        System.out.println("SENDING:\n" + object.toJSONString());
+        String sendType = object.get("docType").toString();
 
-        request.baseUri("http://10.5.1.162:9990/wp-request/api/request/integrate");
+        if (sendType == "REQUEST") {
+            object.put("apiKey", resource.getValue("erp_req_apiKey"));
+        }
+        else {
+            object.put("apiKey", resource.getValue("erp_apiKey"));
+        }
+
+        request.baseUri(resource.getValue("erp_uri_" + sendType ));
         request.header("Content-Type", "application/json");
-
         request.body(object);
 
         try {
+            System.out.println("SENDING:\n" + object.toJSONString());
             response = request.post();
             result = response.asString();
         } catch (Exception e) {
@@ -64,4 +70,5 @@ public class ERPInput {
 
         return result;
     }
+
 }
