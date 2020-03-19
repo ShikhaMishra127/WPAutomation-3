@@ -52,6 +52,28 @@ public class ViewOrderPOM {
     public String piActionPOCancel = "./span/ul/li/a[contains(@href,'CancelOrder')]";
     public String piActionPODetails = "./span/ul/li/a[contains(@href,'ViewPODetails')]";
 
+    // PO History Sub-Elements
+    @FindBy(xpath="//span[contains(@class,'dropdown dd-span')]")
+    public WebElement phEllipsis;
+
+    public String phHistory = "./ul/li/a[contains(@href,'POHistory')]";
+    public String phPrint = "./ul/li/a[contains(@href,'Print')]";
+    public String phApproval = "./ul/li/a[contains(@href,'ReqApproval')]";
+
+    @FindBy(xpath="//form[@name='frmPOHistLst']")
+    public WebElement phHistoryList;
+
+    public String getReqNumberFromPOHistory(String ponumber) {
+
+        String xpath = "//form[@name='frmPOHistLst']/div/table/tbody/tr/th[contains(.,'PO " + ponumber + " has failed Financial System validation')]";
+        String[] history;
+
+        browser.waitForElementToAppear(By.xpath(xpath));
+        WebElement element = browser.findElement(By.xpath(xpath));
+        history = element.getText().split("request document|has been automatically generated");
+
+        return history[1].trim();
+    }
 
     //////////////////////////////////////////////////////////////////////// HELPFUL METHODS
 
