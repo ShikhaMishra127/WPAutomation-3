@@ -22,7 +22,7 @@ node {
       checkout scm
     }
     stage('Run Tests') {
-        dir('automation/build.acceptance') {
+        dir('automation') {
             sh 'mvn -DVISIBLE=false -DsuiteXmlFile=${wp_suite}.xml -DTESTRAIL=${wp_run} -DENV=${wp_env} clean compile test'
         }
     }
