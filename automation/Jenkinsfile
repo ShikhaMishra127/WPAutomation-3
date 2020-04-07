@@ -14,11 +14,6 @@ def statuscolor = { currentBuild ->
 node {
   withEnv(['JAVA_HOME=/opt/java','PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
     stage("Environment") {
-      slackSend message: "started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
-          //color: statuscolor(currentBuild),
-          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
-          token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
-
       sh 'echo $PATH'
       sh 'java -version'
       sh 'mvn -version'
@@ -28,12 +23,8 @@ node {
     }
     stage('Run Tests') {
         dir('automation/build.acceptance') {
-            sh 'mvn -DVISIBLE=false -DTESTRAIL=${wp_run} -DENV=${wp_env} clean compile test'
+            sh 'mvn -DVISIBLE=false -DsuiteXmlFile=${wp_suite}.xml -DTESTRAIL=${wp_run} -DENV=${wp_env} clean compile test'
         }
     }
-    slackSend message: "finished ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)",
-          //color: statuscolor(currentBuild),
-          channel: "#webprocure-automation", teamDomain: "perfectcommerce",
-          token: "bTbF7NzpZlbyCWzd0ZY9tQ7G"
   }
 }

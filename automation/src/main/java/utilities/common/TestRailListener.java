@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * TestRailListener extends TestNGs listener in order to update Test Rail whenever
  * a test passes or fails. To implement, the user can either:
  *
- * 1) add the listener to the testng.xml file
+ * 1) add the listener to the <testsuite>.xml file
  *
  *      <listeners>
  *          <listener class-name="utilities.common.TestRailListener" />

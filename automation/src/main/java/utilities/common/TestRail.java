@@ -1,6 +1,7 @@
 package utilities.common;
 
 import org.json.simple.JSONObject;
+import org.junit.runners.Suite;
 import utilities.testrail.APIClient;
 import utilities.testrail.APIException;
 
@@ -37,16 +38,16 @@ public class TestRail {
 		API.setPassword(env.getValue("testrail_password"));
 
 		ProjectID = env.getValue("testrail_projectID");
-		SuiteID = env.getValue("testrail_suiteID");
 		RunName = env.getValue("testrail_runName");
 		RunDesc = env.getValue("testrail_runDesc");
 
 		// load TestRail settings from command-line
 		postToTestRail = true;
 		String runNum = System.getProperty("RUN", "none").toLowerCase();
-		String suiteNum = System.getProperty("SUITE", "70");
-		if (!suiteNum.isEmpty()) {  SuiteID = suiteNum; }
+		String suiteXml = System.getProperty("suiteXmlFile", "acceptance.xml");
 
+		// get the correct suiteID from the resource file, based on .xml name
+		SuiteID = env.getValue("testrail_suite_" + suiteXml);
 
 		switch (runNum) {
 
@@ -63,7 +64,6 @@ public class TestRail {
 				RunID = runNum;
 				break;
 		}
-
 	}
 
 	/**

@@ -8,7 +8,6 @@
     <classes>
       <!-- Disabled until these tests can be cleaned up
       <class name="acceptance.vendor.registration.WhiteLabelRegistrationTest" />
-
                    -->
       <class name="acceptance.vendor.registration.StandardRegistrationTest" />
       <class name="acceptance.vendor.registration.FormBuilderRegistrationTest"/>
