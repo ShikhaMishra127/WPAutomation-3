@@ -23,7 +23,7 @@ node {
     }
     stage('Run Tests') {
         dir('automation') {
-            sh 'mvn -DVISIBLE=false -DsuiteXmlFile=${wp_suite}.xml -DTESTRAIL=${wp_run} -DENV=${wp_env} clean compile test'
+            sh 'mvn -DVISIBLE=false -DsuiteXmlFile=${wp_suite}.xml -DRUN=${wp_run} -DENV=${wp_env} clean compile test'
         }
     }
   }
