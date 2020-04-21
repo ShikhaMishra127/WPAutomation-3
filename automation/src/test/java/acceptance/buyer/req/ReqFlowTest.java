@@ -129,7 +129,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3519)
     public void CopyRequestTest(ITestContext testContext) {
 
