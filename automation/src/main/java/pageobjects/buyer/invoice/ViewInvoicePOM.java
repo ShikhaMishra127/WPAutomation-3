@@ -46,7 +46,7 @@ public class ViewInvoicePOM {
     @FindBy(xpath="//table[contains(@id,'potable')]")
     public WebElement mainExpandPOTable;
 
-    public String iiDownArrow = "./a[contains(@href,'getPos')]";
+    public String iiDownArrow = "./a[contains(@href,'getItems')]";
     public String iiEllipsis = "./span/button";
     public String iiViewInvoice = "./span/ul/li/a[contains(@href,'&mode=view')]";
     public String iiEditInvoice = "./span/ul/li/a[contains(@href,'&mode=edit')]";
