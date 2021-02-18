@@ -129,7 +129,7 @@ public class ReqFlowTest {
         browser.close();
     }
 
-    @Test(enabled = true, dependsOnMethods = {"CreateRequestTest"})
+    @Test(enabled = false, dependsOnMethods = {"CreateRequestTest"})
     @TestRailReference(id = 3519)
     public void CopyRequestTest(ITestContext testContext) {
 
@@ -407,7 +407,8 @@ public class ReqFlowTest {
         browser.clickSubElement(invLine.get(InvListColumn.EXPAND), view.iiDownArrow);
 
         // Verify PO associated with invoice exists
-        browser.Assert("Verify PO attached to Invoice", view.ExpandedPOExists(request.getReqPONumber()));
+        browser.Assert("Verify PO attached to Invoice",
+                view.ExpandedPOExists(invLine.get(InvListColumn.EXPAND), request.getReqPONumber()));
 
         browser.Log("PO " + request.getReqPONumber() + " attached to invoice " + request.getBuyerInvoiceNumber() + ".");
 
@@ -516,6 +517,7 @@ public class ReqFlowTest {
         browser.waitForPageLoad();
         browser.waitForElementToAppear(invoice.summaryOverViewText);
 
+        browser.HardWait(2);
         browser.Assert("Invoice Number OK", invoice.summaryOverViewText.getText(), vendorInvoiceNumber);
         browser.Assert("PO Number OK", invoice.summaryPONumberText.getText(), request.getReqPONumber());
         browser.Assert("Freight Charge OK", invoice.summaryMiscChargesText.getText(), resource.getValue("invoice_freight"));
@@ -561,12 +563,10 @@ public class ReqFlowTest {
         browser.clickWhenAvailable(invLine.get(VendorInvListColumn.ACTION));
         browser.clickSubElement(invLine.get(VendorInvListColumn.ACTION), view.submenuViewIcon);
 
-        browser.waitForElementToAppear(view.summaryInvoiceNumber);
+        browser.HardWait(3);
 
         // verify some lines on the invoice summary page
         browser.Assert("Verify Invoice Number", view.summaryInvoiceNumber.getText(), targetInvoiceNumber);
-       // browser.Assert("Verify Misc Charges", view.summaryMiscFreightAmount.getText(), request.getSupplierMiscCharges());
-       // browser.Assert("Verify Misc Charge Comments", view.summaryMiscFreightComments.getText(), request.getSupplierMiscChargeComments());
 
         browser.clickWhenAvailable(view.summaryCloseButton);
 

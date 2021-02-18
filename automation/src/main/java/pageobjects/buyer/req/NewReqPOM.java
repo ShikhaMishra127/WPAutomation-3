@@ -81,7 +81,11 @@ public class NewReqPOM {
     @FindBy(xpath="//input[@id='input_catcode']")
     public WebElement ocCommodityEdit;
 
-    @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
+
+    @FindBy(xpath="//button[@data-bb-handler='cancel']")
+    public WebElement ocNoContractConfirmButton;
+
+    @FindBy(xpath = "//ul[contains(@class,'ui-autocomplete')]/li/a/div/div")
     public List<WebElement> ocCommodityList;
 
     @FindBy(xpath="//div[@id='input_CommodityDescc']")
@@ -99,7 +103,7 @@ public class NewReqPOM {
     @FindBy(xpath="//input[@id='input_SupplierName']")
     public WebElement ocVendorNameEdit;
 
-    @FindBy(xpath = "//ul[@class='ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all'][not(contains(@style,'none'))]//a")
+    @FindBy(xpath = "//ul[contains(@class,'ui-autocomplete')]/li/div")
     public List<WebElement> ocVendorList;
 
     @FindBy(xpath="//span[@id='btnSuppSrch']")
@@ -114,7 +118,7 @@ public class NewReqPOM {
     @FindBy(xpath="//button[@id='btn-add-top']")
     public WebElement ocAddItemButton;
 
-    @FindBy(xpath="//input[@id='contractNum_Toggle']")
+    @FindBy(xpath="//input[@id='contractNum_Toggle']/parent::*")
     public WebElement ocAssociateContractCheck;
 
     @FindBy(xpath="//span[contains(@href,'resetCommoditySrch')]")

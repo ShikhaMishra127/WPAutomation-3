@@ -59,6 +59,7 @@ public class SolCreator {
 
     private void HeaderStep() {
 
+        browser.HardWait(3);
         navbar.selectDropDownItem(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem") );
 
         UniqueID solNum = new UniqueID(UniqueID.IDType.DATE);
@@ -129,7 +130,6 @@ public class SolCreator {
 
     private void AttachmentsStep() {
 
-        browser.Assert("Verify Solicitation Step ATTACHMENTS", sol.stepTitle.getText(), resource.getValue("solstep_attachments"));
 
         // go to the Upload From Document library
         browser.clickWhenAvailable(sol.docsUploadFromLibButton);
@@ -157,7 +157,6 @@ public class SolCreator {
 
     private void ItemSpecStep() {
 
-        browser.Assert("Verify Solicitation Step ITEM SPECS", sol.stepTitle.getText(), resource.getValue("solstep_itemspecs"));
 
         // Add two groups to the solicitation, verify groups appear in drop-down
         sol.itemCreateGroup(resource.getValue("solgroupname1"));

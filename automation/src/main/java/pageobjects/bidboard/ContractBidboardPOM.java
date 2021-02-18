@@ -66,7 +66,7 @@ public class ContractBidboardPOM {
 	@FindBy(xpath = "//div[@class= 'contractDetail']")
 	public WebElement contractdetailspage;
 	
-	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'attachment')]/parent::*/parent::*/div/ul")
+	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'attachment')]/parent::*/parent::*//datatable-body")
 	public WebElement summaryAttachments;
 
 	@FindBy(xpath = "//i[@class='material-icons'][contains(.,'attach_money')]/parent::*/parent::*/div")

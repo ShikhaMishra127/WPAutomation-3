@@ -8,15 +8,17 @@
     <classes>
       <!-- Disabled until these tests can be cleaned up
       <class name="acceptance.vendor.registration.WhiteLabelRegistrationTest" />
-                   -->
       <class name="acceptance.vendor.registration.StandardRegistrationTest" />
-      <class name="acceptance.vendor.registration.FormBuilderRegistrationTest"/>
       <class name="acceptance.buyer.reports.CreateReportTest"/>
+      <class name="acceptance.buyer.reports.ExecuteReportTest"/>
+                   -->
+      <class name="acceptance.buyer.login.LoginTest"/>
+      <class name="acceptance.vendor.registration.FormBuilderRegistrationTest"/>
       <class name="acceptance.buyer.sol.SolicitationFlowTest"/>
       <class name="acceptance.buyer.contract.ContractFlowTest"/>
-      <class name="acceptance.buyer.reports.ExecuteReportTest"/>
       <class name="acceptance.buyer.req.ReqFlowTest"/>
       <class name="acceptance.buyer.admin.EnterpriseAdminTest"/>
+
     </classes>
   </test> <!-- WebProcure Build Acceptance -->
 </suite>

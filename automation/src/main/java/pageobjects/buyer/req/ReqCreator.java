@@ -77,17 +77,23 @@ public class ReqCreator {
             new Select(req.ocUsageCodeDrop).selectByIndex(1);
         }
 
+        // turn off select contract toggle
+        browser.clickWhenAvailable(req.ocAssociateContractCheck);
+
         browser.clickTypeAheadDropdownItem(req.ocVendorNameEdit, req.ocVendorList, browser.supplierName);
+
+        // if a pesky "do you want a contract with that?" pop-up appears, close it
+        browser.waitForElementToBeClickable(req.modalNoButton, (long)3);
+        if (req.modalDialog.getAttribute("class").contains("modal-open")) {
+            req.modalNoButton.click();
+        }
 
         // check "retain key info" radio, so it doesn't ask us later
         if (!req.ocRetainInfoCheck.isSelected()) {
             req.ocRetainInfoCheck.click();
         }
 
-        // click Contract Number toggle if set to "yes"; we do not want associated contracts
-        if (req.ocAssociateContractCheck.isSelected()) {
-            browser.clickSubElement(req.ocAssociateContractCheck, "./parent::*"); // only the parent element is clickable
-        }
+        browser.HardWait(3);
 
         // add commodity code
         browser.clickTypeAheadDropdownItem(req.ocCommodityEdit, req.ocCommodityList, resource.getValue("CommodityCode"));
