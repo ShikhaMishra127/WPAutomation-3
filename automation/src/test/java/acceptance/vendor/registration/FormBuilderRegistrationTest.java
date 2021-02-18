@@ -60,7 +60,7 @@ public class FormBuilderRegistrationTest {
     }
 
     @Test(enabled = true)
-    @TestRailReference(id = 12468)
+    @TestRailReference(id = 118666)
     public void RegisterSupplierTest(ITestContext testContext) {
 
         Browser browser = new Browser(testContext);

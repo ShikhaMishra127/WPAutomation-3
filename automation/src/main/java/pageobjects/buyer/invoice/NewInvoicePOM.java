@@ -31,7 +31,7 @@ public class NewInvoicePOM {
     @FindBy(xpath = "//input[contains(@id,'supplierSrch')]")
     public WebElement headSupplierSearchEdit;
 
-    @FindBy(xpath = "//ul[contains(@class,'ui-autocomplete')]//a")
+    @FindBy(xpath = "//ul[contains(@class,'ui-autocomplete')]/li/div")
     public List<WebElement> headSupplierSearchList;
 
     @FindBy(xpath = "//input[@id='invoicenum']")

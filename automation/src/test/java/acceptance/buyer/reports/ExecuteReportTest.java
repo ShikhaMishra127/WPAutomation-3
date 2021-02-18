@@ -54,7 +54,6 @@ public class ExecuteReportTest {
     }
 
     @Test(priority = 1)
-    @TestRailReference(id=3553)
     public void GoToReportTest() {
         browser.Log("Buyer Logged in OK");
 

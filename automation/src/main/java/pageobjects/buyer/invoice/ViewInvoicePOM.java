@@ -42,10 +42,6 @@ public class ViewInvoicePOM {
 
     //////////////////////////////////////////////////////////////////////// INVOICE LINE CONTROLS
 
-
-    @FindBy(xpath="//table[contains(@id,'potable')]")
-    public WebElement mainExpandPOTable;
-
     public String iiDownArrow = "./a[contains(@href,'getItems')]";
     public String iiEllipsis = "./span/button";
     public String iiViewInvoice = "./span/ul/li/a[contains(@href,'&mode=view')]";
@@ -55,13 +51,14 @@ public class ViewInvoicePOM {
     public String iiInvoiceHistory = "./span/ul/li/a[contains(@href,'InvoiceHistory')]";
     public String iiSupplierNotify = "./span/ul/li/a[contains(@href,'supplierNotification')]";
 
-    public boolean ExpandedPOExists(String ponumber) {
+    public boolean ExpandedPOExists(WebElement invLine, String ponumber) {
 
-        browser.waitForElementToAppear(mainExpandPOTable);
+        // get the line for our invoice and find po info on next line down
+        browser.waitForElementToAppear(invLine);
+        WebElement poLineInfo = browser.getSubElement(invLine,"./parent::*/following-sibling::*/td[2]");
 
-        String xpath = "//tbody/tr/td[contains(text(),'"+ ponumber +"')]";
-
-        return browser.elementExists(By.xpath(xpath));
+        // return whether the PO number is in the line info
+        return ponumber.contains(poLineInfo.getText());
     }
 
 
