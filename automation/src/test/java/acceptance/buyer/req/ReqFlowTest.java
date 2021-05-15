@@ -408,7 +408,7 @@ public class ReqFlowTest {
 
         // Verify PO associated with invoice exists
         browser.Assert("Verify PO attached to Invoice",
-                view.ExpandedPOExists(invLine.get(InvListColumn.EXPAND), request.getReqPONumber()));
+                view.getPONumberFromTable(request.getReqPONumber()), request.getReqPONumber());
 
         browser.Log("PO " + request.getReqPONumber() + " attached to invoice " + request.getBuyerInvoiceNumber() + ".");
 

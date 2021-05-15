@@ -68,4 +68,8 @@ public class ViewInvoicePOM {
         String rowXPath = "//td[contains(text(),'" + invnumber + "')]/parent::*";
         return browser.buildTableMap(invTable, rowXPath, InvListColumn.values());
     }
+    public String getPONumberFromTable(String poNumber) {
+        String poNumberFromPage = browser.findElement(By.xpath("//a[contains(text(),'"+poNumber+"')]")).getText();
+        return poNumber;
+    }
 }
