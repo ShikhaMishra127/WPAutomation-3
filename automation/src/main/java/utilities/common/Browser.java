@@ -573,6 +573,14 @@ public class Browser implements WebDriver {
         Assert.assertTrue(value1.contains(value2));
     }
 
+    public void AssertEquals(String message, String value1, String value2) {
+
+        String output = "*******\n" + "**TEST:** ***" + message + "***\n**ACTUAL:** " + value1 + "\n**EXPECTED:** " + value2 + "\n\n";
+        Log(output);
+
+        Assert.assertEquals(value2, value1);
+    }
+
     public void Assert(String message, boolean value) {
 
         String output = "*******\n" + "**TEST:** ***" + message + "***\n**";
