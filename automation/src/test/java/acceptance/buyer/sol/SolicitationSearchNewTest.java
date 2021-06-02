@@ -67,7 +67,35 @@ public class SolicitationSearchNewTest {
 
         search.enterSearchKeyword(searchKeyword)
                 .pressSearchButton()
-                .checkFirstSearchResult(expectedSearchResult);
+                .waitForSomeResultsIsDisplayed()
+                .checkFirstSearchResult(expectedSearchResult)
+                .pressResetButton();
+        int searchAmount = search.getSearchResultAmount();
+        Assert.assertEquals(searchAmount, 10);
+
+        browser.close();
+    }
+
+    @Test
+    @TestRailReference(id = 118665)
+    public void searchNoResultsIsFound(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword("2100166721001667")
+                .pressSearchButton();
+
+        String noResultFoundMessage = search.checkMessageNoResultFound();
+        browser.AssertEquals("Check that no results message is displayed ", noResultFoundMessage, "Oops! No results found.");
 
         browser.close();
     }

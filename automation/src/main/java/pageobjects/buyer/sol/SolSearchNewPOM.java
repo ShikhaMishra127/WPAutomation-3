@@ -29,6 +29,8 @@ public class SolSearchNewPOM {
 
     String searchAmount = "//div[@class='row search-result']";
 
+    String noResultFound = "//div[@class='text-center text-warning']/h3";
+
 
     public void checkThatSearchButtonDisplayed() {
         browser.waitForElementToAppear(searchSolButton);
@@ -41,6 +43,10 @@ public class SolSearchNewPOM {
 
     public SolSearchNewPOM pressSearchButton() {
         browser.clickWhenAvailable(searchSolButton);
+        return this;
+    }
+
+    public SolSearchNewPOM waitForSomeResultsIsDisplayed() {
         browser.waitForElementToAppear(By.xpath(searchAmount));
         return this;
     }
@@ -62,7 +68,7 @@ public class SolSearchNewPOM {
         return this;
     }
 
-    public void checkFirstSearchResult(String solName) {
+    public SolSearchNewPOM checkFirstSearchResult(String solName) {
         browser.waitForPageLoad();
         //find number of solicitation to merge it with name
         List<WebElement> searchListSolNumber = browser.findElements(By.xpath("//div[@class='row search-result']//span[@class='text-primary']/b"));
@@ -74,5 +80,12 @@ public class SolSearchNewPOM {
         //merge sol number with name to match it on a page
         String modifiedString = firstNumber + " | " +solName;
         browser.AssertEquals("Check first name search result", searchRequest, modifiedString);
+        return this;
+    }
+
+    public String checkMessageNoResultFound() {
+        browser.waitForPageLoad();
+        browser.waitForElementToAppear(By.xpath(noResultFound));
+        return browser.findElement(By.xpath(noResultFound)).getText();
     }
 }
