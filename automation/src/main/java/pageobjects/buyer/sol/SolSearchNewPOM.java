@@ -29,6 +29,8 @@ public class SolSearchNewPOM {
 
     String searchAmount = "//div[@class='row search-result']";
 
+    String firstSearchResult = "//div[@class='row search-result']/div/a";
+
     String noResultFound = "//div[@class='text-center text-warning']/h3";
 
 
@@ -80,6 +82,12 @@ public class SolSearchNewPOM {
         //merge sol number with name to match it on a page
         String modifiedString = firstNumber + " | " +solName;
         browser.AssertEquals("Check first name search result", searchRequest, modifiedString);
+        return this;
+    }
+
+    public SolSearchNewPOM clickFirstSearchResult() {
+        browser.waitForElementToAppear(By.xpath(firstSearchResult));
+        browser.findElement(By.xpath(firstSearchResult)).click();
         return this;
     }
 

@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pageobjects.buyer.common.BuyerNavBarPOM;
 import pageobjects.buyer.sol.SolSearchNewPOM;
+import pageobjects.buyer.sol.SolViewPOM;
 import pageobjects.common.LoginPagePOM;
 import utilities.common.Browser;
 import utilities.common.TestRailReference;
@@ -94,8 +95,38 @@ public class SolicitationSearchNewTest {
         search.enterSearchKeyword("2100166721001667")
                 .pressSearchButton();
 
+        //check that message about no results is displayed
         String noResultFoundMessage = search.checkMessageNoResultFound();
         browser.AssertEquals("Check that no results message is displayed ", noResultFoundMessage, "Oops! No results found.");
+
+        browser.close();
+    }
+
+    @Test
+    @TestRailReference(id = 118665)
+    public void openAndViewSolicitation(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+        SolViewPOM view = new SolViewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword("Automation 123456789")
+                .pressSearchButton()
+                .waitForSomeResultsIsDisplayed()
+                .checkFirstSearchResult("Automation 123456789")
+                .clickFirstSearchResult();
+        view.checkSolSummary("Edit Formal Solicitation View : 21001667 - Automation 123456789 (Formal)")
+                .checkSolTitle("Automation 123456789")
+                .checkDescription("Some test description")
+                .checkJustification("Some test justification");
 
         browser.close();
     }
