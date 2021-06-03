@@ -33,6 +33,19 @@ public class SolSearchNewPOM {
 
     String noResultFound = "//div[@class='text-center text-warning']/h3";
 
+    @FindBy(xpath = "//label[contains(text(),'Formal Solicitations')]")
+    public WebElement formalFilterCheckBox;
+
+    @FindBy(xpath = "//label[contains(text(),'Informal Solicitations')]")
+    public WebElement informalFilterCheckBox;
+
+    @FindBy(xpath = "//button[contains(text(),'Clear All')]")
+    public WebElement clearAllFiltersButton;
+
+    //crappy duplications cause one method accept WebElement and the second one accepts By
+    String selectedFilters = "//*[@id='applied-filter-box']//..//span";
+    @FindBy(xpath = "//*[@id='applied-filter-box']//..//span")
+    public WebElement selectedFiltersDuplicate;
 
     public void checkThatSearchButtonDisplayed() {
         browser.waitForElementToAppear(searchSolButton);
@@ -95,5 +108,33 @@ public class SolSearchNewPOM {
         browser.waitForPageLoad();
         browser.waitForElementToAppear(By.xpath(noResultFound));
         return browser.findElement(By.xpath(noResultFound)).getText();
+    }
+
+    //TODO probably better to rewrite using ENUMS
+    public SolSearchNewPOM selectFilter(String filter) {
+
+        switch (filter) {
+            case "formal":
+                browser.ScrollElementIntoView(formalFilterCheckBox);
+                browser.clickWhenAvailable(formalFilterCheckBox);
+                break;
+            case "informal":
+                browser.ScrollElementIntoView(informalFilterCheckBox);
+                browser.clickWhenAvailable(informalFilterCheckBox);
+                break;
+        }
+        return this;
+    }
+
+    public SolSearchNewPOM clearAllFilters() {
+        browser.clickWhenAvailable(clearAllFiltersButton);
+        return this;
+    }
+
+    public SolSearchNewPOM checkSelectedFiltersText(String activeFilters) {
+        browser.waitForElementToContainText(selectedFiltersDuplicate, activeFilters);
+        String filters =  browser.findElement(By.xpath(selectedFilters)).getText().trim();
+        browser.Assert("Check that selected filters is active ", filters, activeFilters);
+        return this;
     }
 }
