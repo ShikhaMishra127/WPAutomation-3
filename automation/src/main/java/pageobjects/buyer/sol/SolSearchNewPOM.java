@@ -42,10 +42,15 @@ public class SolSearchNewPOM {
     @FindBy(xpath = "//button[contains(text(),'Clear All')]")
     public WebElement clearAllFiltersButton;
 
+    @FindBy(xpath = "//div[@class='col-xs-3']//..//div[@class='filter-box'][2]//button")
+    public WebElement applyBidTypeFilter;
+
     //crappy duplications cause one method accept WebElement and the second one accepts By
     String selectedFilters = "//*[@id='applied-filter-box']//..//span";
     @FindBy(xpath = "//*[@id='applied-filter-box']//..//span")
     public WebElement selectedFiltersDuplicate;
+
+    String searchResults =  "//div[@class='row search-result']//span[@class='text-primary']/b";
 
     public void checkThatSearchButtonDisplayed() {
         browser.waitForElementToAppear(searchSolButton);
@@ -79,14 +84,17 @@ public class SolSearchNewPOM {
     }
 
     public SolSearchNewPOM enterSearchKeyword(String keyword) {
+        browser.Log("Searching for solicitation " + keyword);
         browser.sendKeysWhenAvailable(searchInput, keyword);
+        browser.waitForPageLoad();
         return this;
     }
 
     public SolSearchNewPOM checkFirstSearchResult(String solName) {
         browser.waitForPageLoad();
         //find number of solicitation to merge it with name
-        List<WebElement> searchListSolNumber = browser.findElements(By.xpath("//div[@class='row search-result']//span[@class='text-primary']/b"));
+        browser.waitForElementToAppear(By.xpath(searchResults));
+        List<WebElement> searchListSolNumber = browser.findElements(By.xpath(searchResults));
         String firstNumber = searchListSolNumber.get(0).getText();
         //get name of first search name that is displayed in list
         List<WebElement> searchList = browser.findElements(By.xpath("//span[@class='text-primary']"));
@@ -117,10 +125,12 @@ public class SolSearchNewPOM {
             case "formal":
                 browser.ScrollElementIntoView(formalFilterCheckBox);
                 browser.clickWhenAvailable(formalFilterCheckBox);
+                browser.clickWhenAvailable(applyBidTypeFilter);
                 break;
             case "informal":
                 browser.ScrollElementIntoView(informalFilterCheckBox);
                 browser.clickWhenAvailable(informalFilterCheckBox);
+                browser.clickWhenAvailable(applyBidTypeFilter);
                 break;
         }
         return this;

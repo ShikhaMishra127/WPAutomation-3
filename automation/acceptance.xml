@@ -15,7 +15,6 @@
       <class name="acceptance.buyer.login.LoginTest"/>
       <class name="acceptance.vendor.registration.FormBuilderRegistrationTest"/>
       <class name="acceptance.buyer.sol.SolicitationFlowTest"/>
-      <class name="acceptance.buyer.sol.SolicitationSearchNewTest"/>
       <class name="acceptance.buyer.contract.ContractFlowTest"/>
       <class name="acceptance.buyer.req.ReqFlowTest"/>
       <class name="acceptance.buyer.admin.EnterpriseAdminTest"/>

@@ -24,7 +24,7 @@ public class SolViewPOM {
     }
 
     public SolViewPOM checkSolTitle(String title) {
-        String titleLocator = "//*[@id='overViewTable']/tbody/tr[3]/td[2]";
+        String titleLocator = "//*[@id='overViewTable']/tbody/tr[4]/td[2]";
 
         browser.waitForElementToAppear(By.xpath(titleLocator));
         String titleText = browser.findElement(By.xpath(titleLocator)).getText().trim();

@@ -3,14 +3,14 @@ package acceptance.buyer.sol;
 import main.java.framework.Solicitation;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pageobjects.bidboard.SolicitationBidboardPOM;
-import pageobjects.buyer.sol.BuyerAwardSolicitationPOM;
-import pageobjects.buyer.sol.BuyerViewSolicitationPOM;
+import pageobjects.buyer.sol.*;
 import pageobjects.buyer.common.BuyerNavBarPOM;
-import pageobjects.buyer.sol.SolCreator;
 import pageobjects.common.LoginPagePOM;
 import pageobjects.vendor.common.VendorNavBarPOM;
 import pageobjects.vendor.sol.VendorSolResponsePOM;
@@ -221,6 +221,155 @@ public class SolicitationFlowTest {
 
         navbar.logout();
         browser.close();
+    }
 
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 118665)
+    public void searchForSolName(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        String solName = sol.getSolName();
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword(solName)
+                .pressSearchButton()
+                .waitForSomeResultsIsDisplayed()
+                .checkFirstSearchResult(solName)
+                .pressResetButton();
+        int searchAmount = search.getSearchResultAmount();
+        Assert.assertEquals(searchAmount, 10);
+
+        browser.close();
+    }
+
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 118665)
+    public void searchForSolNumber(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        String solName = sol.getSolName();
+        String solNumber = sol.getSolNumber();
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword(solNumber)
+                .pressSearchButton()
+                .waitForSomeResultsIsDisplayed()
+                .checkFirstSearchResult(solName)
+                .pressResetButton();
+        int searchAmount = search.getSearchResultAmount();
+        Assert.assertEquals(searchAmount, 10);
+
+        browser.close();
+    }
+
+    @Test
+    @TestRailReference(id = 118665)
+    public void searchNoResultsIsFound(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.waitForSomeResultsIsDisplayed()
+                .enterSearchKeyword("2100166721001667");
+
+        //check that message about no results is displayed
+        String noResultFoundMessage = search.checkMessageNoResultFound();
+        browser.AssertEquals("Check that no results message is displayed ", noResultFoundMessage, "Oops! No results found.");
+
+        browser.close();
+    }
+
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 118665)
+    public void openAndViewSolicitation(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+        SolViewPOM view = new SolViewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        String solName = sol.getSolName();
+        String solNumber = sol.getSolNumber();
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword(solName)
+                .pressSearchButton()
+                .waitForSomeResultsIsDisplayed()
+                .checkFirstSearchResult(solName)
+                .clickFirstSearchResult();
+        view.checkSolSummary("Edit Informal Solicitation View : "+solNumber+" - "+solName+" (Informal)")
+                .checkSolTitle(solName)
+                .checkDescription("This is a long description for "+solName+"");
+
+        browser.close();
+    }
+
+    @Test(dependsOnMethods = {"CreateSolicitationTest"})
+    @TestRailReference(id = 118665)
+    public void checkSearchFilters(ITestContext testContext) {
+        Browser browser = new Browser(testContext);
+        LoginPagePOM login = new LoginPagePOM(browser);
+        BuyerNavBarPOM navbar = new BuyerNavBarPOM(browser);
+        SolSearchNewPOM search = new SolSearchNewPOM(browser);
+
+        browser.getDriver().get(browser.baseUrl);
+
+        String solName = sol.getSolName();
+        String solNumber = sol.getSolNumber();
+
+        // log in and go to list of current solicitations
+        login.loginAsBuyer();
+        //Open search form and submit some search keywords
+        navbar.selectDropDownItem("Solicitations", "Solicitation Search");
+
+        search.enterSearchKeyword(solName)
+                .pressSearchButton()
+                .waitForSomeResultsIsDisplayed()
+                .checkSelectedFiltersText("No filters are applied yet.")
+                .selectFilter("informal")
+                .waitForSomeResultsIsDisplayed()
+                .checkSelectedFiltersText("Informal Solic...")
+                .waitForSomeResultsIsDisplayed();
+
+        int searchResult = search.getSearchResultAmount();
+        browser.AssertEquals("Check that amount of results is displayed", searchResult, 10);
+
+        search.clearAllFilters()
+                .checkSelectedFiltersText("No filters are applied yet.")
+                .waitForSomeResultsIsDisplayed();
+
+        browser.close();
     }
 }
