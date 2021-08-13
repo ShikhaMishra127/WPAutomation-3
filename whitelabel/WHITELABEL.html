@@ -1,8 +1,32 @@
 <html style="height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="../../resources/js/ext/jquery.min.js"></script>
+
+<script>        
+// Defining event listener function
+function displayWindowSize(){
+    // Get width and height of the window excluding scrollbars
+    var w = document.documentElement.clientWidth;
+    var h = document.documentElement.clientHeight;
+    
+    // Display result inside a div element
+    document.getElementById("windowstat").innerHTML = "Window size: " + w + " x " + h;
+}
+
+// Attaching the event listener function to window's resize event
+window.addEventListener("resize", displayWindowSize);
+
+// call on initial page load
+displayWindowSize();
+
+</script>
+
+// Attaching the event listener function to window's resize event
+window.addEventListener("resize", displayWindowSize);
+
+
 <title>Test Harness</title>
 
 <font size="4" face="tahoma">WHITELABEL CONTROL LOADED INTO AN .HTML PAGE</font>
+<div id="windowstat"></div>
 <hr>
 
 <!-- WHITELABEL CODE -->
