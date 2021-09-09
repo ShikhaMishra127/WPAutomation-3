@@ -2,7 +2,7 @@ package com.perfect.constants.users;
 
 public enum Users {
     BUYER("autobuyer", "Automation123!"),
-    INCORRECT_BUYER("autobuyerlol" ,"incorrect_password"),
+    //INCORRECT_BUYER("autobuyerlol" ,"incorrect_password"),
     SUPPLIER("autosupplier", "Automation123!");
 
     private final String userName;
