@@ -2,6 +2,7 @@ package com.perfect.common;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.visible;
@@ -13,7 +14,7 @@ public class BuyerNavBar {
 
     SelenideElement topNavigationBar = $x("//ul[contains(@class,'navbar-left')]");
 
-
+    @Step
     public void selectDropDownItemByText(String headerItem, String subItem) {
 
         topNavigationBar.shouldBe(visible);
@@ -27,6 +28,7 @@ public class BuyerNavBar {
         $(byXpath(subItemXPath)).click();
     }
 
+    @Step
     public void logout() {
         topNavigationBar.shouldBe(visible);
         $("#userMenu").shouldBe(visible).click();
@@ -37,6 +39,7 @@ public class BuyerNavBar {
         Selenide.clearBrowserLocalStorage();
     }
 
+    @Step
     public void logoutViewPage() {
         $x("//div[@class='container']/div[@class='row']/div[2]/div[2]")
                 .shouldBe(visible)

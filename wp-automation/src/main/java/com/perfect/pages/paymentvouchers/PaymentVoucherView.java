@@ -1,6 +1,7 @@
 package com.perfect.pages.paymentvouchers;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
@@ -16,6 +17,7 @@ public class PaymentVoucherView {
     //String EFTindicatorSelector = "//div[@class='card-shade'][1]/div[@class='row'][6]/div[2]";
     //Striung checkCategory = "//div[@class='card-shade'][1]/div[@class='row'][7]/div[2]";
 
+    @Step
     public PaymentVoucherView checkPageTitle(String pageTitle) {
         SelenideElement paymentViewTitle = $x("//wp-payment-voucher-card//h3");
         paymentViewTitle.shouldBe(visible, Duration.ofSeconds(2))
@@ -23,6 +25,7 @@ public class PaymentVoucherView {
         return this;
     }
 
+    @Step
     public PaymentVoucherView checkCommodityCode(String commodityCode) {
         SelenideElement commodityCodeSelector = $x("//div[@class='card-shade'][3]/div/div[3]");
         commodityCodeSelector.shouldBe(visible)
@@ -30,6 +33,7 @@ public class PaymentVoucherView {
         return this;
     }
 
+    @Step
     public PaymentVoucherView checkJustification(String justification) {
         SelenideElement justificationSelector = $x("//div[@class='card-shade'][1]/div[@class='row'][4]/div[2]");
         justificationSelector.shouldBe(visible)

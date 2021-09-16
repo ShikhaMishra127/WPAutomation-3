@@ -6,6 +6,7 @@ import com.perfect.constants.users.Users;
 import com.perfect.dtos.PaymentVoucher;
 import com.perfect.pages.loginpages.LoginPage;
 import com.perfect.utils.ResourceLoader;
+import io.qameta.allure.Step;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,7 @@ public class VoucherCreator {
         navbar = new BuyerNavBar();
     }
 
+    @Step
     public PaymentVoucher CreatePaymentVoucher(ResourceLoader voucherData) {
 
         setup(voucherData);
@@ -83,6 +85,7 @@ public class VoucherCreator {
         return newVoucher;
     }
 
+    @Step
     public void removePaymentVoucher(String voucherNumber) {
 
         InvoiceSearchPage search = new InvoiceSearchPage();

@@ -3,6 +3,7 @@ package com.perfect.pages.paymentvouchers;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.perfect.pages.paymentvouchers.enums.PaymentCreatorEnums.CheckCategory;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
@@ -73,13 +74,14 @@ public class PaymentVoucherCreatePage {
     SelenideElement distributeEvenlyButton = $x("//wp-modal-content//button[contains(text(), 'Distribute Evenly')]");
     SelenideElement accountDistributionSaveButton = $x("//div[@class='modal-content']//button[contains(text(), 'Save')]");
 
-
+    @Step
     public PaymentVoucherCreatePage checkCreatePaymentVoucherPageIsOpened() {
         SelenideElement voucherCreateFormTitle = $x("//span[contains(text(),'Create Payment Voucher')]");
         voucherCreateFormTitle.shouldBe(visible).shouldHave(text("Create Payment Voucher"));
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setSupplierName(String suppliername) {
         supplierNameInput.setValue(suppliername);
         supplierDropDown.shouldBe(visible);
@@ -87,16 +89,19 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public String getVoucherNumber() {
         SelenideElement voucherNumberInput = $x("//label[contains(text(),'Buyer Payment Voucher No.')]/..//input[@type='text']");
         return voucherNumberInput.getAttribute("value");
     }
 
+    @Step
     public PaymentVoucherCreatePage setPaymentJustification(String justification) {
         justificationInput.setValue(justification);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage selectPaymentIndicator(PaymentIndicator indicator) {
 
         switch (indicator) {
@@ -119,6 +124,7 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage selectEFTIndicator(EFTIndicator indicator) {
 
         switch (indicator) {
@@ -135,6 +141,7 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage selectCheckCategory(CheckCategory category) {
         switch (category) {
             case HARDWARE:
@@ -170,26 +177,31 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setReceiveDate(String inputDateNow) {
         receiveDateInput.setValue(inputDateNow);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setPostDate(String inputDateTomorrow) {
         postDateInput.setValue(inputDateTomorrow);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setIssueDate(String inputDateNow) {
         issueDateInput.setValue(inputDateNow);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setDueDate(String inputDateTomorrow) {
         dueDateInput.setValue(inputDateTomorrow);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage addItemsToVoucher(String commodityCode) {
         addItemsButton.click();
         modalWindow.shouldBe(visible);
@@ -202,6 +214,7 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage checkCommodityCode(String commodityCode) {
         SelenideElement commoditySelector = $x("//span[contains(text(),'"+commodityCode+"')]");
         String resultedCode = commoditySelector.getText();
@@ -209,21 +222,25 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setSupplierInvoiceNumber(String invoiceNum) {
         supplierInvoiceNumberInput.setValue(invoiceNum);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setQuantity(String quantity) {
         quantityInput.setValue(quantity);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setUnitPrice(String unitPrice) {
         unitPriceInput.setValue(unitPrice);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setUnitDropdown(String unit) {
         unitDropdown.click();
         dropdownSearchInput.setValue(unit);
@@ -231,21 +248,25 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setManufacturer(String manufacturer) {
         manufacturerInput.setValue(manufacturer);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setSupplierPartNumber(String partNumber) {
         supplierPartNumberInput.setValue(partNumber);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage setComments(String comments) {
         commentsInput.setValue(comments);
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage addAccountDistribution(String costCenter) {
         addAccountDistributionButton.scrollTo().click();
         addAccountCodesModalTitle.shouldBe(visible);
@@ -257,6 +278,7 @@ public class PaymentVoucherCreatePage {
         return this;
     }
 
+    @Step
     public PaymentVoucherCreatePage clickSubmitButton() {
         submitButton.scrollTo().click();
         submitButton.shouldBe(hidden);

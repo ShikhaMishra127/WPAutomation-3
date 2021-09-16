@@ -48,6 +48,8 @@ public class PaymentVoucherTest extends BaseTest {
                 .checkSearchResults("Displaying: 1-1 / 1");
         String displayedBuyer = searchPage.getInfoFromSearchTableByColumnName("buyer");
         assertThat(displayedBuyer).contains(voucher.getVoucherNumber());
+
+        buyerNavBar.logout();
     }
 
     @Test
@@ -62,6 +64,8 @@ public class PaymentVoucherTest extends BaseTest {
                 .checkSearchResults("Displaying: 1-1 / 1");
         String displayedBuyer = searchPage.getInfoFromSearchTableByColumnName("supplierno");
         assertThat(displayedBuyer).contains(voucher.getInvoiceNumber());
+
+        buyerNavBar.logout();
     }
 
     @Test
@@ -80,12 +84,14 @@ public class PaymentVoucherTest extends BaseTest {
         voucherView.checkPageTitle("Payment Voucher Summary")
                 .checkCommodityCode(resource.getValue("commoditycode"))
                 .checkJustification(resource.getValue("justification"));
+
+        buyerNavBar.logoutViewPage();
     }
 
-
-    @AfterMethod
+    //disabled due to different markup
+    @AfterMethod(enabled = false)
     public void logout() {
-        buyerNavBar.logoutViewPage();
+        buyerNavBar.logout();
     }
 
     //disabled due not possible to remove voucher

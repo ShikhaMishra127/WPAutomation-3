@@ -1,6 +1,7 @@
 package com.perfect.pages.paymentvouchers;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import java.time.Duration;
 
@@ -28,44 +29,51 @@ public class InvoiceSearchPage {
 
     SelenideElement confirmDeletePayment = $x("//button[@data-bb-handler='confirm']");
 
+    @Step
     public InvoiceSearchPage clickSubmitButton() {
         submitButton.click();
         return this;
     }
 
+    @Step
     public InvoiceSearchPage clickResetButton() {
         resetButton.click();
         return this;
     }
 
+    @Step
     public InvoiceSearchPage waitForSearchFormIsLoaded() {
         submitButton.shouldBe(visible, Duration.ofSeconds(3));
         resetButton.shouldBe(visible);
         return this;
     }
 
-
+    @Step
     public InvoiceSearchPage checkSearchPageIsOpened() {
         SelenideElement searchPageTitle = $x("//*[@id='page-title']//span[contains(text(), 'Invoice/Credit/Payment Voucher List')]");
         searchPageTitle.shouldBe(visible);
         return this;
     }
 
+    @Step
     public InvoiceSearchPage setBuyerNumber(String voucherNumber) {
         buyerNumberInput.setValue(voucherNumber);
         return this;
     }
 
+    @Step
     public InvoiceSearchPage setSupplierInvoiceNumber(String invoiceNumber) {
         supplierInvoiceNumberInput.setValue(invoiceNumber);
         return this;
     }
 
+    @Step
     public InvoiceSearchPage submitSearch() {
         submitButton.click();
         return this;
     }
 
+    @Step
     public InvoiceSearchPage checkSearchResults(String search) {
         SelenideElement searchResultCount = $x("//*[@id='solTable_info']");
         String resultedCode = searchResultCount.shouldBe(visible).getText();
@@ -73,17 +81,20 @@ public class InvoiceSearchPage {
         return this;
     }
 
+    @Step
     public InvoiceSearchPage clickPaymentActionMenu() {
         searchedItemActionMenu.click();
         return this;
     }
 
+    @Step
     public InvoiceSearchPage clickDeleteAction() {
         searchedElementDeleteButton.click();
         confirmDeletePayment.click();
         return this;
     }
 
+    @Step
     public String getInfoFromSearchTableByColumnName(String columnName) {
         String cellValue;
         SelenideElement column;
@@ -120,6 +131,7 @@ public class InvoiceSearchPage {
         return cellValue;
     }
 
+    @Step
     public InvoiceSearchPage clickViewAction() {
         searchedElementViewButton.shouldBe(visible).click();
         return this;

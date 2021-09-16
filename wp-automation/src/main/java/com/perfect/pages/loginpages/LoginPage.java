@@ -1,6 +1,7 @@
 package com.perfect.pages.loginpages;
 
 import com.perfect.constants.users.Users;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.visible;
@@ -33,6 +34,7 @@ public class LoginPage{
     }
 
     //login as predefined users in Users class
+    @Step
     public void loginAs(Users users) {
         String userName = users.getUserName();
         String userPassword = users.getPassword();
@@ -41,6 +43,7 @@ public class LoginPage{
     }
 
     //login as any user, can be useful for debug/specific checks etc
+    @Step
     public void loginByCredentials(String userName, String password) {
         fillLoginForm(userName, password);
     }
