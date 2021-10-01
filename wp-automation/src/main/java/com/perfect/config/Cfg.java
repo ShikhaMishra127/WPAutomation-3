@@ -6,13 +6,15 @@ import org.aeonbits.owner.Config.Sources;
 @Sources("classpath:config.properties")
 public interface Cfg extends Config {
 
-    @DefaultValue("")
+    @DefaultValue("qa")
     String env();
 
     @DefaultValue("en")
+    @Key("${env}.language")
     String language();
 
     @DefaultValue("chrome")
+    @Key("${env}.browser")
     String browserName();
 
     @DefaultValue("10000")
@@ -27,6 +29,15 @@ public interface Cfg extends Config {
     @DefaultValue("true")
     boolean holdBrowserOpen();
 
-    @DefaultValue("https://internalwpqa.perfect.com")
+    @Key("${env}.baseURL")
     String baseURL();
+
+    @Key("${env}.contractBB_URL")
+    String contractBB_URL();
+
+    @Key("${env}.buyerUsername")
+    String buyerUsername();
+
+    @Key("${env}.buyerPassword")
+    String buyerPassword();
 }

@@ -3,7 +3,6 @@ package com.perfect.tests.buyer.paymentvoucher;
 import com.codeborne.selenide.Selenide;
 import com.perfect.BaseTest;
 import com.perfect.common.BuyerNavBar;
-import com.perfect.constants.users.Users;
 import com.perfect.dtos.PaymentVoucher;
 import com.perfect.pages.loginpages.LoginPage;
 import com.perfect.pages.paymentvouchers.InvoiceSearchPage;
@@ -38,7 +37,7 @@ public class PaymentVoucherTest extends BaseTest {
 
     @Test
     void searchCreatedVoucherBuyer() {
-        loginPage.loginAs(Users.BUYER);
+        loginPage.loginAs(USER_BUYER);
         buyerNavBar.selectDropDownItemByText(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_search"));
         searchPage.waitForSearchFormIsLoaded();
 
@@ -54,7 +53,7 @@ public class PaymentVoucherTest extends BaseTest {
 
     @Test
     void searchCreatedVoucherSupplier() {
-        loginPage.loginAs(Users.BUYER);
+        loginPage.loginAs(USER_BUYER);
         buyerNavBar.selectDropDownItemByText(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_search"));
         searchPage.waitForSearchFormIsLoaded();
 
@@ -70,7 +69,7 @@ public class PaymentVoucherTest extends BaseTest {
 
     @Test
     void viewPaymentVoucher() {
-        loginPage.loginAs(Users.BUYER);
+        loginPage.loginAs(USER_BUYER);
         buyerNavBar.selectDropDownItemByText(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem_search"));
         searchPage.waitForSearchFormIsLoaded();
 

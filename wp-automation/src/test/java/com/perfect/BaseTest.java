@@ -5,16 +5,19 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
 import com.perfect.config.Cfg;
 import com.perfect.config.ProjectConfig;
+import com.perfect.dtos.User;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 
+    public Cfg config = ProjectConfig.init();
     Faker faker = new Faker();
+
+    public User USER_BUYER = new User(config.buyerUsername(), config.buyerPassword());
 
     @BeforeSuite
     public void setup() {
-        Cfg config = ProjectConfig.init();
         Configuration.browser = config.browserName();
         Configuration.baseUrl = config.baseURL();
         Configuration.browserSize = config.browserSize();

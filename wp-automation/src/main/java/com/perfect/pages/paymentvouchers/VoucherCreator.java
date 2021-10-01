@@ -2,8 +2,10 @@ package com.perfect.pages.paymentvouchers;
 
 import com.codeborne.selenide.Selenide;
 import com.perfect.common.BuyerNavBar;
-import com.perfect.constants.users.Users;
+import com.perfect.config.Cfg;
+import com.perfect.config.ProjectConfig;
 import com.perfect.dtos.PaymentVoucher;
+import com.perfect.dtos.User;
 import com.perfect.pages.loginpages.LoginPage;
 import com.perfect.utils.ResourceLoader;
 import io.qameta.allure.Step;
@@ -18,11 +20,15 @@ import static com.perfect.utils.Utils.getRandomNumber;
 
 public class VoucherCreator {
 
+    Cfg config = ProjectConfig.init();
+
     ResourceLoader resource;
     LoginPage login;
     PaymentVoucher newVoucher;
     PaymentVoucherCreatePage voucher;
     BuyerNavBar navbar;
+
+    public User USER_BUYER = new User(config.buyerUsername(), config.buyerPassword());
 
     private void setup(ResourceLoader voucherData) {
 
@@ -43,7 +49,7 @@ public class VoucherCreator {
 
         Selenide.open("/");
 
-        login.loginAs(Users.BUYER);
+        login.loginAs(USER_BUYER);
 
         navbar.selectDropDownItemByText(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
         voucher.checkCreatePaymentVoucherPageIsOpened();
@@ -99,7 +105,7 @@ public class VoucherCreator {
         Selenide.open("/");
 
         // log in and go to list of current vouchers
-        login.loginAs(Users.BUYER);
+        login.loginAs(USER_BUYER);
         //Open search form and submit some search keywords
         navbar.selectDropDownItemByText(resource.getValue("navbar_headitem"), resource.getValue("navbar_subitem"));
 

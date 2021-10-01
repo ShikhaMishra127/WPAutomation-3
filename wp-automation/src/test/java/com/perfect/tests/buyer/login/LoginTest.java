@@ -2,7 +2,6 @@ package com.perfect.tests.buyer.login;
 import com.codeborne.selenide.Selenide;
 import com.perfect.BaseTest;
 import com.perfect.common.BuyerNavBar;
-import com.perfect.constants.users.Users;
 import com.perfect.pages.loginpages.LoginPage;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,7 +19,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void loginAsBuyer() {
-        loginPage.loginAs(Users.BUYER);
+        loginPage.loginAs(USER_BUYER);
     }
 
     @AfterMethod
