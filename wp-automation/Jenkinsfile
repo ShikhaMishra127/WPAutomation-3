@@ -12,7 +12,7 @@ def statuscolor = { currentBuild ->
   status
 }
 node {
-  withEnv(['JAVA_HOME=/opt/java','PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
+  withEnv(['JAVA_HOME=/usr/java-11','PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
     stage("Environment") {
       sh 'echo $PATH'
       sh 'java -version'
