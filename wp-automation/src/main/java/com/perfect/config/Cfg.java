@@ -23,10 +23,10 @@ public interface Cfg extends Config {
     @DefaultValue("1920x1080")
     String browserSize();
 
-    @DefaultValue("false")
+    @DefaultValue("true")
     boolean headless();
 
-    @DefaultValue("true")
+    @DefaultValue("false")
     boolean holdBrowserOpen();
 
     @Key("${env}.baseURL")

@@ -20,9 +20,10 @@ public class BaseDebugTest extends BaseTest {
         System.out.println("Current language: " + config.language());
         System.out.println("Current user: " + config.buyerUsername());
         System.out.println("Current password: " + config.buyerPassword());
+        System.out.println("Current headless mode " + config.headless());
 
-        assertThat(config.baseURL()).isNot(null);
-        assertThat(config.buyerUsername()).isNot(null);
-        assertThat(config.buyerPassword()).isNot(null);
+        assertThat(config.headless()).isEqualTo(true);
+        assertThat(config.buyerUsername()).isNotEmpty();
+        assertThat(config.buyerPassword()).isNotEmpty();
     }
 }

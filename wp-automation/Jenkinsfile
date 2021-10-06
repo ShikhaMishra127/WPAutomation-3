@@ -1,0 +1,30 @@
+#!groovy
+def statuscolor = { currentBuild ->
+  def status = "good"
+  if (currentBuild.previousBuild != "SUCCESS") {
+    if (currentBuild.result == "UNSTABLE") {
+      status = "warning"
+    }
+    if (currentBuild.result == "FAILURE") {
+      status = "danger"
+    }
+  }
+  status
+}
+node {
+  withEnv(['JAVA_HOME=/opt/java','PATH+EXTRA=/usr/local/bin:/opt/ant/bin']) {
+    stage("Environment") {
+      sh 'echo $PATH'
+      sh 'java -version'
+      sh 'mvn -version'
+    }
+    stage('Checkout WP Automation') {
+      checkout scm
+    }
+    stage('Run Tests') {
+        dir('wp-automation') {
+            sh 'mvn -DsuiteXmlFile=${wp_suite}.xml -DENV=${wp_env} clean test'
+        }
+    }
+  }
+}
