@@ -23,7 +23,7 @@ node {
     }
     stage('Run Tests') {
         dir('wp-automation') {
-            sh 'mvn -DsuiteXmlFile=${wp_suite}.xml -DENV=${wp_env} clean test'
+            sh 'mvn -DsuiteXmlFile=${wp_suite}.xml -Denv=${wp_env} clean test'
         }
     }
   }
