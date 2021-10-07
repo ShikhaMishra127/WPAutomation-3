@@ -26,5 +26,11 @@ node {
             sh 'mvn -DsuiteXmlFile=${wp_suite}.xml -Denv=${wp_env} clean test'
         }
     }
+    allure([
+    includeProperties: false,
+    jdk: '',
+    reportBuildPolicy: 'ALWAYS',
+    results: [[path: 'target/allure-results']]
+    ])
   }
 }
