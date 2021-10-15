@@ -7,11 +7,16 @@ import com.perfect.config.Cfg;
 import com.perfect.config.ProjectConfig;
 import com.perfect.dtos.User;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 
+    public static final Logger log = LoggerFactory.getLogger(BaseTest.class);
+
     public Cfg config = ProjectConfig.init();
+
     Faker faker = new Faker();
 
     public User USER_BUYER = new User(config.buyerUsername(), config.buyerPassword());
@@ -26,14 +31,5 @@ public class BaseTest {
 
         //add AllureReport Selenide test listener
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(false));
-    }
-
-    //current not in use, probably need to be moved in another place
-    protected  <T> T at(Class<T> aClass) {
-        try {
-            return aClass.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

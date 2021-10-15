@@ -9,6 +9,8 @@ import com.perfect.dtos.User;
 import com.perfect.pages.loginpages.LoginPage;
 import com.perfect.utils.ResourceLoader;
 import io.qameta.allure.Step;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,8 @@ import static com.perfect.pages.paymentvouchers.enums.PaymentCreatorEnums.Paymen
 import static com.perfect.utils.Utils.getRandomNumber;
 
 public class VoucherCreator {
+
+    public static final Logger log = LoggerFactory.getLogger(VoucherCreator.class);
 
     Cfg config = ProjectConfig.init();
 
@@ -87,6 +91,8 @@ public class VoucherCreator {
                 .clickSubmitButton();
 
         navbar.logout();
+
+        log.info("Payment voucher {} is created.", newVoucher.getVoucherNumber());
 
         return newVoucher;
     }

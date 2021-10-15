@@ -1,10 +1,14 @@
 package com.perfect.tests.buyer.base;
 
+import com.codeborne.selenide.testng.TextReport;
 import com.perfect.BaseTest;
+import com.perfect.utils.RetryAnalyzer;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Listeners(TextReport.class)
 public class BaseDebugTest extends BaseTest {
 
     //any test for debugging purpose can be added here
@@ -22,8 +26,19 @@ public class BaseDebugTest extends BaseTest {
         System.out.println("Current password: " + config.buyerPassword());
         System.out.println("Current headless mode " + config.headless());
 
+        log.info("some logging using slf4j - language -> {}", config.language());
+
         assertThat(config.headless()).isEqualTo(true);
         assertThat(config.buyerUsername()).isNotEmpty();
         assertThat(config.buyerPassword()).isNotEmpty();
+    }
+
+    //disabled as will always fail
+    //example how to use test retry
+    //this test will run 2 times - first run will ignore and the second one will fail
+    @Test(retryAnalyzer = RetryAnalyzer.class, enabled = false)
+    void retryTest() {
+        log.info("some dummy retry");
+        assertThat(true).isFalse();
     }
 }
