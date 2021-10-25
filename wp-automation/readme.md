@@ -97,7 +97,7 @@ In case if everything is well-configured, output will be next:
 ## Project configuration
 
 * Project configuration is located in [Cfg.java][2] class
-* All the properties hardcoded in this file and in `config.properties` that contains all values for qa, stage and prod env
+* All the properties hardcoded in this file and in [config.properties][3] that contains all values for qa, stage and prod env
 * Useful changes for local test development are:
 1. Change `"true"` to `"false"` to see browser window on your machine
 ```java
@@ -113,3 +113,4 @@ boolean holdBrowserOpen();
 PLEASE DO NOT COMMIT CHANGES IN [Cfg.java][2] class to your PR
 
 [2]: src/main/java/com/perfect/config/Cfg.java
+[3]: src/main/resources/config.properties
