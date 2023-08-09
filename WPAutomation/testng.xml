@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="D:/qatools/WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/solicitation">
+        <classes>
+            <class name="buyer.testcases.solicitation.AdminStage">
+                <methods>
+                    <include name="Edit_general_org_info"/>
+                    <include name="Edit_user"/>
+                    <include name="Edit_suppliers"/>
+                </methods>
+            </class><class name="buyer.testcases.solicitation.ApprovalStage">
+            <methods>
+                <include name="Approval_Inbox"/>
+            </methods>
+        </class><class name="buyer.testcases.solicitation.CreateSolicitation">
+            <methods>
+                <include name="verifyTitleIsMandateForInformalSol"/>
+                <include name="verifyTitleIsMandateForFormalSol"/>
+                <include name="verifyPastSolStartDateForInformalSol"/>
+                <include name="verifyPastSolStartDateForFormalSol"/>
+                <include name="verifyFutureSolStartDateForInformalSol"/>
+                <include name="verifyFutureSolStartDateForFormalSol"/>
+                <include name="verifyPartEndDateBeforSolStartDateForFormalSol"/>
+                <include name="verifyPartEndDateBeforSolStartDateForInFormalSol"/>
+                <include name="verifyCollabEndDateAfterCurrentTimeForInFormalSol"/>
+                <include name="verifyCollabEndDateAfterCurrentTimeForFormalSol"/>
+                <include name="verifyCollabStartDateAfterCurrentTimeForFormalSol"/>
+                <include name="verifyCollabStartDateAfterCurrentTimeForInFormalSol"/>
+                <include name="verifyCollabStartDateAfterSolStartDateForFormalSol"/>
+                <include name="verifyCollabStartDateAfterSolStartDateForInFormalSol"/>
+                <include name="informalSolicitationCreationWithNoLineItem"/>
+                <include name="formalSolicitationCreationWithNoLineItem"/>
+                <include name="formalSolicitationByCreatingLineItem"/>
+                <include name="inFormalSolicitationByCreatingLineItem"/>
+                <include name="formalSolicitationByAddingLineItem"/>
+                <include name="inFormalSolicitationByAddingLineItem"/>
+                <include name="inFormalSolicitationByAddingGroupsWithLineItem"/>
+                <include name="formalSolicitationByAddingGroupsWithLineItem"/>
+                <include name="checkGroupNameCannotBeEmptyForInformalSolicitation"/>
+                <include name="checkGroupNameCannotBeEmptyForFormalSolicitation"/>
+                <include name="exitSolicitationBeforeCreationForFormalSolicitation"/>
+                <include name="exitSolicitationBeforeCreationForInFormalSolicitation"/>
+            </methods>
+        </class><class name="buyer.testcases.solicitation.EditSolicitation">
+            <methods>
+                <include name="EditInformalSolicitationUsingTitleAndSubmit"/>
+                <include name="EditFormalSolicitationUsingTitleAndSubmit"/>
+                <include name="CreateAddendumForFormalSolicitationUsingTitleAndSubmit"/>
+                <include name="CreateAddendumForInFormalSolicitationUsingTitleAndSubmit"/>
+                <include name="EditInformalSolicitationUsingSolNumberAndSubmit"/>
+                <include name="EditFormalSolicitationUsingSolNumberAndSubmit"/>
+                <include name="VerifySolicitationHistoryForFormalSolicitation"/>
+                <include name="VerifySolicitationHistoryForInformalSolicitation"/>
+                <include name="checkStartDateFilterForUnissuedFormalSol"/>
+                <include name="checkStartDateFilterForUnissuedInFormalSol"/>
+                <include name="checkEndDateFilterForUnissuedFormalSol"/>
+                <include name="checkEndDateFilterForUnissuedInFormalSol"/>
+                <include name="checkStartDateFilterForActiveFormalSol"/>
+                <include name="checkStartDateFilterForActiveInFormalSol"/>
+                <include name="checkEndDateFilterForActiveFormalSol"/>
+                <include name="checkEndDateFilterForActiveInFormalSol"/>
+                <include name="closeTheEditForInformalSol"/>
+                <include name="closeTheEditForFormalSol"/>
+            </methods>
+        </class><class name="buyer.testcases.solicitation.OrdersStage">
+            <methods><include name="OrderViewAll"/>
+                <include name="Receive"/>
+                <include name="vendors_profile"/>
+            </methods>
+        </class><class name="buyer.testcases.solicitation.ReviewAwardTestCases">
+            <methods><include name="checkEndDateFilterForFormalEndedSol"/>
+                <include name="checkEndDateFilterForInformalEndedSol"/>
+                <include name="checkEndDateFilterForFormalActiveSol"/>
+                <include name="checkEndDateFilterForInformalActiveSol"/>
+                <include name="checkVendorResponse"/>
+                <include name="awardFormalSolicitation"/>
+                <include name="awardByGroupForInformalSolicitaton"/>
+                <include name="VerifyCheckBoxForawardAllToOneForInformalSolicitation"/>
+                <include name="VerifyCancelButtonForawardAllToOneForInformalSolicitation"/>
+                <include name="awardAllToOneForInformalSolicitation"/>
+                <include name="VerifyCloseForAwardAllToOneForInformalSolicitation"/>
+                <include name="CreateNewRound"/>
+                <include name="createNewRoundFromAwardAllToOneForBidPage"/>
+                <include name="createNewRoundFromAwardByGroupPage"/>
+                <include name="FinalizeAwardForInformalSolicitation"/>
+                <include name="FinalizeAwardForFormalSolicitation"/>
+                <include name="ReverseAward"/>
+                <include name="CopySolicitationForInformalSol"/>
+                <include name="CopySolicitationForFormalSol"/>
+            </methods>
+        </class><class name="buyer.testcases.solicitation.SolicitationImport">
+            <methods>
+                <include name="importSolicitationTemplate"/>
+                <include name="vendorInvoice"/>
+            </methods>
+        </class>
+            <class name="buyer.testcases.solicitation.VendorsStage">
+            <methods>
+                <include name="vendor_invoice"/>
+            </methods>
+        </class>
+            <class name="buyer.testcases.solicitation.ViewArchived">
+            <methods>
+                <include name="ReverseAwardForInformalSolicitation"/>
+                <include name="ReverseAwardForFormalSolicitation"/>
+                <include name="checkEndDateFilterForFinalizedInFormalSol"/>
+                <include name="checkEndDateFilterForFinalizedFormalSol"/>
+                <include name="checkStartDateFilterForFinalizedInFormalSol"/>
+                <include name="checkStartDateFilterForFinalizedFormalSol"/>
+                <include name="checkEndDateFilterForRetractedSolFormalSol"/>
+                <include name="checkStartDateFilterForRetractedSolFormalSol"/>
+                <include name="checkEndDateFilterOfFinalizedSolInInformalSol"/>
+                <include name="checkStartDateFilterOfFinalizedSolInInformalSol"/>
+                <include name="checkEndDateFilterOfRetractedSolInInformalSol"/>
+                <include name="checkStartDateFilterOfRetractedSolInInformalSol"/>
+            </methods>
+        </class>
+            <class name="com.example.tests.test_blazemeter-Selenium-java-wd-testng">
+            <methods>
+                <include name="testBlazemeter"/>
+            </methods>
+        </class>
+
+
+        </classes>
+    </test>
+    <listeners>
+        <listener class-name="your.package.ExtentReportListener" />
+    </listeners>
+
+</suite>
