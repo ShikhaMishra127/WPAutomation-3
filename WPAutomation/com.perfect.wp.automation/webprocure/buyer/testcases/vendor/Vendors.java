@@ -1,5 +1,5 @@
-package buyer.testcases;
-import gherkin.lexer.Th;
+package buyer.testcases.vendor;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -139,7 +139,7 @@ public class Vendors {
         Thread.sleep(2000);
         driver.findElement(By.xpath("/html/body/div[7]/div[2]/div/div[2]/button[2]")).click();
 
-        WebElement invoice_alert = driver.findElement(By.xpath("//*[@id='myModal'']/div[2]/div/div[1]/p"));
+        WebElement invoice_alert = driver.findElement(By.xpath("//*[@id='myModal']/div[2]/div/div[1]/p"));
         invoice_alert.getText();
 //        driver.findElement(By.xpath("//*[@id=\"myModal\"]/div[2]/div/div[1]/p")).getText();
         Thread.sleep(2000);

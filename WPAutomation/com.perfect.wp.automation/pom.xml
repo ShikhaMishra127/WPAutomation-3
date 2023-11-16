@@ -90,8 +90,18 @@
 		</plugin>
 			</plugins>
 		</pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
 
-	</build>
+    </build>
 	<packaging>jar</packaging>
 
 	<name>com.perfect.wp</name>
@@ -164,6 +174,20 @@
     <artifactId>cucumber-java</artifactId>
     <version>1.2.5</version>
 </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-	</dependencies>
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.0.9</version>
+        </dependency>
+
+
+    </dependencies>
 </project>

@@ -1,9 +1,10 @@
-package buyer.testcases.solicitation;
+package buyer.testcases.Order;
 
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import commonutils.pageobjects.utils.BaseClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -189,6 +190,9 @@ public class OrdersStage extends BaseClass {
             driver.findElement(By.xpath("//*[@id=\"vendorAckComments\"]")).sendKeys("Just for testing purpose");
             Thread.sleep(3000);
             driver.findElement(By.xpath("//*[@id=\"confirmAcknowledgeMessage\"]/form/div/input[2]")).click();
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,-4500)");
+
             test.log(LogStatus.PASS, "Acknowledgement of the order performed successfully");
 
             Thread.sleep(3000);

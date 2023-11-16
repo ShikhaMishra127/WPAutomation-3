@@ -9,9 +9,9 @@
 
 package commonutils.pageobjects.utils;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -19,10 +19,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -35,12 +37,17 @@ public class BaseClass {
     private String password = "your_password";
     protected ExtentReports reports;
     protected ExtentTest test;
-    ExtentSparkReporter htmlReporter;
+   ExtentSparkReporter htmlReporter;
 
     @BeforeClass
-    public void setUp() {
+    public void setUp() throws MalformedURLException {
         // Set the system property for the ChromeDriver executable
-        System.setProperty("webdriver.chrome.driver", "D:\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "D:\\chromedriver-win32\\chromedriver.exe");
+//        ChromeOptions co = new ChromeOptions();
+//        co.setBinary();
+
+//        DesiredCapabilities desc = DesiredCapabilities.chrome();
+//        driver = new RemoteWebDriver(new URL("https://rdus.proactis.com"),desc);
 
         // Initialize the ChromeDriver instance
         driver = new ChromeDriver();
@@ -58,13 +65,9 @@ public class BaseClass {
 
         // Navigate to the login page of your application
         driver.get("https://webprocure-stage.proactiscloud.com/Login");// Stage
-//        driver.get("https://webprocure.proactiscloud.com/Login");
 
         driver.findElement(By.id("visibleUname")).sendKeys("smperfect");
-        driver.findElement(By.xpath("//input[@id='visiblePass']")).sendKeys("Welcome@2");
-
-//        driver.findElement(By.id("visibleUname")).sendKeys("smperfect");
-//        driver.findElement(By.xpath("//input[@id='visiblePass']")).sendKeys("Welcome@5");
+        driver.findElement(By.xpath("//input[@id='visiblePass']")).sendKeys("Welcome@10"); // Stage
 
         Thread.sleep(4000);
         driver.findElement(By.id("login-submit")).click();
@@ -108,15 +111,16 @@ public class BaseClass {
 
     public void vendors_login() throws InterruptedException {
 
-        driver.get("https://webprocure-stage.proactiscloud.com/Login");
+        driver.get("https://webprocure-stage.proactiscloud.com/Login"); //Stage
 
         // Perform login
         WebElement usernameField = driver.findElement(By.id("visibleUname"));
         WebElement passwordField = driver.findElement(By.id("visiblePass"));
         WebElement loginButton = driver.findElement(By.id("login-submit"));
 
-        usernameField.sendKeys("shikhav2");
-        passwordField.sendKeys("Welcome@1");
+        usernameField.sendKeys("shikhav2"); // Stage
+        passwordField.sendKeys("Welcome@2"); // Stage
+
         loginButton.click();
         Thread.sleep(4000);
 
@@ -152,21 +156,18 @@ public class BaseClass {
         driver.findElement(By.xpath("//*[@id='UnitPrice']")).sendKeys("50");
         driver.findElement(By.xpath("//input[@id='SupplierPartNum']")).sendKeys("64836493");
 
+        Select dropdown = new Select(driver.findElement(By.id("cboUsageCode")));
+        dropdown.selectByVisibleText("1 - 100%");
+
         driver.findElement(By.xpath("//input[@id='input_SupplierName']")).sendKeys("Shikha Stage Vendor");
         driver.findElement(By.xpath("//*[@id=\"ui-id-1\"]/li[1]")).click();
-
-        driver.findElement(By.xpath("//button[text()='No']")).click();
         sleep(2000);
-//        WebElement noButton = driver.findElement(By.xpath("//button[text()='No']"));
-//
-//        // Check if the element is displayed
-//        if (noButton.isDisplayed()) {
-//            // Click on the "No" button if it is displayed
-//            noButton.click();
-//        }
+
 
         driver.findElement(By.xpath("//input[@id='input_catcode']")).sendKeys("**");
-        driver.findElement(By.xpath("//*[@id=\"ui-id-4\"]/li[1]")).click();
+        driver.findElement(By.xpath("//li[@class='ui-menu-item'][3]/a/div/div")).click();
+        driver.findElement(By.xpath("//button[text()='No']")).click();
+
         driver.findElement(By.xpath("//*[@id=\"btn-add-bottom\"]")).click();
 
         Thread.sleep(4000);
@@ -176,7 +177,7 @@ public class BaseClass {
         driver.switchTo().frame("C1ReqMain");
         Thread.sleep(5000);
         // Assign Account Code
-        driver.findElement(By.xpath("//*[@id=\"wrapper\"]/section[4]/form/div[5]/table/tbody/tr[1]/td[5]/p/a[2]/img")).click();
+        driver.findElement(By.xpath("//*[@title=\"Assign Account Distribution\"]")).click();
 
         driver.findElement(By.xpath("//*[@id=\"frmReqCostDist\"]/div[3]/button")).click();
 
@@ -189,7 +190,8 @@ public class BaseClass {
     }
 
 
-    public void create_request_for_approval() throws InterruptedException {
+    public void create_request_for_approval() throws InterruptedException
+    {
         driver.manage().timeouts().implicitlyWait(12, TimeUnit.SECONDS);
 
         // Create a request
@@ -210,23 +212,18 @@ public class BaseClass {
         driver.findElement(By.xpath("//*[@id='UnitPrice']")).sendKeys("50");
         driver.findElement(By.xpath("//input[@id='SupplierPartNum']")).sendKeys("64836493");
 
-        driver.findElement(By.xpath("//input[@id='input_SupplierName']")).sendKeys("Shikha Stage Vendor");
+        driver.findElement(By.xpath("//input[@id='input_SupplierName']")).sendKeys("Shikha Stage Vendor");// Stage
         driver.findElement(By.xpath("//*[@id=\"ui-id-1\"]/li[1]")).click();
 
-        driver.findElement(By.xpath("//button[text()='No']")).click();
-//        sleep(3000);
-
-//        WebElement message_alert = driver.findElement(By.xpath("//button[text()='No']"));
-//
-//        if (message_alert.isDisplayed())
-//        {
-//            message_alert.click();
-//        }
-//        else Thread.sleep(3000);
 
 
         driver.findElement(By.xpath("//input[@id='input_catcode']")).sendKeys("**");
-        driver.findElement(By.xpath("//*[@id=\"ui-id-4\"]/li[1]")).click();
+        driver.findElement(By.xpath("//li[@class='ui-menu-item'][3]/a/div/div")).click();
+        driver.findElement(By.xpath("//button[text()='No']")).click();
+
+        sleep(2000);
+//        driver.switchTo().frame("C1ReqMain");
+
         driver.findElement(By.xpath("//*[@id=\"btn-add-bottom\"]")).click();
 
         driver.switchTo().parentFrame();
@@ -303,7 +300,11 @@ public class BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"searchText\"]")));
 
 
-        driver.findElement(By.xpath("//*[@id=\"searchText\"]")).sendKeys("Sukreet Kumar Sinha");
+        driver.findElement(By.xpath("//*[@id=\"searchText\"]")).sendKeys("Shikha Mishra"); // Stage
+
+
+
+
         Thread.sleep(3000);
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='ui-id-1']/li")));
@@ -327,8 +328,10 @@ public class BaseClass {
     }
 
     public void approval_login() throws InterruptedException {
-        driver.findElement(By.xpath("//*[@id=\"visibleUname\"]")).sendKeys("sukreetperfect");
-        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Password@12");
+        driver.findElement(By.xpath("//*[@id=\"visibleUname\"]")).sendKeys("smperfect2");
+        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Welcome@5");// Stage
+
+//        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Welcome@2");
         sleep(2000);
         driver.findElement(By.xpath("//*[@id=\"login-submit\"]")).click();
 

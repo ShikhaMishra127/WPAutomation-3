@@ -1,4 +1,4 @@
-package buyer.testcases;
+package buyer.testcases.Order;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;

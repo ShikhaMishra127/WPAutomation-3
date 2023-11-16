@@ -3,13 +3,13 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="D:/qatools/WPAutomation/com.perfect.wp.automation/webprocure/buyer/testcases/solicitation">
         <classes>
-            <class name="buyer.testcases.solicitation.AdminStage">
+            <class name="buyer.testcases.Admin.testcases.AdminStage">
                 <methods>
                     <include name="Edit_general_org_info"/>
                     <include name="Edit_user"/>
                     <include name="Edit_suppliers"/>
                 </methods>
-            </class><class name="buyer.testcases.solicitation.ApprovalStage">
+            </class><class name="buyer.testcases.Approval.Approval.ApprovalStage">
             <methods>
                 <include name="Approval_Inbox"/>
             </methods>
@@ -63,7 +63,7 @@
                 <include name="closeTheEditForInformalSol"/>
                 <include name="closeTheEditForFormalSol"/>
             </methods>
-        </class><class name="buyer.testcases.solicitation.OrdersStage">
+        </class><class name="buyer.testcases.Order.OrdersStage">
             <methods><include name="OrderViewAll"/>
                 <include name="Receive"/>
                 <include name="vendors_profile"/>
@@ -95,7 +95,7 @@
                 <include name="vendorInvoice"/>
             </methods>
         </class>
-            <class name="buyer.testcases.solicitation.VendorsStage">
+            <class name="buyer.testcases.vendor.VendorsStage">
             <methods>
                 <include name="vendor_invoice"/>
             </methods>

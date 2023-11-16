@@ -1,4 +1,4 @@
-package buyer.testcases.solicitation;
+package buyer.testcases.vendor;
 
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
