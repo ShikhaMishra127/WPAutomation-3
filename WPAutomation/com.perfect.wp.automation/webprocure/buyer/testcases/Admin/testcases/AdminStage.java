@@ -159,7 +159,7 @@ public class AdminStage extends BaseClass {
             Thread.sleep(3000);
             WebElement adminPermission = driver.findElement(By.xpath("//*[@name='priv_921']"));
             adminPermission.click();
-
+            Thread.sleep(3000);
             // Logging the step in the Extent report
             test.log(LogStatus.PASS, "Click on the 'Admin for the TierLINK (Manage TierLINK configuration for each EBO' permission.");
 
