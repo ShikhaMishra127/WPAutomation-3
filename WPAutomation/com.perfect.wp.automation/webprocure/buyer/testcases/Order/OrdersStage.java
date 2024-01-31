@@ -20,10 +20,10 @@ import static commonutils.pageobjects.utils.ExtentReport.report;
 public class OrdersStage extends BaseClass {
 
 
-    static ExtentTest test;
+     ExtentTest test;
 
     @BeforeClass
-    public static void startTest() {
+    public void startTest() {
         report = new com.relevantcodes.extentreports.ExtentReports(System.getProperty("user.dir") + "\\ExtentReportResults.html");
         test = report.startTest("Order Testcases");
     }
@@ -145,6 +145,8 @@ public class OrdersStage extends BaseClass {
                     " failed test-case ScreenShot...!!");
         }
 
+//
+
     }
 
     @Test(priority = 3)
@@ -221,7 +223,7 @@ public class OrdersStage extends BaseClass {
     }
 
     @AfterClass
-    public static void endTest() {
+    public void endTest() {
         report.endTest(test);
         report.flush();
     }

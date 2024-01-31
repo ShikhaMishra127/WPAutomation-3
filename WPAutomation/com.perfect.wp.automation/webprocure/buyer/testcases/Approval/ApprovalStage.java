@@ -88,7 +88,7 @@ public class ApprovalStage extends BaseClass {
             // Switch back to the main window
             driver.switchTo().window(mainWindowHandle);
 
-            sleep(5000);
+            sleep(4000);
 
             WebElement Approval_tab = driver.findElement(By.xpath("//*[@title='Approval']"));
             Approval_tab.click();
@@ -105,8 +105,9 @@ public class ApprovalStage extends BaseClass {
             Select dropdown = new Select(dropdownElement);
             // Select an option by visible text
             dropdown.selectByVisibleText("Request");
-            // Paste the copied reqnumber in the request number filter
 
+
+            // Paste the copied reqnumber in the request number filter
 
             WebElement Req_Numbertextbox = driver.findElement(By.xpath("//*[@id='FDocumentNumber']"));
             // Create an Actions object
