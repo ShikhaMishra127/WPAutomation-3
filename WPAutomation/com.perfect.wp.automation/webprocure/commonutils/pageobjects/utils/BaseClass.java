@@ -50,7 +50,7 @@ public class BaseClass {
     @BeforeClass
     public void setUp() throws MalformedURLException {
         // Set the system property for the ChromeDriver executable
-//        System.setProperty("webdriver.chrome.driver", "D:\\chromedriver-win32\\chromedriver.exe");
+
         System.setProperty("webdriver.chrome.driver", "D:\\chromedriver-win32(2)\\chromedriver.exe");
 //        ChromeOptions co = new ChromeOptions();
 //        co.setBinary();

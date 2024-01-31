@@ -7,9 +7,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -117,6 +115,18 @@ public class New_Contract_Search_prod extends BaseClassProd {
             test.log(LogStatus.INFO, test.addScreenCapture(capture(driver)) + "For clarifications - Please refer to the" +
                     " failed test-case ScreenShot...!!");
         }
+    }
+
+    @AfterMethod(enabled = false)
+    public void tearDownAfterTest() {
+        //Quit the Order
+
+    }
+
+    @AfterClass
+    public static void endTest() {
+        report.endTest(test);
+        report.flush();
     }
 
 
