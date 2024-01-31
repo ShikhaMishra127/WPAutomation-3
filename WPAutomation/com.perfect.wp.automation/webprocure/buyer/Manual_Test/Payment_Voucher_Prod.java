@@ -43,6 +43,9 @@ public class Payment_Voucher_Prod extends BaseClassProd {
 
             test.log(LogStatus.PASS, "payment voucher is successfully created");
 
+            driver.findElement(By.xpath("//*[@id=\"invTable\"]/tbody/tr[1]/td[9]/span/button/img")).click();
+            driver.findElement(By.xpath("//*[@id=\"invTable\"]/tbody/tr[1]/td[9]/span/ul/li[5]/a")).click();
+
             test.log(LogStatus.PASS, "Creating payment voucher test case is  successfully get tested out");
             test.log(LogStatus.INFO, test.addScreenCapture(capture(driver)) + "For clarifications - Please refer to the" +
                     " final ScreenShot...!!");
@@ -86,6 +89,15 @@ public class Payment_Voucher_Prod extends BaseClassProd {
             js1.executeScript("window.scrollBy(0,document.body.scrollHeight)");
             test.log(LogStatus.PASS, "Submit the payment voucher after edit.");
             driver.findElement(By.xpath("//button[normalize-space()='Submit']")).click();
+
+            Select select_status = new Select(driver.findElement(By.xpath("//*[@id=\"filter_invstat\"]")));
+            select_status.selectByVisibleText("All");
+
+            Select select_doc_type = new Select(driver.findElement(By.xpath("//*[@id=\"filter\"]/form/fieldset/div[2]/div[5]/select")));
+            select_doc_type.selectByVisibleText("All");
+
+            driver.findElement(By.xpath("//*[@id=\"filter\"]/form/fieldset/div[3]/div/div/button[1]")).click();
+
 
             test.log(LogStatus.PASS, "Editing payment voucher test case is  successfully get tested out");
             Thread.sleep(3000);

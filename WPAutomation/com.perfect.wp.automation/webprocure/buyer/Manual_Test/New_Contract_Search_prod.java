@@ -68,6 +68,23 @@ public class New_Contract_Search_prod extends BaseClassProd {
             search_btn.click();
             Thread.sleep(2000);
 
+
+            test.log(LogStatus.PASS, "Click on the searched contract action menu and go to its contract history page.");
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[2]/div[3]/div[1]/div/button/i")).click();
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[2]/div[3]/div[1]/div/ul/li[8]/a")).click();
+
+            Thread.sleep(2000);
+
+            test.log(LogStatus.PASS, "Contract Audit record page successfully appears.");
+            test.log(LogStatus.INFO, test.addScreenCapture(capture(driver)) + "For clarifications - Please refer to the" +
+                    " final ScreenShot...!!");
+
+            //Return to the contract new search page
+
+            driver.findElement(By.xpath("//*[@id=\"cont-requirement-content\"]/form/div[2]/div/div/button")).click();
+
+            // Reset All applied filters
             test.log(LogStatus.PASS, "Reset All the applied filters and select some new filters like status, contract" +
                     " " + "type and commodities.");
 
@@ -87,6 +104,30 @@ public class New_Contract_Search_prod extends BaseClassProd {
             Select Authorized_organization = new Select(driver.findElement(By.xpath("//*[@id=\"ao\"]/select")));
             Authorized_organization.selectByVisibleText("All");
             Thread.sleep(2000);
+
+
+            // Click on the Relevance (Apply sorting)
+             driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/button")).click();
+
+             driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/ul/li[4]/a")).click();
+            Thread.sleep(2000);
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/button")).click();
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/ul/li[6]/a")).click();
+            Thread.sleep(2000);
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/button")).click();
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/ul/li[9]/a")).click();
+            Thread.sleep(2000);
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/button")).click();
+
+            driver.findElement(By.xpath("//*[@id=\"search-results\"]/div[2]/div/div[1]/div[3]/div/ul/li[12]/a")).click();
+            Thread.sleep(2000);
+
+
 
             // Select Status
             driver.findElement(By.xpath("//*[@id=\"status-1\"]")).click();
