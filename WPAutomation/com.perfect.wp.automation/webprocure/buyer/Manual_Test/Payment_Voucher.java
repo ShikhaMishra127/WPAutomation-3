@@ -4,7 +4,9 @@ import com.relevantcodes.extentreports.LogStatus;
 import commonutils.pageobjects.utils.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.*;
 
@@ -36,8 +38,17 @@ public class Payment_Voucher extends BaseClass {
             driver.manage().timeouts().implicitlyWait(12, TimeUnit.SECONDS);
             test.log(LogStatus.PASS, "Start Creating payment vouchers by following all the steps.");
             Create_Payment_voucher();
+            test.log(LogStatus.PASS, "Payment Voucher successfully get created");
 
-            test.log(LogStatus.PASS, "payment voucher is successfully created");
+            WebElement buyer_no = driver.findElement(By.xpath("//*[@id='binvoicenum']"));
+            // Create an Actions object
+            Actions actions2 = new Actions(driver);
+            // Click inside the textbox to focus on it
+            buyer_no.click();
+            // Use keyboard shortcuts to paste the text
+            actions2.keyDown(Keys.CONTROL).sendKeys("v").keyUp(Keys.CONTROL).perform();
+
+            driver.findElement(By.xpath("//*[contains(text(), \"Apply Filter\")]")).click();
 
             test.log(LogStatus.PASS, "Creating payment voucher test case is  successfully get tested out");
             test.log(LogStatus.INFO, test.addScreenCapture(capture(driver)) + "For clarifications - Please refer to the" +

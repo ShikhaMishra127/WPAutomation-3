@@ -22,6 +22,15 @@ public class AdminStage extends BaseClass {
 
     @BeforeClass
     public static void startTest() {
+
+//        // Specify the path where you want to save the Extent Reports
+//        String reportPath = "C:\\Users\\Shikha\\Desktop\\Test_Extent_Report";
+//
+//        // Create a unique report file name for each test case
+//        String reportFileName = "Test_Admin_TestCases" + System.currentTimeMillis() + ".html";
+//        String reportFilePath = reportPath + reportFileName;
+
+
         report = new com.relevantcodes.extentreports.ExtentReports(System.getProperty("user.dir") + "\\ExtentReportResults.html");
         test = report.startTest("Admin Testcases");
     }

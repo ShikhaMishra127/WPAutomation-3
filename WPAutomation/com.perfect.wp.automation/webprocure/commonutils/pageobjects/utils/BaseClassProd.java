@@ -120,7 +120,7 @@ public class BaseClassProd {
         inputField.clear();
         // Enter the formatted target date in the input field
         inputField.sendKeys(formattedTargetDate);
-        Thread.sleep(3000);
+        Thread.sleep(4000);
 
         driver.findElement(By.xpath("//button[normalize-space()='Add Items']")).click();
 
@@ -806,6 +806,9 @@ public class BaseClassProd {
 
         driver.findElement(By.xpath("//input[@id='input_SupplierName']")).sendKeys("Shikha Prod Vendor ");
         driver.findElement(By.xpath("//*[@id=\"ui-id-1\"]/li[1]")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div[2]/button[1]")).click();
+        Thread.sleep(2000);
 
         driver.findElement(By.xpath("//input[@id='input_catcode']")).sendKeys("**");
         driver.findElement(By.xpath("//li[@class='ui-menu-item'][3]/a/div/div")).click();
@@ -861,7 +864,9 @@ public class BaseClassProd {
         driver.findElement(By.xpath("//input[@id='input_SupplierName']")).sendKeys("Shikha Prod Vendor "); // Prod
         driver.findElement(By.xpath("//*[@id=\"ui-id-1\"]/li[1]")).click();
 
-
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div[2]/button[1]")).click();
+        Thread.sleep(2000);
 //        driver.findElement(By.xpath("//*[@id=\"ui-id-1\"]/li[1]")).click();
 
         driver.findElement(By.xpath("//input[@id='input_catcode']")).sendKeys("**");
@@ -981,7 +986,7 @@ public class BaseClassProd {
         driver.findElement(By.xpath("//*[@id=\"visibleUname\"]")).sendKeys("smperfect2");
 //        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Welcome@3");// Stage
 
-        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Welcome@2");
+        driver.findElement(By.xpath("//*[@id=\"visiblePass\"]")).sendKeys("Welcome@3");
         sleep(2000);
         driver.findElement(By.xpath("//*[@id=\"login-submit\"]")).click();
 

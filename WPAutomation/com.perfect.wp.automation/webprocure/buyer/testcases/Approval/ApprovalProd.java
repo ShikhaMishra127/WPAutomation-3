@@ -129,6 +129,7 @@ public class ApprovalProd extends BaseClassProd {
             //*[@id="page-title"]/h3
             String approval_inbox_title = driver.findElement(By.xpath("//*[@id=\"page-title\"]/h3")).getText();
             String expectedTitle = "Document Approval Inbox";
+            sleep(2000);
             Assert.assertEquals(approval_inbox_title, expectedTitle, "Page title does not match the expected title.");
 
 

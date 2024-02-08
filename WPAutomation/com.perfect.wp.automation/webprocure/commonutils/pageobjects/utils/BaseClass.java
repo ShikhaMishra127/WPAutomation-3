@@ -76,7 +76,7 @@ public class BaseClass {
         driver.get("https://webprocure-stage.proactiscloud.com/Login");// Stage
 
         driver.findElement(By.id("visibleUname")).sendKeys("smperfect");
-        driver.findElement(By.xpath("//input[@id='visiblePass']")).sendKeys("Welcome@10"); // Stage
+        driver.findElement(By.xpath("//input[@id='visiblePass']")).sendKeys("Welcome@5"); // Stage
 
         Thread.sleep(4000);
         driver.findElement(By.id("login-submit")).click();
@@ -173,7 +173,7 @@ public class BaseClass {
         sleep(2000);
 
         // Click on No button
-        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div[2]/button[1]")).click();
+//        driver.findElement(By.xpath("/html/body/div[5]/div[2]/div/div[2]/button[1]")).click();
         Thread.sleep(2000);
         driver.findElement(By.xpath("//input[@id='input_catcode']")).sendKeys("**");
         driver.findElement(By.xpath("//li[@class='ui-menu-item'][3]/a/div/div")).click();
@@ -578,6 +578,24 @@ public class BaseClass {
         driver.findElement(By.xpath("//textarea[@placeholder='Enter justification note']")).sendKeys("Just for " +
                 "testing purpose");
 
+        // Copy the Payment Voucher Number
+        WebElement textBoxElement = driver.findElement(By.xpath("/html/body/b-root/div/wp-payment-voucher/div/wp-create/div/div[2]/div[1]/div/div/div[2]/div/input"));
+
+        // Create an Actions object
+        Actions actions = new Actions(driver);
+        Thread.sleep(3000);
+        // Double click on the textbox
+        actions.doubleClick(textBoxElement).perform();
+        Thread.sleep(3000);
+        // Use keyboard shortcuts to copy the text
+        actions.keyDown(Keys.CONTROL).sendKeys("c").keyUp(Keys.CONTROL).perform();
+        Thread.sleep(3000);
+        // Verify the copied text if needed
+        String copiedText = getClipboardText(); // Implement a method to get the text from the clipboard
+        System.out.println("Copied Text: " + copiedText);
+
+
+
 
         driver.findElement(By.xpath("/html/body/b-root/div/wp-payment-voucher/div/wp-create/div/div[2]/div[3]/div[2" +
                 "]/ngx-select-dropdown/div/button")).click();
@@ -690,6 +708,9 @@ public class BaseClass {
 
         Thread.sleep(4000);
         driver.findElement(By.xpath("//button[normalize-space()='Submit']")).click();
+
+
+
 
 
     }

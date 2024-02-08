@@ -20,6 +20,8 @@ public class Contracts_audit_prod extends BaseClassProd {
     public static void startTest() {
         report = new com.relevantcodes.extentreports.ExtentReports(System.getProperty("user.dir") + "\\ExtentReportResults.html");
         test = report.startTest("Contracts Audit Testcases");
+
+        String reportFilePath = "C:\\Users\\Shikha\\Desktop\\Test Reports\\Prod Reports\\24.1 Reports";
     }
 
     @BeforeMethod
